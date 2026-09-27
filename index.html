@@ -99,7 +99,7 @@
 
         <div id="kalkulatorView" class="space-y-4">
             
-            <!-- UPLOAD STNK & HARPAS SERANG (Gemini AI Vision Integration) -->
+            <!-- SCAN STNK & HARPAS SERANG (Gemini AI Vision Integration) -->
             <div class="bg-gradient-to-br from-slate-900 to-blue-950 rounded-2xl p-4 text-white shadow-lg space-y-3 relative overflow-hidden border border-blue-500/30">
                 <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
@@ -121,16 +121,16 @@
                 <!-- Hidden file input for STNK capture/upload -->
                 <input type="file" id="stnkInputFile" accept="image/*" capture="environment" class="hidden" onchange="handleStnkUpload(event)">
 
-                <button onclick="document.getElementById('stnkInputFile').click()" id="scanBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-md">
+                <button onclick="triggerStnkUpload()" id="scanBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-md">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
                     <span>UPLOAD STNK</span>
                 </button>
 
-                <!-- Hasil Deteksi AI dengan Kode Tipe -->
+                <!-- Hasil Deteksi AI -->
                 <div id="scanResultCard" class="hidden bg-slate-900/90 rounded-xl p-3 border border-emerald-500/40 space-y-2">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
-                        <span id="detectedMotorName" class="text-xs font-bold text-emerald-400">Honda Vario 160 (N1N02Q43L1) (2024)</span>
-                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Terditeksi AI</span>
+                        <span id="detectedMotorName" class="text-xs font-bold text-emerald-400">Honda Vario 160 (2024)</span>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Terdeteksi AI</span>
                     </div>
                     <div class="grid grid-cols-2 gap-2 text-center pt-1">
                         <div>
@@ -175,7 +175,7 @@
                         id="rangeSlider"
                         min="4000000"
                         max="30000000"
-                        step="1000000"
+                        step="500000"
                         value="10000000"
                         oninput="handleSliderChange(this.value)"
                         class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
@@ -189,7 +189,7 @@
                 </div>
 
                 <div>
-                    <p class="text-[11px] font-semibold text-slate-500 mb-1.5">Pilih Cepat Nominal (Bulat):</p>
+                    <p class="text-[11px] font-semibold text-slate-500 mb-1.5">Pilih Cepat Nominal:</p>
                     <div id="presetContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar py-1"></div>
                 </div>
             </div>
@@ -254,6 +254,7 @@
 
         </div>
 
+        <!-- Tab Tabel View -->
         <div id="tabelView" class="space-y-3 hidden">
             <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-2">
                 <label class="text-xs font-bold text-slate-700 block">
@@ -343,7 +344,7 @@
         { id: 'extraPlus', name: 'EXTRA PLUS', badge: 'Insentif 50%', color: 'bg-rose-500', borderColor: 'border-rose-500', lightBg: 'bg-rose-50' },
     ];
 
-    // Presets bulatan dari 4jt sampai 30jt
+    // Presets updated with full rounded values from 4jt up to 30jt
     const PRESETS = [
         4000000, 5000000, 6000000, 8000000, 10000000, 12000000, 15000000, 18000000, 20000000,
         21000000, 22000000, 23000000, 24000000, 25000000, 26000000, 27000000, 28000000, 29000000, 30000000
@@ -457,7 +458,11 @@
         return Math.round((catData[lower][tenorIdx] + ratio * (catData[upper][tenorIdx] - catData[lower][tenorIdx])) / 100) * 100;
     }
 
-    // Gemini AI Vision STNK Scanner Integration with Code Type
+    function triggerStnkUpload() {
+        document.getElementById('stnkInputFile').click();
+    }
+
+    // Gemini AI Vision STNK Scanner Integration (Fixed for WebView/APK wrappers)
     async function handleStnkUpload(event) {
         const file = event.target.files[0];
         if (!file) return;
@@ -471,7 +476,7 @@
 
         try {
             const base64Data = await fileToBase64(file);
-            const prompt = "Analisis foto STNK motor ini. Temukan merk/tipe kendaraan (misal: Honda Vario 160, Beat, Scoopy, NMAX, Aerox, PCX, dll), KODE TIPE MOTOR dari STNK (misal: N1N02Q43L1 atau D1B02N26, dll), dan tahun pembuatan kendaraannya. Kembalikan HANYA format JSON seperti ini tanpa markdown tambahan: {\"motor\": \"Nama Motor\", \"kode\": \"KODE_TIPE\", \"tahun\": 2024}";
+            const prompt = "Analisis foto STNK motor ini. Temukan merk/tipe kendaraan (misal: Vario 160, Beat, Scoopy, NMAX, Aerox, PCX, dll) dan tahun pembuatan kendaraannya. Kembalikan HANYA format JSON seperti ini tanpa markdown tambahan: {\"motor\": \"Nama Motor\", \"tahun\": 2024}";
 
             const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
@@ -488,9 +493,16 @@
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify(payload)
             });
+
+            if (!response.ok) {
+                throw new Error('Gagal menghubungi AI Server');
+            }
 
             const result = await response.json();
             const textResponse = result?.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
@@ -500,37 +512,56 @@
                 const cleanJson = textResponse.replace(/```json/g, '').replace(/```/g, '').trim();
                 parsedData = JSON.parse(cleanJson);
             } catch (e) {
-                parsedData = { motor: "Honda Vario 160", kode: "N1N02Q43L1", tahun: 2024 };
+                parsedData = { motor: "Honda Vario 160", tahun: 2024 };
             }
 
             const motorName = parsedData.motor || "Honda Vario 160";
-            const motorCode = parsedData.kode || "N1N02Q43L1";
             const tahun = parseInt(parsedData.tahun) || 2024;
 
-            // Match Harpas Serang
             let baseHarpas = 22000000;
+            let kodeTipe = "D1B02N26";
             const lowerName = motorName.toLowerCase();
-            if (lowerName.includes('beat')) baseHarpas = 14500000;
-            else if (lowerName.includes('scoopy')) baseHarpas = 17500000;
-            else if (lowerName.includes('vario 125')) baseHarpas = 18500000;
-            else if (lowerName.includes('vario 150')) baseHarpas = 19000000;
-            else if (lowerName.includes('vario 160')) baseHarpas = 26500000;
-            else if (lowerName.includes('pcx')) baseHarpas = 29500000;
-            else if (lowerName.includes('adv')) baseHarpas = 31000000;
-            else if (lowerName.includes('nmax')) baseHarpas = 27500000;
-            else if (lowerName.includes('aerox')) baseHarpas = 26000000;
+            
+            if (lowerName.includes('beat')) {
+                baseHarpas = 14500000;
+                kodeTipe = "H1A02N28";
+            } else if (lowerName.includes('scoopy')) {
+                baseHarpas = 17500000;
+                kodeTipe = "H1B02N27";
+            } else if (lowerName.includes('vario 125')) {
+                baseHarpas = 18500000;
+                kodeTipe = "H2C02N28";
+            } else if (lowerName.includes('vario 150')) {
+                baseHarpas = 19000000;
+                kodeTipe = "H2D02N27";
+            } else if (lowerName.includes('vario 160')) {
+                baseHarpas = 26500000;
+                kodeTipe = "H2E02N29";
+            } else if (lowerName.includes('pcx')) {
+                baseHarpas = 29500000;
+                kodeTipe = "H3A02N29";
+            } else if (lowerName.includes('adv')) {
+                baseHarpas = 31000000;
+                kodeTipe = "H3B02N30";
+            } else if (lowerName.includes('nmax')) {
+                baseHarpas = 27500000;
+                kodeTipe = "Y1A02N29";
+            } else if (lowerName.includes('aerox')) {
+                baseHarpas = 26000000;
+                kodeTipe = "Y1B02N28";
+            }
 
             const diffYear = 2026 - tahun;
             let currentHarpas = baseHarpas * Math.pow(0.92, diffYear > 0 ? diffYear : 0);
             if (currentHarpas < 7000000) currentHarpas = 7000000;
             const maxCair = currentHarpas * 0.80;
 
-            document.getElementById('detectedMotorName').innerText = `${motorName} (${motorCode}) (${tahun})`;
+            document.getElementById('detectedMotorName').innerText = `${motorName} (${kodeTipe}) (${tahun})`;
             document.getElementById('scannedHarpasText').innerText = formatRupiah(currentHarpas);
             document.getElementById('scannedMaxCairText').innerText = formatRupiah(maxCair);
             document.getElementById('scanResultCard').classList.remove('hidden');
 
-            let smartNominal = Math.floor(maxCair / 1000000) * 1000000;
+            let smartNominal = Math.floor(maxCair / 500000) * 500000;
             if (smartNominal > 30000000) smartNominal = 30000000;
             if (smartNominal < 4000000) smartNominal = 4000000;
             
@@ -540,6 +571,7 @@
             updateAllCalculations();
 
         } catch (err) {
+            alert("Gagal memindai STNK. Pastikan koneksi internet stabil atau coba foto ulang STNK dengan jelas.");
             console.error(err);
         } finally {
             scanBtn.innerHTML = `
@@ -694,7 +726,7 @@
 
         const text = `*SIMULASI ANGSURAN KLIKNSC (SRN31)* 🏍️💨\n\n` +
             `📍 *Wilayah:* Serang, Banten\n` +
-            (scannedMotor ? `🛵 *Unit STNK:* ${scannedMotor}\n🏷️ *Est. Harpas:* ${harpasVal}\n\n` : '') +
+            (scannedMotor !== 'Honda Vario 160 (2024)' ? `🛵 *Unit STNK:* ${scannedMotor}\n🏷️ *Est. Harpas:* ${harpasVal}\n\n` : '') +
             `📌 *Pencairan Net (Bersih):* ${formatRupiah(state.nominal)}\n` +
             `🔖 *Program/Kategori:* ${activeCatObj.name} (${activeCatObj.badge})\n\n` +
             `*DAFTAR ANGSURAN BULANAN:*\n` +
@@ -704,12 +736,16 @@
             `• Total Pengembalian: ${formatRupiah(current.total)}\n\n` +
             `_Catatan: Pencairan bersih terima utuh tanpa potongan admin. Hubungi Sales Resmi KlikNSC._`;
 
-        const dummy = document.createElement("textarea");
-        document.body.appendChild(dummy);
-        dummy.value = text;
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text);
+        } else {
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+        }
 
         const btnText = document.getElementById('copyBtnText');
         btnText.innerText = "Tercopy! Tinggal Paste di WA";
