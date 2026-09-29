@@ -1,382 +1,1749 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>KlikNSC Mobile - Kalkulator Brosur & Harpas Serang</title>
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="KlikNSC Brosur">
-<meta name="theme-color" content="#0f172a">
-<!-- Tailwind CSS CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-theme: {
-extend: {
-colors: {
-brand: {
-50: '#eff6ff',
-100: '#dbeafe',
-500: '#3b82f6',
-600: '#2563eb',
-800: '#1e40af',
-900: '#1e3a8a',
-950: '#0f172a',
-}
-}
-}
-}
-}
-</script>
-<style>
-body {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
--webkit-tap-highlight-color: transparent;
-user-select: none;
-}
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-input[type=range]::-webkit-slider-thumb {
-height: 22px; width: 22px; border-radius: 50%;
-background: #2563eb; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KlikNSC Mobile - Fintech Premium (SRN31)</title>
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="KlikNSC Brosur">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-short': 'bounce 1s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        input[type=range]::-webkit-slider-thumb {
+            height: 24px; width: 24px; border-radius: 50%;
+            background: #2563eb; cursor: pointer;
+            box-shadow: 0 0 12px rgba(37, 99, 235, 0.6);
+            border: 2px solid #ffffff;
+            transition: transform 0.1s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.2);
+        }
+
+        .card-glow {
+            box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.3);
+        }
+        .dark .card-glow {
+            box-shadow: 0 10px 35px -10px rgba(59, 130, 246, 0.25);
+        }
+
+        .tab-transition {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
 </head>
-<body class="bg-slate-900 flex justify-center items-start min-h-screen">
-<div class="w-full max-w-md bg-slate-100 text-slate-800 min-h-screen sm:min-h-[844px] sm:rounded-[36px] sm:shadow-2xl sm:border-[8px] sm:border-slate-800 overflow-hidden flex flex-col relative pb-16">
-<!-- Header -->
-<header class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white p-4 sticky top-0 z-40 shadow-md">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-3">
-<div class="bg-blue-600/30 p-2.5 rounded-2xl border border-blue-400/30 backdrop-blur-md flex items-center justify-center">
-<svg class="w-6 h-6 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-<rect x="4" y="2" width="16" height="20" rx="2" />
-<line x1="8" y1="6" x2="16" y2="6" />
-<path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01" />
-</svg>
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
+
+<div class="w-full max-w-md bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen sm:min-h-[844px] sm:rounded-[40px] sm:shadow-2xl sm:border-[8px] sm:border-slate-800 overflow-hidden flex flex-col relative pb-24 transition-all duration-300">
+    
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white p-4 sticky top-0 z-40 shadow-lg backdrop-blur-md border-b border-blue-800/40">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600/30 p-2.5 rounded-2xl border border-blue-400/30 backdrop-blur-md flex items-center justify-center shadow-inner">
+                    <svg class="w-6 h-6 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <rect x="4" y="2" width="16" height="20" rx="2" />
+                        <line x1="8" y1="6" x2="16" y2="6" />
+                        <path d="M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M8 18h.01M12 18h.01" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-black text-base tracking-tight flex items-center gap-2 text-white">
+                        KlikNSC Mobile
+                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-400/30 shadow-sm">
+                            SRN31
+                        </span>
+                    </h1>
+                    <p class="text-[11px] text-blue-200/90 font-medium">Kalkulator Brosur & Tools Sales Serang</p>
+                </div>
+            </div>
+
+            <!-- Theme Toggle Switch -->
+            <button onclick="toggleTheme()" class="p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-95 transition border border-white/10 text-amber-300 dark:text-blue-300 flex items-center justify-center">
+                <svg id="themeIconSun" class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg id="themeIconMoon" class="w-5 h-5 block dark:hidden text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 py-2.5 flex gap-1.5 text-[11px] font-bold shadow-sm sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
+        <button id="tabCalcBtn" onclick="switchTab('kalkulator')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 bg-blue-600 text-white shadow-md active:scale-95 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+            Kalkulator
+        </button>
+        <button id="tabStnkAiBtn" onclick="switchTab('stnkAi')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-purple-600 dark:text-purple-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-extrabold">
+            <svg class="w-3.5 h-3.5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Scan STNK (AI)
+        </button>
+        <button id="tabTakeoverBtn" onclick="switchTab('takeover')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            Take Over
+        </button>
+        <button id="tabCompareBtn" onclick="switchTab('komparasi')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+            Banding Tenor
+        </button>
+        <button id="tabChecklistBtn" onclick="switchTab('checklist')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Checklist Syarat
+        </button>
+        <button id="tabScriptBtn" onclick="switchTab('script')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Script & Tangkisan
+        </button>
+        <button id="tabBonusBtn" onclick="switchTab('bonus')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Insentif & Target
+        </button>
+        <button id="tabYearBtn" onclick="switchTab('tahun')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Cek Tahun
+        </button>
+        <button id="tabLeadsBtn" onclick="switchTab('leads')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Leads (<span id="leadsCountBadge">0</span>)
+        </button>
+        <button id="tabTableBtn" onclick="switchTab('tabel')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Tabel Brosur
+        </button>
+    </div>
+
+    <!-- Main Views Body -->
+    <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
+
+        <div id="kalkulatorView" class="space-y-4">
+            
+            <!-- Input Nominal Box -->
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 transition">
+                <div class="flex items-center justify-between mb-2">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        Nominal Pengajuan Pencairan
+                    </label>
+                    <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Bersih Terima Utuh</span>
+                </div>
+
+                <div class="relative mb-3">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 font-extrabold text-slate-400 dark:text-slate-500 text-base">
+                        Rp
+                    </span>
+                    <input
+                        type="text"
+                        id="inputVal"
+                        oninput="handleInputChange(this.value)"
+                        class="w-full text-xl font-black text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700 rounded-xl pl-11 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:focus:bg-slate-950 transition"
+                        placeholder="10.000.000"
+                        value="10.000.000"
+                    />
+                </div>
+
+                <div class="space-y-1.5 mb-1">
+                    <input
+                        type="range"
+                        id="rangeSlider"
+                        min="4000000"
+                        max="30000000"
+                        step="500000"
+                        value="10000000"
+                        oninput="handleSliderChange(this.value)"
+                        class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 dark:bg-slate-700 rounded-lg"
+                    />
+                    <div class="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 font-semibold px-0.5">
+                        <span>4 JT</span>
+                        <span>12 JT</span>
+                        <span>21 JT</span>
+                        <span>30 JT</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program / Kategori Brosur -->
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 transition">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2.5">
+                    <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/></svg>
+                    Program / Kategori Brosur
+                </label>
+                <div id="categoryContainer" class="grid grid-cols-2 gap-2"></div>
+            </div>
+
+            <!-- Main Highlight Card -->
+            <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-2xl p-4 shadow-xl card-glow relative overflow-hidden border border-blue-500/30">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-600/20 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-[10px] text-blue-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        Rekomendasi Terpilih
+                    </span>
+                    <span id="selectedTenorBadge" class="bg-blue-500/20 text-blue-300 text-xs px-2.5 py-0.5 rounded-full border border-blue-400/30 font-bold">
+                        12 Bulan
+                    </span>
+                </div>
+
+                <div id="selectedMonthlyText" class="text-3xl font-black text-blue-400 my-1.5 tracking-tight transition-all">
+                    Rp 0 <span class="text-xs font-normal text-slate-400">/ bulan</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 border-t border-slate-800/80 pt-2.5 my-3">
+                    <div>
+                        <div class="text-[10px] text-slate-400">Pencairan Net (Bersih):</div>
+                        <div id="selectedPencairanText" class="font-bold text-white">Rp 0</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-emerald-400 font-semibold">Setara Harian (Ringan):</div>
+                        <div id="selectedDailyText" class="font-extrabold text-emerald-300">± Rp 0 / hari</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2">
+                    <button
+                        onclick="copyToWhatsApp()"
+                        class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-1 transition text-xs shadow-md cursor-pointer"
+                    >
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span id="copyBtnText">Salin WA</span>
+                    </button>
+                    <button
+                        onclick="generateSimulasiCardImage()"
+                        class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-1 transition text-xs shadow-md cursor-pointer"
+                    >
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        <span>Kartu PNG</span>
+                    </button>
+                    <button
+                        onclick="openLeadModal()"
+                        class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-1 transition text-xs shadow-md cursor-pointer"
+                    >
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                        <span>Simpan</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tenor Grid -->
+            <div>
+                <div class="flex items-center justify-between mb-2 px-1">
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Pilihan Angsuran Semua Tenor:</span>
+                    <span class="text-[10px] text-slate-400">Klik untuk memilih</span>
+                </div>
+                <div id="tenorGridContainer" class="grid grid-cols-2 gap-2"></div>
+            </div>
+
+        </div>
+
+        <div id="stnkAiView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-purple-200 dark:border-purple-800/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                        AI Vision STNK Scanner & Limit NSC
+                    </h3>
+                    <span class="text-[10px] bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800/50">Rumus Resmi LTV NSC</span>
+                </div>
+
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Upload/Foto STNK nasabah. AI akan mengenali tipe & tahun motor, mengecek Harga Pasar (Harpas) Serang Banten, dan otomatis menghitung <b>Plafond Maksimal Aman</b> berdasarkan status kepemilikan.
+                </p>
+
+                <!-- Input Status Kepemilikan -->
+                <div class="bg-purple-50/50 dark:bg-purple-950/30 p-3 rounded-xl border border-purple-200/60 dark:border-purple-800/40 space-y-2">
+                    <label class="text-xs font-bold text-purple-900 dark:text-purple-300 block">Status Kepemilikan (Rumus LTV NSC):</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="flex items-center gap-2 p-2 bg-white dark:bg-slate-900 rounded-lg cursor-pointer border border-purple-200 dark:border-purple-900 text-xs font-bold">
+                            <input type="radio" name="stnkTangan" value="1" checked class="accent-purple-600" id="stnkTangan1">
+                            <div>
+                                <span class="text-slate-800 dark:text-slate-200 block">Tangan Pertama</span>
+                                <span class="text-[9px] text-emerald-600 dark:text-emerald-400 font-normal">Harpas × 94% × 80%</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-2 p-2 bg-white dark:bg-slate-900 rounded-lg cursor-pointer border border-purple-200 dark:border-purple-900 text-xs font-bold">
+                            <input type="radio" name="stnkTangan" value="2" class="accent-purple-600" id="stnkTangan2">
+                            <div>
+                                <span class="text-slate-800 dark:text-slate-200 block">Tangan Kedua</span>
+                                <span class="text-[9px] text-amber-600 dark:text-amber-400 font-normal">Harpas × 94% × 70%</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Input Foto STNK -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">1. Upload Foto STNK (Opsional):</label>
+                    <input type="file" id="stnkImageInput" accept="image/*" onchange="previewStnkImage(event)" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer" />
+                    
+                    <div id="stnkPreviewContainer" class="hidden justify-center my-2">
+                        <img id="stnkPreviewImg" class="max-h-48 rounded-xl shadow border border-slate-300 dark:border-slate-700 object-cover" />
+                    </div>
+                </div>
+
+                <!-- Alternative Text Input -->
+                <div class="space-y-1 pt-1">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">2. Atau Ketik Manual Tipe & Tahun Motor:</label>
+                    <input type="text" id="stnkManualQuery" placeholder="Cth: Honda Beat Deluxe 2022 / NMAX 155 2021" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-600" />
+                </div>
+
+                <button onclick="analyzeSTNKWithAI()" id="btnProcessStnk" class="w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span id="btnProcessStnkLabel">Hitung Plafond Maksimal Aman</span>
+                </button>
+            </div>
+
+            <!-- Result Card STNK AI -->
+            <div id="stnkAiResultCard" class="hidden bg-gradient-to-br from-slate-900 via-purple-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-purple-500/40 space-y-3">
+                <div class="flex items-center justify-between border-b border-purple-800/60 pb-2">
+                    <span class="text-[10px] text-purple-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                        ✨ HASIL ANALISIS AI & PLAFOND NSC
+                    </span>
+                    <span id="stnkResultTanganBadge" class="bg-purple-500/20 text-purple-300 text-[10px] px-2 py-0.5 rounded-full border border-purple-400/30 font-bold">
+                        Tangan Pertama (75.2%)
+                    </span>
+                </div>
+
+                <div>
+                    <div id="stnkResultMotorName" class="text-base font-black text-white">HONDA H1B02N42L1A/T (2025)</div>
+                    <div id="stnkResultHarpas" class="text-xs text-purple-200 mt-0.5">Perkiraan Harpas Serang Banten: <b>Rp 18.500.000</b></div>
+                </div>
+
+                <div class="bg-black/40 p-3 rounded-xl border border-purple-500/30 space-y-1">
+                    <div class="text-[10px] text-slate-400">Rekomendasi Plafond Maksimal Aman NSC:</div>
+                    <div id="stnkResultPlafond" class="text-2xl font-black text-emerald-400">Rp 13.900.000</div>
+                    <div id="stnkResultFormulaText" class="text-[10px] text-slate-300 italic">Rumus NSC: Rp 18.500.000 × 94% × 80%</div>
+                </div>
+
+                <button onclick="useAiPlafondInCalculator()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Gunakan Nilai Ini di Kalkulator</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="takeoverView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                        Kalkulator Take Over BPKB & Top Up
+                    </h3>
+                    <span class="text-[10px] bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/50">Hitung Duit Segar</span>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">1. Nominal Plafond Barunya (KlikNSC):</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
+                            <input type="text" id="takeoverPencairanNew" oninput="calculateTakeover()" value="15.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">2. Sisa Pelunasan di Leasing Lama (TEV):</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
+                            <input type="text" id="takeoverPelunasanOld" oninput="calculateTakeover()" value="6.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-2xl p-4 shadow-xl border border-amber-500/30 space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
+                        <span class="text-[10px] text-amber-300 font-bold uppercase tracking-wider">Estimasi Duit Segar Diterima Nasabah:</span>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-bold">Net Cash</span>
+                    </div>
+
+                    <div id="takeoverNetResult" class="text-3xl font-black text-emerald-400 tracking-tight">Rp 9.000.000</div>
+
+                    <div class="text-[11px] text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Pencairan Baru:</span>
+                            <b id="takeoverPencairanText" class="text-white">Rp 15.000.000</b>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Dipotong Pelunasan Lama:</span>
+                            <b id="takeoverPelunasanText" class="text-rose-400">- Rp 6.000.000</b>
+                        </div>
+                        <div class="flex justify-between border-t border-slate-800/60 pt-1.5 mt-1">
+                            <span class="text-slate-400">Estimasi Angsuran Baru:</span>
+                            <b id="takeoverAngsuranText" class="text-blue-300">Rp 1.795.520 / bln (12x)</b>
+                        </div>
+                    </div>
+
+                    <button onclick="shareTakeoverWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Kirim Rincian Take Over ke WA</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="komparasiView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+                        Perbandingan Side-by-Side
+                    </h3>
+                    <span class="text-[10px] bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 font-bold px-2 py-0.5 rounded-md border border-blue-200 dark:border-blue-800/50">Banding 2 Tenor</span>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">Tenor 1:</label>
+                        <select id="compareTenor1" onchange="renderComparison()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            <option value="8">8 Bulan</option>
+                            <option value="11">11 Bulan</option>
+                            <option value="12" selected>12 Bulan</option>
+                            <option value="18">18 Bulan</option>
+                            <option value="20">20 Bulan</option>
+                            <option value="24">24 Bulan</option>
+                            <option value="30">30 Bulan</option>
+                            <option value="36">36 Bulan</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">Tenor 2:</label>
+                        <select id="compareTenor2" onchange="renderComparison()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            <option value="8">8 Bulan</option>
+                            <option value="11">11 Bulan</option>
+                            <option value="12">12 Bulan</option>
+                            <option value="18">18 Bulan</option>
+                            <option value="20">20 Bulan</option>
+                            <option value="24" selected>24 Bulan</option>
+                            <option value="30">30 Bulan</option>
+                            <option value="36">36 Bulan</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="comparisonResultContainer" class="grid grid-cols-2 gap-3"></div>
+        </div>
+
+        <div id="checklistView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/60 pb-2">
+                    <div>
+                        <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                            Checklist Berkas Pengajuan
+                        </h3>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400">Centang dokumen yang sudah siap</p>
+                    </div>
+                    <span id="checklistScoreBadge" class="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-black px-2.5 py-1 rounded-xl border border-emerald-200 dark:border-emerald-800/50">
+                        0% Siap
+                    </span>
+                </div>
+
+                <div class="space-y-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkKtp" checked>
+                        <span>KTP Pemohon & Pasangan / Penjamin (Asli & FC)</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkKk" checked>
+                        <span>Kartu Keluarga (KK)</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkStnk" checked>
+                        <span>STNK Asli Kendaraan</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkBpkb" checked>
+                        <span>BPKB Asli & Faktur</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkRumah" checked>
+                        <span>Bukti Kepemilikan Rumah (PBB / Rek Listrik)</span>
+                    </label>
+                </div>
+
+                <div class="border-t border-slate-100 dark:border-slate-700/60 pt-3 space-y-2">
+                    <label class="text-[10px] font-bold text-slate-500 uppercase">Catatan Kondisi Khusus:</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <span class="text-[10px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Status Pajak:</span>
+                            <select id="chkPajakStatus" onchange="updateChecklistProgress()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
+                                <option value="hidup">Pajak Hidup / Aman</option>
+                                <option value="mati1">Pajak Mati ≤ 1 Thn</option>
+                                <option value="mati2">Pajak Mati > 1 Thn</option>
+                            </select>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Atas Nama BPKB:</span>
+                            <select id="chkAnStatus" onchange="updateChecklistProgress()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
+                                <option value="sendiri">Atas Nama Sendiri</option>
+                                <option value="oranglain">Atas Nama Orang Lain</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="checklistAdviceBox" class="bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 rounded-xl p-3 text-xs space-y-1">
+                    <div class="font-bold flex items-center gap-1 text-amber-800 dark:text-amber-300">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Catatan & Solusi Berkas
+                    </div>
+                    <p id="checklistAdviceText">Centang berkas di atas untuk melihat status kelengkapan dan rekomendasi.</p>
+                </div>
+
+                <!-- Input Nomor WA Target Nasabah -->
+                <div class="pt-1">
+                    <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">
+                        No. WA Nasabah (Opsional):
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">+62</span>
+                        <input
+                            type="tel"
+                            id="chkWaPhone"
+                            placeholder="81234567890"
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-12 pr-3 py-2 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                        />
+                    </div>
+                </div>
+
+                <button onclick="shareChecklistWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    <span>Kirim Checklist Rapi ke WA Nasabah</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="scriptView" class="space-y-4 hidden">
+            
+            <!-- Segmented Switcher -->
+            <div class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
+                <button id="subScriptTabPromo" onclick="switchScriptSubTab('promo')" class="flex-1 py-2 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm transition">
+                    Broadcast Promo
+                </button>
+                <button id="subScriptTabObjection" onclick="switchScriptSubTab('objection')" class="flex-1 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
+                    🛡️ Tangkis Penolakan
+                </button>
+            </div>
+
+            <!-- Sub View 1: Broadcast Promo -->
+            <div id="scriptPromoSubView" class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        Generator Script Broadcast WA
+                    </h3>
+                    <span class="text-[10px] bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 font-bold px-2 py-0.5 rounded-md border border-blue-200 dark:border-blue-800/50">Instan Copy</span>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block">Pilih Template Promo:</label>
+                    <select id="scriptTemplateSelect" onchange="generateScriptPromo()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <option value="utuh">Promo Pencairan Utuh Tanpa Potongan</option>
+                        <option value="pajak">Bisa Bantu Pajak STNK Mati / Balik Nama</option>
+                        <option value="proses">Proses Super Cepat 1 Hari Cair (Serang)</option>
+                        <option value="singkat">Script Singkat Story WA / IG</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">Preview Script Text:</label>
+                    <textarea id="scriptPreviewText" rows="7" readonly class="w-full bg-slate-900 text-blue-200 p-3 rounded-xl text-xs font-mono border border-slate-700 leading-relaxed focus:outline-none"></textarea>
+                </div>
+
+                <button onclick="copyScriptPromo()" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span id="copyScriptBtnLabel">Salin Script Text Promo</span>
+                </button>
+            </div>
+
+            <!-- Sub View 2: Tangkis Penolakan Nasabah -->
+            <div id="scriptObjectionSubView" class="space-y-3 hidden">
+                <div class="bg-amber-50 dark:bg-amber-950/40 p-3 rounded-2xl border border-amber-200 dark:border-amber-800/50 text-xs text-amber-900 dark:text-amber-200 font-medium">
+                    💡 <b>Tips Sales:</b> Tekan tombol "Salin Jawaban" di bawah skenario penolakan nasabah untuk langsung dikirim via Chat WA!
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/90 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 space-y-2">
+                    <div class="font-bold text-xs text-rose-600 dark:text-rose-400 flex items-center justify-between">
+                        <span>❌ "Bunganya / Angsurannya Lumayan Tinggi Ya Mas..."</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-[11px] leading-relaxed" id="objText1">
+Halo Pak/Bu, kalau dihitung bulanan sepintas terlihat begitu, tapi di KlikNSC pencairan kita *BERSIH UTUH TANPA POTONGAN ADMIN TERSEMBUNYI* di depan.
+
+Kalau dihitung harian, ini cuma setara *± Rp 40 ribuan/hari* (setara harga 2 bungkus rokok/makan siang saja). BPKB juga dijamin aman simpanan resmi perusahaan finance terdaftar OJK.
+                    </p>
+                    <button onclick="copyObjectionText('objText1')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-[11px] flex items-center justify-center gap-1 transition">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span>Salin Jawaban Ini</span>
+                    </button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/90 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 space-y-2">
+                    <div class="font-bold text-xs text-rose-600 dark:text-rose-400 flex items-center justify-between">
+                        <span>❌ "Mau Diskusi Dulu Sama Suami/Istri Ya..."</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-[11px] leading-relaxed" id="objText2">
+Siap Pak/Bu, sangat setuju memang harus didiskusikan bersama pasangan. 
+
+Biar diskusinya lebih gampang, saya bantu buatkan *Kartu Rincian Simulasi Pas-nya* ya? Bebas biaya dan tanpa ikatan dulu kok, biar pasangan bisa lihat angsuran harian yang paling pas dengan budget keluarga. Boleh saya minta info nominal yang dibutuhkan?
+                    </p>
+                    <button onclick="copyObjectionText('objText2')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-[11px] flex items-center justify-center gap-1 transition">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span>Salin Jawaban Ini</span>
+                    </button>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800/90 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 space-y-2">
+                    <div class="font-bold text-xs text-rose-600 dark:text-rose-400 flex items-center justify-between">
+                        <span>❌ "Pajak Motor Saya Mati / Atas Nama Orang Lain..."</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-[11px] leading-relaxed" id="objText3">
+Tenang Pak/Bu! Di tempat kami justru spesialisasi bantu kondisi pajak mati atau BPKB masih atas nama pemilik lama/tangan kedua.
+
+Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemutihan/perpanjangan pajaknya, jadi Bapak/Ibu tidak perlu pusing bolak-balik ke Samsat.
+                    </p>
+                    <button onclick="copyObjectionText('objText3')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-[11px] flex items-center justify-center gap-1 transition">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span>Salin Jawaban Ini</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="bonusView" class="space-y-4 hidden">
+            
+            <!-- Goal Tracker Card -->
+            <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-blue-500/30 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-emerald-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                        🎯 Target & Goal Tracker Sales
+                    </span>
+                    <span id="trackerPercentBadge" class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full border border-emerald-400/30 font-bold">0% Achieved</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                        <label class="text-[10px] text-slate-400 block mb-1">Target Bulan Ini (Unit):</label>
+                        <input type="number" id="trackerTargetUnit" onchange="updateGoalTracker()" value="10" min="1" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-white text-center" />
+                    </div>
+                    <div>
+                        <label class="text-[10px] text-slate-400 block mb-1">Pencapaian Realisasi:</label>
+                        <div class="flex items-center gap-1">
+                            <button onclick="adjustTrackerProgress(-1)" class="bg-slate-800 px-2 py-1.5 rounded-lg border border-slate-700 font-black hover:bg-slate-700">-</button>
+                            <input type="number" id="trackerCurrentUnit" onchange="updateGoalTracker()" value="3" min="0" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-emerald-400 text-center" />
+                            <button onclick="adjustTrackerProgress(1)" class="bg-slate-800 px-2 py-1.5 rounded-lg border border-slate-700 font-black hover:bg-slate-700">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="space-y-1">
+                    <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700">
+                        <div id="trackerProgressBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 30%"></div>
+                    </div>
+                    <p id="trackerStatusText" class="text-[10px] text-slate-300 font-medium text-center">Kurang 7 unit lagi untuk tembus Total Bonus Rp 3.875.000!</p>
+                </div>
+            </div>
+
+            <!-- Official KBA Calculator -->
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        Kalkulator Insentif KBA (Partnership)
+                    </h3>
+                    <span class="text-[10px] bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Matriks Resmi</span>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Target Total Omset Pencairan (Rp):</label>
+                        <input type="text" id="bonusPencairanInput" oninput="calculateSalesBonus()" value="95.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white" />
+                        <span class="text-[10px] text-slate-400 font-medium">Satuan Standar KBA: 1 Unit = Rp 9.500.000</span>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Atau Jumlah Unit Direct Closing:</label>
+                        <input type="number" id="bonusUnitInput" oninput="calculateSalesBonusFromUnits()" value="10" min="1" step="1" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white" />
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-2xl p-4 shadow-md space-y-3 border border-emerald-500/30 relative overflow-hidden">
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
+                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Total Insentif KBA Diterima:</span>
+                        <span id="bonusUnitBadge" class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-bold">10 Unit</span>
+                    </div>
+
+                    <div id="bonusTotalResult" class="text-3xl font-black text-emerald-400 tracking-tight">Rp 3.875.000</div>
+
+                    <div class="text-[11px] text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Rp Komisi Unit:</span>
+                            <b id="bonusBaseFeeText" class="text-white">Rp 1.875.000 <span id="ratePerUnitText" class="text-[9px] text-emerald-400 font-normal">(Rp 187.500/unit)</span></b>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Uang Saku Operasional:</span>
+                            <b id="bonusRewardText" class="text-white">Rp 2.000.000</b>
+                        </div>
+                        <div class="flex justify-between border-t border-slate-800/60 pt-1.5 mt-1">
+                            <span class="text-slate-400">Target Agen Aktif Minimal:</span>
+                            <b id="bonusAgenText" class="text-amber-300">5 Agen</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tahunView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        Kelayakan Tahun Kendaraan
+                    </h3>
+                </div>
+                <div>
+                    <select id="vehicleYearSelect" onchange="checkVehicleYear()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <option value="2026">2026 (Baru)</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016 (Batas Umum)</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014 ke Bawah</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="yearCheckResultCard" class="bg-slate-900 text-white rounded-2xl p-4 shadow-xl space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] text-slate-400 font-semibold uppercase">Status Kelayakan</span>
+                    <span id="yearStatusBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Sangat Layak</span>
+                </div>
+                <div id="yearStatusTitle" class="text-base font-black text-white">Usia Motor Aman (Standar Pembiayaan)</div>
+                <p id="yearStatusDesc" class="text-xs text-slate-300">Motor dengan tahun ini diterima di semua program tanpa potongan limit.</p>
+            </div>
+        </div>
+
+        <div id="leadsView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        Catatan Leads Prospected
+                    </h3>
+                </div>
+                <button onclick="clearAllLeads()" class="text-[11px] text-rose-600 dark:text-rose-400 font-bold bg-rose-50 dark:bg-rose-950/60 px-2.5 py-1.5 rounded-xl border border-rose-200 dark:border-rose-800/50">Hapus Semua</button>
+            </div>
+            <div id="leadsListContainer" class="space-y-2.5"></div>
+        </div>
+
+        <div id="tabelView" class="space-y-3 hidden">
+            <div class="bg-white dark:bg-slate-800/90 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm space-y-2">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Cari Nilai Pencairan Brosur:</label>
+                <div class="relative">
+                    <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <input type="text" id="searchFilterInput" oninput="renderTable()" placeholder="Cari cth: 21.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                </div>
+            </div>
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm overflow-hidden">
+                <div class="p-3 bg-slate-900 text-white font-bold text-xs flex justify-between items-center">
+                    <span id="tableCategoryLabel">Tabel Brosur (NORMAL)</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold border-b border-slate-200 dark:border-slate-700">
+                                <th class="p-2.5">Pencairan</th>
+                                <th class="p-2.5 text-right">12x</th>
+                                <th class="p-2.5 text-right">24x</th>
+                                <th class="p-2.5 text-right">36x</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-slate-100 dark:divide-slate-800"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Floating Action Button (FAB) WA Cepat -->
+    <button
+        onclick="copyToWhatsApp()"
+        class="fixed bottom-6 right-6 sm:absolute sm:bottom-6 sm:right-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white p-3.5 rounded-full shadow-2xl active:scale-90 transition-all z-40 flex items-center justify-center gap-2 border-2 border-white/20 animate-pulse-slow cursor-pointer"
+        title="Salin WA Cepat"
+    >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="text-xs font-extrabold pr-1 hidden sm:inline">Salin WA</span>
+    </button>
+
+    <!-- Save Lead Modal -->
+    <div id="leadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 max-w-sm w-full shadow-2xl relative space-y-4 border border-slate-200 dark:border-slate-700">
+            <button onclick="closeLeadModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white p-3 rounded-2xl"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg></div>
+                <div>
+                    <h3 class="font-bold text-sm text-slate-900 dark:text-white">Simpan Data Lead</h3>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">Catat prospek nasabah</p>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div><label class="font-bold block mb-1 dark:text-slate-300">Nama Nasabah:</label><input type="text" id="leadName" class="w-full bg-slate-50 dark:bg-slate-900 border dark:border-slate-700 rounded-xl p-2.5 font-bold dark:text-white" /></div>
+                <div><label class="font-bold block mb-1 dark:text-slate-300">No WA:</label><input type="tel" id="leadPhone" class="w-full bg-slate-50 dark:bg-slate-900 border dark:border-slate-700 rounded-xl p-2.5 font-bold dark:text-white" /></div>
+                <div><label class="font-bold block mb-1 dark:text-slate-300">Catatan Motor / Lokasi:</label><input type="text" id="leadNote" class="w-full bg-slate-50 dark:bg-slate-900 border dark:border-slate-700 rounded-xl p-2.5 dark:text-white" /></div>
+            </div>
+            <button onclick="saveLeadData()" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs transition">Simpan & Catat Lead</button>
+        </div>
+    </div>
+
+    <!-- Modal Card Preview Canvas PNG -->
+    <div id="cardModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 max-w-sm w-full shadow-2xl relative space-y-3 text-center border border-slate-200 dark:border-slate-700">
+            <button onclick="closeCardModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kartu Simulasi Angsuran</h3>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">Tahan/Tekan gambar untuk menyimpan ke galeri HP</p>
+            <div class="flex justify-center my-2">
+                <canvas id="simulationCanvas" width="600" height="700" class="w-full max-w-[280px] rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700"></canvas>
+            </div>
+            <a id="downloadCanvasBtn" download="Simulasi_KlikNSC.png" class="block w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition">
+                Download Gambar PNG
+            </a>
+        </div>
+    </div>
+
 </div>
-<div>
-<h1 class="font-black text-base tracking-tight flex items-center gap-2 text-white">
-KlikNSC Mobile
-<span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-400/30">
-SRN31
-</span>
-</h1>
-<p class="text-[11px] text-blue-200/90 font-medium">Brosur & Harpas Serang Banten</p>
-</div>
-</div>
-<button onclick="openModal()" class="bg-white/10 hover:bg-white/25 active:scale-95 text-white p-2.5 rounded-2xl transition border border-white/20 flex items-center gap-1.5 text-xs font-semibold">
-<svg class="w-4 h-4 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-<rect x="5" y="2" width="14" height="20" rx="2" />
-<line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3" />
-</svg>
-<span class="hidden sm:inline">PWA Info</span>
-</button>
-</div>
-</header>
-<!-- Tab Nav -->
-<div class="bg-white border-b border-slate-200 px-3 py-2 flex gap-2 text-xs font-semibold shadow-sm sticky top-[68px] z-30">
-<button id="tabCalcBtn" onclick="switchTab('kalkulator')" class="flex-1 py-2 px-3 rounded-xl transition flex items-center justify-center gap-1.5 bg-blue-600 text-white font-bold shadow-sm">
-<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-Kalkulator & Harpas
-</button>
-<button id="tabTableBtn" onclick="switchTab('tabel')" class="flex-1 py-2 px-3 rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 hover:bg-slate-100">
-<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-Tabel Brosur
-</button>
-</div>
-<!-- Main Content -->
-<main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
-<div id="kalkulatorView" class="space-y-4">
-<!-- UPLOAD STNK & HARPAS SERANG -->
-<div class="bg-gradient-to-br from-slate-900 to-blue-950 rounded-2xl p-4 text-white shadow-lg space-y-3 relative overflow-hidden border border-blue-500/30">
-<div class="absolute -right-6 -bottom-6 w-28 h-28 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none"></div>
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-2">
-<div class="bg-emerald-500/20 p-2 rounded-xl text-emerald-400">
-<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-</div>
-<div>
-<h2 class="text-xs font-extrabold uppercase tracking-wider text-white">UPLOAD STNK</h2>
-<p class="text-[10px] text-slate-300">Deteksi otomatis tipe motor & pasaran Banten</p>
-</div>
-</div>
-<span class="bg-blue-600/40 text-blue-200 text-[10px] px-2 py-0.5 rounded-full border border-blue-400/30 font-bold">
-Area Banten
-</span>
-</div>
-<input type="file" id="stnkInputFile" accept="image/*" class="hidden" onchange="handleStnkUpload(event)">
-<button onclick="triggerStnkUpload()" id="scanBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-md cursor-pointer">
-<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
-<span>UPLOAD / FOTO STNK</span>
-</button>
-<!-- Hasil Deteksi -->
-<div id="scanResultCard" class="hidden bg-slate-900/90 rounded-xl p-3 border border-emerald-500/40 space-y-2">
-<div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
-<span id="detectedMotorName" class="text-xs font-bold text-emerald-400">Honda Vario 160 (2024)</span>
-<span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Terdeteksi</span>
-</div>
-<div class="grid grid-cols-2 gap-2 text-center pt-1">
-<div>
-<div class="text-[10px] text-slate-400">Est. Harga Pasar Serang:</div>
-<div id="scannedHarpasText" class="text-sm font-black text-emerald-400 mt-0.5">Rp 0</div>
-</div>
-<div class="border-l border-slate-800 pl-2">
-<div class="text-[10px] text-slate-400">Batas Max Cair Aman:</div>
-<div id="scannedMaxCairText" class="text-sm font-black text-blue-400 mt-0.5">Rp 0</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Input Nominal Box -->
-<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
-<div class="flex items-center justify-between mb-2">
-<label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-<svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-Nominal Pengajuan Pencairan
-</label>
-<span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Bersih Terima Utuh</span>
-</div>
-<div class="relative mb-3">
-<span class="absolute left-3.5 top-1/2 -translate-y-1/2 font-extrabold text-slate-400 text-base">
-Rp
-</span>
-<input
-type="text"
-id="inputVal"
-oninput="handleInputChange(this.value)"
-class="w-full text-xl font-black text-slate-900 bg-slate-50 border border-slate-300 rounded-xl pl-11 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition"
-placeholder="10.000.000"
-value="10.000.000"
-/>
-</div>
-<div class="space-y-1 mb-3">
-<input
-type="range"
-id="rangeSlider"
-min="4000000"
-max="30000000"
-step="500000"
-value="10000000"
-oninput="handleSliderChange(this.value)"
-class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 rounded-lg"
-/>
-<div class="flex justify-between text-[10px] text-slate-400 font-semibold px-0.5">
-<span>4 JT</span>
-<span>12 JT</span>
-<span>21 JT</span>
-<span>30 JT</span>
-</div>
-</div>
-<div>
-<p class="text-[11px] font-semibold text-slate-500 mb-1.5">Pilih Cepat Nominal:</p>
-<div id="presetContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar py-1"></div>
-</div>
-</div>
-<!-- Program / Kategori -->
-<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
-<label class="text-xs font-bold text-slate-700 flex items-center gap-1.5 mb-2.5">
-<svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/></svg>
-Program / Kategori Brosur
-</label>
-<div id="categoryContainer" class="grid grid-cols-2 gap-2"></div>
-</div>
-<!-- Main Highlight Card -->
-<div class="bg-slate-900 text-white rounded-2xl p-4 shadow-xl relative overflow-hidden">
-<div class="absolute -right-6 -bottom-6 w-28 h-28 bg-blue-600/20 rounded-full blur-2xl pointer-events-none"></div>
-<div class="flex items-center justify-between mb-2">
-<span class="text-[10px] text-blue-300 font-bold uppercase tracking-wider flex items-center gap-1">
-<svg class="w-3.5 h-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-Rekomendasi Terpilih
-</span>
-<span id="selectedTenorBadge" class="bg-blue-500/20 text-blue-300 text-xs px-2.5 py-0.5 rounded-full border border-blue-400/30 font-bold">
-12 Bulan
-</span>
-</div>
-<div id="selectedMonthlyText" class="text-2xl font-black text-blue-400 my-1">
-Rp 0 <span class="text-xs font-normal text-slate-400">/ bulan</span>
-</div>
-<div class="grid grid-cols-2 gap-2 text-xs text-slate-300 border-t border-slate-800/80 pt-2.5 my-3">
-<div>
-<div class="text-[10px] text-slate-400">Pencairan Net (Bersih):</div>
-<div id="selectedPencairanText" class="font-bold text-white">Rp 0</div>
-</div>
-<div>
-<div class="text-[10px] text-slate-400">Estimasi Total:</div>
-<div id="selectedTotalText" class="font-bold text-white">Rp 0</div>
-</div>
-</div>
-<button
-onclick="copyToWhatsApp()"
-class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-md cursor-pointer"
->
-<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-<span id="copyBtnText">Salin Rincian ke WhatsApp</span>
-</button>
-</div>
-<!-- Tenor Grid -->
-<div>
-<div class="flex items-center justify-between mb-2 px-1">
-<span class="text-xs font-bold text-slate-700">Pilihan Angsuran Semua Tenor:</span>
-<span class="text-[10px] text-slate-400">Klik untuk memilih</span>
-</div>
-<div id="tenorGridContainer" class="grid grid-cols-2 gap-2"></div>
-</div>
-</div>
-<!-- Tab Tabel View -->
-<div id="tabelView" class="space-y-3 hidden">
-<div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm space-y-2">
-<label class="text-xs font-bold text-slate-700 block">
-Cari Nilai Pencairan Brosur:
-</label>
-<div class="relative">
-<svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-<input
-type="text"
-id="searchFilterInput"
-oninput="renderTable()"
-placeholder="Cari cth: 21.000.000"
-class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-3 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
-/>
-</div>
-</div>
-<div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-<div class="p-3 bg-slate-900 text-white font-bold text-xs flex justify-between items-center">
-<span id="tableCategoryLabel">Tabel Brosur (NORMAL)</span>
-<span class="text-[10px] font-normal text-slate-400">Klik baris untuk pilih</span>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left text-xs border-collapse">
-<thead>
-<tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-<th class="p-2.5">Pencairan</th>
-<th class="p-2.5 text-right">12x</th>
-<th class="p-2.5 text-right">24x</th>
-<th class="p-2.5 text-right">36x</th>
-</tr>
-</thead>
-<tbody id="tableBody" class="divide-y divide-slate-100"></tbody>
-</table>
-</div>
-</div>
-</div>
-</main>
-<!-- PWA Info Modal -->
-<div id="pwaModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-<div class="bg-white rounded-3xl p-5 max-w-sm w-full shadow-2xl relative space-y-4">
-<button onclick="closeModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600 p-1">
-<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-</button>
-<div class="flex items-center gap-3">
-<div class="bg-blue-600 text-white p-3 rounded-2xl">
-<svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>
-</div>
-<div>
-<h3 class="font-bold text-sm text-slate-900">Akses Web Cepat & Stabil</h3>
-<p class="text-[11px] text-slate-500">Buka langsung lewat browser HP</p>
-</div>
-</div>
-<div class="space-y-2.5 text-xs text-slate-700 bg-slate-50 p-3 rounded-2xl border border-slate-200">
-<p class="text-[11px]">Aplikasi ini dirancang optimal berjalan via link website browser Chrome/Safari tanpa kendala pembatasan aplikasi pihak ketiga.</p>
-</div>
-<button onclick="closeModal()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl text-xs">
-Mengerti
-</button>
-</div>
-</div>
-<footer class="p-3 bg-slate-200 text-center text-[10px] text-slate-500 border-t border-slate-300">
-Aplikasi Resmi KlikNSC • SRN31 Serang Banten
-</footer>
-</div>
+
 <script>
-const TENORS = [8, 11, 12, 18, 20, 24, 30, 36];
-const CATEGORIES = [
-{ id: 'normal', name: 'NORMAL', badge: 'Reguler', color: 'bg-blue-500', borderColor: 'border-blue-500', lightBg: 'bg-blue-50' },
-{ id: 'extra', name: 'EXTRA', badge: 'Diskon 3%', color: 'bg-amber-500', borderColor: 'border-amber-500', lightBg: 'bg-amber-50' },
-{ id: 'special', name: 'SPECIAL', badge: 'Super Hemat', color: 'bg-emerald-500', borderColor: 'border-emerald-500', lightBg: 'bg-emerald-50' },
-{ id: 'bombastis', name: 'BOMBASTIS', badge: 'Promo Spesial', color: 'bg-purple-500', borderColor: 'border-purple-500', lightBg: 'bg-purple-50' },
-{ id: 'extraPlus', name: 'EXTRA PLUS', badge: 'Insentif 50%', color: 'bg-rose-500', borderColor: 'border-rose-500', lightBg: 'bg-rose-50' },
-];
-const PRESETS = [
-4000000, 5000000, 6000000, 8000000, 10000000, 12000000, 15000000, 18000000, 20000000,
-21000000, 22000000, 23000000, 24000000, 25000000, 26000000, 27000000, 28000000, 29000000, 30000000
-];
-const BASE_DATABASE = {
-normal: {
-4000000: [814682, 607148, 569250, 437662, 409568, 362733, 323239, 318376],
-5000000: [966349, 727357, 681924, 518880, 485287, 431580, 383873, 353810],
-6000000: [1116417, 840697, 787721, 599304, 560209, 500261, 444343, 411617],
-8000000: [1412159, 1073741, 1005686, 760912, 710813, 635556, 563202, 527231],
-10000000: [1704349, 1306534, 1223399, 919099, 857988, 768094, 679284, 603975],
-12000000: [2006297, 1543905, 1445697, 1085048, 1012942, 906883, 801683, 712598],
-15000000: [2491684, 1917476, 1795520, 1346101, 1256670, 1125133, 994097, 883302],
-20000000: [3262575, 2510904, 2351263, 1760973, 1644056, 1472107, 1300095, 1154861],
-25000000: [4012575, 3090904, 2891263, 2160973, 2014056, 1802107, 1590095, 1414861],
-30000000: [4762575, 3670904, 3431263, 2560973, 2384056, 2132107, 1880095, 1674861]
-},
-extra: {
-4000000: [822711, 613111, 574834, 441863, 413491, 366193, 326282, 321340],
-5000000: [974289, 733312, 687500, 523041, 489170, 435018, 386894, 356566],
-6000000: [1124283, 846597, 793243, 603430, 564057, 503683, 447348, 414373],
-8000000: [1427641, 1085467, 1016655, 769081, 718427, 642333, 569145, 532744],
-10000000: [1719642, 1318210, 1234318, 927185, 865519, 774804, 685161, 609154],
-12000000: [2021532, 1555581, 1456615, 1093134, 1020473, 913593, 807560, 717778],
-15000000: [2506919, 1929152, 1806438, 1354187, 1264201, 1131843, 999974, 888482],
-20000000: [3277810, 2522580, 2362181, 1769059, 1651587, 1478817, 1305972, 1160040],
-25000000: [4027810, 3102580, 2902181, 2179059, 2031587, 1818817, 1605972, 1428040],
-30000000: [4777810, 3682580, 3442181, 2579059, 2401587, 2148817, 1895972, 1688040]
-},
-special: {
-4000000: [782563, 583296, 546913, 420859, 393877, 348893, 311065, 306517],
-5000000: [934587, 703538, 659621, 502237, 469755, 417826, 371786, 342785],
-6000000: [1084956, 817095, 765634, 582798, 544814, 486575, 432323, 400592],
-8000000: [1381194, 1050290, 983750, 744572, 695585, 622003, 551315, 516205],
-10000000: [1673764, 1283182, 1201563, 902926, 842926, 754674, 667531, 593616],
-12000000: [1975827, 1520554, 1423860, 1068875, 997881, 893463, 789930, 702239],
-15000000: [2461214, 1894124, 1773683, 1329928, 1241608, 1111713, 982344, 872944],
-20000000: [3232105, 2487552, 2329426, 1744800, 1628995, 1458687, 1288342, 1144502],
-25000000: [3982105, 3067552, 2869426, 2144800, 2008995, 1798687, 1588342, 1414502],
-30000000: [4732105, 3647552, 3409426, 2544800, 2368995, 2118687, 1868342, 1664502]
-},
-bombastis: {
-4000000: [824317, 614304, 575951, 442703, 414276, 366885, 326891, 321933],
-5000000: [1021932, 769039, 720955, 548005, 512467, 455648, 405024, 373105],
-6000000: [1171475, 882000, 826373, 628190, 587150, 524213, 465378, 430912],
-8000000: [1466348, 1114782, 1044076, 789506, 737462, 659275, 584004, 546526],
-10000000: [1774695, 1360243, 1273624, 956296, 892630, 798960, 706317, 627800],
-12000000: [2076378, 1597615, 1495921, 1122245, 1047584, 937749, 828716, 736424],
-15000000: [2575477, 1981694, 1855571, 1390576, 1298090, 1162038, 1026419, 911789],
-20000000: [3369220, 2592636, 2427691, 1817578, 1696772, 1519077, 1341232, 1191117],
-25000000: [4119220, 3172636, 2977691, 2237578, 2086772, 1869077, 1651232, 1461117],
-30000000: [4869220, 3752636, 3527691, 2637578, 2466772, 2219077, 1961232, 1741117]
-},
-extraPlus: {
-4000000: [854829, 636963, 597171, 458665, 429183, 380033, 338455, 333199],
-5000000: [1013991, 763085, 715379, 543844, 508584, 452210, 402003, 370348],
-6000000: [1163610, 876099, 820851, 624063, 583301, 520791, 462373, 428155],
-8000000: [1466348, 1114782, 1044076, 789506, 737462, 659275, 584004, 546526],
-10000000: [1765519, 1353238, 1267073, 951445, 888111, 794934, 702791, 624693],
-12000000: [2067237, 1590609, 1489370, 1117393, 1043066, 933723, 825190, 733316],
-15000000: [2567859, 1975856, 1850112, 1386533, 1294324, 1158683, 1023480, 909200],
-20000000: [3338750, 2569284, 2405855, 1801405, 1681710, 1505657, 1329478, 1180758],
-25000000: [4088750, 3149284, 2955855, 2221405, 2071710, 1855657, 1639478, 1450758],
-30000000: [4838750, 3729284, 3505855, 2621405, 2451710, 2205657, 1949478, 1730758]
-}
-};
-let state = {
-nominal: 10000000,
-category: 'normal',
-selectedTenor: 12,
-activeTab: 'kalkulator'
-};
-function formatRupiah(amount) {
-if (isNaN(amount) || amount === null) return 'Rp 0';
-return 'Rp ' + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-}
-function formatNumberInput(num) {
-if (!num && num !== 0) return '';
-return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-}
-function
+    const TENORS = [8, 11, 12, 18, 20, 24, 30, 36];
+
+    const CATEGORIES = [
+        { id: 'normal', name: 'NORMAL', badge: 'Reguler', color: 'bg-blue-500', borderColor: 'border-blue-500', lightBg: 'bg-blue-50 dark:bg-blue-950/40' },
+        { id: 'extra', name: 'EXTRA', badge: 'Diskon 3%', color: 'bg-amber-500', borderColor: 'border-amber-500', lightBg: 'bg-amber-50 dark:bg-amber-950/40' },
+        { id: 'special', name: 'SPECIAL', badge: 'Super Hemat', color: 'bg-emerald-500', borderColor: 'border-emerald-500', lightBg: 'bg-emerald-50 dark:bg-emerald-950/40' },
+        { id: 'bombastis', name: 'BOMBASTIS', badge: 'Promo Spesial', color: 'bg-purple-500', borderColor: 'border-purple-500', lightBg: 'bg-purple-50 dark:bg-purple-950/40' },
+        { id: 'extraPlus', name: 'EXTRA PLUS', badge: 'Insentif 50%', color: 'bg-rose-500', borderColor: 'border-rose-500', lightBg: 'bg-rose-50 dark:bg-rose-950/40' },
+    ];
+
+    const PRESETS = [
+        4000000, 5000000, 6000000, 8000000, 10000000, 12000000, 15000000, 18000000, 20000000,
+        21000000, 22000000, 23000000, 24000000, 25000000, 26000000, 27000000, 28000000, 29000000, 30000000
+    ];
+
+    const BASE_DATABASE = {
+        normal: {
+            4000000: [814682, 607148, 569250, 437662, 409568, 362733, 323239, 318376],
+            5000000: [966349, 727357, 681924, 518880, 485287, 431580, 383873, 353810],
+            6000000: [1116417, 840697, 787721, 599304, 560209, 500261, 444343, 411617],
+            8000000: [1412159, 1073741, 1005686, 760912, 710813, 635556, 563202, 527231],
+            10000000: [1704349, 1306534, 1223399, 919099, 857988, 768094, 679284, 603975],
+            12000000: [2006297, 1543905, 1445697, 1085048, 1012942, 906883, 801683, 712598],
+            15000000: [2491684, 1917476, 1795520, 1346101, 1256670, 1125133, 994097, 883302],
+            20000000: [3262575, 2510904, 2351263, 1760973, 1644056, 1472107, 1300095, 1154861],
+            25000000: [4012575, 3090904, 2891263, 2160973, 2014056, 1802107, 1590095, 1414861],
+            30000000: [4762575, 3670904, 3431263, 2560973, 2384056, 2132107, 1880095, 1674861]
+        },
+        extra: {
+            4000000: [822711, 613111, 574834, 441863, 413491, 366193, 326282, 321340],
+            5000000: [974289, 733312, 687500, 523041, 489170, 435018, 386894, 356566],
+            6000000: [1124283, 846597, 793243, 603430, 564057, 503683, 447348, 414373],
+            8000000: [1427641, 1085467, 1016655, 769081, 718427, 642333, 569145, 532744],
+            10000000: [1719642, 1318210, 1234318, 927185, 865519, 774804, 685161, 609154],
+            12000000: [2021532, 1555581, 1456615, 1093134, 1020473, 913593, 807560, 717778],
+            15000000: [2506919, 1929152, 1806438, 1354187, 1264201, 1131843, 999974, 888482],
+            20000000: [3277810, 2522580, 2362181, 1769059, 1651587, 1478817, 1305972, 1160040],
+            25000000: [4027810, 3102580, 2902181, 2179059, 2031587, 1818817, 1605972, 1428040],
+            30000000: [4777810, 3682580, 3442181, 2579059, 2401587, 2148817, 1895972, 1688040]
+        },
+        special: {
+            4000000: [782563, 583296, 546913, 420859, 393877, 348893, 311065, 306517],
+            5000000: [934587, 703538, 659621, 502237, 469755, 417826, 371786, 342785],
+            6000000: [1084956, 817095, 765634, 582798, 544814, 486575, 432323, 400592],
+            8000000: [1381194, 1050290, 983750, 744572, 695585, 622003, 551315, 516205],
+            10000000: [1673764, 1283182, 1201563, 902926, 842926, 754674, 667531, 593616],
+            12000000: [1975827, 1520554, 1423860, 1068875, 997881, 893463, 789930, 702239],
+            15000000: [2461214, 1894124, 1773683, 1329928, 1241608, 1111713, 982344, 872944],
+            20000000: [3232105, 2487552, 2329426, 1744800, 1628995, 1458687, 1288342, 1144502],
+            25000000: [3982105, 3067552, 2869426, 2144800, 2008995, 1798687, 1588342, 1414502],
+            30000000: [4732105, 3647552, 3409426, 2544800, 2368995, 2118687, 1868342, 1664502]
+        },
+        bombastis: {
+            4000000: [824317, 614304, 575951, 442703, 414276, 366885, 326891, 321933],
+            5000000: [1021932, 769039, 720955, 548005, 512467, 455648, 405024, 373105],
+            6000000: [1171475, 882000, 826373, 628190, 587150, 524213, 465378, 430912],
+            8000000: [1466348, 1114782, 1044076, 789506, 737462, 659275, 584004, 546526],
+            10000000: [1774695, 1360243, 1273624, 956296, 892630, 798960, 706317, 627800],
+            12000000: [2076378, 1597615, 1495921, 1122245, 1047584, 937749, 828716, 736424],
+            15000000: [2575477, 1981694, 1855571, 1390576, 1298090, 1162038, 1026419, 911789],
+            20000000: [3369220, 2592636, 2427691, 1817578, 1696772, 1519077, 1341232, 1191117],
+            25000000: [4119220, 3172636, 2977691, 2237578, 2086772, 1869077, 1651232, 1461117],
+            30000000: [4869220, 3752636, 3527691, 2637578, 2466772, 2219077, 1961232, 1741117]
+        },
+        extraPlus: {
+            4000000: [854829, 636963, 597171, 458665, 429183, 380033, 338455, 333199],
+            5000000: [1013991, 763085, 715379, 543844, 508584, 452210, 402003, 370348],
+            6000000: [1163610, 876099, 820851, 624063, 583301, 520791, 462373, 428155],
+            8000000: [1466348, 1114782, 1044076, 789506, 737462, 659275, 584004, 546526],
+            10000000: [1765519, 1353238, 1267073, 951445, 888111, 794934, 702791, 624693],
+            12000000: [2067237, 1590609, 1489370, 1117393, 1043066, 933723, 825190, 733316],
+            15000000: [2567859, 1975856, 1850112, 1386533, 1294324, 1158683, 1023480, 909200],
+            20000000: [3338750, 2569284, 2405855, 1801405, 1681710, 1505657, 1329478, 1180758],
+            25000000: [4088750, 3149284, 2955855, 2221405, 2071710, 1855657, 1639478, 1450758],
+            30000000: [4838750, 3729284, 3505855, 2621405, 2451710, 2205657, 1949478, 1730758]
+        }
+    };
+
+    const KBA_MATRIX = {
+        1:  { rate: 90000,  saku: 0,       total: 90000,   agen: 0 },
+        2:  { rate: 90000,  saku: 0,       total: 180000,  agen: 0 },
+        3:  { rate: 90000,  saku: 1400000, total: 1670000, agen: 2 },
+        4:  { rate: 90000,  saku: 1500000, total: 1860000, agen: 3 },
+        5:  { rate: 112500, saku: 1600000, total: 2162500, agen: 3 },
+        6:  { rate: 112500, saku: 1700000, total: 2375000, agen: 4 },
+        7:  { rate: 112500, saku: 1800000, total: 2587500, agen: 4 },
+        8:  { rate: 127500, saku: 2000000, total: 3020000, agen: 4 },
+        9:  { rate: 150000, saku: 2000000, total: 3350000, agen: 4 },
+        10: { rate: 187500, saku: 2000000, total: 3875000, agen: 5 },
+        11: { rate: 217500, saku: 2000000, total: 4392500, agen: 5 },
+        12: { rate: 240000, saku: 2000000, total: 4880000, agen: 5 },
+        13: { rate: 262500, saku: 2000000, total: 5412500, agen: 5 },
+        14: { rate: 277500, saku: 2000000, total: 5885000, agen: 6 },
+        15: { rate: 292500, saku: 2000000, total: 6387500, agen: 6 },
+        16: { rate: 307500, saku: 2000000, total: 6920000, agen: 6 },
+        17: { rate: 322500, saku: 2000000, total: 7482500, agen: 6 },
+        18: { rate: 330000, saku: 2000000, total: 7940000, agen: 7 },
+        19: { rate: 345000, saku: 2000000, total: 8555000, agen: 7 },
+        20: { rate: 352500, saku: 2000000, total: 9050000, agen: 7 },
+        21: { rate: 360000, saku: 2000000, total: 9560000, agen: 7 }
+    };
+
+    let state = {
+        nominal: 10000000,
+        category: 'normal',
+        selectedTenor: 12,
+        activeTab: 'kalkulator',
+        leads: JSON.parse(localStorage.getItem('kliknsc_leads') || '[]'),
+        trackerTarget: parseInt(localStorage.getItem('kliknsc_target_unit') || '10', 10),
+        trackerCurrent: parseInt(localStorage.getItem('kliknsc_current_unit') || '3', 10),
+        calculatedAiPlafond: 0
+    };
+
+    let stnkBase64Data = null;
+    let stnkMimeType = "image/jpeg";
+
+    function toggleTheme() {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('kliknsc_theme', 'light');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('kliknsc_theme', 'dark');
+        }
+    }
+
+    function initTheme() {
+        const savedTheme = localStorage.getItem('kliknsc_theme');
+        if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    }
+
+    function formatRupiah(amount) {
+        if (isNaN(amount) || amount === null) return 'Rp 0';
+        return 'Rp ' + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function formatNumberInput(num) {
+        if (!num && num !== 0) return '';
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function parseInputNumber(val) {
+        if (!val) return 0;
+        return parseInt(val.toString().replace(/\D/g, ''), 10) || 0;
+    }
+
+    function calculateRate(amount, tenorIdx, categoryKey) {
+        const catData = BASE_DATABASE[categoryKey] || BASE_DATABASE.normal;
+        const knownAmounts = Object.keys(catData).map(Number).sort((a, b) => a - b);
+        
+        if (amount <= knownAmounts[0]) return catData[knownAmounts[0]][tenorIdx];
+        
+        const maxAmt = knownAmounts[knownAmounts.length - 1];
+        const secondMaxAmt = knownAmounts[knownAmounts.length - 2];
+
+        if (amount >= maxAmt) {
+            const maxVal = catData[maxAmt][tenorIdx];
+            const prevVal = catData[secondMaxAmt][tenorIdx];
+            const slope = (maxVal - prevVal) / (maxAmt - secondMaxAmt);
+            return Math.round((maxVal + (amount - maxAmt) * slope) / 100) * 100;
+        }
+
+        let lower = knownAmounts[0], upper = maxAmt;
+        for (let i = 0; i < knownAmounts.length - 1; i++) {
+            if (amount >= knownAmounts[i] && amount <= knownAmounts[i+1]) {
+                lower = knownAmounts[i]; upper = knownAmounts[i+1]; break;
+            }
+        }
+
+        if (lower === upper) return catData[lower][tenorIdx];
+        const ratio = (amount - lower) / (upper - lower);
+        return Math.round((catData[lower][tenorIdx] + ratio * (catData[upper][tenorIdx] - catData[lower][tenorIdx])) / 100) * 100;
+    }
+
+    function renderCategories() {
+        const container = document.getElementById('categoryContainer');
+        if (!container) return;
+        container.innerHTML = CATEGORIES.map(cat => {
+            const isActive = state.category === cat.id;
+            return `
+                <button onclick="selectCategory('${cat.id}')" class="p-2.5 rounded-xl border text-left transition flex items-center justify-between active:scale-95 cursor-pointer ${isActive ? `${cat.lightBg} ${cat.borderColor} border-2 shadow-sm` : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}">
+                    <div>
+                        <div class="font-extrabold text-xs text-slate-900 dark:text-white">${cat.name}</div>
+                        <div class="text-[10px] text-slate-500 font-medium">${cat.badge}</div>
+                    </div>
+                    <div class="w-3.5 h-3.5 rounded-full ${cat.color} ${isActive ? 'ring-2 ring-white dark:ring-slate-900 scale-110' : 'opacity-40'}"></div>
+                </button>
+            `;
+        }).join('');
+    }
+
+    function selectCategory(catId) {
+        state.category = catId;
+        renderCategories();
+        updateAllCalculations();
+        renderTable();
+    }
+
+    function handleInputChange(val) {
+        const num = parseInputNumber(val);
+        state.nominal = num;
+        document.getElementById('inputVal').value = formatNumberInput(num);
+        document.getElementById('rangeSlider').value = num <= 30000000 ? num : 30000000;
+        updateAllCalculations();
+    }
+
+    function handleSliderChange(val) {
+        const num = parseInt(val, 10);
+        state.nominal = num;
+        document.getElementById('inputVal').value = formatNumberInput(num);
+        updateAllCalculations();
+    }
+
+    function updateAllCalculations() {
+        const tenorIdx = TENORS.indexOf(state.selectedTenor);
+        const monthlyRate = calculateRate(state.nominal, tenorIdx, state.category);
+        const dailyRate = Math.round(monthlyRate / 30);
+
+        const monthlyEl = document.getElementById('selectedMonthlyText');
+        if (monthlyEl) {
+            monthlyEl.innerHTML = `${formatRupiah(monthlyRate)} <span class="text-xs font-normal text-slate-400">/ bulan</span>`;
+        }
+        
+        const pencairanEl = document.getElementById('selectedPencairanText');
+        if (pencairanEl) pencairanEl.innerText = formatRupiah(state.nominal);
+
+        const dailyEl = document.getElementById('selectedDailyText');
+        if (dailyEl) dailyEl.innerText = `± ${formatRupiah(dailyRate)} / hari`;
+
+        const badgeEl = document.getElementById('selectedTenorBadge');
+        if (badgeEl) badgeEl.innerText = `${state.selectedTenor} Bulan`;
+
+        renderTenorGrid();
+    }
+
+    function renderTenorGrid() {
+        const container = document.getElementById('tenorGridContainer');
+        if (!container) return;
+
+        container.innerHTML = TENORS.map(t => {
+            const idx = TENORS.indexOf(t);
+            const rate = calculateRate(state.nominal, idx, state.category);
+            const daily = Math.round(rate / 30);
+            const isSelected = state.selectedTenor === t;
+
+            return `
+                <div onclick="selectTenor(${t})" class="p-3 rounded-2xl border transition cursor-pointer active:scale-95 ${isSelected ? 'bg-blue-600 text-white border-blue-500 shadow-lg ring-2 ring-blue-400/50' : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-700/80 hover:border-blue-400'}">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-black ${isSelected ? 'text-blue-200' : 'text-slate-500 dark:text-slate-400'}">${t} Bulan</span>
+                        ${isSelected ? '<span class="bg-white/20 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">Terpilih</span>' : ''}
+                    </div>
+                    <div class="text-sm font-black ${isSelected ? 'text-white' : 'text-blue-600 dark:text-blue-400'}">${formatRupiah(rate)}</div>
+                    <div class="text-[9px] mt-0.5 ${isSelected ? 'text-blue-100 font-semibold' : 'text-emerald-600 dark:text-emerald-400 font-medium'}">± ${formatRupiah(daily)} / hari</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function selectTenor(t) {
+        state.selectedTenor = t;
+        updateAllCalculations();
+    }
+
+    function switchTab(tabName) {
+        state.activeTab = tabName;
+        const tabs = ['kalkulator', 'stnkAi', 'takeover', 'komparasi', 'checklist', 'script', 'bonus', 'tahun', 'leads', 'tabel'];
+        const btnMap = { 
+            kalkulator: 'tabCalcBtn', stnkAi: 'tabStnkAiBtn', takeover: 'tabTakeoverBtn', komparasi: 'tabCompareBtn', checklist: 'tabChecklistBtn',
+            script: 'tabScriptBtn', bonus: 'tabBonusBtn', tahun: 'tabYearBtn', leads: 'tabLeadsBtn', tabel: 'tabTableBtn' 
+        };
+        const viewMap = { 
+            kalkulator: 'kalkulatorView', stnkAi: 'stnkAiView', takeover: 'takeoverView', komparasi: 'komparasiView', checklist: 'checklistView',
+            script: 'scriptView', bonus: 'bonusView', tahun: 'tahunView', leads: 'leadsView', tabel: 'tabelView' 
+        };
+
+        tabs.forEach(t => {
+            const b = document.getElementById(btnMap[t]);
+            const v = document.getElementById(viewMap[t]);
+            if (t === tabName) {
+                if (b) b.className = "py-2 px-3 rounded-xl tab-transition flex items-center gap-1 bg-blue-600 text-white shadow-md active:scale-95 shrink-0 font-bold";
+                if (v) v.classList.remove('hidden');
+            } else {
+                if (b) b.className = "py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-bold";
+                if (v) v.classList.add('hidden');
+            }
+        });
+
+        if (tabName === 'takeover') calculateTakeover();
+        if (tabName === 'komparasi') renderComparison();
+        if (tabName === 'checklist') updateChecklistProgress();
+        if (tabName === 'script') generateScriptPromo();
+        if (tabName === 'bonus') { calculateSalesBonus(); updateGoalTracker(); }
+        if (tabName === 'tahun') checkVehicleYear();
+        if (tabName === 'leads') renderLeads();
+        if (tabName === 'tabel') renderTable();
+    }
+
+    function previewStnkImage(e) {
+        const file = e.target.files[0];
+        if (file) {
+            stnkMimeType = file.type || "image/jpeg";
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const dataUrl = evt.target.result;
+                document.getElementById('stnkPreviewImg').src = dataUrl;
+                document.getElementById('stnkPreviewContainer').classList.remove('hidden');
+                document.getElementById('stnkPreviewContainer').classList.add('flex');
+                
+                // Extract base64 part
+                if (dataUrl.includes(',')) {
+                    stnkBase64Data = dataUrl.split(',')[1];
+                }
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    async function analyzeSTNKWithAI() {
+        const btnLabel = document.getElementById('btnProcessStnkLabel');
+        const manualQuery = document.getElementById('stnkManualQuery')?.value.trim();
+
+        if (!stnkBase64Data && !manualQuery) {
+            alert("Silakan upload foto STNK atau ketik manual tipe & tahun motor terlebih dahulu!");
+            return;
+        }
+
+        if (btnLabel) btnLabel.innerText = "⚡ Menganalisis STNK dengan Gemini AI Vision...";
+
+        const isTanganPertama = document.getElementById('stnkTangan1')?.checked ?? true;
+        const factor = isTanganPertama ? 0.80 : 0.70;
+        const formulaPctText = isTanganPertama ? "Tangan Pertama (75.2%)" : "Tangan Kedua (65.8%)";
+
+        try {
+            const promptText = `Kamu adalah sistem OCR dan penilai kendaraan resmi untuk leasing KlikNSC Banten.
+Analisis foto STNK yang dilampirkan atau query berikut: "${manualQuery || ''}".
+
+Tugasmu:
+1. Ekstrak MERK, TIPE/KODE MODEL KENDARAAN persis seperti tercetak di STNK (contoh: HONDA H1B02N42L1A/T atau YAMAHA B6H AT), serta TAHUN PEMBUATAN / PERAKITAN. Format output: "MERK KODE_MODEL (TAHUN)".
+2. Estimasi HARGA PASARAN (Harpas) bekas kendaraan tersebut saat ini untuk wilayah Serang Banten (dalam angka integer Rupiah, misal 18500000).
+
+Kembalikan HANYA JSON valid dalam format ini:
+{
+  "motorName": "HONDA H1B02N42L1A/T (2025)",
+  "harpas": 18500000
+}`;
+
+            let parts = [{ text: promptText }];
+            if (stnkBase64Data) {
+                parts.push({
+                    inlineData: {
+                        mimeType: stnkMimeType,
+                        data: stnkBase64Data
+                    }
+                });
+            }
+
+            const payload = {
+                contents: [{ parts: parts }],
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            "motorName": { "type": "STRING" },
+                            "harpas": { "type": "NUMBER" }
+                        },
+                        "propertyOrdering": ["motorName", "harpas"]
+                    }
+                }
+            };
+
+            const apiKey = ""; // Canvas environment automatically supplies API Key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            // Retry logic with exponential backoff
+            let response = null;
+            let delay = 1000;
+            for (let i = 0; i < 3; i++) {
+                try {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) break;
+                } catch (e) {
+                    if (i === 2) throw e;
+                }
+                await new Promise(r => setTimeout(r, delay));
+                delay *= 2;
+            }
+
+            if (!response || !response.ok) {
+                throw new Error("Gagal terhubung ke server Gemini AI Vision");
+            }
+
+            const result = await response.json();
+            const jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            let motorName = manualQuery ? manualQuery.toUpperCase() : "HONDA H1B02N42L1A/T (2025)";
+            let estHarpas = 18500000;
+
+            if (jsonText) {
+                try {
+                    const parsed = JSON.parse(jsonText);
+                    if (parsed.motorName) motorName = parsed.motorName;
+                    if (parsed.harpas) estHarpas = parsed.harpas;
+                } catch(pe) {
+                    console.warn("Parsing JSON error fallback", pe);
+                }
+            }
+
+            // Calculate LTV
+            const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
+            state.calculatedAiPlafond = calculatedPlafond;
+
+            // Render Results
+            document.getElementById('stnkResultTanganBadge').innerText = formulaPctText;
+            document.getElementById('stnkResultMotorName').innerText = motorName;
+            document.getElementById('stnkResultHarpas').innerHTML = `Perkiraan Harpas Serang Banten: <b>${formatRupiah(estHarpas)}</b>`;
+            document.getElementById('stnkResultPlafond').innerText = formatRupiah(calculatedPlafond);
+            document.getElementById('stnkResultFormulaText').innerText = `Rumus NSC: ${formatRupiah(estHarpas)} × 94% × ${isTanganPertama ? '80%' : '70%'}`;
+
+            const card = document.getElementById('stnkAiResultCard');
+            if (card) {
+                card.classList.remove('hidden');
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+        } catch (err) {
+            console.error("Gemini AI error, fallback local logic:", err);
+            
+            // Fallback estimation
+            let motorName = manualQuery || "HONDA H1B02N42L1A/T (2025)";
+            let estHarpas = 18500000;
+            const qLower = motorName.toLowerCase();
+
+            if (qLower.includes('nmax') || qLower.includes('pcx') || qLower.includes('aerox')) estHarpas = 22500000;
+            else if (qLower.includes('vario') || qLower.includes('scoopy')) estHarpas = 16500000;
+            else if (qLower.includes('klx') || qLower.includes('crf')) estHarpas = 25000000;
+            else if (qLower.includes('mio') || qLower.includes('revo') || qLower.includes('supra')) estHarpas = 9500000;
+
+            const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
+            state.calculatedAiPlafond = calculatedPlafond;
+
+            document.getElementById('stnkResultTanganBadge').innerText = formulaPctText;
+            document.getElementById('stnkResultMotorName').innerText = motorName.toUpperCase();
+            document.getElementById('stnkResultHarpas').innerHTML = `Perkiraan Harpas Serang Banten: <b>${formatRupiah(estHarpas)}</b>`;
+            document.getElementById('stnkResultPlafond').innerText = formatRupiah(calculatedPlafond);
+            document.getElementById('stnkResultFormulaText').innerText = `Rumus NSC: ${formatRupiah(estHarpas)} × 94% × ${isTanganPertama ? '80%' : '70%'}`;
+
+            const card = document.getElementById('stnkAiResultCard');
+            if (card) {
+                card.classList.remove('hidden');
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        } finally {
+            if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
+        }
+    }
+
+    function useAiPlafondInCalculator() {
+        if (state.calculatedAiPlafond > 0) {
+            handleInputChange(state.calculatedAiPlafond);
+            switchTab('kalkulator');
+        }
+    }
+
+    function calculateTakeover() {
+        const newAmt = parseInputNumber(document.getElementById('takeoverPencairanNew').value);
+        const oldAmt = parseInputNumber(document.getElementById('takeoverPelunasanOld').value);
+
+        document.getElementById('takeoverPencairanNew').value = formatNumberInput(newAmt);
+        document.getElementById('takeoverPelunasanOld').value = formatNumberInput(oldAmt);
+
+        const netCash = newAmt - oldAmt;
+        const rate12x = calculateRate(newAmt, TENORS.indexOf(12), state.category);
+
+        document.getElementById('takeoverNetResult').innerText = formatRupiah(netCash);
+        document.getElementById('takeoverPencairanText').innerText = formatRupiah(newAmt);
+        document.getElementById('takeoverPelunasanText').innerText = `- ${formatRupiah(oldAmt)}`;
+        document.getElementById('takeoverAngsuranText').innerText = `${formatRupiah(rate12x)} / bln (12x)`;
+    }
+
+    function shareTakeoverWA() {
+        const newAmt = parseInputNumber(document.getElementById('takeoverPencairanNew').value);
+        const oldAmt = parseInputNumber(document.getElementById('takeoverPelunasanOld').value);
+        const netCash = newAmt - oldAmt;
+        const rate12x = calculateRate(newAmt, TENORS.indexOf(12), state.category);
+
+        const text = `*RINCIAN ESTIMASI TAKE OVER BPKB KLIKNSC*\n-----------------------------------\n• Pencairan Barunya: *${formatRupiah(newAmt)}*\n• Pelunasan Leasing Lama: *${formatRupiah(oldAmt)}*\n💵 *ESTIMASI DUIT SEGAR DITERIMA:* *${formatRupiah(netCash)}*\n\n📉 *Angsuran Baru:* ${formatRupiah(rate12x)} / bln (12 Bulan)\n\n_Solusi tambah modal usaha / pelunasan cepat BPKB. Hubungi Sales KlikNSC!_`;
+
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    }
+
+    function renderComparison() {
+        const t1 = parseInt(document.getElementById('compareTenor1').value, 10);
+        const t2 = parseInt(document.getElementById('compareTenor2').value, 10);
+        const m1 = calculateRate(state.nominal, TENORS.indexOf(t1), state.category);
+        const m2 = calculateRate(state.nominal, TENORS.indexOf(t2), state.category);
+        const d1 = Math.round(m1 / 30);
+        const d2 = Math.round(m2 / 30);
+
+        document.getElementById('comparisonResultContainer').innerHTML = `
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                <div class="bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-bold text-center py-1.5 rounded-xl text-xs">${t1} Bulan</div>
+                <div class="space-y-1 pt-1"><div class="text-[10px] text-slate-400">Angsuran:</div><div class="text-sm font-black text-slate-900 dark:text-white">${formatRupiah(m1)}</div><div class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">Setara: ± ${formatRupiah(d1)}/hari</div></div>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                <div class="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold text-center py-1.5 rounded-xl text-xs">${t2} Bulan</div>
+                <div class="space-y-1 pt-1"><div class="text-[10px] text-slate-400">Angsuran:</div><div class="text-sm font-black text-slate-900 dark:text-white">${formatRupiah(m2)}</div><div class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">Setara: ± ${formatRupiah(d2)}/hari</div></div>
+            </div>
+        `;
+    }
+
+    function updateChecklistProgress() {
+        const chks = ['chkKtp', 'chkKk', 'chkStnk', 'chkBpkb', 'chkRumah'];
+        let checkedCount = 0;
+        chks.forEach(id => { if (document.getElementById(id) && document.getElementById(id).checked) checkedCount++; });
+
+        const score = Math.round((checkedCount / chks.length) * 100);
+        document.getElementById('checklistScoreBadge').innerText = `${score}% Siap`;
+
+        const statusPajak = document.getElementById('chkPajakStatus').value;
+        const statusAn = document.getElementById('chkAnStatus').value;
+        const adviceBox = document.getElementById('checklistAdviceText');
+
+        let advice = [];
+        if (checkedCount === 5) advice.push("✅ Berkas utama sudah LENGKAP.");
+        else advice.push(`⚠ Masih ada ${5 - checkedCount} dokumen wajib yang belum dicentang.`);
+
+        if (statusPajak === 'mati1') advice.push("📌 Pajak STNK mati ≤ 1 thn: Masih bisa diproses, tanpa pemotongan.");
+        else if (statusPajak === 'mati2') advice.push("📌 Pajak STNK mati > 1 thn: Bisa dibantu pemutihan/potong pencairan.");
+
+        if (statusAn === 'oranglain') advice.push("📌 BPKB atas nama orang lain: Sertakan kuitansi jual beli / pelepasan hak.");
+
+        adviceBox.innerText = advice.join("\n");
+    }
+
+    function shareChecklistWA() {
+        const items = [
+            { id: 'chkKtp', label: 'KTP Pemohon & Pasangan / Penjamin' },
+            { id: 'chkKk', label: 'Kartu Keluarga (KK)' },
+            { id: 'chkStnk', label: 'STNK Asli Kendaraan' },
+            { id: 'chkBpkb', label: 'BPKB Asli & Faktur' },
+            { id: 'chkRumah', label: 'Bukti Kepemilikan Rumah (PBB / Rek Listrik)' }
+        ];
+
+        let checklistDetails = "";
+        items.forEach(item => {
+            const el = document.getElementById(item.id);
+            const isChecked = el ? el.checked : false;
+            checklistDetails += `${isChecked ? '✅' : '❌'} ${item.label}\n`;
+        });
+
+        const score = document.getElementById('checklistScoreBadge').innerText;
+        const advice = document.getElementById('checklistAdviceText').innerText;
+
+        const text = `📋 *CHECKLIST BERKAS PENGAJUAN KLIKNSC*\n\n📊 *Status Kelengkapan: ${score}*\n-----------------------------------\n*Rincian Berkas:*\n${checklistDetails}\n💡 *Catatan & Solusi Sales:*\n${advice}\n-----------------------------------\n_Mohon disiapkan dokumen di atas untuk mempercepat proses survei & pencairan. Terima kasih!_`;
+
+        const phoneInput = document.getElementById('chkWaPhone');
+        let rawPhone = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+        if (rawPhone.startsWith('0')) rawPhone = '62' + rawPhone.slice(1);
+
+        const waUrl = rawPhone.length >= 9 ? `https://api.whatsapp.com/send?phone=${rawPhone}&text=${encodeURIComponent(text)}` : `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+        window.location.href = waUrl;
+    }
+
+    function switchScriptSubTab(sub) {
+        const promoBtn = document.getElementById('subScriptTabPromo');
+        const objBtn = document.getElementById('subScriptTabObjection');
+        const promoView = document.getElementById('scriptPromoSubView');
+        const objView = document.getElementById('scriptObjectionSubView');
+
+        if (sub === 'promo') {
+            promoBtn.className = "flex-1 py-2 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm transition";
+            objBtn.className = "flex-1 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+            promoView.classList.remove('hidden');
+            objView.classList.add('hidden');
+        } else {
+            objBtn.className = "flex-1 py-2 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm transition";
+            promoBtn.className = "flex-1 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition";
+            objView.classList.remove('hidden');
+            promoView.classList.add('hidden');
+        }
+    }
+
+    function copyObjectionText(elementId) {
+        const txt = document.getElementById(elementId).innerText;
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(txt)}`;
+    }
+
+    function generateScriptPromo() {
+        const tmpl = document.getElementById('scriptTemplateSelect').value;
+        const m = calculateRate(state.nominal, TENORS.indexOf(state.selectedTenor), state.category);
+        const d = Math.round(m / 30);
+        let text = "";
+
+        if (tmpl === 'utuh') {
+            text = `🔥 *PROMO GADAI BPKB MOTOR - KLIKNSC SERANG* 🔥\n\nNeed Dana Tunai Cepat? BPKB Motor Kamu Solusinya!\n\n✨ *Keunggulan Program:* \n• Pencairan *UTUH TANPA POTONGAN*\n• Angsuran Super Ringan (${formatRupiah(m)}/bln - setara ${formatRupiah(d)}/hari)\n• Resmi, Aman, & Terpercaya\n\n📲 *Konsultasi Gratis:* Chat sekarang juga!`;
+        } else if (tmpl === 'pajak') {
+            text = `💡 *PAJAK MOTOR MATI? JANGAN KHUATIR!* 💡\n\nDi KlikNSC Serang, BPKB Motor Pajak Mati / Atas Nama Orang Lain *BISA DIPROSES*!\n\n• Estimasi Pencairan: *${formatRupiah(state.nominal)}*\n• Angsuran: *${formatRupiah(m)}* (${state.selectedTenor} Bulan)\n\nYuk cairkan dana tunai sekarang tanpa pusing pajak mati!`;
+        } else if (tmpl === 'proses') {
+            text = `⚡ *PROSES 1 HARI CAIR - KLIKNSC BANTEN* ⚡\n\nAjukan sekarang, tim survei langsung datang ke rumah area Serang & Sekitarnya.\n\n💰 *Pencairan Bersih:* ${formatRupiah(state.nominal)}\n📉 *Angsuran:* ${formatRupiah(m)} / bln (Cuma ± ${formatRupiah(d)}/hari)\n\nSyarat gampang: KTP, KK, STNK, BPKB. Hubungi Sales Resmi KlikNSC!`;
+        } else {
+            text = `Need dana cepat cair utuh? Gadai BPKB Motor di KlikNSC Serang aja! Pencairan ${formatRupiah(state.nominal)}, angsuran ${formatRupiah(m)}/bln (cuma ± ${formatRupiah(d)}/hari). Chat WA sekarang! 🚀`;
+        }
+
+        document.getElementById('scriptPreviewText').value = text;
+    }
+
+    function copyScriptPromo() {
+        const txt = document.getElementById('scriptPreviewText').value;
+        const btnText = document.getElementById('copyScriptBtnLabel');
+        btnText.innerText = "Tercopy!";
+        setTimeout(() => { btnText.innerText = "Salin Script Text Promo"; }, 2000);
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(txt)}`;
+    }
+
+    function updateGoalTracker() {
+        const target = parseInt(document.getElementById('trackerTargetUnit').value || '10', 10);
+        const current = parseInt(document.getElementById('trackerCurrentUnit').value || '0', 10);
+
+        state.trackerTarget = target;
+        state.trackerCurrent = current;
+        localStorage.setItem('kliknsc_target_unit', target);
+        localStorage.setItem('kliknsc_current_unit', current);
+
+        const pct = Math.min(100, Math.round((current / target) * 100));
+        document.getElementById('trackerPercentBadge').innerText = `${pct}% Achieved`;
+        document.getElementById('trackerProgressBar').style.width = `${pct}%`;
+
+        const diff = target - current;
+        const statusEl = document.getElementById('trackerStatusText');
+
+        if (diff <= 0) {
+            statusEl.innerHTML = `<b class="text-emerald-400">🔥 SELAMAT! Target ${target} Unit Tercapai! Bonus Penuh Siap Cair!</b>`;
+        } else {
+            const data = KBA_MATRIX[target] || KBA_MATRIX[10];
+            statusEl.innerText = `Kurang ${diff} unit lagi untuk tembus Total Bonus ${formatRupiah(data.total)}!`;
+        }
+    }
+
+    function adjustTrackerProgress(val) {
+        const currentInput = document.getElementById('trackerCurrentUnit');
+        let curr = parseInt(currentInput.value || '0', 10) + val;
+        if (curr < 0) curr = 0;
+        currentInput.value = curr;
+        updateGoalTracker();
+    }
+
+    function calculateSalesBonus() {
+        const rawP = document.getElementById('bonusPencairanInput').value.replace(/\D/g, '');
+        const p = parseInt(rawP || '0', 10);
+        document.getElementById('bonusPencairanInput').value = formatNumberInput(p);
+
+        const units = Math.floor(p / 9500000);
+        document.getElementById('bonusUnitInput').value = units;
+        
+        updateBonusDisplay(units);
+    }
+
+    function calculateSalesBonusFromUnits() {
+        const units = parseInt(document.getElementById('bonusUnitInput').value || '0', 10);
+        const estOmset = units * 9500000;
+        document.getElementById('bonusPencairanInput').value = formatNumberInput(estOmset);
+
+        updateBonusDisplay(units);
+    }
+
+    function updateBonusDisplay(units) {
+        let ratePerUnit = 0;
+        let uangSaku = 0;
+        let totalInsentif = 0;
+        let minAgen = 0;
+
+        if (units <= 0) {
+            ratePerUnit = 0; uangSaku = 0; totalInsentif = 0; minAgen = 0;
+        } else if (units >= 22) {
+            ratePerUnit = 360000;
+            uangSaku = 2000000;
+            const komisiTotal = units * ratePerUnit;
+            totalInsentif = uangSaku + komisiTotal;
+            minAgen = 7;
+        } else {
+            const data = KBA_MATRIX[units] || KBA_MATRIX[1];
+            ratePerUnit = data.rate;
+            uangSaku = data.saku;
+            totalInsentif = data.total;
+            minAgen = data.agen;
+        }
+
+        const totalKomisiUnit = units * ratePerUnit;
+
+        document.getElementById('bonusUnitBadge').innerText = `${units} Unit (${formatRupiah(units * 9500000)})`;
+        document.getElementById('bonusTotalResult').innerText = formatRupiah(totalInsentif);
+        document.getElementById('bonusBaseFeeText').innerHTML = `${formatRupiah(totalKomisiUnit)} <span id="ratePerUnitText" class="text-[9px] text-emerald-400 font-normal">(${formatRupiah(ratePerUnit)}/unit)</span>`;
+        document.getElementById('bonusRewardText').innerText = formatRupiah(uangSaku);
+        document.getElementById('bonusAgenText').innerText = minAgen > 0 ? `${minAgen} Agen Aktif` : `-`;
+    }
+
+    function generateSimulasiCardImage() {
+        const canvas = document.getElementById('simulationCanvas');
+        const ctx = canvas.getContext('2d');
+        const m = calculateRate(state.nominal, TENORS.indexOf(state.selectedTenor), state.category);
+        const d = Math.round(m / 30);
+        const cat = CATEGORIES.find(c => c.id === state.category);
+
+        ctx.fillStyle = "#0f172a";
+        ctx.fillRect(0, 0, 600, 700);
+
+        const grad = ctx.createLinearGradient(0, 0, 600, 0);
+        grad.addColorStop(0, '#1e3a8a');
+        grad.addColorStop(1, '#2563eb');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 600, 120);
+
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 32px sans-serif";
+        ctx.fillText("KlikNSC Mobile", 40, 60);
+        ctx.font = "20px sans-serif";
+        ctx.fillStyle = "#93c5fd";
+        ctx.fillText("ESTIMASI PEMBIAAYAAN BANTEN", 40, 95);
+
+        ctx.fillStyle = "#1e293b";
+        ctx.beginPath();
+        if (ctx.roundRect) {
+            ctx.roundRect(30, 150, 540, 500, 24);
+        } else {
+            ctx.rect(30, 150, 540, 500);
+        }
+        ctx.fill();
+
+        ctx.fillStyle = "#38bdf8";
+        ctx.font = "bold 20px sans-serif";
+        ctx.fillText("PROGRAM: " + cat.name.toUpperCase(), 60, 200);
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "18px sans-serif";
+        ctx.fillText("Pencairan Net (Bersih Terima):", 60, 250);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 38px sans-serif";
+        ctx.fillText(formatRupiah(state.nominal), 60, 295);
+
+        ctx.strokeStyle = "#334155";
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(60, 330); ctx.lineTo(540, 330); ctx.stroke();
+
+        ctx.fillStyle = "#94a3b8";
+        ctx.font = "18px sans-serif";
+        ctx.fillText("Angsuran Bulanan (" + state.selectedTenor + " Bulan):", 60, 380);
+        ctx.fillStyle = "#4ade80";
+        ctx.font = "bold 46px sans-serif";
+        ctx.fillText(formatRupiah(m) + " /bln", 60, 435);
+
+        ctx.fillStyle = "#38bdf8";
+        ctx.font = "bold 22px sans-serif";
+        ctx.fillText("Setara Cuma: ± " + formatRupiah(d) + " / hari", 60, 490);
+
+        ctx.fillStyle = "#64748b";
+        ctx.font = "italic 16px sans-serif";
+        ctx.fillText("*Pencairan utuh tanpa potongan admin tersembunyi.", 60, 560);
+        ctx.fillText("Hubungi Sales Resmi KlikNSC Serang Banten.", 60, 590);
+
+        const dataURL = canvas.toDataURL("image/png");
+        document.getElementById('downloadCanvasBtn').href = dataURL;
+        document.getElementById('cardModal').classList.remove('hidden');
+    }
+
+    function closeCardModal() { document.getElementById('cardModal').classList.add('hidden'); }
+
+    function checkVehicleYear() {
+        const year = parseInt(document.getElementById('vehicleYearSelect').value, 10);
+        const age = 2026 - year;
+        const badge = document.getElementById('yearStatusBadge');
+        const title = document.getElementById('yearStatusTitle');
+        const card = document.getElementById('yearCheckResultCard');
+
+        if (age <= 5) {
+            badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30";
+            badge.innerText = "Sangat Layak"; title.innerText = "Usia Motor Sangat Prima"; card.className = "bg-slate-900 text-white rounded-2xl p-4 shadow-xl border border-emerald-500/40";
+        } else if (age <= 10) {
+            badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30";
+            badge.innerText = "Layak Standar"; title.innerText = `Usia Motor ${age} Tahun`; card.className = "bg-slate-900 text-white rounded-2xl p-4 shadow-xl border border-amber-500/40";
+        } else {
+            badge.className = "text-xs px-2.5 py-0.5 rounded-full font-bold bg-rose-500/20 text-rose-300 border border-rose-400/30";
+            badge.innerText = "Perlu Verifikasi"; title.innerText = `Tahun Cukup Tua (${year})`; card.className = "bg-slate-900 text-white rounded-2xl p-4 shadow-xl border border-rose-500/40";
+        }
+    }
+
+    function renderTable() {
+        const activeCatObj = CATEGORIES.find(c => c.id === state.category) || CATEGORIES[0];
+        document.getElementById('tableCategoryLabel').innerText = `Tabel Brosur (${activeCatObj.name})`;
+        const filterVal = document.getElementById('searchFilterInput').value.replace(/\D/g, '');
+        const filteredPresets = PRESETS.filter(p => !filterVal || p.toString().includes(filterVal));
+
+        document.getElementById('tableBody').innerHTML = filteredPresets.map((p, i) => {
+            return `<tr onclick="selectPresetFromTable(${p})" class="cursor-pointer hover:bg-blue-50 dark:hover:bg-slate-800 transition ${i % 2 === 1 ? 'bg-slate-50/50 dark:bg-slate-900/50' : 'bg-white dark:bg-slate-800'}"><td class="p-2.5 font-bold text-blue-900 dark:text-blue-300">${formatRupiah(p)}</td><td class="p-2.5 text-right font-medium dark:text-slate-300">${formatRupiah(calculateRate(p, 2, state.category))}</td><td class="p-2.5 text-right font-medium dark:text-slate-300">${formatRupiah(calculateRate(p, 5, state.category))}</td><td class="p-2.5 text-right font-bold text-slate-900 dark:text-white">${formatRupiah(calculateRate(p, 7, state.category))}</td></tr>`;
+        }).join('');
+    }
+
+    function selectPresetFromTable(p) {
+        handleInputChange(p);
+        switchTab('kalkulator');
+    }
+
+    function openLeadModal() { document.getElementById('leadModal').classList.remove('hidden'); }
+    function closeLeadModal() { document.getElementById('leadModal').classList.add('hidden'); }
+
+    function saveLeadData() {
+        const name = document.getElementById('leadName').value.trim();
+        const phone = document.getElementById('leadPhone').value.trim();
+        const note = document.getElementById('leadNote').value.trim();
+        if (!name || !phone) return alert("Nama dan Nomor WhatsApp wajib diisi!");
+
+        const idx = TENORS.indexOf(state.selectedTenor);
+        const m = calculateRate(state.nominal, idx, state.category);
+        
+        state.leads.unshift({
+            id: Date.now(), name, phone, note: note || 'Tidak ada catatan',
+            nominal: formatRupiah(state.nominal), program: CATEGORIES.find(c => c.id === state.category).name,
+            tenor: state.selectedTenor, monthly: formatRupiah(m), daily: formatRupiah(Math.round(m/30)),
+            date: new Date().toLocaleDateString('id-ID')
+        });
+
+        localStorage.setItem('kliknsc_leads', JSON.stringify(state.leads));
+        closeLeadModal(); switchTab('leads');
+        document.getElementById('leadName').value = ''; document.getElementById('leadPhone').value = ''; document.getElementById('leadNote').value = '';
+    }
+
+    function renderLeads() {
+        document.getElementById('leadsCountBadge').innerText = state.leads.length;
+        const container = document.getElementById('leadsListContainer');
+        if (state.leads.length === 0) {
+            container.innerHTML = `<div class="bg-white dark:bg-slate-800/90 rounded-2xl p-6 text-center text-slate-400 border border-slate-200 dark:border-slate-700"><p class="text-xs font-bold text-slate-600 dark:text-slate-300">Belum ada data lead tersimpan</p></div>`; return;
+        }
+        container.innerHTML = state.leads.map(l => `
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-3.5 border border-slate-200/80 dark:border-slate-700/60 shadow-sm relative">
+                <div class="flex items-center justify-between mb-2"><div><h4 class="font-bold text-xs text-slate-900 dark:text-white">${l.name}</h4><p class="text-[10px] text-blue-600 dark:text-blue-400">${l.phone}</p></div><span class="text-[10px] text-slate-500 dark:text-slate-400">${l.date}</span></div>
+                <div class="text-[11px] bg-slate-50 dark:bg-slate-900 p-2 rounded-xl border border-slate-200 dark:border-slate-700/80 grid grid-cols-2 gap-1 mb-2 dark:text-slate-300"><div>Cair: <b>${l.nominal}</b></div><div>Angsuran: <b>${l.monthly} (${l.tenor}x)</b></div><div class="col-span-2">Notes: <i>${l.note}</i></div></div>
+                <div class="flex gap-2">
+                    <a href="https://api.whatsapp.com/send?phone=${l.phone.replace(/\D/g,'')}&text=${encodeURIComponent(`Halo ${l.name},\nRincian KlikNSC:\nCair: ${l.nominal}\nAngsuran: ${l.monthly} (${l.tenor}x)`)}" class="flex-1 bg-emerald-600 text-white font-bold py-1.5 rounded-xl text-center text-xs shadow-sm hover:bg-emerald-700 transition">Kirim WA</a>
+                    <button onclick="deleteLead(${l.id})" class="bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 px-3 rounded-xl text-xs font-bold border border-rose-200 dark:border-rose-800/50">Hapus</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function deleteLead(id) { state.leads = state.leads.filter(l => l.id !== id); localStorage.setItem('kliknsc_leads', JSON.stringify(state.leads)); renderLeads(); }
+    function clearAllLeads() { if (confirm("Hapus semua lead?")) { state.leads = []; localStorage.removeItem('kliknsc_leads'); renderLeads(); } }
+
+    function copyToWhatsApp() {
+        const cat = CATEGORIES.find(c => c.id === state.category);
+        const m = calculateRate(state.nominal, TENORS.indexOf(state.selectedTenor), state.category);
+        const d = Math.round(m / 30);
+        const text = `*SIMULASI ANGSURAN KLIKNSC (SRN31)*\n\n📍 *Wilayah:* Serang, Banten\n📌 *Pencairan Bersih:* ${formatRupiah(state.nominal)}\n🔖 *Program:* ${cat.name} (${cat.badge})\n\n⭐ *Pilihan Terpilih (${state.selectedTenor} Bulan):*\n• Angsuran: *${formatRupiah(m)} / bln*\n• Setara Cuma: *± ${formatRupiah(d)} / hari*\n\n_Pencairan utuh tanpa potongan. Hubungi Sales Resmi KlikNSC._`;
+        
+        const btnText = document.getElementById('copyBtnText'); 
+        if (btnText) {
+            btnText.innerText = "Tercopy!"; 
+            setTimeout(() => { btnText.innerText = "Salin WA"; }, 2500);
+        }
+
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    }
+
+    window.onload = function() {
+        initTheme();
+        renderCategories();
+        updateAllCalculations();
+        calculateSalesBonus();
+        document.getElementById('trackerTargetUnit').value = state.trackerTarget;
+        document.getElementById('trackerCurrentUnit').value = state.trackerCurrent;
+        updateGoalTracker();
+        document.getElementById('leadsCountBadge').innerText = state.leads.length;
+    };
+</script>
+</body>
+</html>
