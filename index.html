@@ -248,6 +248,7 @@
                         <span>12 JT</span>
                         <span>21 JT</span>
                         <span>30 JT</span>
+                        <span>35 JT</span>
                     </div>
                 </div>
             </div>
@@ -432,11 +433,25 @@
                     </div>
 
                     <div>
-                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">2. Sisa Pelunasan di Leasing Lama (TEV):</label>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">2. Sisa Pelunasan di Leasing Lama:</label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
                             <input type="text" id="takeoverPelunasanOld" oninput="calculateTakeover()" value="6.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
                         </div>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">3. Pilih Tenor Angsuran Baru:</label>
+                        <select id="takeoverTenorSelect" onchange="calculateTakeover()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <option value="8">8 Bulan</option>
+                            <option value="11">11 Bulan</option>
+                            <option value="12" selected>12 Bulan</option>
+                            <option value="18">18 Bulan</option>
+                            <option value="20">20 Bulan</option>
+                            <option value="24">24 Bulan</option>
+                            <option value="30">30 Bulan</option>
+                            <option value="36">36 Bulan</option>
+                        </select>
                     </div>
                 </div>
 
@@ -446,16 +461,24 @@
                         <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-bold">Net Cash</span>
                     </div>
 
-                    <div id="takeoverNetResult" class="text-3xl font-black text-emerald-400 tracking-tight">Rp 9.000.000</div>
+                    <div id="takeoverNetResult" class="text-3xl font-black text-emerald-400 tracking-tight">Rp 8.400.000</div>
 
                     <div class="text-[11px] text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Pencairan Baru:</span>
+                            <span class="text-slate-400">Pencairan Baru :</span>
                             <b id="takeoverPencairanText" class="text-white">Rp 15.000.000</b>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Dipotong Pelunasan Lama:</span>
+                            <span class="text-slate-400">Sisa Pelunasan Pokok :</span>
                             <b id="takeoverPelunasanText" class="text-rose-400">- Rp 6.000.000</b>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Biaya Tambahan :</span>
+                            <b id="takeoverFee10Text" class="text-rose-400">- Rp 600.000</b>
+                        </div>
+                        <div class="flex justify-between border-t border-slate-800/60 pt-1">
+                            <span class="text-slate-300 font-bold">Total Potongan Pelunasan:</span>
+                            <b id="takeoverTotalPelunasanText" class="text-rose-300 font-extrabold">- Rp 6.600.000</b>
                         </div>
                         <div class="flex justify-between border-t border-slate-800/60 pt-1.5 mt-1">
                             <span class="text-slate-400">Estimasi Angsuran Baru:</span>
@@ -1492,26 +1515,39 @@ Kembalikan HANYA JSON valid dalam format ini:
     function calculateTakeover() {
         const newAmt = parseInputNumber(document.getElementById('takeoverPencairanNew').value);
         const oldAmt = parseInputNumber(document.getElementById('takeoverPelunasanOld').value);
+        const tenor = parseInt(document.getElementById('takeoverTenorSelect').value || '12', 10);
 
         document.getElementById('takeoverPencairanNew').value = formatNumberInput(newAmt);
         document.getElementById('takeoverPelunasanOld').value = formatNumberInput(oldAmt);
 
-        const netCash = newAmt - oldAmt;
-        const rate12x = calculateRate(newAmt, TENORS.indexOf(12), state.category);
+        const fee10Pct = Math.round(oldAmt * 0.10);
+        const totalPelunasan = oldAmt + fee10Pct;
+        const netCash = newAmt - totalPelunasan;
+        const rateSelected = calculateRate(newAmt, TENORS.indexOf(tenor), state.category);
 
         document.getElementById('takeoverNetResult').innerText = formatRupiah(netCash);
         document.getElementById('takeoverPencairanText').innerText = formatRupiah(newAmt);
         document.getElementById('takeoverPelunasanText').innerText = `- ${formatRupiah(oldAmt)}`;
-        document.getElementById('takeoverAngsuranText').innerText = `${formatRupiah(rate12x)} / bln (12x)`;
+        
+        const feeEl = document.getElementById('takeoverFee10Text');
+        if (feeEl) feeEl.innerText = `- ${formatRupiah(fee10Pct)}`;
+
+        const totalPelunasanEl = document.getElementById('takeoverTotalPelunasanText');
+        if (totalPelunasanEl) totalPelunasanEl.innerText = `- ${formatRupiah(totalPelunasan)}`;
+
+        document.getElementById('takeoverAngsuranText').innerText = `${formatRupiah(rateSelected)} / bln (${tenor}x)`;
     }
 
     function shareTakeoverWA() {
         const newAmt = parseInputNumber(document.getElementById('takeoverPencairanNew').value);
         const oldAmt = parseInputNumber(document.getElementById('takeoverPelunasanOld').value);
-        const netCash = newAmt - oldAmt;
-        const rate12x = calculateRate(newAmt, TENORS.indexOf(12), state.category);
+        const tenor = parseInt(document.getElementById('takeoverTenorSelect').value || '12', 10);
+        const fee10Pct = Math.round(oldAmt * 0.10);
+        const totalPelunasan = oldAmt + fee10Pct;
+        const netCash = newAmt - totalPelunasan;
+        const rateSelected = calculateRate(newAmt, TENORS.indexOf(tenor), state.category);
 
-        const text = `*RINCIAN ESTIMASI TAKE OVER BPKB KLIKNSC*\n-----------------------------------\n• Pencairan Barunya: *${formatRupiah(newAmt)}*\n• Pelunasan Leasing Lama: *${formatRupiah(oldAmt)}*\n💵 *ESTIMASI DUIT SEGAR DITERIMA:* *${formatRupiah(netCash)}*\n\n📉 *Angsuran Baru:* ${formatRupiah(rate12x)} / bln (12 Bulan)\n\n_Solusi tambah modal usaha / pelunasan cepat BPKB. Hubungi Sales KlikNSC!_`;
+        const text = `*RINCIAN ESTIMASI TAKE OVER BPKB KLIKNSC*\n-----------------------------------\n• Pencairan Barunya: *${formatRupiah(newAmt)}*\n• Sisa Pelunasan Pokok: *${formatRupiah(oldAmt)}*\n• Denda/Biaya Pelunasan (10%): *${formatRupiah(fee10Pct)}*\n• Total Potongan Pelunasan: *${formatRupiah(totalPelunasan)}*\n💵 *ESTIMASI DUIT SEGAR DITERIMA:* *${formatRupiah(netCash)}*\n\n📉 *Angsuran Baru:* ${formatRupiah(rateSelected)} / bln (${tenor} Bulan)\n\n_Solusi tambah modal usaha / pelunasan cepat BPKB. Hubungi Sales KlikNSC!_`;
 
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
