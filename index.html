@@ -390,20 +390,18 @@
                     <span class="text-[10px] text-purple-300 font-bold uppercase tracking-wider flex items-center gap-1">
                         ✨ HASIL ANALISIS AI & PLAFOND NSC
                     </span>
-                    <span id="stnkResultTanganBadge" class="bg-purple-500/20 text-purple-300 text-[10px] px-2 py-0.5 rounded-full border border-purple-400/30 font-bold">
-                        Tangan Pertama (75.2%)
-                    </span>
+                    <span id="stnkResultTanganBadge" class="bg-purple-500/20 text-purple-300 text-[10px] px-2 py-0.5 rounded-full border border-purple-400/30 font-bold"></span>
                 </div>
 
                 <div>
-                    <div id="stnkResultMotorName" class="text-base font-black text-white">HONDA H1B02N42L1A/T (2025)</div>
-                    <div id="stnkResultHarpas" class="text-xs text-purple-200 mt-0.5">Perkiraan Harpas Serang Banten: <b>Rp 18.500.000</b></div>
+                    <div id="stnkResultMotorName" class="text-base font-black text-white"></div>
+                    <div id="stnkResultHarpas" class="text-xs text-purple-200 mt-0.5"></div>
                 </div>
 
                 <div class="bg-black/40 p-3 rounded-xl border border-purple-500/30 space-y-1">
                     <div class="text-[10px] text-slate-400">Rekomendasi Plafond Maksimal Aman NSC:</div>
-                    <div id="stnkResultPlafond" class="text-2xl font-black text-emerald-400">Rp 13.900.000</div>
-                    <div id="stnkResultFormulaText" class="text-[10px] text-slate-300 italic">Rumus NSC: Rp 18.500.000 × 94% × 80%</div>
+                    <div id="stnkResultPlafond" class="text-2xl font-black text-emerald-400"></div>
+                    <div id="stnkResultFormulaText" class="text-[10px] text-slate-300 italic"></div>
                 </div>
 
                 <button onclick="useAiPlafondInCalculator()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
@@ -1418,6 +1416,7 @@ Kembalikan HANYA JSON valid dalam format ini:
                 }
             };
 
+            // API key dibiarkan kosong (""), lingkungan runtime akan mengisi secara otomatis
             const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
@@ -1439,23 +1438,22 @@ Kembalikan HANYA JSON valid dalam format ini:
             }
 
             if (!response || !response.ok) {
-                throw new Error("Gagal terhubung ke server Gemini AI Vision");
+                throw new Error("Gagal terhubung ke Gemini AI Vision Server.");
             }
 
             const result = await response.json();
             const jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-            let motorName = manualQuery ? manualQuery.toUpperCase() : "HONDA H1B02N42L1A/T (2025)";
-            let estHarpas = 18500000;
+            if (!jsonText) {
+                throw new Error("Respon dari Gemini AI tidak valid atau tidak terbaca.");
+            }
 
-            if (jsonText) {
-                try {
-                    const parsed = JSON.parse(jsonText);
-                    if (parsed.motorName) motorName = parsed.motorName;
-                    if (parsed.harpas) estHarpas = parsed.harpas;
-                } catch(pe) {
-                    console.warn("Parsing JSON error fallback", pe);
-                }
+            const parsed = JSON.parse(jsonText);
+            const motorName = parsed.motorName || (manualQuery ? manualQuery.toUpperCase() : "TIDAK TERDETEKSI");
+            const estHarpas = parsed.harpas || 0;
+
+            if (estHarpas <= 0) {
+                throw new Error("Gemini AI tidak dapat memprediksi harga pasar kendaraan ini.");
             }
 
             const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
@@ -1472,33 +1470,11 @@ Kembalikan HANYA JSON valid dalam format ini:
                 card.classList.remove('hidden');
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
+            showToast("STNK berhasil dianalisis murni dengan Gemini AI!", "✨");
 
         } catch (err) {
-            console.error("Gemini AI error, fallback local logic:", err);
-            
-            let motorName = manualQuery || "HONDA H1B02N42L1A/T (2025)";
-            let estHarpas = 18500000;
-            const qLower = motorName.toLowerCase();
-
-            if (qLower.includes('nmax') || qLower.includes('pcx') || qLower.includes('aerox')) estHarpas = 22500000;
-            else if (qLower.includes('vario') || qLower.includes('scoopy')) estHarpas = 16500000;
-            else if (qLower.includes('klx') || qLower.includes('crf')) estHarpas = 25000000;
-            else if (qLower.includes('mio') || qLower.includes('revo') || qLower.includes('supra')) estHarpas = 9500000;
-
-            const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
-            state.calculatedAiPlafond = calculatedPlafond;
-
-            document.getElementById('stnkResultTanganBadge').innerText = formulaPctText;
-            document.getElementById('stnkResultMotorName').innerText = motorName.toUpperCase();
-            document.getElementById('stnkResultHarpas').innerHTML = `Perkiraan Harpas Serang Banten: <b>${formatRupiah(estHarpas)}</b>`;
-            document.getElementById('stnkResultPlafond').innerText = formatRupiah(calculatedPlafond);
-            document.getElementById('stnkResultFormulaText').innerText = `Rumus NSC: ${formatRupiah(estHarpas)} × 94% × ${isTanganPertama ? '80%' : '70%'}`;
-
-            const card = document.getElementById('stnkAiResultCard');
-            if (card) {
-                card.classList.remove('hidden');
-                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
+            console.error("Gemini AI error:", err);
+            showToast(err.message || "Gagal memproses STNK dengan Gemini AI.", "❌");
         } finally {
             if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
         }
