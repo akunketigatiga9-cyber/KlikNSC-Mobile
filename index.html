@@ -11,7 +11,6 @@
     <meta name="apple-mobile-web-app-title" content="KlikNSC Brosur">
     <meta name="theme-color" content="#0f172a">
 
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -77,7 +76,6 @@
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 
-<!-- Login Screen Overlay -->
 <div id="loginOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
     <div class="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl text-white space-y-5">
         <div class="text-center space-y-2">
@@ -90,7 +88,7 @@
             <p class="text-xs text-slate-400">Masukkan ID KBA & PIN KBA Banten Anda</p>
         </div>
 
-        <form onsubmit="handleLogin(event)" class="space-y-4">
+        <form id="loginForm" class="space-y-4">
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">ID / Kode KBA</label>
                 <input type="text" id="loginSalesId" required placeholder="Cth: SRN31 / CRS31" value="SRN31" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase transition" />
@@ -117,7 +115,6 @@
     </div>
 </div>
 
-<!-- Toast Notification -->
 <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white border border-slate-700 px-4 py-2.5 rounded-2xl shadow-2xl text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none transform -translate-y-4 flex items-center gap-2">
     <span id="toastIcon">💡</span>
     <span id="toastMessage">Pesan Notifikasi</span>
@@ -125,7 +122,6 @@
 
 <div class="w-full max-w-md bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen sm:min-h-[844px] sm:rounded-[40px] sm:shadow-2xl sm:border-[8px] sm:border-slate-800 overflow-hidden flex flex-col relative pb-24 transition-all duration-300">
     
-    <!-- Header -->
     <header class="bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 text-white p-4 sticky top-0 z-40 shadow-lg backdrop-blur-md border-b border-blue-800/40">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -149,16 +145,16 @@
 
             <!-- Header Actions: Gemini Key, Logout & Theme Toggle -->
             <div class="flex items-center gap-1.5">
-                <button onclick="openApiKeyModal()" title="Pengaturan Gemini API Key" class="p-2.5 rounded-2xl bg-white/10 hover:bg-amber-500/20 active:scale-95 transition border border-white/10 text-amber-300 flex items-center justify-center cursor-pointer">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                <button id="apiKeyModalBtn" title="Pengaturan Gemini API Key" class="p-2.5 rounded-2xl bg-amber-500/20 hover:bg-amber-500/30 active:scale-95 transition border border-amber-400/30 text-amber-300 flex items-center justify-center cursor-pointer">
+                    <svg class="w-5 h-5 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
                 </button>
 
-                <button onclick="promptLogout()" title="Keluar / Logout" class="p-2.5 rounded-2xl bg-white/10 hover:bg-rose-500/20 active:scale-95 transition border border-white/10 text-rose-300 hover:text-rose-200 flex items-center justify-center cursor-pointer">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                <button id="logoutBtn" title="Keluar / Logout" class="p-2.5 rounded-2xl bg-rose-500/20 hover:bg-rose-500/30 active:scale-95 transition border border-rose-400/30 text-rose-300 flex items-center justify-center cursor-pointer">
+                    <svg class="w-5 h-5 text-rose-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 </button>
 
-                <button onclick="toggleTheme()" class="p-2.5 rounded-2xl bg-white/10 hover:bg-white/20 active:scale-95 transition border border-white/10 text-amber-300 dark:text-blue-300 flex items-center justify-center cursor-pointer">
-                    <svg id="themeIconSun" class="w-5 h-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <button id="themeToggleBtn" class="p-2.5 rounded-2xl bg-blue-500/20 hover:bg-blue-500/30 active:scale-95 transition border border-blue-400/30 text-blue-300 flex items-center justify-center cursor-pointer">
+                    <svg id="themeIconSun" class="w-5 h-5 hidden dark:block text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                     </svg>
                     <svg id="themeIconMoon" class="w-5 h-5 block dark:hidden text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -169,51 +165,58 @@
         </div>
     </header>
 
-    <!-- Top Horizontal Tab Scroll -->
-    <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 py-2.5 flex gap-1.5 text-[11px] font-bold shadow-sm sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
-        <button id="tabCalcBtn" onclick="switchTab('kalkulator')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 bg-blue-600 text-white shadow-md active:scale-95 shrink-0 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-            Kalkulator
+    <div class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex gap-2 text-[11px] font-bold shadow-md sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
+        <button id="tabCalcBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-blue-600 text-white border border-blue-400/50 shadow-md active:scale-95 shrink-0">
+            <svg class="w-4 h-4 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+            <span>Kalkulator</span>
         </button>
-        <button id="tabPollingBtn" onclick="switchTab('polling')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-emerald-600 dark:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-extrabold cursor-pointer">
-            <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-            Polling Pengajuan WA
+
+        <button id="tabPollingBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-emerald-600/20 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            <span>Polling Pengajuan WA</span>
         </button>
-        <button id="tabStnkAiBtn" onclick="switchTab('stnkAi')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-purple-600 dark:text-purple-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-extrabold cursor-pointer">
-            <svg class="w-3.5 h-3.5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            Scan STNK (AI)
+
+        <button id="tabStnkAiBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-purple-600/20 text-purple-300 border border-purple-500/50 hover:bg-purple-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Scan STNK (AI)</span>
         </button>
-        <button id="tabKtpAiBtn" onclick="switchTab('ktpAi')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-teal-600 dark:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-extrabold cursor-pointer">
-            <svg class="w-3.5 h-3.5 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
-            Scan KTP (AI)
+
+        <button id="tabKtpAiBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-teal-600/20 text-teal-300 border border-teal-500/50 hover:bg-teal-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
+            <span>Scan KTP & KK (AI)</span>
         </button>
-        <button id="tabTakeoverBtn" onclick="switchTab('takeover')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-            Take Over
+
+        <button id="tabTakeoverBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-amber-600/20 text-amber-300 border border-amber-500/50 hover:bg-amber-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            <span>Take Over</span>
         </button>
-        <button id="tabChecklistBtn" onclick="switchTab('checklist')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            Checklist Syarat
+
+        <button id="tabChecklistBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-emerald-600/20 text-emerald-300 border border-emerald-500/50 hover:bg-emerald-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span>Checklist Syarat</span>
         </button>
-        <button id="tabScriptBtn" onclick="switchTab('script')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            Script & Tangkisan
+
+        <button id="tabScriptBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-indigo-600/20 text-indigo-300 border border-indigo-500/50 hover:bg-indigo-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Script & Tangkisan</span>
         </button>
-        <button id="tabBonusBtn" onclick="switchTab('bonus')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            Insentif & Target
+
+        <button id="tabBonusBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-rose-600/20 text-rose-300 border border-rose-500/50 hover:bg-rose-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Insentif & Target</span>
         </button>
-        <button id="tabYearBtn" onclick="switchTab('tahun')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            Cek Tahun
+
+        <button id="tabYearBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-cyan-600/20 text-cyan-300 border border-cyan-500/50 hover:bg-cyan-600/30 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Cek Tahun</span>
         </button>
-        <button id="tabTableBtn" onclick="switchTab('tabel')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 cursor-pointer">
-            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            Tabel Brosur
+
+        <button id="tabTableBtn" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-slate-700/60 text-slate-200 border border-slate-600/80 hover:bg-slate-700 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Tabel Brosur</span>
         </button>
     </div>
 
-    <!-- Main Views Body -->
     <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
 
         <!-- VIEW 1: KALKULATOR -->
@@ -236,7 +239,6 @@
                     <input
                         type="text"
                         id="inputVal"
-                        oninput="handleInputChange(this.value)"
                         class="w-full text-xl font-black text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700 rounded-xl pl-11 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:focus:bg-slate-950 transition"
                         placeholder="10.000.000"
                         value="10.000.000"
@@ -251,7 +253,6 @@
                         max="30000000"
                         step="500000"
                         value="10000000"
-                        oninput="handleSliderChange(this.value)"
                         class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 dark:bg-slate-700 rounded-lg"
                     />
                     <div class="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 font-semibold px-0.5">
@@ -259,7 +260,6 @@
                         <span>12 JT</span>
                         <span>21 JT</span>
                         <span>30 JT</span>
-                        <span>35 JT</span>
                     </div>
                 </div>
             </div>
@@ -304,7 +304,7 @@
 
                 <div>
                     <button
-                        onclick="copyToWhatsApp()"
+                        id="copyWhatsAppBtn"
                         class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-md cursor-pointer"
                     >
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -324,7 +324,7 @@
 
         </div>
 
-        <!-- VIEW 2: POLLING PENGAJUAN WA (SESUAI FORMAT TEAM) -->
+        <!-- VIEW 2: POLLING PENGAJUAN WA -->
         <div id="pollingView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-emerald-200 dark:border-emerald-800/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -332,11 +332,11 @@
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                         Form Polling Pengajuan WA
                     </h3>
-                    <span class="text-[10px] bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Format Tim KBA</span>
+                    <span id="pollFormHeaderBadge" class="text-[10px] bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">FORM PENGAJUAN M2W SRN31</span>
                 </div>
 
                 <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Isi data pengajuan nasabah di bawah. Format pesan disesuaikan persis dengan standar <b id="pollFormHeaderBadge">FORM PENGAJUAN M2W SRN31</b> untuk dilempar ke grup WA!
+                    Isi data pengajuan nasabah di bawah. Format pesan disesuaikan persis dengan standar tim KBA.
                 </p>
 
                 <div class="space-y-2 text-xs">
@@ -368,8 +368,8 @@
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">6. Pengajuan (Pencairan):</label>
-                            <input type="text" id="pollNominal" oninput="formatPollNominal(this)" placeholder="8.500.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">6. Pengajuan:</label>
+                            <input type="text" id="pollNominal" placeholder="8.500.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600" />
                         </div>
                         <div>
                             <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">7. Tenor Angsuran:</label>
@@ -387,20 +387,20 @@
                     </div>
 
                     <div>
-                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">8. Alamat Tinggal (Sesuai KTP / Domisili):</label>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">8. Alamat Tinggal:</label>
                         <textarea id="pollAlamat" rows="2" placeholder="Jl. Ki uju kaujon tengah rt. 004 rw. 002 kel. Serang kec serang" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs"></textarea>
                     </div>
                 </div>
 
                 <div class="pt-2 grid grid-cols-2 gap-2">
-                    <button onclick="copyPollingText()" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700">
+                    <button id="copyPollingBtn" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                        <span>Salin Format Polling</span>
+                        <span>Salin Polling</span>
                     </button>
 
-                    <button onclick="sharePollingWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                    <button id="sharePollingWABtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                        <span>Share ke Grup WA</span>
+                        <span>Share ke WA</span>
                     </button>
                 </div>
             </div>
@@ -445,7 +445,7 @@
                 <!-- Input Foto STNK -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">1. Upload Foto STNK (Opsional):</label>
-                    <input type="file" id="stnkImageInput" accept="image/*" onchange="previewStnkImage(event)" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer" />
+                    <input type="file" id="stnkImageInput" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer" />
                     
                     <div id="stnkPreviewContainer" class="hidden justify-center my-2">
                         <img id="stnkPreviewImg" class="max-h-48 rounded-xl shadow border border-slate-300 dark:border-slate-700 object-cover" />
@@ -480,7 +480,7 @@
                     </div>
                 </div>
 
-                <button onclick="analyzeSTNKWithAI()" id="btnProcessStnk" class="w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                <button id="btnProcessStnk" class="w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     <span id="btnProcessStnkLabel">Hitung Plafond Maksimal Aman</span>
                 </button>
@@ -506,97 +506,113 @@
                     <div id="stnkResultFormulaText" class="text-[10px] text-slate-300 italic"></div>
                 </div>
 
-                <button onclick="useAiPlafondInCalculator()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                <button id="useAiPlafondBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Gunakan Nilai Ini di Kalkulator</span>
                 </button>
             </div>
         </div>
 
-        <!-- VIEW 4: SCAN KTP (AI) -->
+        <!-- VIEW 4: SCAN KTP & KK (AI) - MULTI DOKUMEN -->
         <div id="ktpAiView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-teal-200 dark:border-teal-800/60 space-y-3">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
-                        AI Vision KTP OCR & Auto-Extract
+                        AI Scanner Dokumen (KTP & KK)
                     </h3>
-                    <span class="text-[10px] bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 font-bold px-2 py-0.5 rounded-md border border-teal-200 dark:border-teal-800/50">Siap Paste</span>
+                    <span class="text-[10px] bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 font-bold px-2 py-0.5 rounded-md border border-teal-200 dark:border-teal-800/50">Auto-Fill Polling</span>
                 </div>
 
                 <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Foto KTP nasabah. AI akan mengestrak data secara rapi. Tap baris mana saja untuk menyalin data satuan, atau blok teks langsung pakai jari.
+                    Pilih tipe dokumen (<b>KTP Pemohon</b>, <b>KTP Penjamin</b>, atau <b>Kartu Keluarga</b>). Hasilnya otomatis mengisi Form Polling Pengajuan WA!
                 </p>
 
-                <!-- Input Foto KTP -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Upload / Foto KTP Nasabah:</label>
-                    <input type="file" id="ktpImageInput" accept="image/*" onchange="previewKtpImage(event)" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-teal-600 file:text-white hover:file:bg-teal-700 cursor-pointer" />
+                <!-- Selector Jenis Dokumen -->
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Pilih Jenis Dokumen:</label>
+                    <div class="grid grid-cols-3 gap-1.5">
+                        <button type="button" id="docTypeBtnPemohon" class="py-2 px-2 rounded-xl border text-[11px] font-bold text-center transition cursor-pointer bg-teal-600 text-white border-teal-500 shadow-sm">
+                            🪪 KTP Pemohon
+                        </button>
+                        <button type="button" id="docTypeBtnPenjamin" class="py-2 px-2 rounded-xl border text-[11px] font-bold text-center transition cursor-pointer bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700">
+                            🪪 KTP Penjamin
+                        </button>
+                        <button type="button" id="docTypeBtnKK" class="py-2 px-2 rounded-xl border text-[11px] font-bold text-center transition cursor-pointer bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700">
+                            📜 Kartu Keluarga
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Input Foto Dokumen -->
+                <div class="space-y-2 pt-1">
+                    <label id="docUploadLabel" class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Upload / Foto KTP Pemohon:</label>
+                    <input type="file" id="ktpImageInput" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-teal-600 file:text-white hover:file:bg-teal-700 cursor-pointer" />
                     
                     <div id="ktpPreviewContainer" class="hidden justify-center my-2">
                         <img id="ktpPreviewImg" class="max-h-48 rounded-xl shadow border border-slate-300 dark:border-slate-700 object-cover" />
                     </div>
                 </div>
 
-                <button onclick="analyzeKTPWithAI()" id="btnProcessKtp" class="w-full bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                <button id="btnProcessKtp" class="w-full bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    <span id="btnProcessKtpLabel">Scan & Ekstrak Data KTP</span>
+                    <span id="btnProcessKtpLabel">Scan & Ekstrak Data KTP Pemohon</span>
                 </button>
             </div>
 
             <!-- Result Card KTP AI -->
             <div id="ktpAiResultCard" class="hidden bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-teal-500/40 space-y-3">
                 <div class="flex items-center justify-between border-b border-teal-800/60 pb-2">
-                    <span class="text-[10px] text-teal-300 font-bold uppercase tracking-wider flex items-center gap-1">
-                        ✨ HASIL EKSTRAKSI DATA KTP
+                    <span id="ktpResultTitleBadge" class="text-[10px] text-teal-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                        ✨ HASIL EKSTRAKSI KTP PEMOHON
                     </span>
-                    <span class="bg-teal-500/20 text-teal-300 text-[9px] px-2 py-0.5 rounded-full border border-teal-400/30 font-bold">Siap Paste</span>
+                    <span class="bg-teal-500/20 text-teal-300 text-[9px] px-2 py-0.5 rounded-full border border-teal-400/30 font-bold">Tap Baris = Salin</span>
                 </div>
 
-                <!-- Clean Monospace Compact Layout -->
+                <!-- Clean Compact Layout (No Copy Buttons) -->
                 <div class="space-y-1 text-xs font-mono bg-black/50 p-3 rounded-xl border border-teal-500/30 leading-snug text-teal-100" id="ktpTextContainer">
-                    <div onclick="copySingleKtpField('ktpResultNik', 'NIK')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">NIK:</span> <span id="ktpResultNik" class="text-white font-bold selectable-text"></span>
+                    <div id="ktpRowNik" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldNik">NIK:</span> <span id="ktpResultNik" class="text-white font-bold selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultNama', 'Nama')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Nama:</span> <span id="ktpResultNama" class="text-white font-bold selectable-text"></span>
+                    <div id="ktpRowNama" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldNama">Nama:</span> <span id="ktpResultNama" class="text-white font-bold selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultTtl', 'TTL')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">TTL:</span> <span id="ktpResultTtl" class="text-white selectable-text"></span>
+                    <div id="ktpRowTtl" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldTtl">TTL:</span> <span id="ktpResultTtl" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultJk', 'Jenis Kelamin')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Jenis Kelamin:</span> <span id="ktpResultJk" class="text-white selectable-text"></span>
+                    <div id="ktpRowJk" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldJk">Jenis Kelamin:</span> <span id="ktpResultJk" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultAlamat', 'Alamat')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Alamat:</span> <span id="ktpResultAlamat" class="text-white selectable-text"></span>
+                    <div id="ktpRowAlamat" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldAlamat">Alamat:</span> <span id="ktpResultAlamat" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultRtRw', 'RT/RW')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">RT/RW:</span> <span id="ktpResultRtRw" class="text-white selectable-text"></span>
+                    <div id="ktpRowRtRw" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldRtRw">RT/RW:</span> <span id="ktpResultRtRw" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultKel', 'Kel/Desa')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Kel/Desa:</span> <span id="ktpResultKel" class="text-white selectable-text"></span>
+                    <div id="ktpRowKel" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldKel">Kel/Desa:</span> <span id="ktpResultKel" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultKec', 'Kecamatan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Kecamatan:</span> <span id="ktpResultKec" class="text-white selectable-text"></span>
+                    <div id="ktpRowKec" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldKec">Kecamatan:</span> <span id="ktpResultKec" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultAgama', 'Agama')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Agama:</span> <span id="ktpResultAgama" class="text-white selectable-text"></span>
+                    <div id="ktpRowAgama" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldAgama">Agama:</span> <span id="ktpResultAgama" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultStatus', 'Status Perkawinan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Status:</span> <span id="ktpResultStatus" class="text-white selectable-text"></span>
+                    <div id="ktpRowStatus" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldStatus">Status:</span> <span id="ktpResultStatus" class="text-white selectable-text"></span>
                     </div>
-                    <div onclick="copySingleKtpField('ktpResultPekerjaan', 'Pekerjaan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold">Pekerjaan:</span> <span id="ktpResultPekerjaan" class="text-white selectable-text"></span>
+                    <div id="ktpRowPekerjaan" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold" id="lblFieldPekerjaan">Pekerjaan:</span> <span id="ktpResultPekerjaan" class="text-white selectable-text"></span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="copyKtpDataToClipboard()" class="w-full bg-teal-600 hover:bg-teal-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                    <button id="copyKtpDataBtn" class="w-full bg-teal-600 hover:bg-teal-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                         <span id="copyKtpTextBtnLabel">Salin Semua Data</span>
                     </button>
 
-                    <button onclick="copyKtpDataToWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                    <button id="copyKtpWaBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                         <span>Kirim ke WA</span>
                     </button>
@@ -620,7 +636,7 @@
                         <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">1. Nominal Plafond Barunya (KlikNSC):</label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
-                            <input type="text" id="takeoverPencairanNew" oninput="calculateTakeover()" value="15.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
+                            <input type="text" id="takeoverPencairanNew" value="15.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
                         </div>
                     </div>
 
@@ -628,13 +644,13 @@
                         <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">2. Sisa Pelunasan di Leasing Lama:</label>
                         <div class="relative">
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
-                            <input type="text" id="takeoverPelunasanOld" oninput="calculateTakeover()" value="6.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
+                            <input type="text" id="takeoverPelunasanOld" value="6.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
                         </div>
                     </div>
 
                     <div>
                         <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">3. Pilih Tenor Angsuran Baru:</label>
-                        <select id="takeoverTenorSelect" onchange="calculateTakeover()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <select id="takeoverTenorSelect" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
                             <option value="8">8 Bulan</option>
                             <option value="11">11 Bulan</option>
                             <option value="12" selected>12 Bulan</option>
@@ -678,7 +694,7 @@
                         </div>
                     </div>
 
-                    <button onclick="shareTakeoverWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                    <button id="shareTakeoverWABtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                         <span>Kirim Rincian Take Over ke WA</span>
                     </button>
@@ -704,23 +720,23 @@
 
                 <div class="space-y-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkKtp" checked>
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkKtp" checked>
                         <span>KTP Pemohon & Pasangan / Penjamin (Asli & FC)</span>
                     </label>
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkKk" checked>
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkKk" checked>
                         <span>Kartu Keluarga (KK)</span>
                     </label>
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkStnk" checked>
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkStnk" checked>
                         <span>STNK Asli Kendaraan</span>
                     </label>
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkBpkb" checked>
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkBpkb" checked>
                         <span>BPKB Asli & Faktur</span>
                     </label>
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" onchange="updateChecklistProgress()" id="chkRumah" checked>
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkRumah" checked>
                         <span>Bukti Kepemilikan Rumah (PBB / Rek Listrik)</span>
                     </label>
                 </div>
@@ -730,7 +746,7 @@
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <span class="text-[10px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Status Pajak:</span>
-                            <select id="chkPajakStatus" onchange="updateChecklistProgress()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
+                            <select id="chkPajakStatus" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
                                 <option value="hidup">Pajak Hidup / Aman</option>
                                 <option value="mati1">Pajak Mati ≤ 1 Thn</option>
                                 <option value="mati2">Pajak Mati > 1 Thn</option>
@@ -738,7 +754,7 @@
                         </div>
                         <div>
                             <span class="text-[10px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Atas Nama BPKB:</span>
-                            <select id="chkAnStatus" onchange="updateChecklistProgress()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
+                            <select id="chkAnStatus" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
                                 <option value="sendiri">Atas Nama Sendiri</option>
                                 <option value="oranglain">Atas Nama Orang Lain</option>
                             </select>
@@ -754,7 +770,6 @@
                     <p id="checklistAdviceText">Centang berkas di atas untuk melihat status kelengkapan dan rekomendasi.</p>
                 </div>
 
-                <!-- Input Nomor WA Target Nasabah -->
                 <div class="pt-1">
                     <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">
                         No. WA Nasabah (Opsional):
@@ -770,7 +785,7 @@
                     </div>
                 </div>
 
-                <button onclick="shareChecklistWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                <button id="shareChecklistWABtn" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                     <span>Kirim Checklist Rapi ke WA Nasabah</span>
                 </button>
@@ -779,13 +794,11 @@
 
         <!-- VIEW 7: SCRIPT PROMO & TANGKISAN -->
         <div id="scriptView" class="space-y-4 hidden">
-            
-            <!-- Segmented Switcher -->
             <div class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
-                <button id="subScriptTabPromo" onclick="switchScriptSubTab('promo')" class="flex-1 py-2 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm transition cursor-pointer">
+                <button id="subScriptTabPromo" class="flex-1 py-2 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm transition cursor-pointer">
                     Broadcast Promo
                 </button>
-                <button id="subScriptTabObjection" onclick="switchScriptSubTab('objection')" class="flex-1 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition cursor-pointer">
+                <button id="subScriptTabObjection" class="flex-1 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition cursor-pointer">
                     🛡️ Tangkis Penolakan
                 </button>
             </div>
@@ -802,7 +815,7 @@
 
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block">Pilih Template Promo:</label>
-                    <select id="scriptTemplateSelect" onchange="generateScriptPromo()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <select id="scriptTemplateSelect" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
                         <option value="utuh">Promo Pencairan Utuh Tanpa Potongan</option>
                         <option value="pajak">Bisa Bantu Pajak STNK Mati / Balik Nama</option>
                         <option value="proses">Proses Super Cepat 1 Hari Cair (Serang)</option>
@@ -815,7 +828,7 @@
                     <textarea id="scriptPreviewText" rows="7" readonly class="w-full bg-slate-900 text-blue-200 p-3 rounded-xl text-xs font-mono border border-slate-700 leading-relaxed focus:outline-none"></textarea>
                 </div>
 
-                <button onclick="copyScriptPromo()" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                <button id="copyScriptPromoBtn" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                     <span id="copyScriptBtnLabel">Salin Script Text Promo</span>
                 </button>
@@ -872,13 +885,10 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                     </button>
                 </div>
             </div>
-
         </div>
 
         <!-- VIEW 8: INSENTIF & TARGET -->
         <div id="bonusView" class="space-y-4 hidden">
-            
-            <!-- Goal Tracker Card -->
             <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-blue-500/30 space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[10px] text-emerald-300 font-bold uppercase tracking-wider flex items-center gap-1">
@@ -890,19 +900,18 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 <div class="grid grid-cols-2 gap-2 text-xs">
                     <div>
                         <label class="text-[10px] text-slate-400 block mb-1">Target Bulan Ini (Unit):</label>
-                        <input type="number" id="trackerTargetUnit" onchange="updateGoalTracker()" value="10" min="1" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-white text-center" />
+                        <input type="number" id="trackerTargetUnit" value="10" min="1" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-white text-center" />
                     </div>
                     <div>
                         <label class="text-[10px] text-slate-400 block mb-1">Pencapaian Realisasi:</label>
                         <div class="flex items-center gap-1">
-                            <button onclick="adjustTrackerProgress(-1)" class="bg-slate-800 px-2 py-1.5 rounded-lg border border-slate-700 font-black hover:bg-slate-700 cursor-pointer">-</button>
-                            <input type="number" id="trackerCurrentUnit" onchange="updateGoalTracker()" value="3" min="0" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-emerald-400 text-center" />
-                            <button onclick="adjustTrackerProgress(1)" class="bg-slate-800 px-2 py-1.5 rounded-lg border border-slate-700 font-black hover:bg-slate-700 cursor-pointer">+</button>
+                            <button id="trackerMinusBtn" class="bg-slate-800 px-2 py-1.5 rounded-lg border border-slate-700 font-black hover:bg-slate-700 cursor-pointer">-</button>
+                            <input type="number" id="trackerCurrentUnit" value="3" min="0" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-emerald-400 text-center" />
+                            <button id="trackerPlusBtn" class="bg-slate-800 px-2 py-1.5 rounded-lg border border-slate-700 font-black hover:bg-slate-700 cursor-pointer">+</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Progress Bar -->
                 <div class="space-y-1">
                     <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700">
                         <div id="trackerProgressBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 30%"></div>
@@ -924,13 +933,13 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 <div class="space-y-3 text-xs">
                     <div>
                         <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Target Total Omset Pencairan (Rp):</label>
-                        <input type="text" id="bonusPencairanInput" oninput="calculateSalesBonus()" value="95.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white" />
+                        <input type="text" id="bonusPencairanInput" value="95.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white" />
                         <span class="text-[10px] text-slate-400 font-medium">Satuan Standar KBA: 1 Unit = Rp 9.500.000</span>
                     </div>
 
                     <div>
                         <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Atau Jumlah Unit Direct Closing:</label>
-                        <input type="number" id="bonusUnitInput" oninput="calculateSalesBonusFromUnits()" value="10" min="1" step="1" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white" />
+                        <input type="number" id="bonusUnitInput" value="10" min="1" step="1" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white" />
                     </div>
                 </div>
 
@@ -970,7 +979,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                     </h3>
                 </div>
                 <div>
-                    <select id="vehicleYearSelect" onchange="checkVehicleYear()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    <select id="vehicleYearSelect" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
                         <option value="2026">2026 (Baru)</option>
                         <option value="2025">2025</option>
                         <option value="2024">2024</option>
@@ -1004,7 +1013,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Cari Nilai Pencairan Brosur:</label>
                 <div class="relative">
                     <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                    <input type="text" id="searchFilterInput" oninput="renderTable()" placeholder="Cari cth: 21.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600" />
+                    <input type="text" id="searchFilterInput" placeholder="Cari cth: 21.000.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600" />
                 </div>
             </div>
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm overflow-hidden">
@@ -1038,7 +1047,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
     <!-- Floating Action Button (FAB) WA Cepat -->
     <button
-        onclick="copyToWhatsApp()"
+        id="fabWhatsAppBtn"
         class="fixed bottom-6 right-6 sm:absolute sm:bottom-6 sm:right-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white p-3.5 rounded-full shadow-2xl active:scale-90 transition-all z-40 flex items-center justify-center gap-2 border-2 border-white/20 animate-pulse-slow cursor-pointer"
         title="Salin WA Cepat"
     >
@@ -1057,8 +1066,8 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 <p class="text-xs text-slate-500 dark:text-slate-400">Apakah Anda yakin ingin keluar dari akun ini?</p>
             </div>
             <div class="flex gap-2">
-                <button onclick="closeLogoutModal()" class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Batal</button>
-                <button onclick="executeLogout()" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl text-xs cursor-pointer">Keluar</button>
+                <button id="cancelLogoutBtn" class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Batal</button>
+                <button id="confirmLogoutBtn" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl text-xs cursor-pointer">Keluar</button>
             </div>
         </div>
     </div>
@@ -1070,7 +1079,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 <h3 class="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
                     🔑 Pengaturan Gemini API Key
                 </h3>
-                <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer">
+                <button id="closeApiKeyModalBtn" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
@@ -1086,8 +1095,8 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 />
             </div>
             <div class="flex gap-2">
-                <button onclick="closeApiKeyModal()" class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Batal</button>
-                <button onclick="saveApiKey()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-xl text-xs cursor-pointer shadow-md">Simpan Key</button>
+                <button id="cancelApiKeyBtn" class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Batal</button>
+                <button id="saveApiKeyBtn" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-xl text-xs cursor-pointer shadow-md">Simpan Key</button>
             </div>
         </div>
     </div>
@@ -1206,39 +1215,14 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         trackerCurrent: parseInt(localStorage.getItem('kliknsc_current_unit') || '3', 10),
         calculatedAiPlafond: 0,
         salesId: localStorage.getItem('kliknsc_sales_id') || 'SRN31',
-        extractedKtpData: null
+        selectedDocType: 'ktp_pemohon',
+        extractedDocData: null
     };
 
     let stnkBase64Data = null;
     let stnkMimeType = "image/jpeg";
-
     let ktpBase64Data = null;
     let ktpMimeType = "image/jpeg";
-
-    function openApiKeyModal() {
-        const modal = document.getElementById('apiKeyModal');
-        const input = document.getElementById('userApiKeyInput');
-        if (input) input.value = localStorage.getItem('kliknsc_gemini_key') || '';
-        if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeApiKeyModal() {
-        const modal = document.getElementById('apiKeyModal');
-        if (modal) modal.classList.add('hidden');
-    }
-
-    function saveApiKey() {
-        const input = document.getElementById('userApiKeyInput');
-        const key = input ? input.value.trim() : '';
-        if (key) {
-            localStorage.setItem('kliknsc_gemini_key', key);
-            showToast("API Key berhasil disimpan!", "🔑");
-        } else {
-            localStorage.removeItem('kliknsc_gemini_key');
-            showToast("API Key dihapus (menggunakan default).", "ℹ️️");
-        }
-        closeApiKeyModal();
-    }
 
     function showToast(msg, icon = '💡') {
         const toast = document.getElementById('toastNotification');
@@ -1290,6 +1274,31 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         } else {
             if (errorMsg) errorMsg.classList.remove('hidden');
         }
+    }
+
+    function openApiKeyModal() {
+        const modal = document.getElementById('apiKeyModal');
+        const input = document.getElementById('userApiKeyInput');
+        if (input) input.value = localStorage.getItem('kliknsc_gemini_key') || '';
+        if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeApiKeyModal() {
+        const modal = document.getElementById('apiKeyModal');
+        if (modal) modal.classList.add('hidden');
+    }
+
+    function saveApiKey() {
+        const input = document.getElementById('userApiKeyInput');
+        const key = input ? input.value.trim() : '';
+        if (key) {
+            localStorage.setItem('kliknsc_gemini_key', key);
+            showToast("API Key berhasil disimpan!", "🔑");
+        } else {
+            localStorage.removeItem('kliknsc_gemini_key');
+            showToast("API Key dihapus.", "ℹ");
+        }
+        closeApiKeyModal();
     }
 
     function promptLogout() {
@@ -1377,7 +1386,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         container.innerHTML = CATEGORIES.map(cat => {
             const isActive = state.category === cat.id;
             return `
-                <button onclick="selectCategory('${cat.id}')" class="p-2.5 rounded-xl border text-left transition flex items-center justify-between active:scale-95 cursor-pointer ${isActive ? `${cat.lightBg} ${cat.borderColor} border-2 shadow-sm` : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}">
+                <button type="button" onclick="selectCategory('${cat.id}')" class="p-2.5 rounded-xl border text-left transition flex items-center justify-between active:scale-95 cursor-pointer ${isActive ? `${cat.lightBg} ${cat.borderColor} border-2 shadow-sm` : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}">
                     <div>
                         <div class="font-extrabold text-xs text-slate-900 dark:text-white">${cat.name}</div>
                         <div class="text-[10px] text-slate-500 font-medium">${cat.badge}</div>
@@ -1429,7 +1438,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         const badgeEl = document.getElementById('selectedTenorBadge');
         if (badgeEl) badgeEl.innerText = `${state.selectedTenor} Bulan`;
 
-        // Pre-fill nominal and tenor polling
         const pollNominalEl = document.getElementById('pollNominal');
         if (pollNominalEl && (!pollNominalEl.value || pollNominalEl.value === '0')) {
             pollNominalEl.value = formatNumberInput(state.nominal);
@@ -1473,23 +1481,16 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
     function switchTab(tabName) {
         state.activeTab = tabName;
         const tabs = ['kalkulator', 'polling', 'stnkAi', 'ktpAi', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
-        const btnMap = { 
-            kalkulator: 'tabCalcBtn', polling: 'tabPollingBtn', stnkAi: 'tabStnkAiBtn', ktpAi: 'tabKtpAiBtn', takeover: 'tabTakeoverBtn', checklist: 'tabChecklistBtn',
-            script: 'tabScriptBtn', bonus: 'tabBonusBtn', tahun: 'tabYearBtn', tabel: 'tabTableBtn' 
-        };
         const viewMap = { 
             kalkulator: 'kalkulatorView', polling: 'pollingView', stnkAi: 'stnkAiView', ktpAi: 'ktpAiView', takeover: 'takeoverView', checklist: 'checklistView',
             script: 'scriptView', bonus: 'bonusView', tahun: 'tahunView', tabel: 'tabelView' 
         };
 
         tabs.forEach(t => {
-            const b = document.getElementById(btnMap[t]);
             const v = document.getElementById(viewMap[t]);
             if (t === tabName) {
-                if (b) b.className = "py-2 px-3 rounded-xl tab-transition flex items-center gap-1 bg-blue-600 text-white shadow-md active:scale-95 shrink-0 font-bold";
                 if (v) v.classList.remove('hidden');
             } else {
-                if (b) b.className = "py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-bold";
                 if (v) v.classList.add('hidden');
             }
         });
@@ -1502,7 +1503,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         if (tabName === 'tabel') renderTable();
     }
 
-    // FUNCTIONALITY FITUR POLLING PENGAJUAN WA (EXACT FORMAT MATCH)
     function formatPollNominal(el) {
         const num = parseInputNumber(el.value);
         el.value = formatNumberInput(num);
@@ -1519,8 +1519,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         const alamat = document.getElementById('pollAlamat')?.value.trim() || '-';
 
         const nominalNum = parseInputNumber(nominalRaw);
-        const tenorIdx = TENORS.indexOf(parseInt(tenor, 10));
-        const monthlyRate = calculateRate(nominalNum, tenorIdx >= 0 ? tenorIdx : 2, state.category);
 
         return `FORM PENGAJUAN M2W ${state.salesId}
 NAMA PEMOHON : ${pemohon.toUpperCase()}
@@ -1530,7 +1528,7 @@ PEKERJAAN PEMOHON : ${pekPemohon.toUpperCase()}
 PEKERJAAN PENJAMIN :${pekPenjamin.toUpperCase()}
 PENGAJUAN : ${formatRupiah(nominalNum)}
 TENOR : ${tenor} BULAN
-ANGSURAN : ${formatRupiah(monthlyRate)} / bulan
+ANGSURAN : 
 ALAMAT TINGGAL: ${alamat}`;
     }
 
@@ -1598,6 +1596,33 @@ ALAMAT TINGGAL: ${alamat}`;
         }
     }
 
+    function selectDocType(docType) {
+        state.selectedDocType = docType;
+        const btnPemohon = document.getElementById('docTypeBtnPemohon');
+        const btnPenjamin = document.getElementById('docTypeBtnPenjamin');
+        const btnKK = document.getElementById('docTypeBtnKK');
+        const uploadLabel = document.getElementById('docUploadLabel');
+        const processBtnLabel = document.getElementById('btnProcessKtpLabel');
+
+        const activeClass = "py-2 px-2 rounded-xl border text-[11px] font-bold text-center transition cursor-pointer bg-teal-600 text-white border-teal-500 shadow-sm";
+        const inactiveClass = "py-2 px-2 rounded-xl border text-[11px] font-bold text-center transition cursor-pointer bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700";
+
+        if (btnPemohon) btnPemohon.className = docType === 'ktp_pemohon' ? activeClass : inactiveClass;
+        if (btnPenjamin) btnPenjamin.className = docType === 'ktp_penjamin' ? activeClass : inactiveClass;
+        if (btnKK) btnKK.className = docType === 'kk' ? activeClass : inactiveClass;
+
+        if (docType === 'ktp_pemohon') {
+            if (uploadLabel) uploadLabel.innerText = "Upload / Foto KTP Pemohon:";
+            if (processBtnLabel) processBtnLabel.innerText = "Scan & Ekstrak Data KTP Pemohon";
+        } else if (docType === 'ktp_penjamin') {
+            if (uploadLabel) uploadLabel.innerText = "Upload / Foto KTP Penjamin:";
+            if (processBtnLabel) processBtnLabel.innerText = "Scan & Ekstrak Data KTP Penjamin";
+        } else {
+            if (uploadLabel) uploadLabel.innerText = "Upload / Foto Kartu Keluarga (KK):";
+            if (processBtnLabel) processBtnLabel.innerText = "Scan & Ekstrak Data Kartu Keluarga";
+        }
+    }
+
     async function analyzeSTNKWithAI() {
         const btnLabel = document.getElementById('btnProcessStnkLabel');
         const manualQuery = document.getElementById('stnkManualQuery')?.value.trim();
@@ -1658,24 +1683,13 @@ Kembalikan HANYA JSON valid dalam format ini:
             const apiKey = userKey;
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
-            let response = null;
-            let delay = 1000;
-            for (let i = 0; i < 3; i++) {
-                try {
-                    response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (response.ok) break;
-                } catch (e) {
-                    if (i === 2) throw e;
-                }
-                await new Promise(r => setTimeout(r, delay));
-                delay *= 2;
-            }
+            let response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-            if (!response || !response.ok) {
+            if (!response.ok) {
                 throw new Error("Gagal terhubung ke Gemini AI Studio.");
             }
 
@@ -1683,7 +1697,7 @@ Kembalikan HANYA JSON valid dalam format ini:
             const jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 
             if (!jsonText) {
-                throw new Error("Respon dari Gemini AI tidak valid atau tidak terbaca.");
+                throw new Error("Respon dari Gemini AI tidak valid.");
             }
 
             const parsed = JSON.parse(jsonText);
@@ -1713,7 +1727,7 @@ Kembalikan HANYA JSON valid dalam format ini:
 
         } catch (err) {
             console.error("Gemini AI error:", err);
-            showToast(err.message || "Gagal memproses STNK dengan Gemini AI.", "❌");
+            showToast(err.message || "Gagal memproses STNK.", "❌");
         } finally {
             if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
         }
@@ -1722,15 +1736,40 @@ Kembalikan HANYA JSON valid dalam format ini:
     async function analyzeKTPWithAI() {
         const btnLabel = document.getElementById('btnProcessKtpLabel');
         if (!ktpBase64Data) {
-            showToast("Upload atau foto KTP nasabah terlebih dahulu!", "⚠️");
+            showToast("Upload/Foto dokumen terlebih dahulu!", "⚠️");
             return;
         }
 
-        if (btnLabel) btnLabel.innerText = "⚡ Mengekstrak Data KTP via Gemini AI...";
+        const docType = state.selectedDocType;
+        let docTitle = "KTP Pemohon";
+        if (docType === 'ktp_penjamin') docTitle = "KTP Penjamin";
+        if (docType === 'kk') docTitle = "Kartu Keluarga";
+
+        if (btnLabel) btnLabel.innerText = `⚡ Mengekstrak Data ${docTitle} via Gemini AI...`;
 
         try {
-            const promptText = `Kamu adalah sistem OCR KTP Republik Indonesia resmi untuk leasing KlikNSC.
-Tugasmu adalah membaca foto KTP yang dilampirkan dan mengekstrak semua field text secara akurat.
+            let promptText = "";
+            if (docType === 'kk') {
+                promptText = `Kamu adalah sistem OCR Kartu Keluarga (KK) Republik Indonesia resmi untuk leasing KlikNSC.
+Tugasmu adalah membaca foto Kartu Keluarga dan mengekstrak field text penting.
+
+Kembalikan HANYA JSON valid dalam format berikut:
+{
+  "nik": "3604...",
+  "nama": "NAMA KEPALA KELUARGA",
+  "ttl": "NOMOR KK: 3604123456789012",
+  "jk": "KOTA / KAB. SERANG",
+  "alamat": "JL. AHMAD YANI NO. 10",
+  "rtRw": "002/005",
+  "kelDesa": "SUMURBERUNG",
+  "kecamatan": "CYBERBERUNG",
+  "agama": "ISLAM",
+  "statusKawin": "ANGGOTA KELUARGA",
+  "pekerjaan": "KARYAWAN SWASTA"
+}`;
+            } else {
+                promptText = `Kamu adalah sistem OCR KTP Republik Indonesia resmi untuk leasing KlikNSC.
+Tugasmu adalah membaca foto KTP (${docTitle}) yang dilampirkan dan mengekstrak semua field text secara akurat.
 
 Kembalikan HANYA JSON valid dalam format berikut:
 {
@@ -1746,6 +1785,7 @@ Kembalikan HANYA JSON valid dalam format berikut:
   "statusKawin": "KAWIN",
   "pekerjaan": "KARYAWAN SWASTA"
 }`;
+            }
 
             const payload = {
                 contents: [{
@@ -1786,7 +1826,27 @@ Kembalikan HANYA JSON valid dalam format berikut:
             }
 
             const data = JSON.parse(jsonText);
-            state.extractedKtpData = data;
+            state.extractedDocData = data;
+
+            if (docType === 'kk') {
+                document.getElementById('ktpResultTitleBadge').innerText = "✨ HASIL EKSTRAKSI KARTU KELUARGA (KK)";
+                document.getElementById('lblFieldNik').innerText = "No. KK / Kepala:";
+                document.getElementById('lblFieldNama').innerText = "Kepala Keluarga:";
+                document.getElementById('lblFieldTtl').innerText = "Detail KK:";
+                document.getElementById('lblFieldStatus').innerText = "Daftar Anggota:";
+            } else if (docType === 'ktp_penjamin') {
+                document.getElementById('ktpResultTitleBadge').innerText = "✨ HASIL EKSTRAKSI KTP PENJAMIN";
+                document.getElementById('lblFieldNik').innerText = "NIK Penjamin:";
+                document.getElementById('lblFieldNama').innerText = "Nama Penjamin:";
+                document.getElementById('lblFieldTtl').innerText = "TTL:";
+                document.getElementById('lblFieldStatus').innerText = "Status:";
+            } else {
+                document.getElementById('ktpResultTitleBadge').innerText = "✨ HASIL EKSTRAKSI KTP PEMOHON";
+                document.getElementById('lblFieldNik').innerText = "NIK Pemohon:";
+                document.getElementById('lblFieldNama').innerText = "Nama Pemohon:";
+                document.getElementById('lblFieldTtl').innerText = "TTL:";
+                document.getElementById('lblFieldStatus').innerText = "Status:";
+            }
 
             document.getElementById('ktpResultNik').innerText = data.nik || "-";
             document.getElementById('ktpResultNama').innerText = data.nama || "-";
@@ -1806,20 +1866,28 @@ Kembalikan HANYA JSON valid dalam format berikut:
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
 
-            // Auto fill polling form with extracted KTP data
-            if (data.nama) document.getElementById('pollNamaPemohon').value = data.nama;
-            if (data.pekerjaan) document.getElementById('pollPekerjaanPemohon').value = data.pekerjaan;
-            if (data.alamat || data.kecamatan) {
-                document.getElementById('pollAlamat').value = `${data.alamat || ''} ${data.rtRw ? 'RT. ' + data.rtRw : ''} ${data.kelDesa ? 'KEL. ' + data.kelDesa : ''} ${data.kecamatan ? 'KEC. ' + data.kecamatan : ''}`.trim();
+            if (docType === 'ktp_pemohon') {
+                if (data.nama) document.getElementById('pollNamaPemohon').value = data.nama;
+                if (data.pekerjaan) document.getElementById('pollPekerjaanPemohon').value = data.pekerjaan;
+                if (data.alamat || data.kecamatan) {
+                    document.getElementById('pollAlamat').value = `${data.alamat || ''} ${data.rtRw ? 'RT. ' + data.rtRw : ''} ${data.kelDesa ? 'KEL. ' + data.kelDesa : ''} ${data.kecamatan ? 'KEC. ' + data.kecamatan : ''}`.trim();
+                }
+            } else if (docType === 'ktp_penjamin') {
+                if (data.nama) document.getElementById('pollNamaPenjamin').value = data.nama;
+                if (data.pekerjaan) document.getElementById('pollPekerjaanPenjamin').value = data.pekerjaan;
+            } else if (docType === 'kk') {
+                if (data.alamat || data.kecamatan) {
+                    document.getElementById('pollAlamat').value = `${data.alamat || ''} ${data.rtRw ? 'RT. ' + data.rtRw : ''} ${data.kelDesa ? 'KEL. ' + data.kelDesa : ''} ${data.kecamatan ? 'KEC. ' + data.kecamatan : ''}`.trim();
+                }
             }
 
-            showToast("Data KTP berhasil diekstrak AI!", "✨");
+            showToast(`Data ${docTitle} berhasil diekstrak AI!`, "✨");
 
         } catch (err) {
-            console.error("Gemini AI KTP error:", err);
-            showToast(err.message || "Gagal memproses KTP dengan Gemini AI.", "❌");
+            console.error("Gemini AI error:", err);
+            showToast(err.message || "Gagal memproses dokumen.", "❌");
         } finally {
-            if (btnLabel) btnLabel.innerText = "Scan & Ekstrak Data KTP";
+            if (btnLabel) btnLabel.innerText = `Scan & Ekstrak Data ${docTitle}`;
         }
     }
 
@@ -1827,11 +1895,7 @@ Kembalikan HANYA JSON valid dalam format berikut:
         const el = document.getElementById(elementId);
         if (!el) return;
         const txt = el.innerText.trim();
-
-        if (!txt || txt === '-') {
-            showToast(`Data ${labelName} belum tersedia`, "⚠️");
-            return;
-        }
+        if (!txt || txt === '-') return;
 
         try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1848,15 +1912,20 @@ Kembalikan HANYA JSON valid dalam format berikut:
             }
             showToast(`${labelName} tersalin: ${txt}`, "📋");
         } catch (e) {
-            console.error("Copy error:", e);
-            showToast("Gagal menyalin, silakan seleksi manual.", "⚠️");
+            showToast("Gagal menyalin.", "⚠️");
         }
     }
 
     function generateKtpFormattedText() {
-        if (!state.extractedKtpData) return "";
-        const d = state.extractedKtpData;
-        return `NIK: ${d.nik || '-'}
+        if (!state.extractedDocData) return "";
+        const d = state.extractedDocData;
+        const type = state.selectedDocType;
+        let titleHeader = "KTP PEMOHON";
+        if (type === 'ktp_penjamin') titleHeader = "KTP PENJAMIN";
+        if (type === 'kk') titleHeader = "KARTU KELUARGA";
+
+        return `--- DATA HASIL SCAN ${titleHeader} ---
+NIK / No KK: ${d.nik || '-'}
 Nama: ${d.nama || '-'}
 TTL: ${d.ttl || '-'}
 Jenis Kelamin: ${d.jk || '-'}
@@ -1889,30 +1958,26 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
             
             const btnLabel = document.getElementById('copyKtpTextBtnLabel');
             if (btnLabel) {
-                btnLabel.innerText = "Semua Tersalin!";
+                btnLabel.innerText = "Tersalin!";
                 setTimeout(() => { btnLabel.innerText = "Salin Semua Data"; }, 2000);
             }
-            showToast("Semua data KTP berhasil disalin!", "📋");
+            showToast("Semua data dokumen berhasil disalin!", "📋");
         } catch (e) {
-            console.error("Copy error:", e);
-            showToast("Gagal menyalin teks, silakan seleksi manual.", "⚠");
+            showToast("Gagal menyalin.", "⚠");
         }
     }
 
     function copyKtpDataToWA() {
-        if (!state.extractedKtpData) return;
-        const d = state.extractedKtpData;
-        const text = `📋 *DATA HASIL SCAN KTP NASABAH (KLIKNSC)*\n-----------------------------------\n• NIK: *${d.nik || '-'}*\n• Nama: *${d.nama || '-'}*\n• TTL: *${d.ttl || '-'}*\n• Jenis Kelamin: *${d.jk || '-'}*\n• Alamat: *${d.alamat || '-'}*\n• RT/RW: *${d.rtRw || '-'}*\n• Kel/Desa: *${d.kelDesa || '-'}*\n• Kecamatan: *${d.kecamatan || '-'}*\n• Agama: *${d.agama || '-'}*\n• Status: *${d.statusKawin || '-'}*\n• Pekerjaan: *${d.pekerjaan || '-'}*\n-----------------------------------\n_Data di-extract otomatis via AI KlikNSC Mobile (${state.salesId})_`;
+        if (!state.extractedDocData) return;
+        const d = state.extractedDocData;
+        const type = state.selectedDocType;
+        let titleHeader = "KTP PEMOHON";
+        if (type === 'ktp_penjamin') titleHeader = "KTP PENJAMIN";
+        if (type === 'kk') titleHeader = "KARTU KELUARGA";
+
+        const text = `📋 *DATA HASIL SCAN ${titleHeader} (KLIKNSC)*\n-----------------------------------\n• NIK/No KK: *${d.nik || '-'}*\n• Nama: *${d.nama || '-'}*\n• TTL/Detail: *${d.ttl || '-'}*\n• Jenis Kelamin: *${d.jk || '-'}*\n• Alamat: *${d.alamat || '-'}*\n• RT/RW: *${d.rtRw || '-'}*\n• Kel/Desa: *${d.kelDesa || '-'}*\n• Kecamatan: *${d.kecamatan || '-'}*\n• Agama: *${d.agama || '-'}*\n• Status: *${d.statusKawin || '-'}*\n• Pekerjaan: *${d.pekerjaan || '-'}*\n-----------------------------------\n_Data di-extract otomatis via AI KlikNSC Mobile (${state.salesId})_`;
 
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-    }
-
-    function useAiPlafondInCalculator() {
-        if (state.calculatedAiPlafond > 0) {
-            handleInputChange(state.calculatedAiPlafond);
-            switchTab('kalkulator');
-            showToast("Nilai Plafond diterapkan ke Kalkulator!", "✅");
-        }
     }
 
     function calculateTakeover() {
@@ -1931,13 +1996,8 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
         document.getElementById('takeoverNetResult').innerText = formatRupiah(netCash);
         document.getElementById('takeoverPencairanText').innerText = formatRupiah(newAmt);
         document.getElementById('takeoverPelunasanText').innerText = `- ${formatRupiah(oldAmt)}`;
-        
-        const feeEl = document.getElementById('takeoverFee10Text');
-        if (feeEl) feeEl.innerText = `- ${formatRupiah(fee10Pct)}`;
-
-        const totalPelunasanEl = document.getElementById('takeoverTotalPelunasanText');
-        if (totalPelunasanEl) totalPelunasanEl.innerText = `- ${formatRupiah(totalPelunasan)}`;
-
+        document.getElementById('takeoverFee10Text').innerText = `- ${formatRupiah(fee10Pct)}`;
+        document.getElementById('takeoverTotalPelunasanText').innerText = `- ${formatRupiah(totalPelunasan)}`;
         document.getElementById('takeoverAngsuranText').innerText = `${formatRupiah(rateSelected)} / bln (${tenor}x)`;
     }
 
@@ -1950,7 +2010,7 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
         const netCash = newAmt - totalPelunasan;
         const rateSelected = calculateRate(newAmt, TENORS.indexOf(tenor), state.category);
 
-        const text = `*RINCIAN ESTIMASI TAKE OVER BPKB KLIKNSC*\n-----------------------------------\n• Pencairan Barunya: *${formatRupiah(newAmt)}*\n• Sisa Pelunasan Pokok: *${formatRupiah(oldAmt)}*\n• Denda/Biaya Pelunasan (10%): *${formatRupiah(fee10Pct)}*\n• Total Potongan Pelunasan: *${formatRupiah(totalPelunasan)}*\n💵 *ESTIMASI DUIT SEGAR DITERIMA:* *${formatRupiah(netCash)}*\n\n📉 *Angsuran Baru:* ${formatRupiah(rateSelected)} / bln (${tenor} Bulan)\n\n_Solusi tambah modal usaha / pelunasan cepat BPKB. Hubungi KBA KlikNSC!_`;
+        const text = `*RINCIAN ESTIMASI TAKE OVER BPKB KLIKNSC*\n-----------------------------------\n• Pencairan Barunya: *${formatRupiah(newAmt)}*\n• Sisa Pelunasan Pokok: *${formatRupiah(oldAmt)}*\n• Biaya Pelunasan (10%): *${formatRupiah(fee10Pct)}*\n• Total Potongan Pelunasan: *${formatRupiah(totalPelunasan)}*\n💵 *DUIT SEGAR DITERIMA:* *${formatRupiah(netCash)}*\n\n📉 *Angsuran Baru:* ${formatRupiah(rateSelected)} / bln (${tenor} Bulan)\n\n_Solusi tambah modal usaha / pelunasan cepat BPKB._`;
 
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
@@ -1969,12 +2029,12 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
 
         let advice = [];
         if (checkedCount === 5) advice.push("✅ Berkas utama sudah LENGKAP.");
-        else advice.push(`⚠ Masih ada ${5 - checkedCount} dokumen wajib yang belum dicentang.`);
+        else advice.push(`⚠ Masih ada ${5 - checkedCount} dokumen wajib.`);
 
-        if (statusPajak === 'mati1') advice.push("📌 Pajak STNK mati ≤ 1 thn: Masih bisa diproses, tanpa pemotongan.");
-        else if (statusPajak === 'mati2') advice.push("📌 Pajak STNK mati > 1 thn: Bisa dibantu pemutihan/potong pencairan.");
+        if (statusPajak === 'mati1') advice.push("📌 Pajak STNK mati ≤ 1 thn: Masih bisa diproses.");
+        else if (statusPajak === 'mati2') advice.push("📌 Pajak STNK mati > 1 thn: Bisa dibantu pemutihan.");
 
-        if (statusAn === 'oranglain') advice.push("📌 BPKB atas nama orang lain: Sertakan kuitansi jual beli / pelepasan hak.");
+        if (statusAn === 'oranglain') advice.push("📌 BPKB atas nama orang lain: Sertakan kuitansi jual beli.");
 
         adviceBox.innerText = advice.join("\n");
     }
@@ -1998,7 +2058,7 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
         const score = document.getElementById('checklistScoreBadge').innerText;
         const advice = document.getElementById('checklistAdviceText').innerText;
 
-        const text = `📋 *CHECKLIST BERKAS PENGAJUAN KLIKNSC*\n\n📊 *Status Kelengkapan: ${score}*\n-----------------------------------\n*Rincian Berkas:*\n${checklistDetails}\n💡 *Catatan & Solusi KBA:*\n${advice}\n-----------------------------------\n_Mohon disiapkan dokumen di atas untuk mempercepat proses survei & pencairan. Terima kasih!_`;
+        const text = `📋 *CHECKLIST BERKAS PENGAJUAN KLIKNSC*\n\n📊 *Status Kelengkapan: ${score}*\n-----------------------------------\n*Rincian Berkas:*\n${checklistDetails}\n💡 *Catatan & Solusi KBA:*\n${advice}\n-----------------------------------\n_Mohon disiapkan dokumen di atas untuk mempercepat proses survei._`;
 
         const phoneInput = document.getElementById('chkWaPhone');
         let rawPhone = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
@@ -2098,7 +2158,6 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
 
         const units = Math.floor(p / 9500000);
         document.getElementById('bonusUnitInput').value = units;
-        
         updateBonusDisplay(units);
     }
 
@@ -2106,7 +2165,6 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
         const units = parseInt(document.getElementById('bonusUnitInput').value || '0', 10);
         const estOmset = units * 9500000;
         document.getElementById('bonusPencairanInput').value = formatNumberInput(estOmset);
-
         updateBonusDisplay(units);
     }
 
@@ -2121,8 +2179,7 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
         } else if (units >= 22) {
             ratePerUnit = 360000;
             uangSaku = 2000000;
-            const komisiTotal = units * ratePerUnit;
-            totalInsentif = uangSaku + komisiTotal;
+            totalInsentif = uangSaku + (units * ratePerUnit);
             minAgen = 7;
         } else {
             const data = KBA_MATRIX[units] || KBA_MATRIX[1];
@@ -2136,7 +2193,7 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
 
         document.getElementById('bonusUnitBadge').innerText = `${units} Unit (${formatRupiah(units * 9500000)})`;
         document.getElementById('bonusTotalResult').innerText = formatRupiah(totalInsentif);
-        document.getElementById('bonusBaseFeeText').innerHTML = `${formatRupiah(totalKomisiUnit)} <span id="ratePerUnitText" class="text-[9px] text-emerald-400 font-normal">(${formatRupiah(ratePerUnit)}/unit)</span>`;
+        document.getElementById('bonusBaseFeeText').innerHTML = `${formatRupiah(totalKomisiUnit)} <span class="text-[9px] text-emerald-400 font-normal">(${formatRupiah(ratePerUnit)}/unit)</span>`;
         document.getElementById('bonusRewardText').innerText = formatRupiah(uangSaku);
         document.getElementById('bonusAgenText').innerText = minAgen > 0 ? `${minAgen} Agen Aktif` : `-`;
     }
@@ -2191,16 +2248,125 @@ Pekerjaan: ${d.pekerjaan || '-'}`;
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
 
-    window.onload = function() {
+    // Attach Event Listeners safely on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
         initTheme();
         checkAuthStatus();
         renderCategories();
         updateAllCalculations();
         calculateSalesBonus();
-        document.getElementById('trackerTargetUnit').value = state.trackerTarget;
-        document.getElementById('trackerCurrentUnit').value = state.trackerCurrent;
-        updateGoalTracker();
-    };
+        selectDocType('ktp_pemohon');
+
+        // Form Login Listener
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) loginForm.addEventListener('submit', handleLogin);
+
+        // Header Buttons
+        document.getElementById('apiKeyModalBtn')?.addEventListener('click', openApiKeyModal);
+        document.getElementById('closeApiKeyModalBtn')?.addEventListener('click', closeApiKeyModal);
+        document.getElementById('cancelApiKeyBtn')?.addEventListener('click', closeApiKeyModal);
+        document.getElementById('saveApiKeyBtn')?.addEventListener('click', saveApiKey);
+
+        document.getElementById('logoutBtn')?.addEventListener('click', promptLogout);
+        document.getElementById('cancelLogoutBtn')?.addEventListener('click', closeLogoutModal);
+        document.getElementById('confirmLogoutBtn')?.addEventListener('click', executeLogout);
+
+        document.getElementById('themeToggleBtn')?.addEventListener('click', toggleTheme);
+
+        // Navigation Tabs
+        document.getElementById('tabCalcBtn')?.addEventListener('click', () => switchTab('kalkulator'));
+        document.getElementById('tabPollingBtn')?.addEventListener('click', () => switchTab('polling'));
+        document.getElementById('tabStnkAiBtn')?.addEventListener('click', () => switchTab('stnkAi'));
+        document.getElementById('tabKtpAiBtn')?.addEventListener('click', () => switchTab('ktpAi'));
+        document.getElementById('tabTakeoverBtn')?.addEventListener('click', () => switchTab('takeover'));
+        document.getElementById('tabChecklistBtn')?.addEventListener('click', () => switchTab('checklist'));
+        document.getElementById('tabScriptBtn')?.addEventListener('click', () => switchTab('script'));
+        document.getElementById('tabBonusBtn')?.addEventListener('click', () => switchTab('bonus'));
+        document.getElementById('tabYearBtn')?.addEventListener('click', () => switchTab('tahun'));
+        document.getElementById('tabTableBtn')?.addEventListener('click', () => switchTab('tabel'));
+
+        // Kalkulator Inputs
+        document.getElementById('inputVal')?.addEventListener('input', (e) => handleInputChange(e.target.value));
+        document.getElementById('rangeSlider')?.addEventListener('input', (e) => handleSliderChange(e.target.value));
+
+        // Polling Actions
+        document.getElementById('pollNominal')?.addEventListener('input', (e) => formatPollNominal(e.target));
+        document.getElementById('copyPollingBtn')?.addEventListener('click', copyPollingText);
+        document.getElementById('sharePollingWABtn')?.addEventListener('click', sharePollingWA);
+
+        // STNK AI Actions
+        document.getElementById('stnkImageInput')?.addEventListener('change', previewStnkImage);
+        document.getElementById('btnProcessStnk')?.addEventListener('click', analyzeSTNKWithAI);
+        document.getElementById('useAiPlafondBtn')?.addEventListener('click', useAiPlafondInCalculator);
+
+        // KTP AI Actions
+        document.getElementById('docTypeBtnPemohon')?.addEventListener('click', () => selectDocType('ktp_pemohon'));
+        document.getElementById('docTypeBtnPenjamin')?.addEventListener('click', () => selectDocType('ktp_penjamin'));
+        document.getElementById('docTypeBtnKK')?.addEventListener('click', () => selectDocType('kk'));
+        document.getElementById('ktpImageInput')?.addEventListener('change', previewKtpImage);
+        document.getElementById('btnProcessKtp')?.addEventListener('click', analyzeKTPWithAI);
+        document.getElementById('copyKtpDataBtn')?.addEventListener('click', copyKtpDataToClipboard);
+        document.getElementById('copyKtpWaBtn')?.addEventListener('click', copyKtpDataToWA);
+
+        // KTP Row tap-to-copy bindings
+        document.getElementById('ktpRowNik')?.addEventListener('click', () => copySingleKtpField('ktpResultNik', 'NIK'));
+        document.getElementById('ktpRowNama')?.addEventListener('click', () => copySingleKtpField('ktpResultNama', 'Nama'));
+        document.getElementById('ktpRowTtl')?.addEventListener('click', () => copySingleKtpField('ktpResultTtl', 'TTL'));
+        document.getElementById('ktpRowJk')?.addEventListener('click', () => copySingleKtpField('ktpResultJk', 'Jenis Kelamin'));
+        document.getElementById('ktpRowAlamat')?.addEventListener('click', () => copySingleKtpField('ktpResultAlamat', 'Alamat'));
+        document.getElementById('ktpRowRtRw')?.addEventListener('click', () => copySingleKtpField('ktpResultRtRw', 'RT/RW'));
+        document.getElementById('ktpRowKel')?.addEventListener('click', () => copySingleKtpField('ktpResultKel', 'Kel/Desa'));
+        document.getElementById('ktpRowKec')?.addEventListener('click', () => copySingleKtpField('ktpResultKec', 'Kecamatan'));
+        document.getElementById('ktpRowAgama')?.addEventListener('click', () => copySingleKtpField('ktpResultAgama', 'Agama'));
+        document.getElementById('ktpRowStatus')?.addEventListener('click', () => copySingleKtpField('ktpResultStatus', 'Status'));
+        document.getElementById('ktpRowPekerjaan')?.addEventListener('click', () => copySingleKtpField('ktpResultPekerjaan', 'Pekerjaan'));
+
+        // Takeover Actions
+        document.getElementById('takeoverPencairanNew')?.addEventListener('input', calculateTakeover);
+        document.getElementById('takeoverPelunasanOld')?.addEventListener('input', calculateTakeover);
+        document.getElementById('takeoverTenorSelect')?.addEventListener('change', calculateTakeover);
+        document.getElementById('shareTakeoverWABtn')?.addEventListener('click', shareTakeoverWA);
+
+        // Checklist Actions
+        ['chkKtp', 'chkKk', 'chkStnk', 'chkBpkb', 'chkRumah'].forEach(id => {
+            document.getElementById(id)?.addEventListener('change', updateChecklistProgress);
+        });
+        document.getElementById('chkPajakStatus')?.addEventListener('change', updateChecklistProgress);
+        document.getElementById('chkAnStatus')?.addEventListener('change', updateChecklistProgress);
+        document.getElementById('shareChecklistWABtn')?.addEventListener('click', shareChecklistWA);
+
+        // Script Sub Tabs
+        document.getElementById('subScriptTabPromo')?.addEventListener('click', () => switchScriptSubTab('promo'));
+        document.getElementById('subScriptTabObjection')?.addEventListener('click', () => switchScriptSubTab('objection'));
+        document.getElementById('scriptTemplateSelect')?.addEventListener('change', generateScriptPromo);
+        document.getElementById('copyScriptPromoBtn')?.addEventListener('click', copyScriptPromo);
+
+        // Tracker & Bonus Actions
+        document.getElementById('trackerTargetUnit')?.addEventListener('change', updateGoalTracker);
+        document.getElementById('trackerCurrentUnit')?.addEventListener('change', updateGoalTracker);
+        document.getElementById('trackerMinusBtn')?.addEventListener('click', () => adjustTrackerProgress(-1));
+        document.getElementById('trackerPlusBtn')?.addEventListener('click', () => adjustTrackerProgress(1));
+        document.getElementById('bonusPencairanInput')?.addEventListener('input', calculateSalesBonus);
+        document.getElementById('bonusUnitInput')?.addEventListener('input', calculateSalesBonusFromUnits);
+
+        // Vehicle Year Check
+        document.getElementById('vehicleYearSelect')?.addEventListener('change', checkVehicleYear);
+
+        // Table Search
+        document.getElementById('searchFilterInput')?.addEventListener('input', renderTable);
+
+        // WhatsApp Floating & Main Buttons
+        document.getElementById('copyWhatsAppBtn')?.addEventListener('click', copyToWhatsApp);
+        document.getElementById('fabWhatsAppBtn')?.addEventListener('click', copyToWhatsApp);
+    });
+
+    function useAiPlafondInCalculator() {
+        if (state.calculatedAiPlafond > 0) {
+            handleInputChange(state.calculatedAiPlafond);
+            switchTab('kalkulator');
+            showToast("Nilai Plafond diterapkan ke Kalkulator!", "✅");
+        }
+    }
 </script>
 </body>
 </html>
