@@ -41,7 +41,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
-            user-select: none;
+            user-select: auto;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -68,6 +68,11 @@
         .tab-transition {
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        .selectable-text {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
@@ -88,7 +93,7 @@
         <form onsubmit="handleLogin(event)" class="space-y-4">
             <div>
                 <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">ID / Kode KBA</label>
-                <input type="text" id="loginSalesId" required placeholder="Cth: SRN31 / SPV01" value="SRN31" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase transition" />
+                <input type="text" id="loginSalesId" required placeholder="Cth: SRN31 / CRS31" value="SRN31" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase transition" />
             </div>
 
             <div>
@@ -107,12 +112,12 @@
         </form>
 
         <div class="pt-2 border-t border-slate-800/80 text-center">
-            <p class="text-[10px] text-slate-500">Default Access: ID <b>SRN31</b> | PIN <b></b></p>
+            <p class="text-[10px] text-slate-500">Default Access: ID <b>SRN31</b> | PIN <b>1234</b></p>
         </div>
     </div>
 </div>
 
-<!-- Toast Alert Container -->
+<!-- Toast Notification -->
 <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white border border-slate-700 px-4 py-2.5 rounded-2xl shadow-2xl text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none transform -translate-y-4 flex items-center gap-2">
     <span id="toastIcon">💡</span>
     <span id="toastMessage">Pesan Notifikasi</span>
@@ -138,11 +143,11 @@
                             SRN31
                         </span>
                     </h1>
-                    <p class="text-[11px] text-blue-200/90 font-medium">Kalkulator Brosur & Tools KBA </p>
+                    <p class="text-[11px] text-blue-200/90 font-medium">Kalkulator Brosur & Tools KBA</p>
                 </div>
             </div>
 
-            <!-- Header Actions: Logout & Theme Toggle -->
+            <!-- Header Actions: Gemini Key, Logout & Theme Toggle -->
             <div class="flex items-center gap-1.5">
                 <button onclick="openApiKeyModal()" title="Pengaturan Gemini API Key" class="p-2.5 rounded-2xl bg-white/10 hover:bg-amber-500/20 active:scale-95 transition border border-white/10 text-amber-300 flex items-center justify-center cursor-pointer">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
@@ -164,14 +169,23 @@
         </div>
     </header>
 
+    <!-- Top Horizontal Tab Scroll -->
     <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-3 py-2.5 flex gap-1.5 text-[11px] font-bold shadow-sm sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
         <button id="tabCalcBtn" onclick="switchTab('kalkulator')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 bg-blue-600 text-white shadow-md active:scale-95 shrink-0 cursor-pointer">
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
             Kalkulator
         </button>
+        <button id="tabPollingBtn" onclick="switchTab('polling')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-emerald-600 dark:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-extrabold cursor-pointer">
+            <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+            Polling Pengajuan WA
+        </button>
         <button id="tabStnkAiBtn" onclick="switchTab('stnkAi')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-purple-600 dark:text-purple-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-extrabold cursor-pointer">
             <svg class="w-3.5 h-3.5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             Scan STNK (AI)
+        </button>
+        <button id="tabKtpAiBtn" onclick="switchTab('ktpAi')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-teal-600 dark:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 font-extrabold cursor-pointer">
+            <svg class="w-3.5 h-3.5 text-teal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
+            Scan KTP (AI)
         </button>
         <button id="tabTakeoverBtn" onclick="switchTab('takeover')" class="py-2 px-3 rounded-xl tab-transition flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shrink-0 cursor-pointer">
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
@@ -202,6 +216,7 @@
     <!-- Main Views Body -->
     <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
 
+        <!-- VIEW 1: KALKULATOR -->
         <div id="kalkulatorView" class="space-y-4">
             
             <!-- Input Nominal Box -->
@@ -287,21 +302,13 @@
                     </div>
                 </div>
 
-                <!-- Clean 2-column Action Buttons (No Simpan) -->
-                <div class="grid grid-cols-2 gap-2">
+                <div>
                     <button
                         onclick="copyToWhatsApp()"
-                        class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-md cursor-pointer"
+                        class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition text-xs shadow-md cursor-pointer"
                     >
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
                         <span id="copyBtnText">Salin WA</span>
-                    </button>
-                    <button
-                        onclick="generateSimulasiCardImage()"
-                        class="bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-md cursor-pointer"
-                    >
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        <span>Kartu PNG</span>
                     </button>
                 </div>
             </div>
@@ -317,6 +324,89 @@
 
         </div>
 
+        <!-- VIEW 2: POLLING PENGAJUAN WA (SESUAI FORMAT TEAM) -->
+        <div id="pollingView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-emerald-200 dark:border-emerald-800/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                        Form Polling Pengajuan WA
+                    </h3>
+                    <span class="text-[10px] bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Format Tim KBA</span>
+                </div>
+
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Isi data pengajuan nasabah di bawah. Format pesan disesuaikan persis dengan standar <b id="pollFormHeaderBadge">FORM PENGAJUAN M2W SRN31</b> untuk dilempar ke grup WA!
+                </p>
+
+                <div class="space-y-2 text-xs">
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">1. Nama Pemohon:</label>
+                        <input type="text" id="pollNamaPemohon" placeholder="Cth: DERI ISRO MA'ARIJUL HAYAT" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">2. Nama Penjamin:</label>
+                        <input type="text" id="pollNamaPenjamin" placeholder="Cth: FITRI FAUZIAH" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">3. No. HP / WA Pemohon:</label>
+                        <input type="tel" id="pollPhone" placeholder="+62 859-2177-1560" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">4. Pekerjaan Pemohon:</label>
+                            <input type="text" id="pollPekerjaanPemohon" placeholder="Cth: JUALAN / SWASTA" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">5. Pekerjaan Penjamin:</label>
+                            <input type="text" id="pollPekerjaanPenjamin" placeholder="Cth: JUALAN / IRT" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">6. Pengajuan (Pencairan):</label>
+                            <input type="text" id="pollNominal" oninput="formatPollNominal(this)" placeholder="8.500.000" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">7. Tenor Angsuran:</label>
+                            <select id="pollTenor" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                <option value="8">8 Bulan</option>
+                                <option value="11">11 Bulan</option>
+                                <option value="12">12 Bulan</option>
+                                <option value="18" selected>18 Bulan</option>
+                                <option value="20">20 Bulan</option>
+                                <option value="24">24 Bulan</option>
+                                <option value="30">30 Bulan</option>
+                                <option value="36">36 Bulan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">8. Alamat Tinggal (Sesuai KTP / Domisili):</label>
+                        <textarea id="pollAlamat" rows="2" placeholder="Jl. Ki uju kaujon tengah rt. 004 rw. 002 kel. Serang kec serang" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-2 grid grid-cols-2 gap-2">
+                    <button onclick="copyPollingText()" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span>Salin Format Polling</span>
+                    </button>
+
+                    <button onclick="sharePollingWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Share ke Grup WA</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 3: SCAN STNK (AI) -->
         <div id="stnkAiView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-purple-200 dark:border-purple-800/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -396,7 +486,7 @@
                 </button>
             </div>
 
-            <!-- Result Card STNK AI (Cleaned of hardcoded text defaults) -->
+            <!-- Result Card STNK AI -->
             <div id="stnkAiResultCard" class="hidden bg-gradient-to-br from-slate-900 via-purple-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-purple-500/40 space-y-3">
                 <div class="flex items-center justify-between border-b border-purple-800/60 pb-2">
                     <span class="text-[10px] text-purple-300 font-bold uppercase tracking-wider flex items-center gap-1">
@@ -423,6 +513,98 @@
             </div>
         </div>
 
+        <!-- VIEW 4: SCAN KTP (AI) -->
+        <div id="ktpAiView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-teal-200 dark:border-teal-800/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="8" x2="17" y2="8"/><line x1="15" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>
+                        AI Vision KTP OCR & Auto-Extract
+                    </h3>
+                    <span class="text-[10px] bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 font-bold px-2 py-0.5 rounded-md border border-teal-200 dark:border-teal-800/50">Siap Paste</span>
+                </div>
+
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Foto KTP nasabah. AI akan mengestrak data secara rapi. Tap baris mana saja untuk menyalin data satuan, atau blok teks langsung pakai jari.
+                </p>
+
+                <!-- Input Foto KTP -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Upload / Foto KTP Nasabah:</label>
+                    <input type="file" id="ktpImageInput" accept="image/*" onchange="previewKtpImage(event)" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-teal-600 file:text-white hover:file:bg-teal-700 cursor-pointer" />
+                    
+                    <div id="ktpPreviewContainer" class="hidden justify-center my-2">
+                        <img id="ktpPreviewImg" class="max-h-48 rounded-xl shadow border border-slate-300 dark:border-slate-700 object-cover" />
+                    </div>
+                </div>
+
+                <button onclick="analyzeKTPWithAI()" id="btnProcessKtp" class="w-full bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span id="btnProcessKtpLabel">Scan & Ekstrak Data KTP</span>
+                </button>
+            </div>
+
+            <!-- Result Card KTP AI -->
+            <div id="ktpAiResultCard" class="hidden bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-teal-500/40 space-y-3">
+                <div class="flex items-center justify-between border-b border-teal-800/60 pb-2">
+                    <span class="text-[10px] text-teal-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                        ✨ HASIL EKSTRAKSI DATA KTP
+                    </span>
+                    <span class="bg-teal-500/20 text-teal-300 text-[9px] px-2 py-0.5 rounded-full border border-teal-400/30 font-bold">Siap Paste</span>
+                </div>
+
+                <!-- Clean Monospace Compact Layout -->
+                <div class="space-y-1 text-xs font-mono bg-black/50 p-3 rounded-xl border border-teal-500/30 leading-snug text-teal-100" id="ktpTextContainer">
+                    <div onclick="copySingleKtpField('ktpResultNik', 'NIK')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">NIK:</span> <span id="ktpResultNik" class="text-white font-bold selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultNama', 'Nama')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Nama:</span> <span id="ktpResultNama" class="text-white font-bold selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultTtl', 'TTL')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">TTL:</span> <span id="ktpResultTtl" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultJk', 'Jenis Kelamin')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Jenis Kelamin:</span> <span id="ktpResultJk" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultAlamat', 'Alamat')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Alamat:</span> <span id="ktpResultAlamat" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultRtRw', 'RT/RW')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">RT/RW:</span> <span id="ktpResultRtRw" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultKel', 'Kel/Desa')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Kel/Desa:</span> <span id="ktpResultKel" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultKec', 'Kecamatan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Kecamatan:</span> <span id="ktpResultKec" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultAgama', 'Agama')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Agama:</span> <span id="ktpResultAgama" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultStatus', 'Status Perkawinan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Status:</span> <span id="ktpResultStatus" class="text-white selectable-text"></span>
+                    </div>
+                    <div onclick="copySingleKtpField('ktpResultPekerjaan', 'Pekerjaan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
+                        <span class="text-teal-400 font-bold">Pekerjaan:</span> <span id="ktpResultPekerjaan" class="text-white selectable-text"></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="copyKtpDataToClipboard()" class="w-full bg-teal-600 hover:bg-teal-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <span id="copyKtpTextBtnLabel">Salin Semua Data</span>
+                    </button>
+
+                    <button onclick="copyKtpDataToWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Kirim ke WA</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 5: TAKEOVER -->
         <div id="takeoverView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -504,6 +686,7 @@
             </div>
         </div>
 
+        <!-- VIEW 6: CHECKLIST SYARAT -->
         <div id="checklistView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/60 pb-2">
@@ -594,6 +777,7 @@
             </div>
         </div>
 
+        <!-- VIEW 7: SCRIPT PROMO & TANGKISAN -->
         <div id="scriptView" class="space-y-4 hidden">
             
             <!-- Segmented Switcher -->
@@ -691,6 +875,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
         </div>
 
+        <!-- VIEW 8: INSENTIF & TARGET -->
         <div id="bonusView" class="space-y-4 hidden">
             
             <!-- Goal Tracker Card -->
@@ -775,6 +960,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
 
+        <!-- VIEW 9: CEK TAHUN KENDARAAN -->
         <div id="tahunView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -812,6 +998,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
 
+        <!-- VIEW 10: TABEL BROSUR -->
         <div id="tabelView" class="space-y-3 hidden">
             <div class="bg-white dark:bg-slate-800/90 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm space-y-2">
                 <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Cari Nilai Pencairan Brosur:</label>
@@ -859,23 +1046,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         <span class="text-xs font-extrabold pr-1 hidden sm:inline">Salin WA</span>
     </button>
 
-    <!-- Modal Card Preview Canvas PNG -->
-    <div id="cardModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 max-w-sm w-full shadow-2xl relative space-y-3 text-center border border-slate-200 dark:border-slate-700">
-            <button onclick="closeCardModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Kartu Simulasi Angsuran</h3>
-            <p class="text-[10px] text-slate-500 dark:text-slate-400">Tahan/Tekan gambar untuk menyimpan ke galeri HP</p>
-            <div class="flex justify-center my-2">
-                <canvas id="simulationCanvas" width="600" height="700" class="w-full max-w-[280px] rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700"></canvas>
-            </div>
-            <a id="downloadCanvasBtn" download="Simulasi_KlikNSC.png" class="block w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs shadow-md transition text-center cursor-pointer">
-                Download Gambar PNG
-            </a>
-        </div>
-    </div>
-
     <!-- Confirmation Modal Logout -->
     <div id="logoutModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 max-w-xs w-full shadow-2xl relative space-y-4 text-center border border-slate-200 dark:border-slate-700">
@@ -884,7 +1054,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
             <div class="space-y-1">
                 <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Konfirmasi Keluar</h3>
-                <p class="text-xs text-slate-500 dark:text-slate-400">Apakah Anda yakin ingin keluar dari akun Sales ini?</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Apakah Anda yakin ingin keluar dari akun ini?</p>
             </div>
             <div class="flex gap-2">
                 <button onclick="closeLogoutModal()" class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Batal</button>
@@ -906,7 +1076,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
             <div class="space-y-2">
                 <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Tempelkan <b>API Key</b> dari Google AI Studio kamu di sini agar fitur Scan STNK AI menggunakan akun Pay-As-You-Go kamu.
+                    Tempelkan <b>API Key</b> dari Google AI Studio kamu di sini agar fitur Scan STNK & KTP AI menggunakan akun Pay-As-You-Go kamu.
                 </p>
                 <input
                     type="password"
@@ -1035,11 +1205,15 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         trackerTarget: parseInt(localStorage.getItem('kliknsc_target_unit') || '10', 10),
         trackerCurrent: parseInt(localStorage.getItem('kliknsc_current_unit') || '3', 10),
         calculatedAiPlafond: 0,
-        salesId: localStorage.getItem('kliknsc_sales_id') || 'SRN31'
+        salesId: localStorage.getItem('kliknsc_sales_id') || 'SRN31',
+        extractedKtpData: null
     };
 
     let stnkBase64Data = null;
     let stnkMimeType = "image/jpeg";
+
+    let ktpBase64Data = null;
+    let ktpMimeType = "image/jpeg";
 
     function openApiKeyModal() {
         const modal = document.getElementById('apiKeyModal');
@@ -1061,7 +1235,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             showToast("API Key berhasil disimpan!", "🔑");
         } else {
             localStorage.removeItem('kliknsc_gemini_key');
-            showToast("API Key dihapus (menggunakan default).", "ℹ️");
+            showToast("API Key dihapus (menggunakan default).", "ℹ️️");
         }
         closeApiKeyModal();
     }
@@ -1089,9 +1263,15 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         if (isLoggedIn === 'true') {
             if (overlay) overlay.classList.add('hidden');
             if (salesBadge) salesBadge.innerText = state.salesId;
+            updatePollHeaderBadge();
         } else {
             if (overlay) overlay.classList.remove('hidden');
         }
+    }
+
+    function updatePollHeaderBadge() {
+        const el = document.getElementById('pollFormHeaderBadge');
+        if (el) el.innerText = `FORM PENGAJUAN M2W ${state.salesId}`;
     }
 
     function handleLogin(e) {
@@ -1106,7 +1286,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             localStorage.setItem('kliknsc_logged_in', 'true');
             if (errorMsg) errorMsg.classList.add('hidden');
             checkAuthStatus();
-            showToast(`Selamat datang kembali, Sales ${inputId}!`, '🔓');
+            showToast(`Selamat datang kembali, KBA ${inputId}!`, '🔓');
         } else {
             if (errorMsg) errorMsg.classList.remove('hidden');
         }
@@ -1249,6 +1429,16 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         const badgeEl = document.getElementById('selectedTenorBadge');
         if (badgeEl) badgeEl.innerText = `${state.selectedTenor} Bulan`;
 
+        // Pre-fill nominal and tenor polling
+        const pollNominalEl = document.getElementById('pollNominal');
+        if (pollNominalEl && (!pollNominalEl.value || pollNominalEl.value === '0')) {
+            pollNominalEl.value = formatNumberInput(state.nominal);
+        }
+        const pollTenorEl = document.getElementById('pollTenor');
+        if (pollTenorEl) {
+            pollTenorEl.value = state.selectedTenor.toString();
+        }
+
         renderTenorGrid();
     }
 
@@ -1282,13 +1472,13 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
     function switchTab(tabName) {
         state.activeTab = tabName;
-        const tabs = ['kalkulator', 'stnkAi', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
+        const tabs = ['kalkulator', 'polling', 'stnkAi', 'ktpAi', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
         const btnMap = { 
-            kalkulator: 'tabCalcBtn', stnkAi: 'tabStnkAiBtn', takeover: 'tabTakeoverBtn', checklist: 'tabChecklistBtn',
+            kalkulator: 'tabCalcBtn', polling: 'tabPollingBtn', stnkAi: 'tabStnkAiBtn', ktpAi: 'tabKtpAiBtn', takeover: 'tabTakeoverBtn', checklist: 'tabChecklistBtn',
             script: 'tabScriptBtn', bonus: 'tabBonusBtn', tahun: 'tabYearBtn', tabel: 'tabTableBtn' 
         };
         const viewMap = { 
-            kalkulator: 'kalkulatorView', stnkAi: 'stnkAiView', takeover: 'takeoverView', checklist: 'checklistView',
+            kalkulator: 'kalkulatorView', polling: 'pollingView', stnkAi: 'stnkAiView', ktpAi: 'ktpAiView', takeover: 'takeoverView', checklist: 'checklistView',
             script: 'scriptView', bonus: 'bonusView', tahun: 'tahunView', tabel: 'tabelView' 
         };
 
@@ -1312,6 +1502,64 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         if (tabName === 'tabel') renderTable();
     }
 
+    // FUNCTIONALITY FITUR POLLING PENGAJUAN WA (EXACT FORMAT MATCH)
+    function formatPollNominal(el) {
+        const num = parseInputNumber(el.value);
+        el.value = formatNumberInput(num);
+    }
+
+    function generatePollingText() {
+        const pemohon = document.getElementById('pollNamaPemohon')?.value.trim() || '-';
+        const penjamin = document.getElementById('pollNamaPenjamin')?.value.trim() || '-';
+        const phone = document.getElementById('pollPhone')?.value.trim() || '-';
+        const pekPemohon = document.getElementById('pollPekerjaanPemohon')?.value.trim() || '-';
+        const pekPenjamin = document.getElementById('pollPekerjaanPenjamin')?.value.trim() || '-';
+        const nominalRaw = document.getElementById('pollNominal')?.value || '0';
+        const tenor = document.getElementById('pollTenor')?.value || '12';
+        const alamat = document.getElementById('pollAlamat')?.value.trim() || '-';
+
+        const nominalNum = parseInputNumber(nominalRaw);
+        const tenorIdx = TENORS.indexOf(parseInt(tenor, 10));
+        const monthlyRate = calculateRate(nominalNum, tenorIdx >= 0 ? tenorIdx : 2, state.category);
+
+        return `FORM PENGAJUAN M2W ${state.salesId}
+NAMA PEMOHON : ${pemohon.toUpperCase()}
+NAMA PENJAMIN : ${penjamin.toUpperCase()}
+No Hp : ${phone}
+PEKERJAAN PEMOHON : ${pekPemohon.toUpperCase()}
+PEKERJAAN PENJAMIN :${pekPenjamin.toUpperCase()}
+PENGAJUAN : ${formatNumberInput(nominalNum)} (${formatRupiah(nominalNum)})
+TENOR : ${tenor} BULAN
+ANGSURAN : ${formatRupiah(monthlyRate)} / bulan
+ALAMAT TINGGAL: ${alamat}`;
+    }
+
+    async function copyPollingText() {
+        const txt = generatePollingText();
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(txt);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = txt;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            showToast("Format Polling Pengajuan berhasil disalin!", "📋");
+        } catch (e) {
+            showToast("Gagal menyalin format polling.", "⚠️");
+        }
+    }
+
+    function sharePollingWA() {
+        const txt = generatePollingText();
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(txt)}`;
+    }
+
     function previewStnkImage(e) {
         const file = e.target.files[0];
         if (file) {
@@ -1325,6 +1573,25 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 
                 if (dataUrl.includes(',')) {
                     stnkBase64Data = dataUrl.split(',')[1];
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function previewKtpImage(e) {
+        const file = e.target.files[0];
+        if (file) {
+            ktpMimeType = file.type || "image/jpeg";
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const dataUrl = evt.target.result;
+                document.getElementById('ktpPreviewImg').src = dataUrl;
+                document.getElementById('ktpPreviewContainer').classList.remove('hidden');
+                document.getElementById('ktpPreviewContainer').classList.add('flex');
+                
+                if (dataUrl.includes(',')) {
+                    ktpBase64Data = dataUrl.split(',')[1];
                 }
             };
             reader.readAsDataURL(file);
@@ -1441,6 +1708,7 @@ Kembalikan HANYA JSON valid dalam format ini:
                 card.classList.remove('hidden');
                 card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
+
             showToast("STNK berhasil dianalisis dengan Gemini AI!", "✨");
 
         } catch (err) {
@@ -1449,6 +1717,194 @@ Kembalikan HANYA JSON valid dalam format ini:
         } finally {
             if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
         }
+    }
+
+    async function analyzeKTPWithAI() {
+        const btnLabel = document.getElementById('btnProcessKtpLabel');
+        if (!ktpBase64Data) {
+            showToast("Upload atau foto KTP nasabah terlebih dahulu!", "⚠️");
+            return;
+        }
+
+        if (btnLabel) btnLabel.innerText = "⚡ Mengekstrak Data KTP via Gemini AI...";
+
+        try {
+            const promptText = `Kamu adalah sistem OCR KTP Republik Indonesia resmi untuk leasing KlikNSC.
+Tugasmu adalah membaca foto KTP yang dilampirkan dan mengekstrak semua field text secara akurat.
+
+Kembalikan HANYA JSON valid dalam format berikut:
+{
+  "nik": "3604...",
+  "nama": "NAMA LENGKAP",
+  "ttl": "SERANG, 12-05-1990",
+  "jk": "LAKI-LAKI",
+  "alamat": "JL. AHMAD YANI NO. 10",
+  "rtRw": "002/005",
+  "kelDesa": "SUMURBERUNG",
+  "kecamatan": "CYBERBERUNG",
+  "agama": "ISLAM",
+  "statusKawin": "KAWIN",
+  "pekerjaan": "KARYAWAN SWASTA"
+}`;
+
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: promptText },
+                        {
+                            inlineData: {
+                                mimeType: ktpMimeType,
+                                data: ktpBase64Data
+                            }
+                        }
+                    ]
+                }],
+                generationConfig: {
+                    responseMimeType: "application/json"
+                }
+            };
+
+            const userKey = localStorage.getItem('kliknsc_gemini_key') || "";
+            const apiKey = userKey;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            let response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error("Gagal terhubung ke Gemini AI Studio.");
+            }
+
+            const result = await response.json();
+            const jsonText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (!jsonText) {
+                throw new Error("Respon AI tidak valid.");
+            }
+
+            const data = JSON.parse(jsonText);
+            state.extractedKtpData = data;
+
+            document.getElementById('ktpResultNik').innerText = data.nik || "-";
+            document.getElementById('ktpResultNama').innerText = data.nama || "-";
+            document.getElementById('ktpResultTtl').innerText = data.ttl || "-";
+            document.getElementById('ktpResultJk').innerText = data.jk || "-";
+            document.getElementById('ktpResultAlamat').innerText = data.alamat || "-";
+            document.getElementById('ktpResultRtRw').innerText = data.rtRw || "-";
+            document.getElementById('ktpResultKel').innerText = data.kelDesa || "-";
+            document.getElementById('ktpResultKec').innerText = data.kecamatan || "-";
+            document.getElementById('ktpResultAgama').innerText = data.agama || "-";
+            document.getElementById('ktpResultStatus').innerText = data.statusKawin || "-";
+            document.getElementById('ktpResultPekerjaan').innerText = data.pekerjaan || "-";
+
+            const card = document.getElementById('ktpAiResultCard');
+            if (card) {
+                card.classList.remove('hidden');
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            // Auto fill polling form with extracted KTP data
+            if (data.nama) document.getElementById('pollNamaPemohon').value = data.nama;
+            if (data.pekerjaan) document.getElementById('pollPekerjaanPemohon').value = data.pekerjaan;
+            if (data.alamat || data.kecamatan) {
+                document.getElementById('pollAlamat').value = `${data.alamat || ''} ${data.rtRw ? 'RT. ' + data.rtRw : ''} ${data.kelDesa ? 'KEL. ' + data.kelDesa : ''} ${data.kecamatan ? 'KEC. ' + data.kecamatan : ''}`.trim();
+            }
+
+            showToast("Data KTP berhasil diekstrak AI!", "✨");
+
+        } catch (err) {
+            console.error("Gemini AI KTP error:", err);
+            showToast(err.message || "Gagal memproses KTP dengan Gemini AI.", "❌");
+        } finally {
+            if (btnLabel) btnLabel.innerText = "Scan & Ekstrak Data KTP";
+        }
+    }
+
+    async function copySingleKtpField(elementId, labelName) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        const txt = el.innerText.trim();
+
+        if (!txt || txt === '-') {
+            showToast(`Data ${labelName} belum tersedia`, "⚠️");
+            return;
+        }
+
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(txt);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = txt;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            showToast(`${labelName} tersalin: ${txt}`, "📋");
+        } catch (e) {
+            console.error("Copy error:", e);
+            showToast("Gagal menyalin, silakan seleksi manual.", "⚠️");
+        }
+    }
+
+    function generateKtpFormattedText() {
+        if (!state.extractedKtpData) return "";
+        const d = state.extractedKtpData;
+        return `NIK: ${d.nik || '-'}
+Nama: ${d.nama || '-'}
+TTL: ${d.ttl || '-'}
+Jenis Kelamin: ${d.jk || '-'}
+Alamat: ${d.alamat || '-'}
+RT/RW: ${d.rtRw || '-'}
+Kel/Desa: ${d.kelDesa || '-'}
+Kecamatan: ${d.kecamatan || '-'}
+Agama: ${d.agama || '-'}
+Status: ${d.statusKawin || '-'}
+Pekerjaan: ${d.pekerjaan || '-'}`;
+    }
+
+    async function copyKtpDataToClipboard() {
+        const text = generateKtpFormattedText();
+        if (!text) return;
+
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            
+            const btnLabel = document.getElementById('copyKtpTextBtnLabel');
+            if (btnLabel) {
+                btnLabel.innerText = "Semua Tersalin!";
+                setTimeout(() => { btnLabel.innerText = "Salin Semua Data"; }, 2000);
+            }
+            showToast("Semua data KTP berhasil disalin!", "📋");
+        } catch (e) {
+            console.error("Copy error:", e);
+            showToast("Gagal menyalin teks, silakan seleksi manual.", "⚠");
+        }
+    }
+
+    function copyKtpDataToWA() {
+        if (!state.extractedKtpData) return;
+        const d = state.extractedKtpData;
+        const text = `📋 *DATA HASIL SCAN KTP NASABAH (KLIKNSC)*\n-----------------------------------\n• NIK: *${d.nik || '-'}*\n• Nama: *${d.nama || '-'}*\n• TTL: *${d.ttl || '-'}*\n• Jenis Kelamin: *${d.jk || '-'}*\n• Alamat: *${d.alamat || '-'}*\n• RT/RW: *${d.rtRw || '-'}*\n• Kel/Desa: *${d.kelDesa || '-'}*\n• Kecamatan: *${d.kecamatan || '-'}*\n• Agama: *${d.agama || '-'}*\n• Status: *${d.statusKawin || '-'}*\n• Pekerjaan: *${d.pekerjaan || '-'}*\n-----------------------------------\n_Data di-extract otomatis via AI KlikNSC Mobile (${state.salesId})_`;
+
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
 
     function useAiPlafondInCalculator() {
@@ -1494,7 +1950,7 @@ Kembalikan HANYA JSON valid dalam format ini:
         const netCash = newAmt - totalPelunasan;
         const rateSelected = calculateRate(newAmt, TENORS.indexOf(tenor), state.category);
 
-        const text = `*RINCIAN ESTIMASI TAKE OVER BPKB KLIKNSC*\n-----------------------------------\n• Pencairan Barunya: *${formatRupiah(newAmt)}*\n• Sisa Pelunasan Pokok: *${formatRupiah(oldAmt)}*\n• Denda/Biaya Pelunasan (10%): *${formatRupiah(fee10Pct)}*\n• Total Potongan Pelunasan: *${formatRupiah(totalPelunasan)}*\n💵 *ESTIMASI DUIT SEGAR DITERIMA:* *${formatRupiah(netCash)}*\n\n📉 *Angsuran Baru:* ${formatRupiah(rateSelected)} / bln (${tenor} Bulan)\n\n_Solusi tambah modal usaha / pelunasan cepat BPKB. Hubungi Sales KlikNSC!_`;
+        const text = `*RINCIAN ESTIMASI TAKE OVER BPKB KLIKNSC*\n-----------------------------------\n• Pencairan Barunya: *${formatRupiah(newAmt)}*\n• Sisa Pelunasan Pokok: *${formatRupiah(oldAmt)}*\n• Denda/Biaya Pelunasan (10%): *${formatRupiah(fee10Pct)}*\n• Total Potongan Pelunasan: *${formatRupiah(totalPelunasan)}*\n💵 *ESTIMASI DUIT SEGAR DITERIMA:* *${formatRupiah(netCash)}*\n\n📉 *Angsuran Baru:* ${formatRupiah(rateSelected)} / bln (${tenor} Bulan)\n\n_Solusi tambah modal usaha / pelunasan cepat BPKB. Hubungi KBA KlikNSC!_`;
 
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
@@ -1542,7 +1998,7 @@ Kembalikan HANYA JSON valid dalam format ini:
         const score = document.getElementById('checklistScoreBadge').innerText;
         const advice = document.getElementById('checklistAdviceText').innerText;
 
-        const text = `📋 *CHECKLIST BERKAS PENGAJUAN KLIKNSC*\n\n📊 *Status Kelengkapan: ${score}*\n-----------------------------------\n*Rincian Berkas:*\n${checklistDetails}\n💡 *Catatan & Solusi Sales:*\n${advice}\n-----------------------------------\n_Mohon disiapkan dokumen di atas untuk mempercepat proses survei & pencairan. Terima kasih!_`;
+        const text = `📋 *CHECKLIST BERKAS PENGAJUAN KLIKNSC*\n\n📊 *Status Kelengkapan: ${score}*\n-----------------------------------\n*Rincian Berkas:*\n${checklistDetails}\n💡 *Catatan & Solusi KBA:*\n${advice}\n-----------------------------------\n_Mohon disiapkan dokumen di atas untuk mempercepat proses survei & pencairan. Terima kasih!_`;
 
         const phoneInput = document.getElementById('chkWaPhone');
         let rawPhone = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
@@ -1587,7 +2043,7 @@ Kembalikan HANYA JSON valid dalam format ini:
         } else if (tmpl === 'pajak') {
             text = `💡 *PAJAK MOTOR MATI? JANGAN KHUATIR!* 💡\n\nDi KlikNSC Serang, BPKB Motor Pajak Mati / Atas Nama Orang Lain *BISA DIPROSES*!\n\n• Estimasi Pencairan: *${formatRupiah(state.nominal)}*\n• Angsuran: *${formatRupiah(m)}* (${state.selectedTenor} Bulan)\n\nYuk cairkan dana tunai sekarang tanpa pusing pajak mati!`;
         } else if (tmpl === 'proses') {
-            text = `⚡ *PROSES 1 HARI CAIR - KLIKNSC BANTEN* ⚡\n\nAjukan sekarang, tim survei langsung datang ke rumah area Serang & Sekitarnya.\n\n💰 *Pencairan Bersih:* ${formatRupiah(state.nominal)}\n📉 *Angsuran:* ${formatRupiah(m)} / bln (Cuma ± ${formatRupiah(d)}/hari)\n\nSyarat gampang: KTP, KK, STNK, BPKB. Hubungi Sales Resmi KlikNSC!`;
+            text = `⚡ *PROSES 1 HARI CAIR - KLIKNSC BANTEN* ⚡\n\nAjukan sekarang, tim survei langsung datang ke rumah area Serang & Sekitarnya.\n\n💰 *Pencairan Bersih:* ${formatRupiah(state.nominal)}\n📉 *Angsuran:* ${formatRupiah(m)} / bln (Cuma ± ${formatRupiah(d)}/hari)\n\nSyarat gampang: KTP, KK, STNK, BPKB. Hubungi KBA Resmi KlikNSC!`;
         } else {
             text = `Need dana cepat cair utuh? Gadai BPKB Motor di KlikNSC Serang aja! Pencairan ${formatRupiah(state.nominal)}, angsuran ${formatRupiah(m)}/bln (cuma ± ${formatRupiah(d)}/hari). Chat WA sekarang! 🚀`;
         }
@@ -1685,80 +2141,6 @@ Kembalikan HANYA JSON valid dalam format ini:
         document.getElementById('bonusAgenText').innerText = minAgen > 0 ? `${minAgen} Agen Aktif` : `-`;
     }
 
-    function generateSimulasiCardImage() {
-        const canvas = document.getElementById('simulationCanvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const m = calculateRate(state.nominal, TENORS.indexOf(state.selectedTenor), state.category);
-        const d = Math.round(m / 30);
-        const cat = CATEGORIES.find(c => c.id === state.category) || CATEGORIES[0];
-
-        // Background
-        ctx.fillStyle = "#0f172a";
-        ctx.fillRect(0, 0, 600, 700);
-
-        // Header gradient
-        const grad = ctx.createLinearGradient(0, 0, 600, 0);
-        grad.addColorStop(0, '#1e3a8a');
-        grad.addColorStop(1, '#2563eb');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, 600, 120);
-
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 32px sans-serif";
-        ctx.fillText("KlikNSC Mobile", 40, 60);
-        ctx.font = "20px sans-serif";
-        ctx.fillStyle = "#93c5fd";
-        ctx.fillText("ESTIMASI PEMBIAAYAAN BANTEN", 40, 95);
-
-        // Main inner card
-        ctx.fillStyle = "#1e293b";
-        ctx.beginPath();
-        if (typeof ctx.roundRect === 'function') {
-            ctx.roundRect(30, 150, 540, 500, [24]);
-        } else {
-            ctx.rect(30, 150, 540, 500);
-        }
-        ctx.fill();
-
-        ctx.fillStyle = "#38bdf8";
-        ctx.font = "bold 20px sans-serif";
-        ctx.fillText("PROGRAM: " + cat.name.toUpperCase(), 60, 200);
-
-        ctx.fillStyle = "#94a3b8";
-        ctx.font = "18px sans-serif";
-        ctx.fillText("Pencairan Net (Bersih Terima):", 60, 250);
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 38px sans-serif";
-        ctx.fillText(formatRupiah(state.nominal), 60, 295);
-
-        ctx.strokeStyle = "#334155";
-        ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(60, 330); ctx.lineTo(540, 330); ctx.stroke();
-
-        ctx.fillStyle = "#94a3b8";
-        ctx.font = "18px sans-serif";
-        ctx.fillText("Angsuran Bulanan (" + state.selectedTenor + " Bulan):", 60, 380);
-        ctx.fillStyle = "#4ade80";
-        ctx.font = "bold 46px sans-serif";
-        ctx.fillText(formatRupiah(m) + " /bln", 60, 435);
-
-        ctx.fillStyle = "#38bdf8";
-        ctx.font = "bold 22px sans-serif";
-        ctx.fillText("Setara Cuma: ± " + formatRupiah(d) + " / hari", 60, 490);
-
-        ctx.fillStyle = "#64748b";
-        ctx.font = "italic 16px sans-serif";
-        ctx.fillText("*Pencairan utuh tanpa potongan admin tersembunyi.", 60, 560);
-        ctx.fillText("Hubungi Sales Resmi KlikNSC Serang Banten.", 60, 590);
-
-        const dataURL = canvas.toDataURL("image/png");
-        document.getElementById('downloadCanvasBtn').href = dataURL;
-        document.getElementById('cardModal').classList.remove('hidden');
-    }
-
-    function closeCardModal() { document.getElementById('cardModal').classList.add('hidden'); }
-
     function checkVehicleYear() {
         const year = parseInt(document.getElementById('vehicleYearSelect').value, 10);
         const age = 2026 - year;
@@ -1798,7 +2180,7 @@ Kembalikan HANYA JSON valid dalam format ini:
         const cat = CATEGORIES.find(c => c.id === state.category) || CATEGORIES[0];
         const m = calculateRate(state.nominal, TENORS.indexOf(state.selectedTenor), state.category);
         const d = Math.round(m / 30);
-        const text = `*SIMULASI ANGSURAN KLIKNSC (SRN31)*\n\n📍 *Wilayah:* Serang, Banten\n📌 *Pencairan Bersih:* ${formatRupiah(state.nominal)}\n🔖 *Program:* ${cat.name} (${cat.badge})\n\n⭐ *Pilihan Terpilih (${state.selectedTenor} Bulan):*\n• Angsuran: *${formatRupiah(m)} / bln*\n• Setara Cuma: *± ${formatRupiah(d)} / hari*\n\n_Pencairan utuh tanpa potongan. Hubungi Sales Resmi KlikNSC._`;
+        const text = `*SIMULASI ANGSURAN KLIKNSC (${state.salesId})*\n\n📍 *Wilayah:* Serang, Banten\n📌 *Pencairan Bersih:* ${formatRupiah(state.nominal)}\n🔖 *Program:* ${cat.name} (${cat.badge})\n\n⭐ *Pilihan Terpilih (${state.selectedTenor} Bulan):*\n• Angsuran: *${formatRupiah(m)} / bln*\n• Setara Cuma: *± ${formatRupiah(d)} / hari*\n\n_Pencairan utuh tanpa potongan. Hubungi KBA Resmi KlikNSC._`;
         
         const btnText = document.getElementById('copyBtnText'); 
         if (btnText) {
