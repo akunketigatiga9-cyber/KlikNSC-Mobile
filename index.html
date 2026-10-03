@@ -429,7 +429,7 @@
                             <b id="pelunasanDiskonValText" class="text-emerald-400">- Rp 6.480.000</b>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Biaya Penalti Pelunasan (2%):</span>
+                            <span id="pelunasanPenaltiLabelText" class="text-slate-400">Biaya Penalti Pelunasan:</span>
                             <b id="pelunasanPenaltiValText" class="text-rose-300">+ Rp 302.400</b>
                         </div>
                         <div class="flex justify-between" id="rowPelunasanDenda">
@@ -1693,7 +1693,10 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         if (document.getElementById('pelunasanHematText')) document.getElementById('pelunasanHematText').innerText = formatRupiah(totalHemat);
         if (document.getElementById('pelunasanNormalTagihanText')) document.getElementById('pelunasanNormalTagihanText').innerText = formatRupiah(normalTagihan);
         if (document.getElementById('pelunasanDiskonValText')) document.getElementById('pelunasanDiskonValText').innerText = `- ${formatRupiah(diskonVal)} (${diskonPct}%)`;
-        if (document.getElementById('pelunasanPenaltiValText')) document.getElementById('pelunasanPenaltiValText').innerText = `+ ${formatRupiah(penaltiVal)} (${penaltiPct}%)`;
+        
+        if (document.getElementById('pelunasanPenaltiLabelText')) document.getElementById('pelunasanPenaltiLabelText').innerText = `Biaya Penalti Pelunasan (${penaltiPct}%):`;
+        if (document.getElementById('pelunasanPenaltiValText')) document.getElementById('pelunasanPenaltiValText').innerText = `+ ${formatRupiah(penaltiVal)}`;
+        
         if (document.getElementById('pelunasanDendaValText')) document.getElementById('pelunasanDendaValText').innerText = `+ ${formatRupiah(dendaRaw)}`;
     }
 
