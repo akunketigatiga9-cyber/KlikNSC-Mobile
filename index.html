@@ -2035,31 +2035,42 @@ ALAMAT TINGGAL: ${alamat}`;
             return;
         }
 
+        const userKey = safeGetStorage('kliknsc_gemini_key', '').trim();
+
+        // Jika user upload foto STNK tapi belum memasukkan API Key, otomatis tampilkan modal API Key
+        if (!userKey && stnkBase64Data) {
+            showToast("Masukkan Gemini API Key terlebih dahulu untuk mengaktifkan AI Vision STNK!", "🔑");
+            openApiKeyModal();
+            return;
+        }
+
         const isTanganPertama = document.getElementById('stnkTangan1')?.checked ?? true;
         const factor = isTanganPertama ? 0.80 : 0.70;
         const formulaPctText = isTanganPertama ? "Tangan Pertama (75.2%)" : "Tangan Kedua (65.8%)";
 
-        const userKey = safeGetStorage('kliknsc_gemini_key', '').trim();
-
-        if (btnLabel) btnLabel.innerText = "⚡ Menganalisis STNK dengan AI...";
+        if (btnLabel) btnLabel.innerText = "⚡ Menganalisis STNK dengan Gemini Vision AI...";
 
         let motorName = "";
         let estHarpas = 0;
         let isAiResult = false;
+        let extraInfoText = "";
 
         if (userKey) {
             try {
-                const promptText = `Kamu adalah sistem OCR dan penilai kendaraan resmi untuk leasing KlikNSC Banten.
+                const promptText = `Kamu adalah sistem AI Vision OCR dan penilai kendaraan resmi untuk leasing KlikNSC Banten.
 Analisis foto STNK yang dilampirkan atau query berikut: "${combinedQuery || ''}".
 
-Tugasmu:
-1. Ekstrak MERK, TIPE/KODE MODEL KENDARAAN persis seperti tercetak di STNK, serta TAHUN PEMBUATAN / PERAKITAN. Format output: "MERK KODE_MODEL (TAHUN)".
-2. Estimasi HARGA PASARAN (Harpas) bekas kendaraan tersebut saat ini untuk wilayah Serang Banten (dalam angka integer Rupiah).
+Tugas Utama:
+1. Lakukan OCR pada foto STNK: baca Merk, Tipe/Model Kendaraan (contoh: HONDA BEAT STREET, YAMAHA NMAX, VARIO 160 dll), dan Tahun Pembuatan / Perakitan. Format motorName: "MERK TIPE_MODEL (TAHUN)".
+2. Estimasi HARGA PASARAN (Harpas) bekas kendaraan tersebut saat ini untuk wilayah Serang & Banten (dalam integer Rupiah).
+3. Jika foto STNK terbaca, ekstrak juga No. Polisi (Nopol) dan Nama Pemilik jika terlihat.
 
-Kembalikan HANYA JSON valid dalam format ini:
+Kembalikan HANYA JSON valid dalam format:
 {
-  "motorName": "HONDA BEAT (2023)",
-  "harpas": 15000000
+  "motorName": "HONDA BEAT STREET FI (2024)",
+  "harpas": 15500000,
+  "nopol": "A 5467 AE",
+  "namaPemilik": "FITRI"
 }`;
 
                 let parts = [{ text: promptText }];
@@ -2085,10 +2096,14 @@ Kembalikan HANYA JSON valid dalam format ini:
                     const parsed = JSON.parse(jsonText);
                     motorName = parsed.motorName || combinedQuery.toUpperCase();
                     estHarpas = parsed.harpas || 0;
+                    if (parsed.nopol || parsed.namaPemilik) {
+                        extraInfoText = `STNK an. ${parsed.namaPemilik || '-'} (${parsed.nopol || '-'})`;
+                    }
                     if (estHarpas > 0) isAiResult = true;
                 }
             } catch (err) {
-                console.warn("Gemini AI API fallback to local calculator:", err);
+                console.warn("Gemini AI API Error:", err);
+                showToast("Gagal memproses via Gemini AI. Memakai estimasi lokal.", "⚠️");
             }
         }
 
@@ -2101,10 +2116,10 @@ Kembalikan HANYA JSON valid dalam format ini:
         const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
         state.calculatedAiPlafond = calculatedPlafond;
 
-        const headerTitle = isAiResult ? "✨ HASIL ANALISIS AI GEMINI" : "⚡ HASIL ANALISIS MODE CEPAT (SERANG BANTEN)";
+        const headerTitle = isAiResult ? "🤖 HASIL ANALISIS GEMINI AI VISION" : "⚡ HASIL ESTIMASI MODE CEPAT (SERANG BANTEN)";
         document.getElementById('stnkResultTanganBadge').innerText = formulaPctText;
         document.getElementById('stnkResultMotorName').innerText = motorName;
-        document.getElementById('stnkResultHarpas').innerHTML = `Perkiraan Harpas Serang Banten: <b>${formatRupiah(estHarpas)}</b>`;
+        document.getElementById('stnkResultHarpas').innerHTML = `Perkiraan Harpas Serang Banten: <b>${formatRupiah(estHarpas)}</b>${extraInfoText ? `<br><span class="text-[10px] text-purple-300 font-mono">${extraInfoText}</span>` : ''}`;
         document.getElementById('stnkResultPlafond').innerText = formatRupiah(calculatedPlafond);
         document.getElementById('stnkResultFormulaText').innerText = `Rumus NSC: ${formatRupiah(estHarpas)} × 94% × ${isTanganPertama ? '80%' : '70%'}`;
 
@@ -2116,16 +2131,8 @@ Kembalikan HANYA JSON valid dalam format ini:
             card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        showToast(isAiResult ? "STNK berhasil dianalisis Gemini AI!" : "Plafond berhasil dihitung (Mode Cepat)!", "✨");
+        showToast(isAiResult ? "STNK berhasil dibaca Gemini AI Vision!" : "Plafond berhasil dihitung!", "✨");
         if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
-    }
-
-    function useAiPlafondInCalculator() {
-        if (state.calculatedAiPlafond > 0) {
-            handleInputChange(state.calculatedAiPlafond.toString());
-            switchTab('kalkulator');
-            showToast(`Plafond AI ${formatRupiah(state.calculatedAiPlafond)} diterapkan di kalkulator!`, "✅");
-        }
     }
 
     async function analyzeKTPWithAI() {
@@ -2139,6 +2146,13 @@ Kembalikan HANYA JSON valid dalam format ini:
         }
 
         const userKey = safeGetStorage('kliknsc_gemini_key', '').trim();
+
+        if (!userKey) {
+            showToast("Masukkan Gemini API Key terlebih dahulu untuk mengaktifkan AI Scan!", "🔑");
+            openApiKeyModal();
+            return;
+        }
+
         if (btnLabel) btnLabel.innerText = `⚡ Mengekstrak Data ${docTitle}...`;
 
         let data = null;
