@@ -176,6 +176,11 @@
             <span>Polling Pengajuan WA</span>
         </button>
 
+        <button id="tabPelunasanBtn" onclick="switchTab('pelunasan')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-rose-600/30 text-rose-300 border border-rose-400/50 hover:bg-rose-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-rose-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Pelunasan Dipercepat</span>
+        </button>
+
         <button id="tabStnkAiBtn" onclick="switchTab('stnkAi')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-purple-600/30 text-purple-300 border border-purple-400/50 hover:bg-purple-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
             <svg class="w-4 h-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
             <span>Scan STNK (AI)</span>
@@ -325,6 +330,120 @@
                 <div id="tenorGridContainer" class="grid grid-cols-2 gap-2"></div>
             </div>
 
+        </div>
+
+        <!-- NEW VIEW: Pelunasan Dipercepat Calculator -->
+        <div id="pelunasanView" class="space-y-4 hidden">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-rose-200 dark:border-rose-800/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        Kalkulator Pelunasan Dipercepat
+                    </h3>
+                    <span class="text-[10px] bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-bold px-2 py-0.5 rounded-md border border-rose-200 dark:border-rose-800/50">Diskon Bunga Maju</span>
+                </div>
+
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Hitung estimasi hemat biaya saat nasabah melunasi pinjaman lebih cepat sebelum masa tenor berakhir.
+                </p>
+
+                <div class="space-y-3 text-xs">
+                    <div>
+                        <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">1. Angsuran per Bulan (Rp):</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
+                            <input type="text" id="pelunasanAngsuran" value="1.200.000" oninput="calculatePelunasan()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">2. Total Tenor:</label>
+                            <select id="pelunasanTotalTenor" onchange="calculatePelunasan()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-rose-500">
+                                <option value="8">8 Bulan</option>
+                                <option value="11">11 Bulan</option>
+                                <option value="12">12 Bulan</option>
+                                <option value="18">18 Bulan</option>
+                                <option value="20">20 Bulan</option>
+                                <option value="24" selected>24 Bulan</option>
+                                <option value="30">30 Bulan</option>
+                                <option value="36">36 Bulan</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">3. Sudah Masuk Ke-:</label>
+                            <div class="flex items-center gap-1">
+                                <input type="number" id="pelunasanSudahMasuk" value="6" min="1" max="36" oninput="calculatePelunasan()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white text-center" />
+                                <span class="text-slate-500 text-[10px] font-bold">Bulan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100 dark:border-slate-700/60">
+                        <div>
+                            <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Estimasi Diskon Bunga (%):</label>
+                            <div class="relative">
+                                <input type="number" id="pelunasanDiskonPct" value="30" min="0" max="100" oninput="calculatePelunasan()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-emerald-600 dark:text-emerald-400 pr-6" />
+                                <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Biaya Penalti (%):</label>
+                            <div class="relative">
+                                <input type="number" id="pelunasanPenaltiPct" value="2" min="0" max="20" oninput="calculatePelunasan()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-rose-500 pr-6" />
+                                <span class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Denda / Tunggakan (jika ada):</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</span>
+                            <input type="text" id="pelunasanDenda" value="0" oninput="calculatePelunasan()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2 font-bold text-slate-900 dark:text-white" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Box Pelunasan -->
+                <div class="bg-gradient-to-br from-slate-900 via-rose-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-rose-500/30 space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
+                        <span class="text-[10px] text-rose-300 font-bold uppercase tracking-wider">Estimasi Total Bayar Pelunasan:</span>
+                        <span id="pelunasanSisaTenorBadge" class="text-[10px] bg-rose-500/20 text-rose-300 border border-rose-400/30 px-2 py-0.5 rounded-full font-bold">Sisa 18 Bulan</span>
+                    </div>
+
+                    <div id="pelunasanTotalResult" class="text-3xl font-black text-rose-400 tracking-tight">Rp 15.422.400</div>
+
+                    <div class="bg-emerald-950/50 border border-emerald-500/40 p-2.5 rounded-xl flex items-center justify-between">
+                        <span class="text-xs font-bold text-emerald-300">🎉 TOTAL HEMAT BERSIH NASABAH:</span>
+                        <b id="pelunasanHematText" class="text-sm font-black text-emerald-400">Rp 6.177.600</b>
+                    </div>
+
+                    <div class="text-[11px] text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Total Tagihan Normal Sisa Tenor:</span>
+                            <b id="pelunasanNormalTagihanText" class="text-white">Rp 21.600.000</b>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Potongan Diskon Bunga Berjalan:</span>
+                            <b id="pelunasanDiskonValText" class="text-emerald-400">- Rp 6.480.000</b>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Biaya Penalti Pelunasan (2%):</span>
+                            <b id="pelunasanPenaltiValText" class="text-rose-300">+ Rp 302.400</b>
+                        </div>
+                        <div class="flex justify-between" id="rowPelunasanDenda">
+                            <span class="text-slate-400">Denda / Keterlambatan:</span>
+                            <b id="pelunasanDendaValText" class="text-amber-300">+ Rp 0</b>
+                        </div>
+                    </div>
+
+                    <button id="sharePelunasanWABtn" onclick="sharePelunasanWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        <span>Kirim Rincian Pelunasan ke WA Nasabah</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div id="pollingView" class="space-y-4 hidden">
@@ -1521,9 +1640,9 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
     function switchTab(tabName) {
         state.activeTab = tabName;
-        const tabs = ['kalkulator', 'polling', 'stnkAi', 'ktpAi', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
+        const tabs = ['kalkulator', 'polling', 'pelunasan', 'stnkAi', 'ktpAi', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
         const viewMap = { 
-            kalkulator: 'kalkulatorView', polling: 'pollingView', stnkAi: 'stnkAiView', ktpAi: 'ktpAiView', takeover: 'takeoverView', checklist: 'checklistView',
+            kalkulator: 'kalkulatorView', polling: 'pollingView', pelunasan: 'pelunasanView', stnkAi: 'stnkAiView', ktpAi: 'ktpAiView', takeover: 'takeoverView', checklist: 'checklistView',
             script: 'scriptView', bonus: 'bonusView', tahun: 'tahunView', tabel: 'tabelView' 
         };
 
@@ -1536,12 +1655,86 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             }
         });
 
+        if (tabName === 'pelunasan') calculatePelunasan();
         if (tabName === 'takeover') calculateTakeover();
         if (tabName === 'checklist') updateChecklistProgress();
         if (tabName === 'script') generateScriptPromo();
         if (tabName === 'bonus') { calculateSalesBonus(); updateGoalTracker(); }
         if (tabName === 'tahun') checkVehicleYear();
         if (tabName === 'tabel') renderTable();
+    }
+
+    function calculatePelunasan() {
+        const angsuranRaw = parseInputNumber(document.getElementById('pelunasanAngsuran')?.value || '0');
+        const totalTenor = parseInt(document.getElementById('pelunasanTotalTenor')?.value || '24', 10);
+        let sudahMasuk = parseInt(document.getElementById('pelunasanSudahMasuk')?.value || '1', 10);
+
+        if (sudahMasuk >= totalTenor) sudahMasuk = totalTenor - 1;
+        if (sudahMasuk < 1) sudahMasuk = 1;
+
+        const diskonPct = parseFloat(document.getElementById('pelunasanDiskonPct')?.value || '0');
+        const penaltiPct = parseFloat(document.getElementById('pelunasanPenaltiPct')?.value || '0');
+        const dendaRaw = parseInputNumber(document.getElementById('pelunasanDenda')?.value || '0');
+
+        if (document.getElementById('pelunasanAngsuran')) document.getElementById('pelunasanAngsuran').value = formatNumberInput(angsuranRaw);
+        if (document.getElementById('pelunasanDenda')) document.getElementById('pelunasanDenda').value = formatNumberInput(dendaRaw);
+
+        const sisaTenor = totalTenor - sudahMasuk;
+        const normalTagihan = sisaTenor * angsuranRaw;
+        const diskonVal = Math.round(normalTagihan * (diskonPct / 100));
+        const sisaSetelahDiskon = normalTagihan - diskonVal;
+        const penaltiVal = Math.round(sisaSetelahDiskon * (penaltiPct / 100));
+
+        const grandTotalPelunasan = sisaSetelahDiskon + penaltiVal + dendaRaw;
+        const totalHemat = normalTagihan - grandTotalPelunasan;
+
+        if (document.getElementById('pelunasanSisaTenorBadge')) document.getElementById('pelunasanSisaTenorBadge').innerText = `Sisa ${sisaTenor} Bulan`;
+        if (document.getElementById('pelunasanTotalResult')) document.getElementById('pelunasanTotalResult').innerText = formatRupiah(grandTotalPelunasan);
+        if (document.getElementById('pelunasanHematText')) document.getElementById('pelunasanHematText').innerText = formatRupiah(totalHemat);
+        if (document.getElementById('pelunasanNormalTagihanText')) document.getElementById('pelunasanNormalTagihanText').innerText = formatRupiah(normalTagihan);
+        if (document.getElementById('pelunasanDiskonValText')) document.getElementById('pelunasanDiskonValText').innerText = `- ${formatRupiah(diskonVal)} (${diskonPct}%)`;
+        if (document.getElementById('pelunasanPenaltiValText')) document.getElementById('pelunasanPenaltiValText').innerText = `+ ${formatRupiah(penaltiVal)} (${penaltiPct}%)`;
+        if (document.getElementById('pelunasanDendaValText')) document.getElementById('pelunasanDendaValText').innerText = `+ ${formatRupiah(dendaRaw)}`;
+    }
+
+    function sharePelunasanWA() {
+        const angsuranRaw = parseInputNumber(document.getElementById('pelunasanAngsuran')?.value || '0');
+        const totalTenor = parseInt(document.getElementById('pelunasanTotalTenor')?.value || '24', 10);
+        let sudahMasuk = parseInt(document.getElementById('pelunasanSudahMasuk')?.value || '1', 10);
+        const diskonPct = parseFloat(document.getElementById('pelunasanDiskonPct')?.value || '0');
+        const penaltiPct = parseFloat(document.getElementById('pelunasanPenaltiPct')?.value || '0');
+        const dendaRaw = parseInputNumber(document.getElementById('pelunasanDenda')?.value || '0');
+
+        if (sudahMasuk >= totalTenor) sudahMasuk = totalTenor - 1;
+        if (sudahMasuk < 1) sudahMasuk = 1;
+
+        const sisaTenor = totalTenor - sudahMasuk;
+        const normalTagihan = sisaTenor * angsuranRaw;
+        const diskonVal = Math.round(normalTagihan * (diskonPct / 100));
+        const sisaSetelahDiskon = normalTagihan - diskonVal;
+        const penaltiVal = Math.round(sisaSetelahDiskon * (penaltiPct / 100));
+        const grandTotalPelunasan = sisaSetelahDiskon + penaltiVal + dendaRaw;
+        const totalHemat = normalTagihan - grandTotalPelunasan;
+
+        const text = `*SIMULASI PELUNASAN DIPERCEPAT KLIKNSC*
+-----------------------------------
+📋 *Rincian Pinjaman:*
+• Angsuran Bulanan: *${formatRupiah(angsuranRaw)} / bln*
+• Tenor Total: *${totalTenor} Bulan*
+• Sudah Terbayar: *Bulan ke-${sudahMasuk}*
+• Sisa Tenor Berjalan: *${sisaTenor} Bulan lagi*
+
+📊 *Rincian Biaya Pelunasan:*
+• Total Tagihan Sisa (${sisaTenor}x): ${formatRupiah(normalTagihan)}
+• Potongan Diskon Bunga (${diskonPct}%): -${formatRupiah(diskonVal)}
+• Biaya Penalti Pelunasan (${penaltiPct}%): +${formatRupiah(penaltiVal)}
+${dendaRaw > 0 ? `• Denda Keterlambatan: +${formatRupiah(dendaRaw)}\n` : ''}-----------------------------------
+💵 *TOTAL BAYAR PELUNASAN:* *${formatRupiah(grandTotalPelunasan)}*
+🎉 *TOTAL HEMAT NASABAH:* *${formatRupiah(totalHemat)}*
+-----------------------------------
+_Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk proses pelunasan resmi._`;
+
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
 
     function fetchGpsLocation() {
