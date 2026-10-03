@@ -145,10 +145,6 @@
 
             <!-- Header Actions -->
             <div class="flex items-center gap-1.5">
-                <button id="apiKeyModalBtn" onclick="openApiKeyModal()" title="Pengaturan Gemini API Key" class="p-2.5 rounded-2xl bg-amber-500/20 hover:bg-amber-500/30 active:scale-95 transition border border-amber-400/30 text-amber-300 flex items-center justify-center cursor-pointer">
-                    <svg class="w-5 h-5 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
-                </button>
-
                 <button id="logoutBtn" onclick="promptLogout()" title="Keluar / Logout" class="p-2.5 rounded-2xl bg-rose-500/20 hover:bg-rose-500/30 active:scale-95 transition border border-rose-400/30 text-rose-300 flex items-center justify-center cursor-pointer">
                     <svg class="w-5 h-5 text-rose-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 </button>
@@ -224,6 +220,7 @@
 
     <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
 
+        <!-- -->
         <div id="kalkulatorView" class="space-y-4">
             
             <!-- Input Nominal Box -->
@@ -332,7 +329,7 @@
 
         </div>
 
-        <!-- NEW VIEW: Pelunasan Dipercepat Calculator -->
+        <!-- -->
         <div id="pelunasanView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-rose-200 dark:border-rose-800/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -446,6 +443,7 @@
             </div>
         </div>
 
+        <!-- -->
         <div id="pollingView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-emerald-200 dark:border-emerald-800/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -544,6 +542,7 @@
             </div>
         </div>
 
+        <!-- -->
         <div id="stnkAiView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-purple-200 dark:border-purple-800/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -650,6 +649,7 @@
             </div>
         </div>
 
+        <!-- -->
         <div id="ktpAiView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-teal-200 dark:border-teal-800/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -756,6 +756,7 @@
             </div>
         </div>
 
+        <!-- -->
         <div id="takeoverView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -926,6 +927,7 @@
             </div>
         </div>
 
+        <!-- -->
         <div id="scriptView" class="space-y-4 hidden">
             <div class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
                 <button id="subScriptTabPromo" onclick="switchScriptSubTab('promo')" class="flex-1 py-2 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm transition cursor-pointer">
@@ -1014,6 +1016,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
 
+        <!-- -->
         <div id="bonusView" class="space-y-4 hidden">
             <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-blue-500/30 space-y-3">
                 <div class="flex items-center justify-between">
@@ -1095,6 +1098,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
 
+        <!-- -->
         <div id="tahunView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -1169,6 +1173,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         
     </main>
 
+    <!-- -->
     <!-- Floating Action Button (FAB) WA Cepat -->
     <button
         id="fabWhatsAppBtn"
@@ -1209,25 +1214,26 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 </button>
             </div>
             <div class="space-y-2">
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Tempelkan <b>API Key</b> dari Google AI Studio kamu di sini agar fitur Scan STNK & KTP AI aktif.
-                </p>
-                <input
-                    type="password"
-                    id="userApiKeyInput"
-                    placeholder="AIzaSy..."
-                    class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-3 text-xs font-mono font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
-                />
-            </div>
-            <div class="flex gap-2">
-                <button onclick="closeApiKeyModal()" class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Batal</button>
-                <button onclick="saveApiKey()" class="flex-1 bg-amber-600 hover:bg-amber-500 text-white font-bold py-2.5 rounded-xl text-xs cursor-pointer shadow-md">Simpan Key</button>
+        <!-- Confirmation Modal Logout -->
+        <div id="logoutModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 max-w-xs w-full shadow-2xl relative space-y-4 text-center border border-slate-200 dark:border-slate-700">
+                <div class="w-12 h-12 bg-rose-500/20 text-rose-500 rounded-2xl mx-auto flex items-center justify-center font-bold text-xl">
+                    🔒
+                </div>
+                <div class="space-y-1">
+                    <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Konfirmasi Keluar</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Apakah Anda yakin ingin keluar dari akun ini?</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="closeLogoutModal()" class="flex-1 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold py-2.5 rounded-xl text-xs cursor-pointer">Batal</button>
+                    <button onclick="executeLogout()" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold py-2.5 rounded-xl text-xs cursor-pointer">Keluar</button>
+                </div>
             </div>
         </div>
-    </div>
 
 </div>
 
+<!-- -->
 <script>
     function safeGetStorage(key, defaultVal = '') {
         try {
@@ -1425,31 +1431,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         } else {
             if (errorMsg) errorMsg.classList.remove('hidden');
         }
-    }
-
-    function openApiKeyModal() {
-        const modal = document.getElementById('apiKeyModal');
-        const input = document.getElementById('userApiKeyInput');
-        if (input) input.value = safeGetStorage('kliknsc_gemini_key', '');
-        if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeApiKeyModal() {
-        const modal = document.getElementById('apiKeyModal');
-        if (modal) modal.classList.add('hidden');
-    }
-
-    function saveApiKey() {
-        const input = document.getElementById('userApiKeyInput');
-        const key = input ? input.value.trim() : '';
-        if (key) {
-            safeSetStorage('kliknsc_gemini_key', key);
-            showToast("API Key berhasil disimpan!", "🔑");
-        } else {
-            safeRemoveStorage('kliknsc_gemini_key');
-            showToast("API Key dihapus.", "ℹ");
-        }
-        closeApiKeyModal();
     }
 
     function promptLogout() {
@@ -1919,109 +1900,23 @@ ALAMAT TINGGAL: ${alamat}`;
         return cleaned.trim();
     }
 
-    async function callGeminiApi(payload, userKey) {
-        const models = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
-        let lastError = null;
+    /* MURNI GEMINI AI TANPA FALLBACK LOKAL & TANPA MANUAL API KEY */
+    async function callGeminiApi(payload) {
+        const apiKey = ""; // API Key dikosongkan agar ditangani native oleh environment
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+        
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
 
-        for (const model of models) {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${userKey}`;
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (response.status === 404) {
-                    lastError = new Error(`Model ${model} tidak ditemukan (404).`);
-                    continue;
-                }
-
-                if (!response.ok) {
-                    let errDetails = "";
-                    try {
-                        const errJson = await response.json();
-                        errDetails = errJson.error?.message || response.statusText;
-                    } catch(e) {
-                        errDetails = `HTTP ${response.status}`;
-                    }
-
-                    if (response.status === 400 && payload.generationConfig) {
-                        const payloadRetry = { ...payload };
-                        delete payloadRetry.generationConfig;
-                        const retryResp = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payloadRetry)
-                        });
-                        if (retryResp.ok) {
-                            return await retryResp.json();
-                        }
-                    }
-                    throw new Error(`Google AI API Error (${response.status}): ${errDetails}`);
-                }
-
-                return await response.json();
-            } catch (netErr) {
-                if (netErr.message && netErr.message.includes("404")) {
-                    lastError = netErr;
-                    continue;
-                }
-                throw netErr;
-            }
-        }
-        throw lastError || new Error("Koneksi API Gemini tidak dapat merespon.");
-    }
-
-    function estimateLocalMotorHarpas(queryText, yearVal) {
-        const text = (queryText + ' ' + (yearVal || '')).toLowerCase();
-        const year = parseInt(yearVal || '2022', 10);
-        let baseHarpas = 15000000;
-        let motorTitle = "HONDA BEAT AUTOMATIC";
-
-        if (text.includes("nmax")) {
-            motorTitle = "YAMAHA NMAX 155 ABS/CONNECTED";
-            baseHarpas = 25000000;
-        } else if (text.includes("pcx")) {
-            motorTitle = "HONDA PCX 160 CBS/ABS";
-            baseHarpas = 27000000;
-        } else if (text.includes("aerox")) {
-            motorTitle = "YAMAHA AEROX 155 VVA";
-            baseHarpas = 22000000;
-        } else if (text.includes("vario 160")) {
-            motorTitle = "HONDA VARIO 160 CBS/ABS";
-            baseHarpas = 21000000;
-        } else if (text.includes("vario")) {
-            motorTitle = "HONDA VARIO 125/150";
-            baseHarpas = 18000000;
-        } else if (text.includes("scoopy")) {
-            motorTitle = "HONDA SCOOPY FI";
-            baseHarpas = 17500000;
-        } else if (text.includes("beat")) {
-            motorTitle = "HONDA BEAT STREET / CBS FI";
-            baseHarpas = 15500000;
-        } else if (text.includes("fazzio") || text.includes("filano")) {
-            motorTitle = "YAMAHA FAZZIO / GRAND FILANO";
-            baseHarpas = 19500000;
-        } else if (text.includes("klx") || text.includes("crf")) {
-            motorTitle = "KAWASAKI KLX / HONDA CRF 150";
-            baseHarpas = 28000000;
-        } else if (text.includes("mio") || text.includes("genio")) {
-            motorTitle = "YAMAHA MIO / HONDA GENIO";
-            baseHarpas = 13000000;
-        } else if (queryText) {
-            motorTitle = queryText.toUpperCase();
-            baseHarpas = 16000000;
+        if (!response.ok) {
+            const errJson = await response.json().catch(() => ({}));
+            throw new Error(`Google AI API Error: ${errJson.error?.message || response.statusText}`);
         }
 
-        const currentYr = 2026;
-        const diff = currentYr - year;
-        const calculatedHarpas = Math.max(6000000, baseHarpas - (diff * 1200000));
-
-        return {
-            motorName: `${motorTitle} (${year})`,
-            harpas: calculatedHarpas
-        };
+        return await response.json();
     }
 
     async function analyzeSTNKWithAI() {
@@ -2032,15 +1927,6 @@ ALAMAT TINGGAL: ${alamat}`;
 
         if (!stnkBase64Data && !combinedQuery) {
             showToast("Upload foto STNK atau isi tipe & tahun motor!", "⚠️");
-            return;
-        }
-
-        const userKey = safeGetStorage('kliknsc_gemini_key', '').trim();
-
-        // Jika user upload foto STNK tapi belum memasukkan API Key, otomatis tampilkan modal API Key
-        if (!userKey && stnkBase64Data) {
-            showToast("Masukkan Gemini API Key terlebih dahulu untuk mengaktifkan AI Vision STNK!", "🔑");
-            openApiKeyModal();
             return;
         }
 
@@ -2055,9 +1941,8 @@ ALAMAT TINGGAL: ${alamat}`;
         let isAiResult = false;
         let extraInfoText = "";
 
-        if (userKey) {
-            try {
-                const promptText = `Kamu adalah sistem AI Vision OCR dan penilai kendaraan resmi untuk leasing KlikNSC Banten.
+        try {
+            const promptText = `Kamu adalah sistem AI Vision OCR dan penilai kendaraan resmi untuk leasing KlikNSC Banten.
 Analisis foto STNK yang dilampirkan atau query berikut: "${combinedQuery || ''}".
 
 Tugas Utama:
@@ -2073,50 +1958,48 @@ Kembalikan HANYA JSON valid dalam format:
   "namaPemilik": "FITRI"
 }`;
 
-                let parts = [{ text: promptText }];
-                if (stnkBase64Data) {
-                    parts.push({
-                        inlineData: {
-                            mimeType: stnkMimeType,
-                            data: stnkBase64Data
-                        }
-                    });
-                }
-
-                const payload = {
-                    contents: [{ parts: parts }],
-                    generationConfig: { responseMimeType: "application/json" }
-                };
-
-                const result = await callGeminiApi(payload, userKey);
-                const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                if (rawText) {
-                    const jsonText = cleanJsonResponse(rawText);
-                    const parsed = JSON.parse(jsonText);
-                    motorName = parsed.motorName || combinedQuery.toUpperCase();
-                    estHarpas = parsed.harpas || 0;
-                    if (parsed.nopol || parsed.namaPemilik) {
-                        extraInfoText = `STNK an. ${parsed.namaPemilik || '-'} (${parsed.nopol || '-'})`;
+            let parts = [{ text: promptText }];
+            if (stnkBase64Data) {
+                parts.push({
+                    inlineData: {
+                        mimeType: stnkMimeType,
+                        data: stnkBase64Data
                     }
-                    if (estHarpas > 0) isAiResult = true;
-                }
-            } catch (err) {
-                console.warn("Gemini AI API Error:", err);
-                showToast("Gagal memproses via Gemini AI. Memakai estimasi lokal.", "⚠️");
+                });
             }
+
+            const payload = {
+                contents: [{ parts: parts }],
+                generationConfig: { responseMimeType: "application/json" }
+            };
+
+            const result = await callGeminiApi(payload);
+            const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+            if (rawText) {
+                const jsonText = cleanJsonResponse(rawText);
+                const parsed = JSON.parse(jsonText);
+                motorName = parsed.motorName || combinedQuery.toUpperCase();
+                estHarpas = parsed.harpas || 0;
+                if (parsed.nopol || parsed.namaPemilik) {
+                    extraInfoText = `STNK an. ${parsed.namaPemilik || '-'} (${parsed.nopol || '-'})`;
+                }
+                if (estHarpas > 0) isAiResult = true;
+            }
+        } catch (err) {
+            console.error("Gemini AI API Error:", err);
         }
 
         if (!isAiResult || estHarpas <= 0) {
-            const localData = estimateLocalMotorHarpas(combinedQuery || "HONDA BEAT", manualYear || "2023");
-            motorName = localData.motorName;
-            estHarpas = localData.harpas;
+            showToast("Gagal memproses via Gemini AI. Pastikan foto jelas!", "❌");
+            if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
+            return;
         }
 
         const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
         state.calculatedAiPlafond = calculatedPlafond;
 
-        const headerTitle = isAiResult ? "🤖 HASIL ANALISIS GEMINI AI VISION" : "⚡ HASIL ESTIMASI MODE CEPAT (SERANG BANTEN)";
+        const headerTitle = "🤖 HASIL ANALISIS GEMINI AI VISION";
         document.getElementById('stnkResultTanganBadge').innerText = formulaPctText;
         document.getElementById('stnkResultMotorName').innerText = motorName;
         document.getElementById('stnkResultHarpas').innerHTML = `Perkiraan Harpas Serang Banten: <b>${formatRupiah(estHarpas)}</b>${extraInfoText ? `<br><span class="text-[10px] text-purple-300 font-mono">${extraInfoText}</span>` : ''}`;
@@ -2131,7 +2014,7 @@ Kembalikan HANYA JSON valid dalam format:
             card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        showToast(isAiResult ? "STNK berhasil dibaca Gemini AI Vision!" : "Plafond berhasil dihitung!", "✨");
+        showToast("STNK berhasil dibaca Gemini AI Vision!", "✨");
         if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
     }
 
@@ -2145,22 +2028,13 @@ Kembalikan HANYA JSON valid dalam format:
             return;
         }
 
-        const userKey = safeGetStorage('kliknsc_gemini_key', '').trim();
-
-        if (!userKey) {
-            showToast("Masukkan Gemini API Key terlebih dahulu untuk mengaktifkan AI Scan!", "🔑");
-            openApiKeyModal();
-            return;
-        }
-
         if (btnLabel) btnLabel.innerText = `⚡ Mengekstrak Data ${docTitle}...`;
 
         let data = null;
         let isAiSuccess = false;
 
-        if (userKey) {
-            try {
-                let promptText = `Kamu adalah sistem OCR dokumen resmi Indonesia untuk KlikNSC.
+        try {
+            let promptText = `Kamu adalah sistem OCR dokumen resmi Indonesia untuk KlikNSC.
 Membaca foto (${docTitle}) dan ekstrak field text secara akurat.
 
 Kembalikan HANYA JSON valid dalam format:
@@ -2178,49 +2052,38 @@ Kembalikan HANYA JSON valid dalam format:
   "pekerjaan": "KARYAWAN SWASTA"
 }`;
 
-                const payload = {
-                    contents: [{
-                        parts: [
-                            { text: promptText },
-                            { inlineData: { mimeType: ktpMimeType, data: ktpBase64Data } }
-                        ]
-                    }],
-                    generationConfig: { responseMimeType: "application/json" }
-                };
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: promptText },
+                        { inlineData: { mimeType: ktpMimeType, data: ktpBase64Data } }
+                    ]
+                }],
+                generationConfig: { responseMimeType: "application/json" }
+            };
 
-                const result = await callGeminiApi(payload, userKey);
-                const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+            const result = await callGeminiApi(payload);
+            const rawText = result?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-                if (rawText) {
-                    const jsonText = cleanJsonResponse(rawText);
-                    data = JSON.parse(jsonText);
-                    isAiSuccess = true;
-                }
-            } catch (err) {
-                console.warn("Gemini OCR fallback:", err);
+            if (rawText) {
+                const jsonText = cleanJsonResponse(rawText);
+                data = JSON.parse(jsonText);
+                isAiSuccess = true;
             }
+        } catch (err) {
+            console.error("Gemini OCR Error:", err);
         }
 
-        if (!data) {
-            data = {
-                nik: docType === 'kk' ? "3604010101900005" : "3604021205900001",
-                nama: docType === 'ktp_penjamin' ? "FITRI FAUZIAH" : (docType === 'kk' ? "DERI ISRO MA'ARIJUL HAYAT (KK)" : "DERI ISRO MA'ARIJUL HAYAT"),
-                ttl: "SERANG, 12 MEI 1990",
-                jk: "LAKI-LAKI",
-                alamat: "JL. KI UJU KAUJON TENGAH",
-                rtRw: "004/002",
-                kelDesa: "SERANG",
-                kecamatan: "SERANG",
-                agama: "ISLAM",
-                statusKawin: docType === 'kk' ? "KEPALA KELUARGA" : "KAWIN",
-                pekerjaan: "WIRAUSAHA / SWASTA"
-            };
+        if (!data || !isAiSuccess) {
+            showToast("Gagal mengekstrak data! Pastikan foto dokumen sangat jelas.", "❌");
+            if (btnLabel) btnLabel.innerText = `Scan & Ekstrak Data ${docTitle}`;
+            return;
         }
 
         state.extractedDocData = data;
 
         if (docType === 'kk') {
-            document.getElementById('ktpResultTitleBadge').innerText = isAiSuccess ? "✨ HASIL EKSTRAKSI KARTU KELUARGA (KK)" : "⚡ HASIL HASIL SCAN KK (MODE CEPAT)";
+            document.getElementById('ktpResultTitleBadge').innerText = "✨ HASIL EKSTRAKSI KARTU KELUARGA (KK)";
             document.getElementById('lblFieldNik').innerText = "No. KK / Kepala:";
             document.getElementById('lblFieldNama').innerText = "Kepala Keluarga:";
             document.getElementById('lblFieldTtl').innerText = "Detail KK:";
