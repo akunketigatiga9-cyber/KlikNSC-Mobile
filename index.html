@@ -1506,7 +1506,13 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
         // INI BUAT APA:
         // Meminta backend mengecek session cookie yang baru dibuat.
-        await checkAuthStatus();
+       const sessionValid = await checkAuthStatus();
+
+if (!sessionValid) {
+    if (errorMsg) errorMsg.classList.remove('hidden');
+    showToast('Session belum bisa diverifikasi. Coba masuk lagi.', '⚠️');
+    return;
+}
 
         showToast(
             `Selamat datang kembali, KBA ${state.salesId}!`,
