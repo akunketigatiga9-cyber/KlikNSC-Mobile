@@ -702,67 +702,7 @@
                     <span id="btnProcessKtpLabel">Scan & Ekstrak Data KTP Pemohon</span>
                 </button>
             </div>
-
-            <!-- Result Card KTP AI -->
-            <div id="ktpAiResultCard" class="hidden bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-teal-500/40 space-y-3">
-                <div class="flex items-center justify-between border-b border-teal-800/60 pb-2">
-                    <span id="ktpResultTitleBadge" class="text-[10px] text-teal-300 font-bold uppercase tracking-wider flex items-center gap-1">
-                        ✨ HASIL EKSTRAKSI KTP PEMOHON
-                    </span>
-                    <span class="bg-teal-500/20 text-teal-300 text-[9px] px-2 py-0.5 rounded-full border border-teal-400/30 font-bold">Tap Baris = Salin</span>
-                </div>
-
-                <!-- Clean Compact Layout -->
-                <div class="space-y-1 text-xs font-mono bg-black/50 p-3 rounded-xl border border-teal-500/30 leading-snug text-teal-100" id="ktpTextContainer">
-                    <div id="ktpRowNik" onclick="copySingleKtpField('ktpResultNik', 'NIK')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldNik">NIK:</span> <span id="ktpResultNik" class="text-white font-bold selectable-text"></span>
-                    </div>
-                    <div id="ktpRowNama" onclick="copySingleKtpField('ktpResultNama', 'Nama')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldNama">Nama:</span> <span id="ktpResultNama" class="text-white font-bold selectable-text"></span>
-                    </div>
-                    <div id="ktpRowTtl" onclick="copySingleKtpField('ktpResultTtl', 'TTL')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldTtl">TTL:</span> <span id="ktpResultTtl" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowJk" onclick="copySingleKtpField('ktpResultJk', 'Jenis Kelamin')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldJk">Jenis Kelamin:</span> <span id="ktpResultJk" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowAlamat" onclick="copySingleKtpField('ktpResultAlamat', 'Alamat')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldAlamat">Alamat:</span> <span id="ktpResultAlamat" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowRtRw" onclick="copySingleKtpField('ktpResultRtRw', 'RT/RW')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldRtRw">RT/RW:</span> <span id="ktpResultRtRw" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowKel" onclick="copySingleKtpField('ktpResultKel', 'Kel/Desa')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldKel">Kel/Desa:</span> <span id="ktpResultKel" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowKec" onclick="copySingleKtpField('ktpResultKec', 'Kecamatan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldKec">Kecamatan:</span> <span id="ktpResultKec" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowAgama" onclick="copySingleKtpField('ktpResultAgama', 'Agama')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldAgama">Agama:</span> <span id="ktpResultAgama" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowStatus" onclick="copySingleKtpField('ktpResultStatus', 'Status')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldStatus">Status:</span> <span id="ktpResultStatus" class="text-white selectable-text"></span>
-                    </div>
-                    <div id="ktpRowPekerjaan" onclick="copySingleKtpField('ktpResultPekerjaan', 'Pekerjaan')" class="py-0.5 px-1 rounded hover:bg-teal-900/40 active:bg-teal-800/60 transition cursor-pointer">
-                        <span class="text-teal-400 font-bold" id="lblFieldPekerjaan">Pekerjaan:</span> <span id="ktpResultPekerjaan" class="text-white selectable-text"></span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2">
-                    <button id="copyKtpDataBtn" onclick="copyKtpDataToClipboard()" class="w-full bg-teal-600 hover:bg-teal-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                        <span id="copyKtpTextBtnLabel">Salin Semua Data</span>
-                    </button>
-
-                    <button id="copyKtpWaBtn" onclick="copyKtpDataToWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                        <span>Kirim ke WA</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-
+            
         <!-- Take Over View -->
         <div id="takeoverView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
