@@ -1542,12 +1542,35 @@ if (!sessionValid) {
         if (modal) modal.classList.add('hidden');
     }
 
-    function executeLogout() {
-        closeLogoutModal();
-        safeRemoveStorage('kliknsc_logged_in');
-        checkAuthStatus();
-        showToast("Anda telah keluar dari aplikasi.", '🔒');
+   async function executeLogout() {
+    closeLogoutModal();
+
+    try {
+        const response = await fetch(
+            'https://kliknsc-mobile-backend.vercel.app/api/logout',
+            {
+                method: 'POST',
+                credentials: 'include'
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+            throw new Error('Logout backend gagal');
+        }
+
+        safeRemoveStorage('kliknsc_sales_id');
+        state.salesId = '';
+
+        await checkAuthStatus();
+
+        showToast('Anda telah keluar dari aplikasi.', '🔒');
+    } catch (error) {
+        console.error('Logout error:', error);
+        showToast('Logout gagal. Coba lagi.', '⚠️');
     }
+}
 
     function toggleTheme() {
         if (document.documentElement.classList.contains('dark')) {
