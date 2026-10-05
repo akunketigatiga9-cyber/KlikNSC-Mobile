@@ -1429,24 +1429,81 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         if (el) el.innerText = `FORM PENGAJUAN M2W ${state.salesId}`;
     }
 
-    function handleLogin(e) {
-        if (e) e.preventDefault();
-        const inputId = (document.getElementById('loginSalesId')?.value || '').trim().toUpperCase();
-        const inputPin = (document.getElementById('loginPin')?.value || '').trim();
-        const errorMsg = document.getElementById('loginErrorMsg');
+    async function handleLogin(e) {
+    if (e) e.preventDefault();
 
-        if (inputId.length >= 3 && (inputPin === '1234' || inputPin === '3131' || inputPin.length >= 4)) {
-            state.salesId = inputId;
-            safeSetStorage('kliknsc_sales_id', inputId);
-            safeSetStorage('kliknsc_logged_in', 'true');
-            if (errorMsg) errorMsg.classList.add('hidden');
-            checkAuthStatus();
-            showToast(`Selamat datang kembali, KBA ${inputId}!`, '🔓');
-        } else {
-            if (errorMsg) errorMsg.classList.remove('hidden');
-        }
+    // INI BUAT APA:
+    // Mengambil Sales ID dan PIN dari form login.
+    const inputId = (document.getElementById('loginSalesId')?.value || '').trim().toUpperCase();
+    const inputPin = (document.getElementById('loginPin')?.value || '').trim();
+    const errorMsg = document.getElementById('loginErrorMsg');
+
+    // INI BUAT APA:
+    // Memastikan user tidak bisa mengirim form kosong.
+    if (!inputId || !inputPin) {
+        if (errorMsg) errorMsg.classList.remove('hidden');
+        return;
     }
 
+    try {
+        // INI BUAT APA:
+        // Mengirim Sales ID dan PIN ke backend Vercel.
+        // PIN TIDAK lagi diperiksa di index.html.
+        const response = await fetch(
+            'https://kliknsc-mobile-backend.vercel.app/api/login',
+            {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    salesId: inputId,
+                    pin: inputPin
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        // INI BUAT APA:
+        // Kalau backend menolak login, tampilkan pesan error.
+        if (!response.ok || !result.ok) {
+            if (errorMsg) errorMsg.classList.remove('hidden');
+            return;
+        }
+
+        // INI BUAT APA:
+        // Login berhasil.
+        // Sales ID boleh disimpan untuk kebutuhan tampilan aplikasi.
+        // Status login TIDAK lagi disimpan sebagai sumber keamanan.
+        state.salesId = result.user?.salesId || inputId;
+        safeSetStorage('kliknsc_sales_id', state.salesId);
+
+        if (errorMsg) errorMsg.classList.add('hidden');
+
+        // INI BUAT APA:
+        // Meminta backend mengecek session cookie yang baru dibuat.
+        checkAuthStatus();
+
+        showToast(
+            `Selamat datang kembali, KBA ${state.salesId}!`,
+            '🔓'
+        );
+
+    } catch (error) {
+        console.error('Login error:', error);
+
+        // INI BUAT APA:
+        // Menangani kondisi backend tidak bisa dihubungi.
+        if (errorMsg) errorMsg.classList.remove('hidden');
+
+        showToast(
+            'Backend login tidak dapat dihubungi.',
+            '⚠️'
+        );
+    }
+}
     function promptLogout() {
         const modal = document.getElementById('logoutModal');
         if (modal) modal.classList.remove('hidden');
