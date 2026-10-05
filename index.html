@@ -1411,18 +1411,40 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         }
     }
 
-    function checkAuthStatus() {
-        const isLoggedIn = safeGetStorage('kliknsc_logged_in', 'false');
-        const overlay = document.getElementById('loginOverlay');
-        const salesBadge = document.getElementById('headerSalesBadge');
-        if (isLoggedIn === 'true') {
-            if (overlay) overlay.classList.add('hidden');
-            if (salesBadge) salesBadge.innerText = state.salesId;
-            updatePollHeaderBadge();
-        } else {
-            if (overlay) overlay.classList.remove('hidden');
+    async function checkAuthStatus() {
+    const overlay = document.getElementById('loginOverlay');
+    const salesBadge = document.getElementById('headerSalesBadge');
+
+    try {
+        const response = await fetch(
+            'https://kliknsc-mobile-backend.vercel.app/api/session',
+            {
+                method: 'GET',
+                credentials: 'include'
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.ok || !result.user?.salesId) {
+            throw new Error('Session tidak valid');
         }
+
+        state.salesId = result.user.salesId;
+
+        // Sales ID disimpan untuk tampilan saja, bukan sebagai bukti login.
+        safeSetStorage('kliknsc_sales_id', state.salesId);
+
+        if (overlay) overlay.classList.add('hidden');
+        if (salesBadge) salesBadge.innerText = state.salesId;
+        updatePollHeaderBadge();
+
+        return true;
+    } catch (error) {
+        if (overlay) overlay.classList.remove('hidden');
+        return false;
     }
+}
 
     function updatePollHeaderBadge() {
         const el = document.getElementById('pollFormHeaderBadge');
