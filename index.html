@@ -773,32 +773,6 @@
                         <span>Bukti Kepemilikan Rumah (PBB / Rek Listrik)</span>
                     </label>
                 </div>
-
-                <div class="space-y-2 text-xs font-semibold text-slate-700 dark:text-slate-300 border-t border-slate-100 dark:border-slate-700/60 pt-3">
-                    <p class="text-[10px] font-bold uppercase tracking-wide text-blue-600 dark:text-blue-400">Persiapan sebelum akad / pencairan</p>
-                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-blue-600 rounded" id="prepJadwal" onchange="updateChecklistProgress()">
-                        <span>Konfirmasi jadwal, lokasi, dan tahapan proses ke KBA</span>
-                    </label>
-                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-blue-600 rounded" id="prepMotor" onchange="updateChecklistProgress()">
-                        <span>Siapkan motor dan kunci untuk pemeriksaan fisik bila diminta</span>
-                    </label>
-                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-blue-600 rounded" id="prepPerjanjian" onchange="updateChecklistProgress()">
-                        <span>Baca rincian pencairan, angsuran, tenor, tanggal bayar, dan biaya sebelum tanda tangan</span>
-                    </label>
-                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-blue-600 rounded" id="prepRekening" onchange="updateChecklistProgress()">
-                        <span>Jika pencairan lewat transfer, konfirmasi persyaratan rekening ke KBA</span>
-                    </label>
-                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
-                        <input type="checkbox" class="w-4 h-4 accent-blue-600 rounded" id="prepKontak" onchange="updateChecklistProgress()">
-                        <span>Pastikan nomor telepon aktif dan mudah dihubungi</span>
-                    </label>
-                    <p class="text-[10px] font-normal text-slate-500 dark:text-slate-400">Panduan umum. Persyaratan dan proses akhir mengikuti hasil pemeriksaan serta arahan KBA.</p>
-                </div>
-
                 <div class="border-t border-slate-100 dark:border-slate-700/60 pt-3 space-y-2">
                     <label class="text-[10px] font-bold text-slate-500 uppercase">Catatan Kondisi Khusus:</label>
                     <div class="grid grid-cols-2 gap-2">
@@ -2164,25 +2138,23 @@ Kembalikan JSON dengan format:
 
     function updateChecklistProgress() {
         const documentChecks = ['chkKtp', 'chkKk', 'chkStnk', 'chkBpkb', 'chkRumah'];
-        const preparationChecks = ['prepJadwal', 'prepMotor', 'prepPerjanjian', 'prepRekening', 'prepKontak'];
-        const allChecks = [...documentChecks, ...preparationChecks];
         const isChecked = id => Boolean(document.getElementById(id)?.checked);
-        const checkedCount = allChecks.filter(isChecked).length;
         const checkedDocuments = documentChecks.filter(isChecked).length;
-        const checkedPreparations = preparationChecks.filter(isChecked).length;
 
-        const score = Math.round((checkedCount / allChecks.length) * 100);
-        if (document.getElementById('checklistScoreBadge')) document.getElementById('checklistScoreBadge').innerText = `${score}% Siap`;
+        const score = Math.round((checkedDocuments / documentChecks.length) * 100);
+        const scoreBadge = document.getElementById('checklistScoreBadge');
+        if (scoreBadge) scoreBadge.innerText = `${score}% Siap`;
 
         const statusPajak = document.getElementById('chkPajakStatus')?.value || 'hidup';
         const statusAn = document.getElementById('chkAnStatus')?.value || 'sendiri';
         const adviceBox = document.getElementById('checklistAdviceText');
 
-        let advice = [];
-        if (checkedDocuments === documentChecks.length) advice.push("✅ Semua dokumen pada daftar sudah dicentang.");
-        else advice.push(`📄 ${documentChecks.length - checkedDocuments} dokumen pada daftar belum dicentang.`);
-        if (checkedPreparations === preparationChecks.length) advice.push("✅ Semua persiapan proses sudah dicentang.");
-        else advice.push(`🗓️ ${preparationChecks.length - checkedPreparations} persiapan proses belum dicentang.`);
+        const advice = [];
+        if (checkedDocuments === documentChecks.length) {
+            advice.push("✅ Semua dokumen pada daftar sudah dicentang.");
+        } else {
+            advice.push(`📄 ${documentChecks.length - checkedDocuments} dokumen pada daftar belum dicentang.`);
+        }
 
         if (statusPajak === 'mati1') advice.push("📌 Pajak STNK mati ≤ 1 thn: Masih bisa diproses.");
         else if (statusPajak === 'mati2') advice.push("📌 Pajak STNK mati > 1 thn: Bisa dibantu pemutihan.");
@@ -2191,7 +2163,6 @@ Kembalikan JSON dengan format:
 
         if (adviceBox) adviceBox.innerText = advice.join("\n");
     }
-
     function shareChecklistWA() {
         const documentItems = [
             { id: 'chkKtp', label: 'KTP Pemohon & Pasangan / Penjamin' },
@@ -2200,20 +2171,13 @@ Kembalikan JSON dengan format:
             { id: 'chkBpkb', label: 'BPKB Asli & Faktur' },
             { id: 'chkRumah', label: 'Bukti Kepemilikan Rumah (PBB / Rek Listrik)' }
         ];
-        const preparationItems = [
-            { id: 'prepJadwal', label: 'Konfirmasi jadwal, lokasi, dan tahapan proses ke KBA' },
-            { id: 'prepMotor', label: 'Siapkan motor dan kunci untuk pemeriksaan fisik bila diminta' },
-            { id: 'prepPerjanjian', label: 'Baca rincian pencairan, angsuran, tenor, tanggal bayar, dan biaya sebelum tanda tangan' },
-            { id: 'prepRekening', label: 'Jika pencairan lewat transfer, konfirmasi persyaratan rekening ke KBA' },
-            { id: 'prepKontak', label: 'Pastikan nomor telepon aktif dan mudah dihubungi' }
-        ];
 
         const formatItems = items => items.map(item => {
             const el = document.getElementById(item.id);
             const isChecked = el ? el.checked : false;
             return `${isChecked ? '✅' : '⬜'} ${item.label}`;
         }).join('\n');
-        const checklistDetails = `*Dokumen yang disiapkan:*\n${formatItems(documentItems)}\n\n*Persiapan sebelum akad / pencairan:*\n${formatItems(preparationItems)}`;
+        const checklistDetails = `*Dokumen yang disiapkan:*\n${formatItems(documentItems)}`;
 
         const score = document.getElementById('checklistScoreBadge')?.innerText || '0%';
         const advice = document.getElementById('checklistAdviceText')?.innerText || '';
