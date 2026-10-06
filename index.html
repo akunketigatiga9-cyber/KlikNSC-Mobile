@@ -1977,97 +1977,139 @@ ALAMAT TINGGAL: ${alamat}`;
 }
     
     async function analyzeSTNKWithAI() {
-        const btnLabel = document.getElementById('btnProcessStnkLabel');
-        const manualQuery = document.getElementById('stnkManualQuery')?.value.trim().toUpperCase();
-        const manualYear = parseInt(document.getElementById('stnkManualYear')?.value || '2023', 10);
-        const combinedQuery = manualQuery ? `${manualQuery} tahun ${manualYear}`.trim() : '';
+    const btnLabel = document.getElementById('btnProcessStnkLabel');
+    const manualQuery = document.getElementById('stnkManualQuery')?.value.trim();
+    const manualYearValue = document.getElementById('stnkManualYear')?.value;
+    const manualYear = manualYearValue ? parseInt(manualYearValue, 10) : null;
 
-        if (!stnkBase64Data && !manualQuery) {
-            showToast("Upload foto STNK atau isi tipe/kode motor!", "⚠️");
-            return;
-        }
+    if (!stnkBase64Data && (!manualQuery || !manualYear)) {
+        showToast("Upload foto STNK atau isi tipe motor dan tahun!", "⚠️");
+        return;
+    }
 
-        const isTanganPertama = document.getElementById('stnkTangan1')?.checked ?? true;
-        const factor = isTanganPertama ? 0.80 : 0.70;
-        const formulaPctText = isTanganPertama ? "Tangan Pertama (80%)" : "Tangan Kedua (70%)";
+    const isTanganPertama =
+        document.getElementById('stnkTangan1')?.checked ?? true;
+    const factor = isTanganPertama ? 0.80 : 0.70;
+    const formulaPctText = isTanganPertama
+        ? "Tangan Pertama (80%)"
+        : "Tangan Kedua (70%)";
 
-        if (btnLabel) btnLabel.innerText = "⚡ Menganalisis Kendaraan via AI...";
+    if (btnLabel) {
+        btnLabel.innerText = "⚡ Membaca STNK dan mencari harga online...";
+    }
 
-        let motorName = manualQuery ? `${manualQuery} (${manualYear})` : "MOTOR NASABAH";
-        let estHarpas = 0;
-        let isSuccess = false;
+    document.getElementById('stnkAiResultCard')?.classList.add('hidden');
+
+    try {
+        let motorName = manualQuery || "";
         let detectedYear = manualYear;
 
-        try {
-           let promptText = `Bantu identifikasi kendaraan dari foto STNK untuk KlikNSC.
-Analisis input berikut: "${combinedQuery}" dan gambar jika tersedia.
+        if (stnkBase64Data) {
+            const promptText = `Bantu identifikasi kendaraan dari foto STNK untuk KlikNSC.
+Analisis gambar dan petunjuk ini: "${manualQuery || ""}".
 Ambil hanya merek, model/nama kendaraan, kode tipe jika terbaca, dan tahun kendaraan jika terbaca.
-Jangan mencari, menghitung, atau menebak harga maupun Harpas.
-Jangan ekstrak nama atau data pribadi pemilik, alamat, NIK, nomor rangka, nomor mesin, atau nomor polisi.
+Jangan mencari atau menebak harga.
+Jangan ekstrak nama/data pribadi pemilik, alamat, NIK, nomor rangka, nomor mesin, atau nomor polisi.
 Jika data kendaraan tidak terbaca, isi null.
-Kembalikan HANYA JSON valid:
-{
-  "motorName": "Honda Beat CBS",
-  "typeCode": null,
-  "year": 2023
-}`;
-            const rawText = await callAiApi({
+Kembalikan JSON dengan format:
+{"motorName":"Honda Beat CBS","typeCode":null,"year":2023}`;
+
+            const rawVehicle = await callAiApi({
                 prompt: promptText,
                 base64Data: stnkBase64Data,
                 mimeType: stnkMimeType
             });
 
-if (rawText) {
-    const parsed = JSON.parse(cleanJsonResponse(rawText));
-    motorName = parsed.motorName || motorName;
+            const vehicle = JSON.parse(cleanJsonResponse(rawVehicle));
 
-    const parsedYear = Number(parsed.year);
-    if (
-        Number.isInteger(parsedYear) &&
-        parsedYear >= 1980 &&
-        parsedYear <= new Date().getFullYear()
-    ) {
-        detectedYear = parsedYear;
-    }
-}
-        } catch (err) {
-            console.warn("AI query error, switching to estimator fallback:", err);
-        }
+            if (!motorName && typeof vehicle.motorName === "string") {
+                motorName = vehicle.motorName.trim();
+            }
 
-        if (!isSuccess || estHarpas <= 0) {
-            if (manualQuery || motorName !== "MOTOR NASABAH") {
-                let basePrice = 13000000;
-                const q = (manualQuery || motorName).toUpperCase();
-                if (q.includes('BEAT') || q.includes('F1C')) basePrice = 14500000;
-                else if (q.includes('NMAX')) basePrice = 23000000;
-                else if (q.includes('PCX')) basePrice = 25000000;
-                else if (q.includes('VARIO')) basePrice = 17000000;
-                else if (q.includes('SCOOPY')) basePrice = 16000000;
-                else if (q.includes('AEROX')) basePrice = 21000000;
-                else if (q.includes('MIO')) basePrice = 9500000;
-                else if (q.includes('FAZZIO')) basePrice = 18500000;
-                else if (q.includes('CRF') || q.includes('KLX')) basePrice = 26000000;
-
-                const yearDiff = Math.max(0, new Date().getFullYear() - detectedYear);
-                estHarpas = Math.round(basePrice * Math.pow(0.94, Math.max(0, yearDiff)));
-                isSuccess = true;
+            const parsedYear = Number(vehicle.year);
+            if (
+                !detectedYear &&
+                Number.isInteger(parsedYear) &&
+                parsedYear >= 1980 &&
+                parsedYear <= new Date().getFullYear()
+            ) {
+                detectedYear = parsedYear;
             }
         }
 
-        if (!isSuccess || estHarpas <= 0) {
-            showToast("Gagal memproses. Mohon perjelas input tipe/kode motor!", "❌");
-            if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
-            return;
+        if (!motorName || !Number.isInteger(detectedYear)) {
+            throw new Error("Tipe motor atau tahun tidak terbaca. Coba foto STNK yang lebih jelas.");
         }
 
-        const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
+        if (btnLabel) {
+            btnLabel.innerText = "🔎 Mencari iklan motor di Serang/Banten...";
+        }
+
+        const rawMarket = await callAiApi({
+            mode: "market",
+            motorName,
+            year: detectedYear
+        });
+
+        const market = JSON.parse(cleanJsonResponse(rawMarket));
+        const listings = Array.isArray(market.listings) ? market.listings : [];
+        const estHarpas = Number(market.harpas);
+
+        if (
+            !Number.isFinite(estHarpas) ||
+            estHarpas <= 0 ||
+            listings.length < 3
+        ) {
+            throw new Error("Belum ada cukup iklan online yang cocok untuk menghitung Harpas.");
+        }
+
+        const calculatedPlafond =
+            Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
+
         state.calculatedAiPlafond = calculatedPlafond;
 
         document.getElementById('stnkResultTanganBadge').innerText = formulaPctText;
-        document.getElementById('stnkResultMotorName').innerText = motorName;
-        document.getElementById('stnkResultHarpas').innerHTML = `Perkiraan Harpas Serang Banten: <b>${formatRupiah(estHarpas)}</b>`;
-        document.getElementById('stnkResultPlafond').innerText = formatRupiah(calculatedPlafond);
-        document.getElementById('stnkResultFormulaText').innerText = `Rumus NSC: ${formatRupiah(estHarpas)} × 94% × ${isTanganPertama ? '80%' : '70%'}`;
+        document.getElementById('stnkResultMotorName').innerText =
+            `${motorName} (${detectedYear})`;
+        document.getElementById('stnkResultHarpas').innerHTML =
+            `Median dari ${listings.length} iklan online di Serang/Banten: <b>${formatRupiah(estHarpas)}</b>`;
+        document.getElementById('stnkResultPlafond').innerText =
+            formatRupiah(calculatedPlafond);
+        document.getElementById('stnkResultFormulaText').innerText =
+            `Rumus NSC: ${formatRupiah(estHarpas)} × 94% × ${isTanganPertama ? '80%' : '70%'}`;
+
+        let sourcesElement = document.getElementById('stnkResultMarketSources');
+        if (!sourcesElement) {
+            sourcesElement = document.createElement('div');
+            sourcesElement.id = 'stnkResultMarketSources';
+            sourcesElement.className = 'mt-2 space-y-1 text-[10px] text-purple-200';
+            document.getElementById('stnkResultHarpas')
+                ?.insertAdjacentElement('afterend', sourcesElement);
+        }
+
+        sourcesElement.replaceChildren();
+
+        const sourceHeading = document.createElement('div');
+        sourceHeading.innerText = 'Sumber iklan:';
+        sourcesElement.appendChild(sourceHeading);
+
+        listings.slice(0, 5).forEach((item) => {
+            try {
+                const url = new URL(item.url);
+                if (url.protocol !== 'https:' && url.protocol !== 'http:') return;
+
+                const link = document.createElement('a');
+                link.href = url.href;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.className = 'block underline';
+                link.innerText =
+                    `${item.title || 'Lihat iklan'} — ${item.area || 'Lokasi tidak tercantum'} — ${formatRupiah(Number(item.price))}`;
+                sourcesElement.appendChild(link);
+            } catch {
+                // Lewati tautan yang formatnya tidak valid.
+            }
+        });
 
         const card = document.getElementById('stnkAiResultCard');
         if (card) {
@@ -2075,10 +2117,16 @@ if (rawText) {
             card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        showToast("Plafond maksimal aman berhasil dihitung!", "✨");
-        if (btnLabel) btnLabel.innerText = "Hitung Plafond Maksimal Aman";
+        showToast("Harpas online dan plafon berhasil dihitung!", "✨");
+    } catch (err) {
+        console.warn("Analisis STNK/Harpas online gagal:", err);
+        showToast(err.message || "Gagal membaca STNK atau mencari harga online.", "❌");
+    } finally {
+        if (btnLabel) {
+            btnLabel.innerText = "Hitung Plafond Maksimal Aman";
+        }
     }
-
+}
     function calculateTakeover() {
         const newAmt = parseInputNumber(document.getElementById('takeoverPencairanNew')?.value || '0');
         const oldAmt = parseInputNumber(document.getElementById('takeoverPelunasanOld')?.value || '0');
