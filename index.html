@@ -1186,9 +1186,11 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             localStorage.removeItem(key);
         } catch (e) {
             console.warn('Storage remove error:', e);
-        }
+        }   
     }
-
+    
+    safeRemoveStorage('kliknsc_gemini_key');
+    
     const TENORS = [8, 11, 12, 18, 20, 24, 30, 36];
 
     const CATEGORIES = [
