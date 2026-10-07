@@ -1124,13 +1124,13 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
     safeRemoveStorage('kliknsc_gemini_key');
     
     const TENORS = [8, 11, 12, 18, 20, 24, 30, 36];
+    const INSTALLMENT_INCREASE = 0.03;
 
     const CATEGORIES = [
         { id: 'normal', name: 'NORMAL', badge: 'Reguler', color: 'bg-blue-500', borderColor: 'border-blue-500', lightBg: 'bg-blue-50 dark:bg-blue-950/40' },
         { id: 'extra', name: 'EXTRA', badge: 'Diskon 3%', color: 'bg-amber-500', borderColor: 'border-amber-500', lightBg: 'bg-amber-50 dark:bg-amber-950/40' },
         { id: 'special', name: 'SPECIAL', badge: 'Super Hemat', color: 'bg-emerald-500', borderColor: 'border-emerald-500', lightBg: 'bg-emerald-50 dark:bg-emerald-950/40' },
         { id: 'bombastis', name: 'BOMBASTIS', badge: 'Promo Spesial', color: 'bg-purple-500', borderColor: 'border-purple-500', lightBg: 'bg-purple-50 dark:bg-purple-950/40' },
-        { id: 'extraPlus', name: 'EXTRA PLUS', badge: 'Insentif 50%', color: 'bg-rose-500', borderColor: 'border-rose-500', lightBg: 'bg-rose-50 dark:bg-rose-950/40' },
     ];
 
     const PRESETS = [
@@ -1186,18 +1186,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             20000000: [3369220, 2592636, 2427691, 1817578, 1696772, 1519077, 1341232, 1191117],
             25000000: [4119220, 3172636, 2977691, 2237578, 2086772, 1869077, 1651232, 1461117],
             30000000: [4869220, 3752636, 3527691, 2637578, 2466772, 2219077, 1961232, 1741117]
-        },
-        extraPlus: {
-            4000000: [854829, 636963, 597171, 458665, 429183, 380033, 338455, 333199],
-            5000000: [1013991, 763085, 715379, 543844, 508584, 452210, 402003, 370348],
-            6000000: [1163610, 876099, 820851, 624063, 583301, 520791, 462373, 428155],
-            8000000: [1466348, 1114782, 1044076, 789506, 737462, 659275, 584004, 546526],
-            10000000: [1765519, 1353238, 1267073, 951445, 888111, 794934, 702791, 624693],
-            12000000: [2067237, 1590609, 1489370, 1117393, 1043066, 933723, 825190, 733316],
-            15000000: [2567859, 1975856, 1850112, 1386533, 1294324, 1158683, 1023480, 909200],
-            20000000: [3338750, 2569284, 2405855, 1801405, 1681710, 1505657, 1329478, 1180758],
-            25000000: [4088750, 3149284, 2955855, 2221405, 2071710, 1855657, 1639478, 1450758],
-            30000000: [4838750, 3729284, 3505855, 2621405, 2451710, 2205657, 1949478, 1730758]
         }
     };
 
@@ -1413,7 +1401,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         return parseInt(val.toString().replace(/\D/g, ''), 10) || 0;
     }
 
-    function calculateRate(amount, tenorIdx, categoryKey) {
+    function calculateBaseRate(amount, tenorIdx, categoryKey) {
         const catData = BASE_DATABASE[categoryKey] || BASE_DATABASE.normal;
         const knownAmounts = Object.keys(catData).map(Number).sort((a, b) => a - b);
         
@@ -1449,6 +1437,10 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         return Math.round((catData[lower][tenorIdx] + ratio * (catData[upper][tenorIdx] - catData[lower][tenorIdx])) / 100) * 100;
     }
 
+    function calculateRate(amount, tenorIdx, categoryKey) {
+        const baseRate = calculateBaseRate(amount, tenorIdx, categoryKey);
+        return Math.round((baseRate * (1 + INSTALLMENT_INCREASE)) / 100) * 100;
+    }
     function renderCategories() {
         const container = document.getElementById('categoryContainer');
         if (!container) return;
