@@ -515,7 +515,12 @@
                             <span id="gpsStatusBadge" class="text-[9px] bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 font-bold px-2 py-0.5 rounded-md">Belum Ditarik</span>
                         </div>
                         
-                        <input type="text" id="pollGpsUrl" placeholder="Link Google Maps akan muncul di sini" readonly class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-[11px] font-mono text-slate-700 dark:text-slate-300" />
+                        <input type="text" id="pollGpsUrl" placeholder="Tempel link serlok / Google Maps dari nasabah di sini" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-[11px] font-mono text-slate-700 dark:text-slate-300" />
+
+                        <button type="button" onclick="copyGpsLink()" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            <span>Salin Tag Lokasi GPS</span>
+                        </button>
 
                         <button type="button" onclick="fetchGpsLocation()" id="btnGetGps" class="w-full bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
@@ -1686,6 +1691,32 @@ _Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk pr
         el.value = formatNumberInput(num);
     }
 
+    async function copyGpsLink() {
+        const gpsLink = document.getElementById('pollGpsUrl')?.value.trim() || state.gpsUrl;
+        if (!gpsLink) {
+            showToast("Ambil lokasi GPS dulu sebelum menyalin.", "⚠️");
+            return;
+        }
+
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(gpsLink);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = gpsLink;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+            }
+            showToast("Link lokasi GPS berhasil disalin!", "📋");
+        } catch (e) {
+            showToast("Gagal menyalin link GPS.", "⚠️");
+        }
+    }
+
     function generatePollingText() {
         const pemohon = document.getElementById('pollNamaPemohon')?.value.trim() || '-';
         const penjamin = document.getElementById('pollNamaPenjamin')?.value.trim() || '-';
@@ -1695,7 +1726,7 @@ _Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk pr
         const nominalRaw = document.getElementById('pollNominal')?.value || '0';
         const tenor = document.getElementById('pollTenor')?.value || '12';
         const alamat = document.getElementById('pollAlamat')?.value.trim() || '-';
-        const gpsLink = state.gpsUrl || document.getElementById('pollGpsUrl')?.value.trim();
+        const gpsLink = document.getElementById('pollGpsUrl')?.value.trim() || state.gpsUrl;
 
         const nominalNum = parseInputNumber(nominalRaw);
         const tenorIdx = TENORS.indexOf(parseInt(tenor, 10));
