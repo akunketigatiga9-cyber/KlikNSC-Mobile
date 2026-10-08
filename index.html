@@ -90,12 +90,12 @@
 
         <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
             <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">ID / Kode KBA</label>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ID / Kode KBA</label>
                 <input type="text" id="loginSalesId" required placeholder="Masukkan ID KBA" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase transition" />
             </div>
 
             <div>
-                <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">PIN / Password Access</label>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">PIN / Password Access</label>
                 <input type="password" id="loginPin" required placeholder="Masukkan PIN KBA" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 tracking-widest transition" />
             </div>
 
@@ -131,9 +131,9 @@
                 <div>
                     <h1 class="font-black text-base tracking-tight flex items-center gap-2 text-white">
                         KlikNSC Mobile
-                        <span id="headerSalesBadge" class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-400/30 shadow-sm">KBA</span>
+                        <span id="headerSalesBadge" class="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-400/30 shadow-sm">KBA</span>
                     </h1>
-                    <p class="text-[11px] text-blue-200/90 font-medium">Kalkulator Brosur & Tools KBA</p>
+                    <p class="text-xs text-blue-200/90 font-medium">Kalkulator Brosur & Tools KBA</p>
                 </div>
             </div>
 
@@ -162,7 +162,7 @@
         </div>
     </header>
 
-    <div class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex gap-2 text-[11px] font-bold shadow-md sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
+    <div class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex gap-2 text-xs font-bold shadow-md sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
         <button id="tabCalcBtn" onclick="switchTab('kalkulator')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-blue-600 text-white border border-blue-400/50 shadow-md active:scale-95 shrink-0">
             <svg class="w-4 h-4 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
             <span>Kalkulator</span>
@@ -226,7 +226,7 @@
                         <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                         Nominal Pengajuan Pencairan
                     </label>
-                    <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Bersih Terima Utuh</span>
+                    <span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Bersih Terima Utuh</span>
                 </div>
 
                 <div class="relative mb-3">
@@ -254,7 +254,7 @@
                         oninput="handleSliderChange(this.value)"
                         class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 dark:bg-slate-700 rounded-lg"
                     />
-                    <div class="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 font-semibold px-0.5">
+                    <div class="flex justify-between text-xs text-slate-400 dark:text-slate-500 font-semibold px-0.5">
                         <span>3 JT</span>
                         <span>10 JT</span>
                         <span>18 JT</span>
@@ -278,7 +278,7 @@
                 <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-600/20 rounded-full blur-2xl pointer-events-none"></div>
                 
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[10px] text-blue-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                    <span class="text-xs text-blue-300 font-bold uppercase tracking-wider flex items-center gap-1">
                         <svg class="w-3.5 h-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
                         Rekomendasi Terpilih
                     </span>
@@ -293,11 +293,11 @@
 
                 <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 border-t border-slate-800/80 pt-2.5 my-3">
                     <div>
-                        <div class="text-[10px] text-slate-400">Pencairan Net (Bersih):</div>
+                        <div class="text-xs text-slate-400">Pencairan Net (Bersih):</div>
                         <div id="selectedPencairanText" class="font-bold text-white">Rp 0</div>
                     </div>
                     <div>
-                        <div class="text-[10px] text-emerald-400 font-semibold">Setara Harian (Ringan):</div>
+                        <div class="text-xs text-emerald-400 font-semibold">Setara Harian (Ringan):</div>
                         <div id="selectedDailyText" class="font-extrabold text-emerald-300">± Rp 0 / hari</div>
                     </div>
                 </div>
@@ -318,7 +318,7 @@
             <div>
                 <div class="flex items-center justify-between mb-2 px-1">
                     <span class="text-xs font-bold text-slate-700 dark:text-slate-300">Pilihan Angsuran Semua Tenor:</span>
-                    <span class="text-[10px] text-slate-400">Klik untuk memilih</span>
+                    <span class="text-xs text-slate-400">Klik untuk memilih</span>
                 </div>
                 <div id="tenorGridContainer" class="grid grid-cols-2 gap-2"></div>
             </div>
@@ -333,10 +333,10 @@
                         <svg class="w-4 h-4 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         Kalkulator Pelunasan Dipercepat
                     </h3>
-                    <span class="text-[10px] bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-bold px-2 py-0.5 rounded-md border border-rose-200 dark:border-rose-800/50">Diskon Bunga Maju</span>
+                    <span class="text-xs bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-bold px-2 py-0.5 rounded-md border border-rose-200 dark:border-rose-800/50">Diskon Bunga Maju</span>
                 </div>
 
-                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     Hitung estimasi hemat biaya saat nasabah melunasi pinjaman lebih cepat sebelum masa tenor berakhir.
                 </p>
 
@@ -367,7 +367,7 @@
                             <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">3. Sudah Masuk Ke-:</label>
                             <div class="flex items-center gap-1">
                                 <input type="number" id="pelunasanSudahMasuk" value="6" min="1" max="36" oninput="calculatePelunasan()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white text-center" />
-                                <span class="text-slate-500 text-[10px] font-bold">Bulan</span>
+                                <span class="text-slate-500 text-xs font-bold">Bulan</span>
                             </div>
                         </div>
                     </div>
@@ -401,8 +401,8 @@
                 <!-- Result Box Pelunasan -->
                 <div class="bg-gradient-to-br from-slate-900 via-rose-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-rose-500/30 space-y-3">
                     <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
-                        <span class="text-[10px] text-rose-300 font-bold uppercase tracking-wider">Estimasi Total Bayar Pelunasan:</span>
-                        <span id="pelunasanSisaTenorBadge" class="text-[10px] bg-rose-500/20 text-rose-300 border border-rose-400/30 px-2 py-0.5 rounded-full font-bold">Sisa 18 Bulan</span>
+                        <span class="text-xs text-rose-300 font-bold uppercase tracking-wider">Estimasi Total Bayar Pelunasan:</span>
+                        <span id="pelunasanSisaTenorBadge" class="text-xs bg-rose-500/20 text-rose-300 border border-rose-400/30 px-2 py-0.5 rounded-full font-bold">Sisa 18 Bulan</span>
                     </div>
 
                     <div id="pelunasanTotalResult" class="text-3xl font-black text-rose-400 tracking-tight">Rp 15.422.400</div>
@@ -412,7 +412,7 @@
                         <b id="pelunasanHematText" class="text-sm font-black text-emerald-400">Rp 6.177.600</b>
                     </div>
 
-                    <div class="text-[11px] text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
+                    <div class="text-xs text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
                         <div class="flex justify-between">
                             <span class="text-slate-400">Total Tagihan Normal Sisa Tenor:</span>
                             <b id="pelunasanNormalTagihanText" class="text-white">Rp 21.600.000</b>
@@ -441,54 +441,69 @@
 
         <!-- Polling View -->
         <div id="pollingView" class="space-y-4 hidden">
-            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-emerald-200 dark:border-emerald-800/60 space-y-3">
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
-                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                    <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
                         Form Polling Pengajuan WA
                     </h3>
-                    <span id="pollFormHeaderBadge" class="text-[10px] bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">FORM PENGAJUAN M2W SRN31</span>
+                    <span id="pollFormHeaderBadge" class="text-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">FORM PENGAJUAN M2W SRN31</span>
                 </div>
 
-                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     Isi data pengajuan nasabah di bawah. Format pesan disesuaikan persis dengan standar tim KBA.
                 </p>
 
                 <div class="space-y-2 text-xs">
+                    <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-violet-700 dark:text-violet-300">Data Pemohon</h4>
+                    </div>
+
                     <div>
                         <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">1. Nama Pemohon:</label>
-                        <input type="text" id="pollNamaPemohon" placeholder="Cth: DERI ISRO MA'ARIJUL HAYAT" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                        <input type="text" id="pollNamaPemohon" placeholder="Cth: DERI ISRO MA'ARIJUL HAYAT" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-violet-600" />
                     </div>
 
                     <div>
                         <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">2. Nama Penjamin:</label>
-                        <input type="text" id="pollNamaPenjamin" placeholder="Cth: FITRI FAUZIAH" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                        <input type="text" id="pollNamaPenjamin" placeholder="Cth: FITRI FAUZIAH" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-violet-600" />
                     </div>
 
                     <div>
                         <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">3. No. HP / WA Pemohon:</label>
-                        <input type="tel" id="pollPhone" placeholder="+62 859-2177-1560" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                        <input type="tel" id="pollPhone" placeholder="+62 859-2177-1560" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600" />
+                    </div>
+
+                    <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-1.5 pt-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-violet-700 dark:text-violet-300">Pekerjaan & Penjamin</h4>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">4. Pekerjaan Pemohon:</label>
-                            <input type="text" id="pollPekerjaanPemohon" placeholder="Cth: JUALAN / SWASTA" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                            <input type="text" id="pollPekerjaanPemohon" placeholder="Cth: JUALAN / SWASTA" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-violet-600" />
                         </div>
                         <div>
                             <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">5. Pekerjaan Penjamin:</label>
-                            <input type="text" id="pollPekerjaanPenjamin" placeholder="Cth: JUALAN / IRT" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                            <input type="text" id="pollPekerjaanPenjamin" placeholder="Cth: JUALAN / IRT" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white uppercase focus:outline-none focus:ring-2 focus:ring-violet-600" />
                         </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-1.5 pt-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-violet-700 dark:text-violet-300">Rincian Pengajuan</h4>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">6. Pengajuan:</label>
-                            <input type="text" id="pollNominal" placeholder="15.000.000" oninput="formatPollNominal(this)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+                            <input type="text" id="pollNominal" placeholder="15.000.000" oninput="formatPollNominal(this)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600" />
                         </div>
                         <div>
                             <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">7. Tenor Angsuran:</label>
-                            <select id="pollTenor" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                            <select id="pollTenor" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600">
                                 <option value="8">8 Bulan</option>
                                 <option value="11">11 Bulan</option>
                                 <option value="12" selected>12 Bulan</option>
@@ -501,28 +516,33 @@
                         </div>
                     </div>
 
+                    <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-1.5 pt-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
+                        <h4 class="text-xs font-extrabold uppercase tracking-wide text-violet-700 dark:text-violet-300">Alamat & Lokasi Survey</h4>
+                    </div>
+
                     <div>
                         <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">8. Alamat Tinggal:</label>
-                        <textarea id="pollAlamat" rows="2" placeholder="Jl. Ki uju kaujon tengah rt. 004 rw. 002 kel. Serang kec serang" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs"></textarea>
+                        <textarea id="pollAlamat" rows="2" placeholder="Jl. Ki uju kaujon tengah rt. 004 rw. 002 kel. Serang kec serang" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 text-xs"></textarea>
                     </div>
 
                     <!-- Geo-Tagging Feature Section -->
-                    <div class="p-3 bg-emerald-50/60 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800/60 space-y-2">
+                    <div class="p-3 bg-violet-50/70 dark:bg-violet-950/30 rounded-xl border border-violet-200 dark:border-violet-800/60 space-y-2">
                         <div class="flex items-center justify-between">
-                            <label class="font-extrabold text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5 text-xs">
+                            <label class="font-extrabold text-violet-900 dark:text-violet-300 flex items-center gap-1.5 text-xs">
                                 📍 Tag Lokasi GPS Rumah Nasabah:
                             </label>
-                            <span id="gpsStatusBadge" class="text-[9px] bg-emerald-200 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-200 font-bold px-2 py-0.5 rounded-md">Belum Ditarik</span>
+                            <span id="gpsStatusBadge" class="text-xs bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold px-2 py-0.5 rounded-md">Belum Diisi</span>
                         </div>
                         
-                        <input type="text" id="pollGpsUrl" placeholder="Tempel link serlok / Google Maps dari nasabah di sini" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-[11px] font-mono text-slate-700 dark:text-slate-300" />
+                        <input type="text" id="pollGpsUrl" oninput="updateGpsStatusFromInput()" placeholder="Tempel link serlok / Google Maps dari nasabah di sini" class="w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg p-2 text-xs font-mono text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500" />
 
                         <button type="button" onclick="copyGpsLink()" class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer border border-slate-700">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                             <span>Salin Tag Lokasi GPS</span>
                         </button>
 
-                        <button type="button" onclick="fetchGpsLocation()" id="btnGetGps" class="w-full bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm">
+                        <button type="button" onclick="fetchGpsLocation()" id="btnGetGps" class="w-full bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer shadow-sm">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             <span id="btnGetGpsLabel">Ambil Lokasi GPS Presisi (Google Maps)</span>
                         </button>
@@ -551,10 +571,10 @@
                         <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                         AI Vision STNK Scanner & Limit NSC
                     </h3>
-                    <span class="text-[10px] bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800/50">Rumus Resmi LTV NSC</span>
+                    <span class="text-xs bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800/50">Rumus Resmi LTV NSC</span>
                 </div>
 
-                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                     Upload/Foto STNK nasabah. AI akan mengenali tipe & tahun motor, mengecek Harga Pasar (Harpas) Serang Banten via Gemini AI, dan otomatis menghitung <b>Plafond Maksimal Aman</b>.
                 </p>
 
@@ -566,14 +586,14 @@
                             <input type="radio" name="stnkTangan" value="1" checked class="accent-purple-600" id="stnkTangan1">
                             <div>
                                 <span class="text-slate-800 dark:text-slate-200 block">Tangan Pertama</span>
-                                <span class="text-[9px] text-emerald-600 dark:text-emerald-400 font-normal">Harpas × 94% × 80%</span>
+                                <span class="text-xs text-emerald-600 dark:text-emerald-400 font-normal">Harpas × 94% × 80%</span>
                             </div>
                         </label>
                         <label class="flex items-center gap-2 p-2 bg-white dark:bg-slate-900 rounded-lg cursor-pointer border border-purple-200 dark:border-purple-900 text-xs font-bold">
                             <input type="radio" name="stnkTangan" value="2" class="accent-purple-600" id="stnkTangan2">
                             <div>
                                 <span class="text-slate-800 dark:text-slate-200 block">Tangan Kedua</span>
-                                <span class="text-[9px] text-amber-600 dark:text-amber-400 font-normal">Harpas × 94% × 70%</span>
+                                <span class="text-xs text-amber-600 dark:text-amber-400 font-normal">Harpas × 94% × 70%</span>
                             </div>
                         </label>
                     </div>
@@ -626,10 +646,10 @@
             <!-- Result Card STNK AI -->
             <div id="stnkAiResultCard" class="hidden bg-gradient-to-br from-slate-900 via-purple-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-purple-500/40 space-y-3">
                 <div class="flex items-center justify-between border-b border-purple-800/60 pb-2">
-                    <span class="text-[10px] text-purple-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                    <span class="text-xs text-purple-300 font-bold uppercase tracking-wider flex items-center gap-1">
                         ✨ HASIL ANALISIS AI & PLAFOND NSC
                     </span>
-                    <span id="stnkResultTanganBadge" class="bg-purple-500/20 text-purple-300 text-[10px] px-2 py-0.5 rounded-full border border-purple-400/30 font-bold"></span>
+                    <span id="stnkResultTanganBadge" class="bg-purple-500/20 text-purple-300 text-xs px-2 py-0.5 rounded-full border border-purple-400/30 font-bold"></span>
                 </div>
 
                 <div>
@@ -638,12 +658,12 @@
                 </div>
 
                 <div class="bg-black/40 p-3 rounded-xl border border-purple-500/30 space-y-1">
-                    <div class="text-[10px] text-slate-400">Rekomendasi Plafond Maksimal Aman NSC:</div>
+                    <div class="text-xs text-slate-400">Rekomendasi Plafond Maksimal Aman NSC:</div>
                     <div id="stnkResultPlafond" class="text-2xl font-black text-emerald-400"></div>
-                    <div id="stnkResultFormulaText" class="text-[10px] text-slate-300 italic"></div>
+                    <div id="stnkResultFormulaText" class="text-xs text-slate-300 italic"></div>
                 </div>
 
-                <button id="useAiPlafondBtn" onclick="useAiPlafondInCalculator()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                <button id="useAiPlafondBtn" onclick="useAiPlafondInCalculator()" class="w-full bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Gunakan Nilai Ini di Kalkulator</span>
                 </button>
@@ -658,7 +678,7 @@
                         <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
                         Kalkulator Take Over BPKB & Top Up
                     </h3>
-                    <span class="text-[10px] bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/50">Hitung Duit Segar</span>
+                    <span class="text-xs bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold px-2 py-0.5 rounded-md border border-amber-200 dark:border-amber-800/50">Hitung Duit Segar</span>
                 </div>
 
                 <div class="space-y-3 text-xs">
@@ -695,13 +715,13 @@
 
                 <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-2xl p-4 shadow-xl border border-amber-500/30 space-y-3">
                     <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
-                        <span class="text-[10px] text-amber-300 font-bold uppercase tracking-wider">Estimasi Duit Segar Diterima Nasabah:</span>
-                        <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-bold">Net Cash</span>
+                        <span class="text-xs text-amber-300 font-bold uppercase tracking-wider">Estimasi Duit Segar Diterima Nasabah:</span>
+                        <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-bold">Net Cash</span>
                     </div>
 
                     <div id="takeoverNetResult" class="text-3xl font-black text-emerald-400 tracking-tight">Rp 8.400.000</div>
 
-                    <div class="text-[11px] text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
+                    <div class="text-xs text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
                         <div class="flex justify-between">
                             <span class="text-slate-400">Pencairan Baru :</span>
                             <b id="takeoverPencairanText" class="text-white">Rp 15.000.000</b>
@@ -741,7 +761,7 @@
                             <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
                             Checklist Berkas Pengajuan
                         </h3>
-                            <p class="text-[10px] text-slate-500 dark:text-slate-400">Persiapan berkas dan proses sebelum pencairan</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Persiapan berkas dan proses sebelum pencairan</p>
                     </div>
                     <span id="checklistScoreBadge" class="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-black px-2.5 py-1 rounded-xl border border-emerald-200 dark:border-emerald-800/50">
                         100% Siap
@@ -749,8 +769,8 @@
                 </div>
 
                 <div class="space-y-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
-                    <p class="text-[10px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">Dokumen yang perlu disiapkan</p>
-                    <p class="text-[10px] font-normal text-slate-500 dark:text-slate-400">Daftar awal dari aplikasi; pastikan dokumen final yang diminta ke KBA.</p>
+                    <p class="text-xs font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">Dokumen yang perlu disiapkan</p>
+                    <p class="text-xs font-normal text-slate-500 dark:text-slate-400">Daftar awal dari aplikasi; pastikan dokumen final yang diminta ke KBA.</p>
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
                         <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkKtp" onchange="updateChecklistProgress()">
                         <span>KTP Pemohon & Pasangan / Penjamin (Asli & FC)</span>
@@ -773,10 +793,10 @@
                     </label>
                 </div>
                 <div class="border-t border-slate-100 dark:border-slate-700/60 pt-3 space-y-2">
-                    <label class="text-[10px] font-bold text-slate-500 uppercase">Catatan Kondisi Khusus:</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase">Catatan Kondisi Khusus:</label>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <span class="text-[10px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Status Pajak:</span>
+                            <span class="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">Status Pajak:</span>
                             <select id="chkPajakStatus" onchange="updateChecklistProgress()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
                                 <option value="hidup">Pajak Hidup / Aman</option>
                                 <option value="mati1">Pajak Mati ≤ 1 Thn</option>
@@ -784,7 +804,7 @@
                             </select>
                         </div>
                         <div>
-                            <span class="text-[10px] font-semibold text-slate-600 dark:text-slate-400 block mb-1">Atas Nama BPKB:</span>
+                            <span class="text-xs font-semibold text-slate-600 dark:text-slate-400 block mb-1">Atas Nama BPKB:</span>
                             <select id="chkAnStatus" onchange="updateChecklistProgress()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs rounded-xl p-2 font-bold text-slate-800 dark:text-slate-200">
                                 <option value="sendiri">Atas Nama Sendiri</option>
                                 <option value="oranglain">Atas Nama Orang Lain</option>
@@ -802,7 +822,7 @@
                 </div>
 
                 <div class="pt-1">
-                    <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">
+                    <label class="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1">
                         No. WA Nasabah (Opsional):
                     </label>
                     <div class="relative">
@@ -811,7 +831,7 @@
                             type="tel"
                             id="chkWaPhone"
                             placeholder="81234567890"
-                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-12 pr-3 py-2 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-600"
+                            class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-12 pr-3 py-2 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600"
                         />
                     </div>
                 </div>
@@ -841,11 +861,11 @@
                         <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                         Generator Script Broadcast WA
                     </h3>
-                    <span class="text-[10px] bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 font-bold px-2 py-0.5 rounded-md border border-blue-200 dark:border-blue-800/50">Instan Copy</span>
+                    <span class="text-xs bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-300 font-bold px-2 py-0.5 rounded-md border border-blue-200 dark:border-blue-800/50">Instan Copy</span>
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block">Pilih Template Promo:</label>
+                    <label class="text-xs font-bold text-slate-600 dark:text-slate-400 block">Pilih Template Promo:</label>
                     <select id="scriptTemplateSelect" onchange="generateScriptPromo()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600">
                         <option value="utuh">Promo Pencairan Utuh Tanpa Potongan</option>
                         <option value="pajak">Bisa Bantu Pajak STNK Mati / Balik Nama</option>
@@ -855,7 +875,7 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-bold text-slate-600 dark:text-slate-400 block mb-1">Preview Script Text:</label>
+                    <label class="text-xs font-bold text-slate-600 dark:text-slate-400 block mb-1">Preview Script Text:</label>
                     <textarea id="scriptPreviewText" rows="7" readonly class="w-full bg-slate-900 text-blue-200 p-3 rounded-xl text-xs font-mono border border-slate-700 leading-relaxed focus:outline-none"></textarea>
                 </div>
 
@@ -875,10 +895,10 @@
                     <div class="font-bold text-xs text-rose-600 dark:text-rose-400 flex items-center justify-between">
                         <span>❌ "Bunganya / Angsurannya Lumayan Tinggi Ya Mas..."</span>
                     </div>
-                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-[11px] leading-relaxed" id="objText1">Halo Pak/Bu, kalau dihitung bulanan sepintas terlihat begitu, tapi di KlikNSC pencairan kita *BERSIH UTUH TANPA POTONGAN ADMIN TERSEMBUNYI* di depan.
+                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-xs leading-relaxed" id="objText1">Halo Pak/Bu, kalau dihitung bulanan sepintas terlihat begitu, tapi di KlikNSC pencairan kita *BERSIH UTUH TANPA POTONGAN ADMIN TERSEMBUNYI* di depan.
 
 Kalau dihitung harian, ini cuma setara *± Rp 40 ribuan/hari* (setara harga 2 bungkus rokok/makan siang saja). BPKB juga dijamin aman simpanan resmi perusahaan finance terdaftar OJK.</p>
-                    <button onclick="copyObjectionText('objText1')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-[11px] flex items-center justify-center gap-1 transition cursor-pointer">
+                    <button onclick="copyObjectionText('objText1')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 transition cursor-pointer">
                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                         <span>Salin Jawaban Ini</span>
                     </button>
@@ -888,10 +908,10 @@ Kalau dihitung harian, ini cuma setara *± Rp 40 ribuan/hari* (setara harga 2 bu
                     <div class="font-bold text-xs text-rose-600 dark:text-rose-400 flex items-center justify-between">
                         <span>❌ "Mau Diskusi Dulu Sama Suami/Istri Ya..."</span>
                     </div>
-                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-[11px] leading-relaxed" id="objText2">Siap Pak/Bu, sangat setuju memang harus didiskusikan bersama pasangan. 
+                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-xs leading-relaxed" id="objText2">Siap Pak/Bu, sangat setuju memang harus didiskusikan bersama pasangan. 
 
 Biar diskusinya lebih gampang, saya bantu buatkan *Kartu Rincian Simulasi Pas-nya* ya? Bebas biaya dan tanpa ikatan dulu kok, biar pasangan bisa lihat angsuran harian yang paling pas dengan budget keluarga. Boleh saya minta info nominal yang dibutuhkan?</p>
-                    <button onclick="copyObjectionText('objText2')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-[11px] flex items-center justify-center gap-1 transition cursor-pointer">
+                    <button onclick="copyObjectionText('objText2')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 transition cursor-pointer">
                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                         <span>Salin Jawaban Ini</span>
                     </button>
@@ -901,10 +921,10 @@ Biar diskusinya lebih gampang, saya bantu buatkan *Kartu Rincian Simulasi Pas-ny
                     <div class="font-bold text-xs text-rose-600 dark:text-rose-400 flex items-center justify-between">
                         <span>❌ "Pajak Motor Saya Mati / Atas Nama Orang Lain..."</span>
                     </div>
-                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-[11px] leading-relaxed" id="objText3">Tenang Pak/Bu! Di tempat kami justru spesialisasi bantu kondisi pajak mati atau BPKB masih atas nama pemilik lama/tangan kedua.
+                    <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono text-xs leading-relaxed" id="objText3">Tenang Pak/Bu! Di tempat kami justru spesialisasi bantu kondisi pajak mati atau BPKB masih atas nama pemilik lama/tangan kedua.
 
 Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemutihan/perpanjangan pajaknya, jadi Bapak/Ibu tidak perlu pusing bolak-balik ke Samsat.</p>
-                    <button onclick="copyObjectionText('objText3')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-[11px] flex items-center justify-center gap-1 transition cursor-pointer">
+                    <button onclick="copyObjectionText('objText3')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 transition cursor-pointer">
                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                         <span>Salin Jawaban Ini</span>
                     </button>
@@ -916,7 +936,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         <div id="bonusView" class="space-y-4 hidden">
             <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-blue-500/30 space-y-3">
                 <div class="flex items-center justify-between">
-                    <span class="text-[10px] text-emerald-300 font-bold uppercase tracking-wider flex items-center gap-1">
+                    <span class="text-xs text-emerald-300 font-bold uppercase tracking-wider flex items-center gap-1">
                         🎯 Target & Goal Tracker Sales
                     </span>
                     <span id="trackerPercentBadge" class="bg-emerald-500/20 text-emerald-300 text-xs px-2 py-0.5 rounded-full border border-emerald-400/30 font-bold">30% Achieved</span>
@@ -924,11 +944,11 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
                 <div class="grid grid-cols-2 gap-2 text-xs">
                     <div>
-                        <label class="text-[10px] text-slate-400 block mb-1">Target Bulan Ini (Unit):</label>
+                        <label class="text-xs text-slate-400 block mb-1">Target Bulan Ini (Unit):</label>
                         <input type="number" id="trackerTargetUnit" value="10" min="1" onchange="updateGoalTracker()" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-white text-center" />
                     </div>
                     <div>
-                        <label class="text-[10px] text-slate-400 block mb-1">Pencapaian Realisasi:</label>
+                        <label class="text-xs text-slate-400 block mb-1">Pencapaian Realisasi:</label>
                         <div class="flex items-center gap-1">
                             <button id="trackerMinusBtn" onclick="adjustTrackerProgress(-1)" class="bg-slate-800 px-2 py-1.5 rounded-lg border border-slate-700 font-black hover:bg-slate-700 cursor-pointer">-</button>
                             <input type="number" id="trackerCurrentUnit" value="3" min="0" onchange="updateGoalTracker()" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl p-2 font-bold text-emerald-400 text-center" />
@@ -941,7 +961,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                     <div class="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700">
                         <div id="trackerProgressBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-500" style="width: 30%"></div>
                     </div>
-                    <p id="trackerStatusText" class="text-[10px] text-slate-300 font-medium text-center">Kurang 7 unit lagi untuk tembus Total Bonus Rp 3.875.000!</p>
+                    <p id="trackerStatusText" class="text-xs text-slate-300 font-medium text-center">Kurang 7 unit lagi untuk tembus Total Bonus Rp 3.875.000!</p>
                 </div>
             </div>
 
@@ -952,14 +972,14 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                         <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         Kalkulator Insentif KBA (Partnership)
                     </h3>
-                    <span class="text-[10px] bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Matriks Resmi</span>
+                    <span class="text-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Matriks Resmi</span>
                 </div>
 
                 <div class="space-y-3 text-xs">
                     <div>
                         <label class="font-bold text-slate-600 dark:text-slate-400 block mb-1">Target Total Omset Pencairan (Rp):</label>
                         <input type="text" id="bonusPencairanInput" value="95.000.000" oninput="calculateSalesBonus()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white" />
-                        <span class="text-[10px] text-slate-400 font-medium">Satuan Standar KBA: 1 Unit = Rp 9.500.000</span>
+                        <span class="text-xs text-slate-400 font-medium">Satuan Standar KBA: 1 Unit = Rp 9.500.000</span>
                     </div>
 
                     <div>
@@ -970,16 +990,16 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
                 <div class="bg-gradient-to-br from-slate-900 to-blue-950 text-white rounded-2xl p-4 shadow-md space-y-3 border border-emerald-500/30 relative overflow-hidden">
                     <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
-                        <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Total Insentif KBA Diterima:</span>
-                        <span id="bonusUnitBadge" class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-bold">10 Unit</span>
+                        <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Total Insentif KBA Diterima:</span>
+                        <span id="bonusUnitBadge" class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full font-bold">10 Unit</span>
                     </div>
 
                     <div id="bonusTotalResult" class="text-3xl font-black text-emerald-400 tracking-tight">Rp 3.875.000</div>
 
-                    <div class="text-[11px] text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
+                    <div class="text-xs text-slate-300 space-y-1.5 border-t border-slate-800/80 pt-2.5">
                         <div class="flex justify-between">
                             <span class="text-slate-400">Rp Komisi Unit:</span>
-                            <b id="bonusBaseFeeText" class="text-white">Rp 1.875.000 <span id="ratePerUnitText" class="text-[9px] text-emerald-400 font-normal">(Rp 187.500/unit)</span></b>
+                            <b id="bonusBaseFeeText" class="text-white">Rp 1.875.000 <span id="ratePerUnitText" class="text-xs text-emerald-400 font-normal">(Rp 187.500/unit)</span></b>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-400">Uang Saku Operasional:</span>
@@ -1024,7 +1044,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
             <div id="yearCheckResultCard" class="bg-slate-900 text-white rounded-2xl p-4 shadow-xl space-y-3">
                 <div class="flex items-center justify-between">
-                    <span class="text-[10px] text-slate-400 font-semibold uppercase">Status Kelayakan</span>
+                    <span class="text-xs text-slate-400 font-semibold uppercase">Status Kelayakan</span>
                     <span id="yearStatusBadge" class="text-xs px-2.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">Sangat Layak</span>
                 </div>
                 <div id="yearStatusTitle" class="text-base font-black text-white">Usia Motor Aman (Standar Pembiayaan)</div>
@@ -1063,7 +1083,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         
         <!-- Footer Credit -->
         <footer class="text-center py-4 border-t border-slate-200/60 dark:border-slate-800/80 mt-6">
-            <p class="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+            <p class="text-xs text-slate-400 dark:text-slate-500 font-medium">
                 Aplikasi ini dibuat oleh <span class="font-bold text-blue-600 dark:text-blue-400">SPVKLIKM2W</span>
             </p>
         </footer>
@@ -1455,7 +1475,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 <button type="button" onclick="selectCategory('${cat.id}')" class="p-2.5 rounded-xl border text-left transition flex items-center justify-between active:scale-95 cursor-pointer ${isActive ? `${cat.lightBg} ${cat.borderColor} border-2 shadow-sm` : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}">
                     <div>
                         <div class="font-extrabold text-xs text-slate-900 dark:text-white">${cat.name}</div>
-                        <div class="text-[10px] text-slate-500 font-medium">${cat.badge}</div>
+                        <div class="text-xs text-slate-500 font-medium">${cat.badge}</div>
                     </div>
                     <div class="w-3.5 h-3.5 rounded-full ${cat.color} ${isActive ? 'ring-2 ring-white dark:ring-slate-900 scale-110' : 'opacity-40'}"></div>
                 </button>
@@ -1530,11 +1550,11 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             return `
                 <div onclick="selectTenor(${t})" class="p-3 rounded-2xl border transition cursor-pointer active:scale-95 ${isSelected ? 'bg-blue-600 text-white border-blue-500 shadow-lg ring-2 ring-blue-400/50' : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-700/80 hover:border-blue-400'}">
                     <div class="flex items-center justify-between mb-1">
-                        <span class="text-[11px] font-black ${isSelected ? 'text-blue-200' : 'text-slate-500 dark:text-slate-400'}">${t} Bulan</span>
-                        ${isSelected ? '<span class="bg-white/20 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">Terpilih</span>' : ''}
+                        <span class="text-xs font-black ${isSelected ? 'text-blue-200' : 'text-slate-500 dark:text-slate-400'}">${t} Bulan</span>
+                        ${isSelected ? '<span class="bg-white/20 text-white text-xs px-1.5 py-0.5 rounded font-bold">Terpilih</span>' : ''}
                     </div>
                     <div class="text-sm font-black ${isSelected ? 'text-white' : 'text-blue-600 dark:text-blue-400'}">${formatRupiah(rate)}</div>
-                    <div class="text-[9px] mt-0.5 ${isSelected ? 'text-blue-100 font-semibold' : 'text-emerald-600 dark:text-emerald-400 font-medium'}">± ${formatRupiah(daily)} / hari</div>
+                    <div class="text-xs mt-0.5 ${isSelected ? 'text-blue-100 font-semibold' : 'text-emerald-600 dark:text-emerald-400 font-medium'}">± ${formatRupiah(daily)} / hari</div>
                 </div>
             `;
         }).join('');
@@ -1656,7 +1676,10 @@ _Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk pr
         }
 
         if (btnLabel) btnLabel.innerText = "⏳ Membaca Koordinat GPS...";
-        if (badge) badge.innerText = "Proses...";
+        if (badge) {
+            badge.innerText = "Mencari...";
+            badge.className = "text-xs bg-amber-500 text-white font-bold px-2 py-0.5 rounded-md";
+        }
 
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -1669,8 +1692,8 @@ _Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk pr
                 if (inputEl) inputEl.value = url;
 
                 if (badge) {
-                    badge.innerText = "GPS Terkunci";
-                    badge.className = "text-[9px] bg-emerald-500 text-white font-bold px-2 py-0.5 rounded-md";
+                    badge.innerText = "GPS Siap";
+                    badge.className = "text-xs bg-emerald-500 text-white font-bold px-2 py-0.5 rounded-md";
                 }
                 if (btnLabel) btnLabel.innerText = "📍 Update Lokasi GPS Presisi";
                 showToast("Lokasi GPS berhasil diambil!", "🎯");
@@ -1680,7 +1703,10 @@ _Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk pr
                 if (error.code === error.PERMISSION_DENIED) errStr = "Izin GPS ditolak oleh pengguna.";
                 showToast(errStr, "⚠️");
                 if (btnLabel) btnLabel.innerText = "Ambil Lokasi GPS Presisi (Google Maps)";
-                if (badge) badge.innerText = "Gagal";
+                if (badge) {
+                    badge.innerText = "GPS Gagal";
+                    badge.className = "text-xs bg-rose-600 text-white font-bold px-2 py-0.5 rounded-md";
+                }
             },
             { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
         );
@@ -1691,10 +1717,24 @@ _Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk pr
         el.value = formatNumberInput(num);
     }
 
+    function updateGpsStatusFromInput() {
+        const input = document.getElementById('pollGpsUrl');
+        const badge = document.getElementById('gpsStatusBadge');
+        if (!input || !badge) return;
+
+        if (input.value.trim()) {
+            badge.innerText = "Link Siap";
+            badge.className = "text-xs bg-violet-600 text-white font-bold px-2 py-0.5 rounded-md";
+        } else {
+            badge.innerText = "Belum Diisi";
+            badge.className = "text-xs bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold px-2 py-0.5 rounded-md";
+        }
+    }
+
     async function copyGpsLink() {
-        const gpsLink = document.getElementById('pollGpsUrl')?.value.trim() || state.gpsUrl;
+        const gpsLink = document.getElementById('pollGpsUrl')?.value.trim();
         if (!gpsLink) {
-            showToast("Ambil lokasi GPS dulu sebelum menyalin.", "⚠️");
+            showToast("Tempel link serlok atau ambil GPS dulu.", "⚠️");
             return;
         }
 
@@ -1726,7 +1766,7 @@ _Pelunasan awal lebih hemat jutaan rupiah! Hubungi KBA ${state.salesId} untuk pr
         const nominalRaw = document.getElementById('pollNominal')?.value || '0';
         const tenor = document.getElementById('pollTenor')?.value || '12';
         const alamat = document.getElementById('pollAlamat')?.value.trim() || '-';
-        const gpsLink = document.getElementById('pollGpsUrl')?.value.trim() || state.gpsUrl;
+        const gpsLink = document.getElementById('pollGpsUrl')?.value.trim() || '';
 
         const nominalNum = parseInputNumber(nominalRaw);
         const tenorIdx = TENORS.indexOf(parseInt(tenor, 10));
@@ -1765,7 +1805,7 @@ ALAMAT TINGGAL: ${alamat}`;
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
             }
-            showToast("Format Polling Pengajuan berhasil disalin!", "📋");
+            showToast("Pesan polling disalin, termasuk serlok bila diisi!", "📋");
         } catch (e) {
             showToast("Gagal menyalin format polling.", "⚠️");
         }
@@ -2009,7 +2049,7 @@ Kembalikan JSON dengan format:
         if (!sourcesElement) {
             sourcesElement = document.createElement('div');
             sourcesElement.id = 'stnkResultMarketSources';
-            sourcesElement.className = 'mt-2 space-y-1 text-[10px] text-purple-200';
+            sourcesElement.className = 'mt-2 space-y-1 text-xs text-purple-200';
             document.getElementById('stnkResultHarpas')
                 ?.insertAdjacentElement('afterend', sourcesElement);
         }
@@ -2336,7 +2376,7 @@ Hubungi KBA ${state.salesId} sekarang untuk respon cepat!`;
 
         if (document.getElementById('bonusTotalResult')) document.getElementById('bonusTotalResult').innerText = formatRupiah(grandTotal);
         if (document.getElementById('bonusUnitBadge')) document.getElementById('bonusUnitBadge').innerText = `${units} Unit`;
-        if (document.getElementById('bonusBaseFeeText')) document.getElementById('bonusBaseFeeText').innerHTML = `${formatRupiah(baseFeeTotal)} <span class="text-[9px] text-emerald-400 font-normal">(${formatRupiah(ratePerUnit)}/unit)</span>`;
+        if (document.getElementById('bonusBaseFeeText')) document.getElementById('bonusBaseFeeText').innerHTML = `${formatRupiah(baseFeeTotal)} <span class="text-xs text-emerald-400 font-normal">(${formatRupiah(ratePerUnit)}/unit)</span>`;
         if (document.getElementById('bonusRewardText')) document.getElementById('bonusRewardText').innerText = formatRupiah(rewardSaku);
         if (document.getElementById('bonusAgenText')) document.getElementById('bonusAgenText').innerText = `${matrix.agen} Agen Aktif`;
     }
