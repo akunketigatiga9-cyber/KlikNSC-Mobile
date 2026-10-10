@@ -1188,7 +1188,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
     const CATEGORIES = [
         { id: 'normal', name: 'NORMAL', badge: 'Reguler', color: 'bg-blue-500', borderColor: 'border-blue-500', lightBg: 'bg-blue-50 dark:bg-blue-950/40' },
-        { id: 'extra', name: 'EXTRA', badge: 'Diskon 3%', color: 'bg-amber-500', borderColor: 'border-amber-500', lightBg: 'bg-amber-50 dark:bg-amber-950/40' },
         { id: 'special', name: 'SPECIAL', badge: 'Super Hemat', color: 'bg-emerald-500', borderColor: 'border-emerald-500', lightBg: 'bg-emerald-50 dark:bg-emerald-950/40' },
         { id: 'bombastis', name: 'BOMBASTIS', badge: 'Promo Spesial', color: 'bg-purple-500', borderColor: 'border-purple-500', lightBg: 'bg-purple-50 dark:bg-purple-950/40' },
     ];
@@ -1210,18 +1209,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             20000000: [3262575, 2510904, 2351263, 1760973, 1644056, 1472107, 1300095, 1154861],
             25000000: [4012575, 3090904, 2891263, 2160973, 2014056, 1802107, 1590095, 1414861],
             30000000: [4762575, 3670904, 3431263, 2560973, 2384056, 2132107, 1880095, 1674861]
-        },
-        extra: {
-            4000000: [822711, 613111, 574834, 441863, 413491, 366193, 326282, 321340],
-            5000000: [974289, 733312, 687500, 523041, 489170, 435018, 386894, 356566],
-            6000000: [1124283, 846597, 793243, 603430, 564057, 503683, 447348, 414373],
-            8000000: [1427641, 1085467, 1016655, 769081, 718427, 642333, 569145, 532744],
-            10000000: [1719642, 1318210, 1234318, 927185, 865519, 774804, 685161, 609154],
-            12000000: [2021532, 1555581, 1456615, 1093134, 1020473, 913593, 807560, 717778],
-            15000000: [2506919, 1929152, 1806438, 1354187, 1264201, 1131843, 999974, 888482],
-            20000000: [3277810, 2522580, 2362181, 1769059, 1651587, 1478817, 1305972, 1160040],
-            25000000: [4027810, 3102580, 2902181, 2179059, 2031587, 1818817, 1605972, 1428040],
-            30000000: [4777810, 3682580, 3442181, 2579059, 2401587, 2148817, 1895972, 1688040]
         },
         special: {
             4000000: [782563, 583296, 546913, 420859, 393877, 348893, 311065, 306517],
@@ -1287,6 +1274,18 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
     let stnkBase64Data = null;
     let stnkMimeType = "image/jpeg";
+
+    function useAiPlafondInCalculator() {
+        const plafond = Number(state.calculatedAiPlafond);
+        if (!Number.isFinite(plafond) || plafond <= 0) {
+            showToast("Hitung plafond STNK dulu sebelum dipakai.", "⚠️");
+            return;
+        }
+
+        switchTab('kalkulator');
+        handleInputChange(plafond);
+        showToast("Plafond AI sudah dimasukkan ke kalkulator.", "✅");
+    }
 
     function showToast(msg, icon = '💡') {
         const toast = document.getElementById('toastNotification');
@@ -2072,12 +2071,23 @@ Kembalikan JSON dengan format:
 
         const market = JSON.parse(cleanJsonResponse(rawMarket));
         const listings = Array.isArray(market.listings) ? market.listings : [];
-        const estHarpas = Number(market.harpas);
+        const listingPrices = listings
+            .map((listing) => parseInputNumber(listing?.price))
+            .filter((price) => price > 0)
+            .sort((a, b) => a - b);
+        const middleIndex = Math.floor(listingPrices.length / 2);
+        const medianListingPrice = listingPrices.length % 2 === 0
+            ? (listingPrices[middleIndex - 1] + listingPrices[middleIndex]) / 2
+            : listingPrices[middleIndex];
+        const reportedHarpas = Number(market.harpas);
+        const estHarpas = Number.isFinite(reportedHarpas) && reportedHarpas > 0
+            ? reportedHarpas
+            : medianListingPrice;
 
         if (
             !Number.isFinite(estHarpas) ||
             estHarpas <= 0 ||
-            listings.length < 3
+            listingPrices.length < 3
         ) {
             throw new Error("Belum ada cukup iklan online yang cocok untuk menghitung Harpas.");
         }
