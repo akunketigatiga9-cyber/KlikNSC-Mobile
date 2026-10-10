@@ -107,6 +107,85 @@
         @media (min-width: 641px) and (max-width: 1024px) {
             #appShell { max-width: 40rem; }
         }
+        
+/* INI BUAT APA: Membuat aplikasi melebar di laptop/PC,
+   tetapi mempertahankan desain mobile yang sekarang. */
+
+@media (min-width: 1025px) {
+    body {
+        display: block;
+        min-height: 100vh;
+        padding: 0;
+    }
+
+    #appShell {
+        width: 100%;
+        max-width: 1440px;
+        min-height: 100vh;
+        margin: 0 auto;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding-bottom: 2rem !important;
+    }
+
+    #appHeader {
+        padding: 1.25rem 2rem !important;
+    }
+
+    #featureTabs {
+        top: 0;
+        position: sticky;
+        flex-wrap: wrap;
+        overflow-x: visible;
+        gap: 0.75rem;
+        padding: 1rem 2rem !important;
+    }
+
+    #appMain {
+        padding: 1.5rem 2rem !important;
+        overflow: visible;
+    }
+
+    /* INI BUAT APA: Mengatur kartu kalkulator
+       menjadi dua kolom di layar lebar. */
+    #kalkulatorView {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.25rem;
+        align-items: start;
+    }
+
+    #kalkulatorView > * {
+        min-width: 0;
+        margin-top: 0 !important;
+    }
+
+    /* INI BUAT APA: Memastikan hasil kalkulasi
+       dan pilihan tenor menggunakan lebar kolomnya. */
+    #kalkulatorView > :nth-child(3),
+    #kalkulatorView > :nth-child(4) {
+        align-self: stretch;
+    }
+
+    /* INI BUAT APA: Memperluas modul selain
+       kalkulator agar nyaman dipakai di desktop. */
+    #pelunasanView,
+    #pollingView,
+    #stnkAiView {
+        max-width: 1100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (min-width: 1440px) {
+    #appMain {
+        padding-left: 2.5rem !important;
+        padding-right: 2.5rem !important;
+    }
+}
+
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
