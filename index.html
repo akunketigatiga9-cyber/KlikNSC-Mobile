@@ -2442,13 +2442,47 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 backgroundColor: '#020617'
             });
 
-            const image = canvas.toDataURL("image/png");
-            const link = document.createElement('a');
-            link.href = image;
-            link.download = `KlikNSC_Simulasi_${state.salesId}_${Date.now()}.png`;
-            link.click();
+            // Konversi canvas ke Blob File untuk mendukung Web Share API di APK/WebView
+            canvas.toBlob(async (blob) => {
+                if (!blob) {
+                    showToast("Gagal memproses gambar.", "⚠️");
+                    return;
+                }
 
-            showToast("Gambar Kartu Brosur berhasil di-download!", "🎉");
+                const filename = `KlikNSC_Simulasi_${state.salesId}_${Date.now()}.png`;
+                const file = new File([blob], filename, { type: 'image/png' });
+
+                // Opsi 1: Pakai Web Share API (Sangat kompatibel & direkomendasikan di Android WebView)
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: 'Simulasi KlikNSC',
+                            text: `Kartu Brosur Simulasi KlikNSC (${state.salesId})`
+                        });
+                        showToast("Gambar berhasil dibagikan / disimpan!", "🎉");
+                        return;
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            console.warn("Web Share ditolak, mencoba fallback download biasa...", err);
+                        } else {
+                            return; // User membatalkan dialog share
+                        }
+                    }
+                }
+
+                // Opsi 2: Fallback Download Browser biasa (untuk browser Laptop / Chrome Desktop)
+                const image = canvas.toDataURL("image/png");
+                const link = document.createElement('a');
+                link.href = image;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                showToast("Gambar Kartu Brosur berhasil diproses!", "🎉");
+            }, 'image/png');
+
         } catch (e) {
             console.error("Export PNG Error:", e);
             showToast("Gagal memproses gambar brosur.", "⚠️");
