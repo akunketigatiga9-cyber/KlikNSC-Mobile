@@ -195,7 +195,6 @@
 
             #pelunasanView:not(.hidden),
             #pollingView:not(.hidden),
-            #stnkAiView:not(.hidden),
             #takeoverView:not(.hidden),
             #checklistView:not(.hidden),
             #scriptView:not(.hidden),
@@ -279,13 +278,6 @@
 
             <!-- Header Actions -->
             <div class="flex items-center gap-1.5">
-                <button id="aiSettingsBtn" onclick="openAiSettingsModal()" title="Info Layanan AI" aria-label="Info Layanan AI" class="p-2.5 rounded-2xl bg-amber-500/20 hover:bg-amber-500/30 active:scale-95 transition border border-amber-400/30 text-amber-300 flex items-center justify-center cursor-pointer">
-                    <svg class="w-5 h-5 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                </button>
-
                 <button id="logoutBtn" onclick="promptLogout()" title="Keluar / Logout" class="p-2.5 rounded-2xl bg-rose-500/20 hover:bg-rose-500/30 active:scale-95 transition border border-rose-400/30 text-rose-300 flex items-center justify-center cursor-pointer">
                     <svg class="w-5 h-5 text-rose-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                 </button>
@@ -316,11 +308,6 @@
         <button id="tabPelunasanBtn" onclick="switchTab('pelunasan')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-rose-600/30 text-rose-300 border border-rose-400/50 hover:bg-rose-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
             <svg class="w-4 h-4 text-rose-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             <span>Pelunasan Dipercepat</span>
-        </button>
-
-        <button id="tabStnkAiBtn" onclick="switchTab('stnkAi')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-purple-600/30 text-purple-300 border border-purple-400/50 hover:bg-purple-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
-            <svg class="w-4 h-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            <span>Scan STNK (AI)</span>
         </button>
 
         <button id="tabTakeoverBtn" onclick="switchTab('takeover')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-amber-600/30 text-amber-300 border border-amber-400/50 hover:bg-amber-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
@@ -700,113 +687,6 @@
                         <span>Share ke WA</span>
                     </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- STNK AI View -->
-        <div id="stnkAiView" class="space-y-4 hidden">
-            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-purple-200 dark:border-purple-800/60 space-y-3">
-                <div class="flex items-center justify-between">
-                    <h3 class="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                        <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                        AI Vision STNK Scanner & Limit NSC
-                    </h3>
-                    <span class="text-xs bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold px-2 py-0.5 rounded-md border border-purple-200 dark:border-purple-800/50">Rumus Resmi LTV NSC</span>
-                </div>
-
-                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Upload/Foto STNK nasabah. AI akan mengenali tipe & tahun motor, mengecek Harga Pasar (Harpas) Serang Banten via Gemini AI, dan otomatis menghitung <b>Plafond Maksimal Aman</b>.
-                </p>
-
-                <!-- Input Status Kepemilikan -->
-                <div class="bg-purple-50/50 dark:bg-purple-950/30 p-3 rounded-xl border border-purple-200/60 dark:border-purple-800/40 space-y-2">
-                    <label class="text-xs font-bold text-purple-900 dark:text-purple-300 block">Status Kepemilikan (Rumus LTV NSC):</label>
-                    <div class="grid grid-cols-2 gap-2">
-                        <label class="flex items-center gap-2 p-2 bg-white dark:bg-slate-900 rounded-lg cursor-pointer border border-purple-200 dark:border-purple-900 text-xs font-bold">
-                            <input type="radio" name="stnkTangan" value="1" checked class="accent-purple-600" id="stnkTangan1">
-                            <div>
-                                <span class="text-slate-800 dark:text-slate-200 block">Tangan Pertama</span>
-                                <span class="text-xs text-emerald-600 dark:text-emerald-400 font-normal">Harpas × 94% × 80%</span>
-                            </div>
-                        </label>
-                        <label class="flex items-center gap-2 p-2 bg-white dark:bg-slate-900 rounded-lg cursor-pointer border border-purple-200 dark:border-purple-900 text-xs font-bold">
-                            <input type="radio" name="stnkTangan" value="2" class="accent-purple-600" id="stnkTangan2">
-                            <div>
-                                <span class="text-slate-800 dark:text-slate-200 block">Tangan Kedua</span>
-                                <span class="text-xs text-amber-600 dark:text-amber-400 font-normal">Harpas × 94% × 70%</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Input Foto STNK -->
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">1. Upload Foto STNK (Opsional):</label>
-                    <input type="file" id="stnkImageInput" onchange="previewStnkImage(event)" accept="image/jpeg,image/png,image/webp" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-600 file:text-white hover:file:bg-purple-700 cursor-pointer" />
-                    
-                    <div id="stnkPreviewContainer" class="hidden justify-center my-2">
-                        <img id="stnkPreviewImg" class="max-h-48 rounded-xl shadow border border-slate-300 dark:border-slate-700 object-cover" />
-                    </div>
-                </div>
-
-                <!-- 2 Columns: Tipe Motor & Tahun Dropdown -->
-                <div class="space-y-1 pt-1">
-                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">2. Atau Input Manual Tipe & Tahun Motor:</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="col-span-2">
-                            <input type="text" id="stnkManualQuery" placeholder="Tipe Motor" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-600" />
-                        </div>
-                        <div>
-                            <select id="stnkManualYear" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-600">
-                                <option value="">Tahun</option>
-                                <option value="2026">2026</option>
-                                <option value="2025">2025</option>
-                                <option value="2024">2024</option>
-                                <option value="2023">2023</option>
-                                <option value="2022">2022</option>
-                                <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
-                                <option value="2018">2018</option>
-                                <option value="2017">2017</option>
-                                <option value="2016">2016</option>
-                                <option value="2015">2015</option>
-                                <option value="2014">2014</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="btnProcessStnk" onclick="analyzeSTNKWithAI()" class="w-full bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    <span id="btnProcessStnkLabel">Hitung Plafond Maksimal Aman</span>
-                </button>
-            </div>
-
-            <!-- Result Card STNK AI -->
-            <div id="stnkAiResultCard" class="hidden bg-gradient-to-br from-slate-900 via-purple-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-purple-500/40 space-y-3">
-                <div class="flex items-center justify-between border-b border-purple-800/60 pb-2">
-                    <span class="text-xs text-purple-300 font-bold uppercase tracking-wider flex items-center gap-1">
-                        ✨ HASIL ANALISIS AI & PLAFOND NSC
-                    </span>
-                    <span id="stnkResultTanganBadge" class="bg-purple-500/20 text-purple-300 text-xs px-2 py-0.5 rounded-full border border-purple-400/30 font-bold"></span>
-                </div>
-
-                <div>
-                    <div id="stnkResultMotorName" class="text-base font-black text-white"></div>
-                    <div id="stnkResultHarpas" class="text-xs text-purple-200 mt-0.5"></div>
-                </div>
-
-                <div class="bg-black/40 p-3 rounded-xl border border-purple-500/30 space-y-1">
-                    <div class="text-xs text-slate-400">Rekomendasi Plafond Maksimal Aman NSC:</div>
-                    <div id="stnkResultPlafond" class="text-2xl font-black text-emerald-400"></div>
-                    <div id="stnkResultFormulaText" class="text-xs text-slate-300 italic"></div>
-                </div>
-
-                <button id="useAiPlafondBtn" onclick="useAiPlafondInCalculator()" class="w-full bg-violet-600 hover:bg-violet-700 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-                    <span>Gunakan Nilai Ini di Kalkulator</span>
-                </button>
             </div>
         </div>
             
@@ -1246,18 +1126,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
     </div>
-
-    <!-- AI Service Information Modal -->
-    <div id="aiSettingsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 text-white rounded-3xl p-5 max-w-sm w-full shadow-2xl space-y-4 relative" role="dialog" aria-modal="true" aria-labelledby="aiSettingsTitle">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                <h3 id="aiSettingsTitle" class="font-bold text-xs text-amber-400 uppercase tracking-wider">Layanan AI KlikNSC</h3>
-                <button type="button" onclick="closeAiSettingsModal()" aria-label="Tutup" class="text-slate-400 hover:text-white font-bold text-base cursor-pointer">&times;</button>
-            </div>
-            <p class="text-xs leading-relaxed text-slate-300">Scan STNK dan pencarian harga diproses melalui backend KlikNSC. Kunci API dikelola dengan aman di server dan tidak perlu dimasukkan di halaman ini.</p>
-            <button type="button" onclick="closeAiSettingsModal()" class="w-full bg-slate-800 text-slate-200 font-bold py-2.5 rounded-xl text-xs hover:bg-slate-700 cursor-pointer">Tutup</button>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -1385,25 +1253,9 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         activeTab: 'kalkulator',
         trackerTarget: parseInt(safeGetStorage('kliknsc_target_unit', '10'), 10),
         trackerCurrent: parseInt(safeGetStorage('kliknsc_current_unit', '3'), 10),
-        calculatedAiPlafond: 0,
         salesId: safeGetStorage('kliknsc_sales_id', 'KBA'),
         gpsUrl: ''
     };
-
-    let stnkBase64Data = null;
-    let stnkMimeType = "image/jpeg";
-
-    function useAiPlafondInCalculator() {
-        const plafond = Number(state.calculatedAiPlafond);
-        if (!Number.isFinite(plafond) || plafond <= 0) {
-            showToast("Hitung plafond STNK dulu sebelum dipakai.", "⚠️");
-            return;
-        }
-
-        switchTab('kalkulator');
-        handleInputChange(plafond);
-        showToast("Plafond AI sudah dimasukkan ke kalkulator.", "✅");
-    }
 
     function showToast(msg, icon = '💡') {
         const toast = document.getElementById('toastNotification');
@@ -1739,9 +1591,9 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
     function switchTab(tabName) {
         state.activeTab = tabName;
-        const tabs = ['kalkulator', 'polling', 'pelunasan', 'stnkAi', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
+        const tabs = ['kalkulator', 'polling', 'pelunasan', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
         const viewMap = { 
-            kalkulator: 'kalkulatorView', polling: 'pollingView', pelunasan: 'pelunasanView', stnkAi: 'stnkAiView', takeover: 'takeoverView', checklist: 'checklistView',
+            kalkulator: 'kalkulatorView', polling: 'pollingView', pelunasan: 'pelunasanView', takeover: 'takeoverView', checklist: 'checklistView',
             script: 'scriptView', bonus: 'bonusView', tahun: 'tahunView', tabel: 'tabelView' 
         };
 
@@ -1986,289 +1838,6 @@ ALAMAT TINGGAL: ${alamat}`;
     function sharePollingWA() {
         const txt = generatePollingText();
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(txt)}`;
-    }
-
-    async function previewStnkImage(event) {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        stnkBase64Data = null;
-        const previewImage = document.getElementById('stnkPreviewImg');
-        const previewContainer = document.getElementById('stnkPreviewContainer');
-
-        try {
-            const sourceUrl = URL.createObjectURL(file);
-            const image = new Image();
-
-            try {
-                await new Promise((resolve, reject) => {
-                    image.onload = resolve;
-                    image.onerror = () => reject(new Error('Foto tidak bisa dibuka. Coba file JPG atau PNG lain.'));
-                    image.src = sourceUrl;
-                });
-
-                const maxDimension = 1600;
-                const scale = Math.min(
-                    1,
-                    maxDimension / Math.max(image.naturalWidth, image.naturalHeight)
-                );
-                const canvas = document.createElement('canvas');
-                canvas.width = Math.round(image.naturalWidth * scale);
-                canvas.height = Math.round(image.naturalHeight * scale);
-
-                const context = canvas.getContext('2d');
-                if (!context) throw new Error('Foto tidak bisa diproses di browser ini.');
-                context.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-                let quality = 0.84;
-                let compressedBlob = null;
-                do {
-                    compressedBlob = await new Promise(resolve =>
-                        canvas.toBlob(resolve, 'image/jpeg', quality)
-                    );
-                    quality -= 0.1;
-                } while (compressedBlob && compressedBlob.size > 4.5 * 1024 * 1024 && quality >= 0.54);
-
-                if (!compressedBlob) {
-                    throw new Error('Foto gagal dikompres. Coba pilih gambar lain.');
-                }
-                if (compressedBlob.size > 4.5 * 1024 * 1024) {
-                    throw new Error('Ukuran foto masih terlalu besar. Pilih foto STNK yang lebih kecil.');
-                }
-
-                const dataUrl = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = () => reject(new Error('Foto gagal dibaca. Coba lagi.'));
-                    reader.readAsDataURL(compressedBlob);
-                });
-
-                stnkBase64Data = String(dataUrl).split(',')[1] || null;
-                stnkMimeType = 'image/jpeg';
-                if (!stnkBase64Data) throw new Error('Foto gagal disiapkan untuk dikirim.');
-
-                if (previewImage) previewImage.src = dataUrl;
-                if (previewContainer) {
-                    previewContainer.classList.remove('hidden');
-                    previewContainer.classList.add('flex');
-                }
-            } finally {
-                URL.revokeObjectURL(sourceUrl);
-            }
-        } catch (error) {
-            stnkBase64Data = null;
-            if (previewContainer) {
-                previewContainer.classList.add('hidden');
-                previewContainer.classList.remove('flex');
-            }
-            event.target.value = '';
-            showToast(error.message || 'Foto STNK gagal diproses.', '⚠️');
-        }
-    }
-
-    function cleanJsonResponse(text) {
-        if (!text) return "";
-        let cleaned = text.trim();
-        if (cleaned.startsWith("```json")) {
-            cleaned = cleaned.replace(/^```json\s*/, "").replace(/\s*```$/, "");
-        } else if (cleaned.startsWith("```")) {
-            cleaned = cleaned.replace(/^```\s*/, "").replace(/\s*```$/, "");
-        }
-        return cleaned.trim();
-    }
-
-    function openAiSettingsModal() {
-        document.getElementById('aiSettingsModal')?.classList.remove('hidden');
-    }
-
-    function closeAiSettingsModal() {
-        document.getElementById('aiSettingsModal')?.classList.add('hidden');
-    }
-
-    async function callAiApi({
-        prompt = '',
-        base64Data = '',
-        mimeType = '',
-        mode = 'identify',
-        motorName,
-        year
-    }) {
-        const response = await fetch(
-            'https://kliknsc-mobile-backend.vercel.app/api/ai',
-            {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    mode,
-                    prompt,
-                    base64Data,
-                    mimeType,
-                    motorName,
-                    year
-                })
-            }
-        );
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-            throw new Error(data.message || `Permintaan AI gagal (${response.status})`);
-        }
-
-        return data.text || '';
-    }
-
-    async function analyzeSTNKWithAI() {
-        const btnLabel = document.getElementById('btnProcessStnkLabel');
-        const manualQuery = document.getElementById('stnkManualQuery')?.value.trim();
-        const manualYearValue = document.getElementById('stnkManualYear')?.value;
-        const manualYear = manualYearValue ? parseInt(manualYearValue, 10) : null;
-
-        if (!stnkBase64Data && (!manualQuery || !manualYear)) {
-            showToast("Upload foto STNK atau isi tipe motor dan tahun!", "⚠️");
-            return;
-        }
-
-        const isTanganPertama = document.getElementById('stnkTangan1')?.checked ?? true;
-        const factor = isTanganPertama ? 0.80 : 0.70;
-        const formulaPctText = isTanganPertama ? "Tangan Pertama (80%)" : "Tangan Kedua (70%)";
-
-        if (btnLabel) {
-            btnLabel.innerText = "⚡ Membaca STNK dan mencari harga online...";
-        }
-
-        document.getElementById('stnkAiResultCard')?.classList.add('hidden');
-
-        try {
-            let motorName = manualQuery || "";
-            let detectedYear = manualYear;
-
-            if (stnkBase64Data) {
-                const promptText = `Bantu identifikasi kendaraan dari foto STNK untuk KlikNSC.
-Analisis gambar dan petunjuk ini: "${manualQuery || ""}".
-Ambil hanya merek, model/nama kendaraan, kode tipe jika terbaca, dan tahun kendaraan jika terbaca.
-Jangan mencari atau menebak harga.
-Jangan ekstrak nama/data pribadi pemilik, alamat, NIK, nomor rangka, nomor mesin, atau nomor polisi.
-Jika data kendaraan tidak terbaca, isi null.
-Kembalikan JSON dengan format:
-{"motorName":"Honda Beat CBS","typeCode":null,"year":2023}`;
-
-                const rawVehicle = await callAiApi({
-                    prompt: promptText,
-                    base64Data: stnkBase64Data,
-                    mimeType: stnkMimeType
-                });
-
-                const vehicle = JSON.parse(cleanJsonResponse(rawVehicle));
-
-                if (!motorName && typeof vehicle.motorName === "string") {
-                    motorName = vehicle.motorName.trim();
-                }
-
-                const parsedYear = Number(vehicle.year);
-                if (
-                    !detectedYear &&
-                    Number.isInteger(parsedYear) &&
-                    parsedYear >= 1980 &&
-                    parsedYear <= new Date().getFullYear()
-                ) {
-                    detectedYear = parsedYear;
-                }
-            }
-
-            if (!motorName || !Number.isInteger(detectedYear)) {
-                throw new Error("Tipe motor atau tahun tidak terbaca. Coba foto STNK yang lebih jelas.");
-            }
-
-            if (btnLabel) {
-                btnLabel.innerText = "🔎 Mencari iklan motor di Serang/Banten...";
-            }
-
-            const rawMarket = await callAiApi({
-                mode: "market",
-                motorName,
-                year: detectedYear
-            });
-
-            const market = JSON.parse(cleanJsonResponse(rawMarket));
-            const listings = Array.isArray(market.listings) ? market.listings : [];
-            const listingPrices = listings
-                .map((listing) => parseInputNumber(listing?.price))
-                .filter((price) => price > 0)
-                .sort((a, b) => a - b);
-            const middleIndex = Math.floor(listingPrices.length / 2);
-            const medianListingPrice = listingPrices.length % 2 === 0
-                ? (listingPrices[middleIndex - 1] + listingPrices[middleIndex]) / 2
-                : listingPrices[middleIndex];
-            const reportedHarpas = Number(market.harpas);
-            const estHarpas = Number.isFinite(reportedHarpas) && reportedHarpas > 0
-                ? reportedHarpas
-                : medianListingPrice;
-
-            if (
-                !Number.isFinite(estHarpas) ||
-                estHarpas <= 0 ||
-                listingPrices.length < 3
-            ) {
-                throw new Error("Belum ada cukup iklan online yang cocok untuk menghitung Harpas.");
-            }
-
-            const calculatedPlafond = Math.round((estHarpas * 0.94 * factor) / 100000) * 100000;
-
-            state.calculatedAiPlafond = calculatedPlafond;
-
-            document.getElementById('stnkResultTanganBadge').innerText = formulaPctText;
-            document.getElementById('stnkResultMotorName').innerText = `${motorName} (${detectedYear})`;
-            document.getElementById('stnkResultHarpas').innerHTML = `Median dari ${listings.length} iklan online di Serang/Banten: <b>${formatRupiah(estHarpas)}</b>`;
-            document.getElementById('stnkResultPlafond').innerText = formatRupiah(calculatedPlafond);
-            document.getElementById('stnkResultFormulaText').innerText = `Rumus NSC: ${formatRupiah(estHarpas)} × 94% × ${isTanganPertama ? '80%' : '70%'}`;
-
-            let sourcesElement = document.getElementById('stnkResultMarketSources');
-            if (!sourcesElement) {
-                sourcesElement = document.createElement('div');
-                sourcesElement.id = 'stnkResultMarketSources';
-                sourcesElement.className = 'mt-2 space-y-1 text-xs text-purple-200';
-                document.getElementById('stnkResultHarpas')?.insertAdjacentElement('afterend', sourcesElement);
-            }
-
-            sourcesElement.replaceChildren();
-
-            const sourceHeading = document.createElement('div');
-            sourceHeading.innerText = 'Sumber iklan:';
-            sourcesElement.appendChild(sourceHeading);
-
-            listings.slice(0, 5).forEach((item) => {
-                try {
-                    const url = new URL(item.url);
-                    if (url.protocol !== 'https:' && url.protocol !== 'http:') return;
-
-                    const link = document.createElement('a');
-                    link.href = url.href;
-                    link.target = '_blank';
-                    link.rel = 'noopener noreferrer';
-                    link.className = 'block underline';
-                    link.innerText = `${item.title || 'Lihat iklan'} — ${item.area || 'Lokasi tidak tercantum'} — ${formatRupiah(Number(item.price))}`;
-                    sourcesElement.appendChild(link);
-                } catch {
-                    // Lewati tautan yang tidak valid
-                }
-            });
-
-            const card = document.getElementById('stnkAiResultCard');
-            if (card) {
-                card.classList.remove('hidden');
-                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-
-            showToast("Harpas online dan plafon berhasil dihitung!", "✨");
-        } catch (err) {
-            console.warn("Analisis STNK/Harpas online gagal:", err);
-            showToast(err.message || "Gagal membaca STNK atau mencari harga online.", "❌");
-        } finally {
-            if (btnLabel) {
-                btnLabel.innerText = "Hitung Plafond Maksimal Aman";
-            }
-        }
     }
 
     function calculateTakeover() {
