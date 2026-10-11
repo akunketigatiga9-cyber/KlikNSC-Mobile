@@ -221,6 +221,216 @@
             #appMain { padding-left: 2.5rem !important; padding-right: 2.5rem !important; }
         }
 
+    
+        /* INI BUAT APA: Lapisan visual premium navy-teal. Sengaja dipisahkan
+           dari logika aplikasi agar ID, event handler, login, dan API tetap utuh. */
+        :root {
+            color-scheme: light;
+            --kn-navy: #0b172a;
+            --kn-navy-soft: #12243b;
+            --kn-teal: #0d9488;
+            --kn-teal-bright: #14b8a6;
+            --kn-border: #dce6ec;
+            --kn-surface: #ffffff;
+            --kn-canvas: #f3f7f9;
+        }
+
+        body {
+            background: var(--kn-canvas);
+            background-image: radial-gradient(ellipse at top right, rgba(20,184,166,.07), transparent 38%);
+        }
+
+        #appShell {
+            background: var(--kn-canvas);
+            color: #172b3a;
+        }
+
+        #appHeader {
+            background: linear-gradient(115deg, #0b172a 0%, #102b43 58%, #0f766e 140%) !important;
+            border-bottom-color: rgba(45,212,191,.24) !important;
+            box-shadow: 0 8px 26px rgba(11,23,42,.16);
+        }
+
+        #appHeader .bg-blue-600\/30 {
+            background: rgba(20,184,166,.14) !important;
+            border-color: rgba(45,212,191,.3) !important;
+        }
+
+        #appHeader .text-blue-300,
+        #appHeader .text-blue-200\/90 {
+            color: #99f6e4 !important;
+        }
+
+        #featureTabs {
+            background: #0b172a !important;
+            border-color: #203449 !important;
+        }
+
+        #featureTabs button {
+            transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+        }
+
+        #featureTabs button:hover {
+            transform: translateY(-1px);
+        }
+
+        #featureTabs button.bg-blue-600 {
+            background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+            border-color: rgba(153,246,228,.65) !important;
+            box-shadow: 0 5px 16px rgba(13,148,136,.22);
+        }
+
+        #appMain {
+            background: transparent;
+        }
+
+        #appMain .bg-white.dark\:bg-slate-800\/90,
+        #appMain .bg-white.dark\:bg-slate-900\/70 {
+            border-color: var(--kn-border);
+            box-shadow: 0 5px 18px rgba(15,41,59,.045);
+            transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+        }
+
+        #appMain .bg-white.dark\:bg-slate-800\/90:hover {
+            border-color: #b9d8d8;
+            box-shadow: 0 9px 24px rgba(15,41,59,.075);
+        }
+
+        #appMain input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+        #appMain select,
+        #appMain textarea {
+            border-color: #d4e0e7;
+            transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+        }
+
+        #appMain input:focus,
+        #appMain select:focus,
+        #appMain textarea:focus {
+            border-color: var(--kn-teal) !important;
+            --tw-ring-color: rgba(13,148,136,.28) !important;
+            box-shadow: 0 0 0 3px rgba(13,148,136,.12);
+        }
+
+        #appMain input[type="range"]::-webkit-slider-thumb {
+            background: var(--kn-teal);
+            box-shadow: 0 0 0 4px rgba(13,148,136,.13);
+        }
+
+        #appMain input[type="range"]::-moz-range-thumb {
+            background: var(--kn-teal);
+            border: 2px solid #fff;
+        }
+
+        #appMain button,
+        #featureTabs button,
+        #appHeader button {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #appMain button {
+            min-height: 42px;
+        }
+
+        #appMain button:focus-visible,
+        #featureTabs button:focus-visible,
+        #appHeader button:focus-visible {
+            outline: 3px solid rgba(20,184,166,.5);
+            outline-offset: 2px;
+        }
+
+        #copyWhatsAppBtn,
+        #sharePollingWABtn,
+        #sharePelunasanWABtn {
+            background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+            box-shadow: 0 5px 14px rgba(13,148,136,.18);
+        }
+
+        #copyWhatsAppBtn:hover,
+        #sharePollingWABtn:hover,
+        #sharePelunasanWABtn:hover {
+            filter: brightness(1.07);
+        }
+
+        #toastNotification {
+            border-color: rgba(45,212,191,.35);
+            box-shadow: 0 12px 34px rgba(2,12,27,.22);
+        }
+
+        #loginOverlay > div {
+            border-color: rgba(45,212,191,.2);
+            box-shadow: 0 24px 70px rgba(0,0,0,.36);
+        }
+
+        #loginOverlay button[type="submit"] {
+            background: linear-gradient(135deg, #0d9488, #0f766e) !important;
+            box-shadow: 0 8px 22px rgba(13,148,136,.2);
+        }
+
+        #appMain .card-glow {
+            box-shadow: 0 16px 34px rgba(11,23,42,.18);
+        }
+
+        /* INI BUAT APA: Gerakan halus dan skeleton yang bisa dipakai pada
+           konten yang memang sedang dimuat, tanpa menambahkan proses API baru. */
+        @keyframes kn-shimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+
+        .kn-skeleton {
+            color: transparent !important;
+            border-color: transparent !important;
+            border-radius: .6rem;
+            background: linear-gradient(90deg, #e7eef2 25%, #f7fafb 38%, #e7eef2 62%);
+            background-size: 200% 100%;
+            animation: kn-shimmer 1.35s ease infinite;
+            pointer-events: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            body {
+                background-color: #edf3f6;
+                background-image: radial-gradient(ellipse at top right, rgba(20,184,166,.08), transparent 42%);
+            }
+
+            #appShell {
+                background: #f3f7f9;
+                box-shadow: 0 0 55px rgba(11,23,42,.08);
+            }
+
+            #featureTabs {
+                background: linear-gradient(180deg, #0b172a, #101f32) !important;
+                border-right-color: #203449 !important;
+            }
+
+            #appMain {
+                padding-top: 2rem !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #appHeader {
+                box-shadow: 0 5px 18px rgba(11,23,42,.14);
+            }
+
+            #appMain button {
+                min-height: 44px;
+            }
+
+            #featureTabs button {
+                min-height: 44px;
+            }
+        }
+
     </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
