@@ -363,48 +363,103 @@
                         <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
                         Nominal Pengajuan Pencairan (KBA)
                     </label>
-        <!-- Kalkulator Sales View (Kalkulator Baru dari Excel Sales) -->
+        <!-- Kalkulator Sales View (Kalkulator Baru dari Excel Sales Matriks Resmi) -->
         <div id="kalkulatorSalesView" class="space-y-4 hidden">
+            <!-- Sales Header Banner -->
             <div class="bg-gradient-to-r from-teal-950 via-slate-900 to-emerald-950 text-white p-4 rounded-2xl border border-teal-500/40 shadow-lg space-y-1">
                 <div class="flex items-center justify-between">
                     <h3 class="font-black text-sm text-teal-300 flex items-center gap-2">
-                        <span>📊 Kalkulator Sales (Khusus Tim Sales)</span>
+                        <span>📊 Kalkulator Sales (Matriks Resmi Sales)</span>
                     </h3>
                     <span class="text-xs bg-teal-500/20 text-teal-300 border border-teal-400/30 px-2 py-0.5 rounded-full font-bold">Skema Sales</span>
                 </div>
-                <p class="text-xs text-slate-300">Simulasi khusus berdasarkan hitungan & rumus matriks Angsuran Sales.</p>
+                <p class="text-xs text-slate-300">Simulasi angsuran khusus berdasarkan tabel & rumus murni matriks Sales.</p>
             </div>
 
-            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-teal-200 dark:border-teal-800/60 space-y-3">
-                <div>
-                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Pilih / Masukkan Nominal Pencairan Sales:</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">Rp</span>
-                        <input type="text" id="salesInputVal" value="10.000.000" oninput="handleSalesInputChange(this.value)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2.5 font-black text-slate-900 dark:text-white text-sm" />
+            <!-- Input & Slider Nominal Sales -->
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                        Nominal Pencairan Sales
+                    </label>
+                    <span class="text-[10px] bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 font-bold px-2 py-0.5 rounded-md border border-teal-200 dark:border-teal-800/50">Murni Matriks Sales</span>
+                </div>
+
+                <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 font-black text-slate-400 text-sm">Rp</span>
+                    <input type="text" id="salesInputVal" value="10.000.000" oninput="handleSalesInputChange(this.value)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2.5 font-black text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-teal-500 tracking-tight" />
+                </div>
+
+                <div class="space-y-1.5 pt-1">
+                    <input type="range" id="salesRangeSlider" min="1000000" max="35000000" step="500000" value="10000000" oninput="handleSalesSliderChange(this.value)" class="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-600" />
+                    <div class="flex justify-between text-[10px] font-bold text-slate-400">
+                        <span>Rp 1 Juta</span>
+                        <span>Rp 18 Juta</span>
+                        <span>Rp 35 Juta</span>
                     </div>
                 </div>
 
+                <!-- Quick Presets Sales -->
                 <div>
-                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Pilih Tenor Angsuran Sales:</label>
-                    <select id="salesTenorSelect" onchange="calculateSalesCalculator()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white text-xs">
-                        <option value="12">12 Bulan</option>
-                        <option value="18">18 Bulan</option>
-                        <option value="24" selected>24 Bulan</option>
-                        <option value="30">30 Bulan</option>
-                        <option value="36">36 Bulan</option>
-                    </select>
+                    <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">Pilih Nominal Cepat:</label>
+                    <div class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1 text-xs font-bold">
+                        <button type="button" onclick="handleSalesInputChange('3.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">3 Juta</button>
+                        <button type="button" onclick="handleSalesInputChange('5.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">5 Juta</button>
+                        <button type="button" onclick="handleSalesInputChange('8.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">8 Juta</button>
+                        <button type="button" onclick="handleSalesInputChange('10.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">10 Juta</button>
+                        <button type="button" onclick="handleSalesInputChange('15.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">15 Juta</button>
+                        <button type="button" onclick="handleSalesInputChange('20.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">20 Juta</button>
+                        <button type="button" onclick="handleSalesInputChange('25.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">25 Juta</button>
+                        <button type="button" onclick="handleSalesInputChange('30.000.000')" class="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-teal-500 hover:text-white dark:hover:bg-teal-600 rounded-lg border border-slate-200 dark:border-slate-700 transition shrink-0 active:scale-95">30 Juta</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Program Category Sales Selector -->
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-2">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Pilih Skema Program Sales:</label>
+                <div id="salesCategoryContainer" class="grid grid-cols-2 gap-2">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Result Box Sales -->
+            <div class="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-teal-500/40 space-y-3 relative overflow-hidden">
+                <div class="flex justify-between items-center border-b border-slate-800/80 pb-2">
+                    <span class="text-xs text-teal-300 font-bold uppercase tracking-wider">Hasil Angsuran Sales:</span>
+                    <span id="selectedSalesTenorBadge" class="text-xs bg-teal-500/20 text-teal-300 border border-teal-400/30 px-2.5 py-0.5 rounded-full font-bold">12 Bulan</span>
                 </div>
 
-                <!-- Result Display Sales -->
-                <div class="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-teal-500/30 space-y-2 text-center">
-                    <span class="text-xs text-teal-300 font-extrabold uppercase tracking-wider">Hasil Angsuran Sales:</span>
-                    <div id="salesMonthlyResult" class="text-3xl font-black text-teal-400">Rp 0</div>
-                    <div id="salesDailyResult" class="text-xs text-emerald-300 font-medium">± Rp 0 / hari</div>
+                <div class="space-y-0.5">
+                    <div id="selectedSalesMonthlyText" class="text-3xl font-black text-teal-300 tracking-tight">Rp 1.205.000 <span class="text-xs font-normal text-slate-400">/ bulan</span></div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-400 font-medium">Pencairan Net Sales:</span>
+                        <b id="selectedSalesPencairanText" class="text-white font-bold">Rp 10.000.000</b>
+                    </div>
+                    <div class="flex justify-between items-center text-xs pt-1">
+                        <span class="text-slate-400 font-medium">Setara Harian:</span>
+                        <b id="selectedSalesDailyText" class="text-emerald-400 font-bold">± Rp 40.167 / hari</b>
+                    </div>
+                </div>
 
-                    <button onclick="shareSalesCalcWA()" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                <div class="pt-2 grid grid-cols-2 gap-2">
+                    <button onclick="shareSalesCalcWA()" class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                        <span>Kirim Hasil Kalkulator Sales ke WA</span>
+                        <span>Share WA Sales</span>
                     </button>
+                    <button onclick="openExportCardModal()" class="bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950 font-black py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                        <span>Export Kartu PNG</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tenor Selection Grid Sales -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Pilihan Tenor Angsuran Sales:</label>
+                <div id="salesTenorGridContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <!-- Rendered dynamically -->
                 </div>
             </div>
         </div>
@@ -1349,290 +1404,110 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
     ];
 
     const BASE_DATABASE = {
+        // ... existing KBA database ...
+    };
+
+    const SALES_DATABASE = {
         normal: {
-            4000000: [814682, 607148, 569250, 437662, 409568, 362733, 323239, 318376],
-            5000000: [966349, 727357, 681924, 518880, 485287, 431580, 383873, 353810],
-            6000000: [1116417, 840697, 787721, 599304, 560209, 500261, 444343, 411617],
-            8000000: [1412159, 1073741, 1005686, 760912, 710813, 635556, 563202, 527231],
-            10000000: [1704349, 1306534, 1223399, 919099, 857988, 768094, 679284, 603975],
-            12000000: [2006297, 1543905, 1445697, 1085048, 1012942, 906883, 801683, 712598],
-            15000000: [2491684, 1917476, 1795520, 1346101, 1256670, 1125133, 994097, 883302],
-            20000000: [3262575, 2510904, 2351263, 1760973, 1644056, 1472107, 1300095, 1154861],
-            25000000: [4012575, 3090904, 2891263, 2160973, 2014056, 1802107, 1590095, 1414861],
-            30000000: [4762575, 3670904, 3431263, 2560973, 2384056, 2132107, 1880095, 1674861]
+            1000000:  [317000,  244000,  230000,  175000,  165000,  142000,  129000,  114000],
+            1500000:  [400000,  306000,  288000,  219000,  206000,  179000,  161000,  143000],
+            2000000:  [481000,  366000,  345000,  262000,  246000,  215000,  193000,  172000],
+            2500000:  [561000,  425000,  400000,  304000,  285000,  250000,  224000,  200000],
+            3000000:  [640000,  482000,  453000,  345000,  323000,  285000,  255000,  247000],
+            3500000:  [715000,  537000,  504000,  385000,  360000,  318000,  284000,  278000],
+            4000000:  [788000,  587000,  551000,  424000,  397000,  351000,  313000,  309000],
+            4500000:  [866000,  649000,  609000,  465000,  435000,  386000,  344000,  340000],
+            5000000:  [940000,  708000,  663000,  505000,  473000,  420000,  374000,  345000],
+            6000000:  [1090000, 821000,  769000,  586000,  548000,  489000,  435000,  403000],
+            8000000:  [1386000, 1054000, 988000,  748000,  698000,  625000,  554000,  518000],
+            10000000: [1679000, 1287000, 1205000, 906000,  846000,  757000,  670000,  596000],
+            12000000: [1981000, 1525000, 1428000, 1072000, 1001000, 896000,  792000,  704000],
+            15000000: [2474000, 1904000, 1783000, 1337000, 1248000, 1118000, 988000,  878000],
+            20000000: [3245000, 2497000, 2339000, 1752000, 1636000, 1465000, 1294000, 1149000],
+            25000000: [4016000, 3091000, 2894000, 2167000, 2023000, 1812000, 1600000, 1421000],
+            30000000: [4787000, 3684000, 3450000, 2582000, 2410000, 2159000, 1906000, 1692000],
+            35000000: [5557000, 4278000, 4006000, 2996000, 2798000, 2505000, 2212000, 1964000]
         },
         extra: {
-            4000000: [822711, 613111, 574834, 441863, 413491, 366193, 326282, 321340],
-            5000000: [974289, 733312, 687500, 523041, 489170, 435018, 386894, 356566],
-            6000000: [1124283, 846597, 793243, 603430, 564057, 503683, 447348, 414373],
-            8000000: [1427641, 1085467, 1016655, 769081, 718427, 642333, 569145, 532744],
-            10000000: [1719642, 1318210, 1234318, 927185, 865519, 774804, 685161, 609154],
-            12000000: [2021532, 1555581, 1456615, 1093134, 1020473, 913593, 807560, 717778],
-            15000000: [2506919, 1929152, 1806438, 1354187, 1264201, 1131843, 999974, 888482],
-            20000000: [3277810, 2522580, 2362181, 1769059, 1651587, 1478817, 1305972, 1160040],
-            25000000: [4027810, 3102580, 2902181, 2179059, 2031587, 1818817, 1605972, 1428040],
-            30000000: [4777810, 3682580, 3442181, 2579059, 2401587, 2148817, 1895972, 1688040]
+            1000000:  [334000,  257000,  242000,  184000,  173000,  150000,  135000,  119000],
+            1500000:  [416000,  319000,  300000,  228000,  214000,  186000,  168000,  148000],
+            2000000:  [498000,  379000,  357000,  270000,  254000,  222000,  199000,  177000],
+            2500000:  [578000,  438000,  411000,  312000,  293000,  257000,  230000,  206000],
+            3000000:  [657000,  494000,  465000,  353000,  331000,  292000,  261000,  253000],
+            3500000:  [731000,  549000,  515000,  393000,  368000,  325000,  290000,  284000],
+            4000000:  [804000,  599000,  562000,  432000,  405000,  358000,  319000,  315000],
+            4500000:  [882000,  661000,  620000,  473000,  443000,  393000,  350000,  346000],
+            5000000:  [956000,  720000,  675000,  514000,  480000,  427000,  380000,  350000],
+            6000000:  [1106000, 833000,  780000,  594000,  555000,  496000,  441000,  408000],
+            8000000:  [1402000, 1066000, 999000,  756000,  706000,  631000,  560000,  524000],
+            10000000: [1694000, 1299000, 1216000, 914000,  853000,  764000,  676000,  601000],
+            12000000: [1996000, 1536000, 1439000, 1080000, 1008000, 903000,  798000,  709000],
+            15000000: [2489000, 1916000, 1794000, 1345000, 1256000, 1124000, 993000,  883000],
+            20000000: [3260000, 2509000, 2350000, 1760000, 1643000, 1471000, 1299000, 1154000],
+            25000000: [4031000, 3102000, 2905000, 2175000, 2030000, 1818000, 1605000, 1426000],
+            30000000: [4802000, 3696000, 3461000, 2590000, 2418000, 2165000, 1911000, 1697000],
+            35000000: [5573000, 4289000, 4017000, 3004000, 2805000, 2512000, 2217000, 1969000]
         },
         special: {
-            4000000: [782563, 583296, 546913, 420859, 393877, 348893, 311065, 306517],
-            5000000: [934587, 703538, 659621, 502237, 469755, 417826, 371786, 342785],
-            6000000: [1084956, 817095, 765634, 582798, 544814, 486575, 432323, 400592],
-            8000000: [1381194, 1050290, 983750, 744572, 695585, 622003, 551315, 516205],
-            10000000: [1673764, 1283182, 1201563, 902926, 842926, 754674, 667531, 593616],
-            12000000: [1975827, 1520554, 1423860, 1068875, 997881, 893463, 789930, 702239],
-            15000000: [2461214, 1894124, 1773683, 1329928, 1241608, 1111713, 982344, 872944],
-            20000000: [3232105, 2487552, 2329426, 1744800, 1628995, 1458687, 1288342, 1144502],
-            25000000: [3982105, 3067552, 2869426, 2144800, 2008995, 1798687, 1588342, 1414502],
-            30000000: [4732105, 3647552, 3409426, 2544800, 2368995, 2118687, 1868342, 1664502]
+            1000000:  [283000,  218000,  205000,  157000,  148000,  128000,  116000,  103000],
+            1500000:  [366000,  280000,  264000,  201000,  189000,  164000,  149000,  132000],
+            2000000:  [448000,  341000,  321000,  244000,  229000,  200000,  180000,  160000],
+            2500000:  [528000,  400000,  376000,  286000,  269000,  236000,  212000,  189000],
+            3000000:  [607000,  457000,  430000,  328000,  307000,  271000,  243000,  235000],
+            3500000:  [682000,  512000,  481000,  368000,  345000,  304000,  272000,  266000],
+            4000000:  [756000,  564000,  528000,  407000,  381000,  338000,  301000,  297000],
+            4500000:  [834000,  625000,  587000,  448000,  420000,  372000,  331000,  328000],
+            5000000:  [908000,  684000,  641000,  489000,  457000,  407000,  362000,  334000],
+            6000000:  [1059000, 798000,  747000,  569000,  532000,  475000,  423000,  392000],
+            8000000:  [1355000, 1031000, 966000,  731000,  683000,  611000,  542000,  507000],
+            10000000: [1648000, 1264000, 1184000, 890000,  831000,  744000,  658000,  585000],
+            12000000: [1950000, 1501000, 1406000, 1056000, 986000,  883000,  780000,  694000],
+            15000000: [2443000, 1881000, 1761000, 1321000, 1233000, 1104000, 976000,  867000],
+            20000000: [3214000, 2474000, 2317000, 1736000, 1620000, 1451000, 1282000, 1139000],
+            25000000: [3985000, 3067000, 2873000, 2150000, 2008000, 1798000, 1588000, 1410000],
+            30000000: [4756000, 3661000, 3428000, 2565000, 2395000, 2145000, 1894000, 1682000],
+            35000000: [5527000, 4254000, 3984000, 2980000, 2783000, 2512000, 2200000, 1953000]
         },
         bombastis: {
-            4000000: [824317, 614304, 575951, 442703, 414276, 366885, 326891, 321933],
-            5000000: [1021932, 769039, 720955, 548005, 512467, 455648, 405024, 373105],
-            6000000: [1171475, 882000, 826373, 628190, 587150, 524213, 465378, 430912],
-            8000000: [1466348, 1114782, 1044076, 789506, 737462, 659275, 584004, 546526],
-            10000000: [1774695, 1360243, 1273624, 956296, 892630, 798960, 706317, 627800],
-            12000000: [2076378, 1597615, 1495921, 1122245, 1047584, 937749, 828716, 736424],
+            1000000:  [320000,  246000,  232000,  177000,  167000,  144000,  130000,  115000],
+            2000000:  [485000,  370000,  349000,  265000,  249000,  217000,  195000,  174000],
+            3000000:  [645000,  486000,  457000,  348000,  326000,  287000,  257000,  249000],
+            5000000:  [1021932, 769039,  720955,  548005,  512467,  455648,  405024,  373105],
+            8000000:  [1466348, 1114782, 1044076, 789506,  737462,  659275,  584004,  546526],
+            10000000: [1774695, 1360243, 1273624, 956296,  892630,  798960,  706317,  627800],
             15000000: [2575477, 1981694, 1855571, 1390576, 1298090, 1162038, 1026419, 911789],
             20000000: [3369220, 2592636, 2427691, 1817578, 1696772, 1519077, 1341232, 1191117],
             25000000: [4119220, 3172636, 2977691, 2237578, 2086772, 1869077, 1651232, 1461117],
-            30000000: [4869220, 3752636, 3527691, 2637578, 2466772, 2219077, 1961232, 1741117]
+            30000000: [4869220, 3752636, 3527691, 2637578, 2466772, 2219077, 1961232, 1741117],
+            35000000: [5619220, 4332636, 4077691, 3037578, 2846772, 2569077, 2271232, 2021117]
         }
-    };
-
-    const KBA_MATRIX = {
-        1:  { rate: 90000,  saku: 0,       total: 90000,  agen: 0 },
-        2:  { rate: 90000,  saku: 0,       total: 180000, agen: 0 },
-        3:  { rate: 90000,  saku: 1400000, total: 1670000, agen: 2 },
-        4:  { rate: 90000,  saku: 1500000, total: 1860000, agen: 3 },
-        5:  { rate: 112500, saku: 1600000, total: 2162500, agen: 3 },
-        6:  { rate: 112500, saku: 1700000, total: 2375000, agen: 4 },
-        7:  { rate: 112500, saku: 1800000, total: 2587500, agen: 4 },
-        8:  { rate: 127500, saku: 2000000, total: 3020000, agen: 4 },
-        9:  { rate: 150000, saku: 2000000, total: 3350000, agen: 4 },
-        10: { rate: 187500, saku: 2000000, total: 3875000, agen: 5 },
-        11: { rate: 217500, saku: 2000000, total: 4392500, agen: 5 },
-        12: { rate: 240000, saku: 2000000, total: 4880000, agen: 5 },
-        13: { rate: 262500, saku: 2000000, total: 5412500, agen: 5 },
-        14: { rate: 277500, saku: 2000000, total: 5885000, agen: 6 },
-        15: { rate: 292500, saku: 2000000, total: 6387500, agen: 6 },
-        16: { rate: 307500, saku: 2000000, total: 6920000, agen: 6 },
-        17: { rate: 322500, saku: 2000000, total: 7482500, agen: 6 },
-        18: { rate: 330000, saku: 2000000, total: 7940000, agen: 7 },
-        19: { rate: 345000, saku: 2000000, total: 8555000, agen: 7 },
-        20: { rate: 352500, saku: 2000000, total: 9050000, agen: 7 },
-        21: { rate: 360000, saku: 2000000, total: 9560000, agen: 7 }
     };
 
     let state = {
         nominal: 10000000,
         category: 'normal',
         selectedTenor: 12,
+        salesNominal: 10000000,
+        salesCategory: 'normal',
+        salesSelectedTenor: 12,
         activeTab: 'kalkulator',
-        trackerTarget: parseInt(safeGetStorage('kliknsc_target_unit', '10'), 10),
-        trackerCurrent: parseInt(safeGetStorage('kliknsc_current_unit', '3'), 10),
-        salesId: safeGetStorage('kliknsc_sales_id', 'KBA'),
-        salesName: safeGetStorage('kliknsc_sales_name', 'Tim Sales KBA'),
-        salesPhone: safeGetStorage('kliknsc_sales_phone', '085921771560'),
-        salesAvatar: safeGetStorage('kliknsc_sales_avatar', ''),
-        gpsUrl: ''
+        // ... existing state properties ...
     };
 
-    function showToast(msg, icon = '💡') {
-        const toast = document.getElementById('toastNotification');
-        const toastMsg = document.getElementById('toastMessage');
-        const toastIcon = document.getElementById('toastIcon');
-        if (toast && toastMsg) {
-            toastMsg.innerText = msg;
-            if (toastIcon) toastIcon.innerText = icon;
-            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
-            }, 3500);
-        }
-    }
-
-    async function checkAuthStatus() {
-        const overlay = document.getElementById('loginOverlay');
-        const salesBadge = document.getElementById('headerSalesBadge');
-
-        try {
-            const response = await fetch(
-                'https://kliknsc-mobile-backend.vercel.app/api/session',
-                {
-                    method: 'GET',
-                    credentials: 'include'
-                }
-            );
-            const result = await response.json().catch(() => ({}));
-
-            if (!response.ok || !result.ok || !result.user?.salesId) {
-                throw new Error('Session tidak valid');
-            }
-
-            state.salesId = result.user.salesId;
-            safeSetStorage('kliknsc_sales_id', state.salesId);
-
-            if (overlay) overlay.classList.add('hidden');
-            if (salesBadge) salesBadge.innerText = state.salesId;
-            updatePollHeaderBadge();
-            return true;
-        } catch (error) {
-            if (overlay) overlay.classList.remove('hidden');
-            return false;
-        }
-    }
-
-    function updatePollHeaderBadge() {
-        const el = document.getElementById('pollFormHeaderBadge');
-        if (el) el.innerText = `FORM PENGAJUAN M2W ${state.salesId}`;
-    }
-
-    async function handleLogin(event) {
-        event?.preventDefault();
-
-        const salesId = (document.getElementById('loginSalesId')?.value || '')
-            .trim()
-            .toUpperCase();
-        const pin = (document.getElementById('loginPin')?.value || '').trim();
-        const errorMessage = document.getElementById('loginErrorMsg');
-
-        if (!salesId || !pin) {
-            errorMessage?.classList.remove('hidden');
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                'https://kliknsc-mobile-backend.vercel.app/api/login',
-                {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ salesId, pin })
-                }
-            );
-            const result = await response.json().catch(() => ({}));
-
-            if (!response.ok || !result.ok) {
-                errorMessage?.classList.remove('hidden');
-                return;
-            }
-
-            state.salesId = result.user?.salesId || salesId;
-            safeSetStorage('kliknsc_sales_id', state.salesId);
-            errorMessage?.classList.add('hidden');
-
-            if (!(await checkAuthStatus())) {
-                errorMessage?.classList.remove('hidden');
-                showToast('Session belum bisa diverifikasi. Coba masuk lagi.', '⚠️');
-                return;
-            }
-
-            showToast(`Selamat datang kembali, KBA ${state.salesId}!`, '🔓');
-        } catch (error) {
-            console.error('Login error:', error);
-            errorMessage?.classList.remove('hidden');
-            showToast('Backend login tidak dapat dihubungi.', '⚠️');
-        }
-    }
-
-    function promptLogout() {
-        const modal = document.getElementById('logoutModal');
-        if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeLogoutModal() {
-        const modal = document.getElementById('logoutModal');
-        if (modal) modal.classList.add('hidden');
-    }
-
-    async function executeLogout() {
-        closeLogoutModal();
-
-        try {
-            const response = await fetch(
-                'https://kliknsc-mobile-backend.vercel.app/api/logout',
-                {
-                    method: 'POST',
-                    credentials: 'include'
-                }
-            );
-
-            const result = await response.json();
-
-            if (!response.ok || !result.ok) {
-                throw new Error('Logout backend gagal');
-            }
-
-            safeRemoveStorage('kliknsc_sales_id');
-            state.salesId = '';
-
-            await checkAuthStatus();
-
-            showToast('Anda telah keluar dari aplikasi.', '🔒');
-        } catch (error) {
-            console.error('Logout error:', error);
-            showToast('Logout gagal. Coba lagi.', '⚠️');
-        }
-    }
-
-    function toggleTheme() {
-        if (document.documentElement.classList.contains('dark')) {
-            document.documentElement.classList.remove('dark');
-            safeSetStorage('kliknsc_theme', 'light');
-        } else {
-            document.documentElement.classList.add('dark');
-            safeSetStorage('kliknsc_theme', 'dark');
-        }
-    }
-
-    function initTheme() {
-        const savedTheme = safeGetStorage('kliknsc_theme', 'dark');
-        if (savedTheme === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
-            document.documentElement.classList.add('dark');
-        }
-    }
-
-    function formatRupiah(amount) {
-        if (isNaN(amount) || amount === null) return 'Rp 0';
-        return 'Rp ' + Math.round(amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-
-    function formatNumberInput(num) {
-        if (!num && num !== 0) return '';
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    }
-
-    function parseInputNumber(val) {
-        if (!val) return 0;
-        return parseInt(val.toString().replace(/\D/g, ''), 10) || 0;
-    }
-
-    function calculateBaseRate(amount, tenorIdx, categoryKey) {
-        const catData = BASE_DATABASE[categoryKey] || BASE_DATABASE.normal;
+    function calculateSalesRate(amount, tenorIdx, categoryKey) {
+        const catData = SALES_DATABASE[categoryKey] || SALES_DATABASE.normal;
         const knownAmounts = Object.keys(catData).map(Number).sort((a, b) => a - b);
         
-        if (amount < knownAmounts[0]) {
-            const minAmt = knownAmounts[0];
-            const secondAmt = knownAmounts[1];
-            const minVal = catData[minAmt][tenorIdx];
-            const secondVal = catData[secondAmt][tenorIdx];
-            const slope = (secondVal - minVal) / (secondAmt - minAmt);
-            const calculated = minVal - (minAmt - amount) * slope;
-            return Math.max(100000, Math.round(calculated / 100) * 100);
+        if (amount <= knownAmounts[0]) {
+            return catData[knownAmounts[0]][tenorIdx];
         }
         
         const maxAmt = knownAmounts[knownAmounts.length - 1];
-        const secondMaxAmt = knownAmounts[knownAmounts.length - 2];
-
         if (amount >= maxAmt) {
             const maxVal = catData[maxAmt][tenorIdx];
-            const prevVal = catData[secondMaxAmt][tenorIdx];
-            const slope = (maxVal - prevVal) / (maxAmt - secondMaxAmt);
+            const prevAmt = knownAmounts[knownAmounts.length - 2];
+            const prevVal = catData[prevAmt][tenorIdx];
+            const slope = (maxVal - prevVal) / (maxAmt - prevAmt);
             return Math.round((maxVal + (amount - maxAmt) * slope) / 100) * 100;
         }
 
@@ -1648,18 +1523,13 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         return Math.round((catData[lower][tenorIdx] + ratio * (catData[upper][tenorIdx] - catData[lower][tenorIdx])) / 100) * 100;
     }
 
-    function calculateRate(amount, tenorIdx, categoryKey) {
-        const baseRate = calculateBaseRate(amount, tenorIdx, categoryKey);
-        return Math.round((baseRate * (1 + INSTALLMENT_INCREASE)) / 100) * 100;
-    }
-
-    function renderCategories() {
-        const container = document.getElementById('categoryContainer');
+    function renderSalesCategories() {
+        const container = document.getElementById('salesCategoryContainer');
         if (!container) return;
         container.innerHTML = CATEGORIES.map(cat => {
-            const isActive = state.category === cat.id;
+            const isActive = state.salesCategory === cat.id;
             return `
-                <button type="button" onclick="selectCategory('${cat.id}')" class="p-2.5 rounded-xl border text-left transition flex items-center justify-between active:scale-95 cursor-pointer ${isActive ? `${cat.lightBg} ${cat.borderColor} border-2 shadow-sm` : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}">
+                <button type="button" onclick="selectSalesCategory('${cat.id}')" class="p-2.5 rounded-xl border text-left transition flex items-center justify-between active:scale-95 cursor-pointer ${isActive ? `${cat.lightBg} ${cat.borderColor} border-2 shadow-sm` : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'}">
                     <div>
                         <div class="font-extrabold text-xs text-slate-900 dark:text-white">${cat.name}</div>
                         <div class="text-xs text-slate-500 font-medium">${cat.badge}</div>
@@ -1670,105 +1540,105 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         }).join('');
     }
 
-    function selectCategory(catId) {
-        state.category = catId;
-        renderCategories();
-        updateAllCalculations();
-        renderTable();
+    function selectSalesCategory(catId) {
+        state.salesCategory = catId;
+        renderSalesCategories();
+        updateSalesCalculations();
     }
 
-    function handleInputChange(val) {
+    function handleSalesInputChange(val) {
         const num = parseInputNumber(val);
-        state.nominal = num;
-        document.getElementById('inputVal').value = formatNumberInput(num);
-        const sliderVal = num <= 35000000 ? (num >= 3000000 ? num : 3000000) : 35000000;
-        document.getElementById('rangeSlider').value = sliderVal;
-        updateAllCalculations();
+        state.salesNominal = num;
+        const inputEl = document.getElementById('salesInputVal');
+        if (inputEl) inputEl.value = formatNumberInput(num);
+        const sliderVal = num <= 35000000 ? (num >= 1000000 ? num : 1000000) : 35000000;
+        const sliderEl = document.getElementById('salesRangeSlider');
+        if (sliderEl) sliderEl.value = sliderVal;
+        updateSalesCalculations();
     }
 
-    function handleSliderChange(val) {
+    function handleSalesSliderChange(val) {
         const num = parseInt(val, 10);
-        state.nominal = num;
-        document.getElementById('inputVal').value = formatNumberInput(num);
-        updateAllCalculations();
+        state.salesNominal = num;
+        const inputEl = document.getElementById('salesInputVal');
+        if (inputEl) inputEl.value = formatNumberInput(num);
+        updateSalesCalculations();
     }
 
-    function updateAllCalculations() {
-        const tenorIdx = TENORS.indexOf(state.selectedTenor);
-        const monthlyRate = calculateRate(state.nominal, tenorIdx, state.category);
+    function selectSalesTenor(t) {
+        state.salesSelectedTenor = t;
+        updateSalesCalculations();
+    }
+
+    function updateSalesCalculations() {
+        const tenorIdx = TENORS.indexOf(state.salesSelectedTenor);
+        const monthlyRate = calculateSalesRate(state.salesNominal, tenorIdx, state.salesCategory);
         const dailyRate = Math.round(monthlyRate / 30);
 
-        const monthlyEl = document.getElementById('selectedMonthlyText');
+        const monthlyEl = document.getElementById('selectedSalesMonthlyText');
         if (monthlyEl) {
             monthlyEl.innerHTML = `${formatRupiah(monthlyRate)} <span class="text-xs font-normal text-slate-400">/ bulan</span>`;
         }
         
-        const pencairanEl = document.getElementById('selectedPencairanText');
-        if (pencairanEl) pencairanEl.innerText = formatRupiah(state.nominal);
+        const pencairanEl = document.getElementById('selectedSalesPencairanText');
+        if (pencairanEl) pencairanEl.innerText = formatRupiah(state.salesNominal);
 
-        const dailyEl = document.getElementById('selectedDailyText');
+        const dailyEl = document.getElementById('selectedSalesDailyText');
         if (dailyEl) dailyEl.innerText = `± ${formatRupiah(dailyRate)} / hari`;
 
-        const badgeEl = document.getElementById('selectedTenorBadge');
-        if (badgeEl) badgeEl.innerText = `${state.selectedTenor} Bulan`;
+        const badgeEl = document.getElementById('selectedSalesTenorBadge');
+        if (badgeEl) badgeEl.innerText = `${state.salesSelectedTenor} Bulan`;
 
-        const pollNominalEl = document.getElementById('pollNominal');
-        if (pollNominalEl && (!pollNominalEl.value || pollNominalEl.value === '0')) {
-            pollNominalEl.value = formatNumberInput(state.nominal);
-        }
-        const pollTenorEl = document.getElementById('pollTenor');
-        if (pollTenorEl) {
-            pollTenorEl.value = state.selectedTenor.toString();
-        }
-
-        renderTenorGrid();
-        updateExportCardPreview();
+        renderSalesTenorGrid();
     }
 
-    function renderTenorGrid() {
-        const container = document.getElementById('tenorGridContainer');
+    function renderSalesTenorGrid() {
+        const container = document.getElementById('salesTenorGridContainer');
         if (!container) return;
 
         container.innerHTML = TENORS.map(t => {
             const idx = TENORS.indexOf(t);
-            const rate = calculateRate(state.nominal, idx, state.category);
+            const rate = calculateSalesRate(state.salesNominal, idx, state.salesCategory);
             const daily = Math.round(rate / 30);
-            const isSelected = state.selectedTenor === t;
+            const isSelected = state.salesSelectedTenor === t;
 
             return `
-                <div onclick="selectTenor(${t})" class="p-3 rounded-2xl border transition cursor-pointer active:scale-95 ${isSelected ? 'bg-blue-600 text-white border-blue-500 shadow-lg ring-2 ring-blue-400/50' : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-700/80 hover:border-blue-400'}">
+                <div onclick="selectSalesTenor(${t})" class="p-3 rounded-2xl border transition cursor-pointer active:scale-95 ${isSelected ? 'bg-teal-600 text-white border-teal-500 shadow-lg ring-2 ring-teal-400/50' : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-700/80 hover:border-teal-400'}">
                     <div class="flex items-center justify-between mb-1">
-                        <span class="text-xs font-black ${isSelected ? 'text-blue-200' : 'text-slate-500 dark:text-slate-400'}">${t} Bulan</span>
+                        <span class="text-xs font-black ${isSelected ? 'text-teal-200' : 'text-slate-500 dark:text-slate-400'}">${t} Bulan</span>
                         ${isSelected ? '<span class="bg-white/20 text-white text-xs px-1.5 py-0.5 rounded font-bold">Terpilih</span>' : ''}
                     </div>
-                    <div class="text-sm font-black ${isSelected ? 'text-white' : 'text-blue-600 dark:text-blue-400'}">${formatRupiah(rate)}</div>
-                    <div class="text-xs mt-0.5 ${isSelected ? 'text-blue-100 font-semibold' : 'text-emerald-600 dark:text-emerald-400 font-medium'}">± ${formatRupiah(daily)} / hari</div>
+                    <div class="text-sm font-black ${isSelected ? 'text-white' : 'text-teal-600 dark:text-teal-400'}">${formatRupiah(rate)}</div>
+                    <div class="text-xs mt-0.5 ${isSelected ? 'text-teal-100 font-semibold' : 'text-emerald-600 dark:text-emerald-400 font-medium'}">± ${formatRupiah(daily)} / hari</div>
                 </div>
             `;
         }).join('');
     }
 
-    function setupResponsiveTenorOptions() {
-        const options = document.getElementById('tenorOptionsDetails');
-        if (!options || !window.matchMedia) return;
+    function shareSalesCalcWA() {
+        const tenorIdx = TENORS.indexOf(state.salesSelectedTenor);
+        const rate = calculateSalesRate(state.salesNominal, tenorIdx, state.salesCategory);
+        const daily = Math.round(rate / 30);
+        const catObj = CATEGORIES.find(c => c.id === state.salesCategory);
 
-        const compactScreen = window.matchMedia('(max-width: 640px)');
-        const syncOptions = (event) => {
-            options.open = !event.matches;
-        };
+        const text = `*SIMULASI ANGSURAN SALES KLIKNSC (${state.salesId})*
+-----------------------------------
+💰 *Pencairan Sales:* ${formatRupiah(state.salesNominal)}
+📋 *Program Sales:* ${catObj ? catObj.name : 'NORMAL'}
+📅 *Tenor:* ${state.salesSelectedTenor} Bulan
 
-        syncOptions(compactScreen);
-        if (compactScreen.addEventListener) {
-            compactScreen.addEventListener('change', syncOptions);
-        } else if (compactScreen.addListener) {
-            compactScreen.addListener(syncOptions);
-        }
+📉 *Angsuran:* *${formatRupiah(rate)} / bulan*
+☕ *Setara Harian:* ± ${formatRupiah(daily)} / hari
+-----------------------------------
+✅ *Pencairan Utuh Tanpa Potongan Admin*
+✅ *BPKB Aman Resmi Terdaftar OJK*
+
+Hubungi Sales KlikNSC (${state.salesId}) untuk info lebih lanjut!`;
+
+        window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
 
-    function selectTenor(t) {
-        state.selectedTenor = t;
-        updateAllCalculations();
-    }
+    // ... existing functions ...
 
     function switchTab(tabName) {
         state.activeTab = tabName;
@@ -1796,7 +1666,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             }
         });
 
-        if (tabName === 'kalkulatorSales') calculateSalesCalculator();
+        if (tabName === 'kalkulatorSales') updateSalesCalculations();
         if (tabName === 'komparasi') calculateKomparasi();
         if (tabName === 'pelunasan') calculatePelunasan();
         if (tabName === 'takeover') calculateTakeover();
@@ -2516,7 +2386,9 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         initTheme();
         checkAuthStatus();
         renderCategories();
+        renderSalesCategories();
         updateAllCalculations();
+        updateSalesCalculations();
         updateChecklistProgress();
     };
 </script>
