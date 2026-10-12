@@ -230,7 +230,7 @@
 
         <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
             <div>
-                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ID Kode Sales/KBA</label>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ID / Kode Sales/KBA</label>
                 <input type="text" id="loginSalesId" required placeholder="Masukkan ID Sales/KBA" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase transition" />
             </div>
 
@@ -244,7 +244,7 @@
             </div>
 
             <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-95 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider uppercase shadow-lg shadow-blue-600/30 transition cursor-pointer flex items-center justify-center gap-2">
-                <span>Masuk</span>
+                <span>Masuk Aplikasi</span>
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
         </form>
@@ -298,7 +298,17 @@
     <div id="featureTabs" class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex gap-2 text-xs font-bold shadow-md sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
         <button id="tabCalcBtn" onclick="switchTab('kalkulator')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-blue-600 text-white border border-blue-400/50 shadow-md active:scale-95 shrink-0">
             <svg class="w-4 h-4 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-            <span>Kalkulator</span>
+            <span>Kalkulator KBA</span>
+        </button>
+
+        <button id="tabCalcSalesBtn" onclick="switchTab('kalkulatorSales')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-teal-600/30 text-teal-300 border border-teal-400/50 hover:bg-teal-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <span>Kalkulator Sales</span>
+        </button>
+
+        <button id="tabKomparasiBtn" onclick="switchTab('komparasi')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-indigo-600/30 text-indigo-300 border border-indigo-400/50 hover:bg-indigo-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M16 3h5v5M4 21h5v-5M21 3l-7 7M3 21l7-7"/></svg>
+            <span>Kalkulator Komparasi (2 Opsi)</span>
         </button>
 
         <button id="tabPollingBtn" onclick="switchTab('polling')" class="py-2 px-3.5 rounded-xl tab-transition flex items-center gap-1.5 bg-emerald-600/30 text-emerald-300 border border-emerald-400/50 hover:bg-emerald-600/40 shrink-0 font-extrabold active:scale-95 shadow-sm">
@@ -347,121 +357,179 @@
         <!-- Kalkulator View -->
         <div id="kalkulatorView" class="space-y-4">
             
-            <!-- Input Nominal Box -->
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 transition">
                 <div class="flex items-center justify-between mb-2">
                     <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                        Nominal Pengajuan Pencairan
+                        Nominal Pengajuan Pencairan (KBA)
                     </label>
-                    <span class="text-xs text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">Bersih Terima Utuh</span>
+        <!-- Kalkulator Sales View (Kalkulator Baru dari Excel Sales) -->
+        <div id="kalkulatorSalesView" class="space-y-4 hidden">
+            <div class="bg-gradient-to-r from-teal-950 via-slate-900 to-emerald-950 text-white p-4 rounded-2xl border border-teal-500/40 shadow-lg space-y-1">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-black text-sm text-teal-300 flex items-center gap-2">
+                        <span>📊 Kalkulator Sales (Khusus Tim Sales)</span>
+                    </h3>
+                    <span class="text-xs bg-teal-500/20 text-teal-300 border border-teal-400/30 px-2 py-0.5 rounded-full font-bold">Skema Sales</span>
                 </div>
-
-                <div class="relative mb-3">
-                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 font-extrabold text-slate-400 dark:text-slate-500 text-base">
-                        Rp
-                    </span>
-                    <input
-                        type="text"
-                        id="inputVal"
-                        oninput="handleInputChange(this.value)"
-                        class="w-full text-xl font-black text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-900/90 border border-slate-300 dark:border-slate-700 rounded-xl pl-11 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white dark:focus:bg-slate-950 transition"
-                        placeholder="10.000.000"
-                        value="10.000.000"
-                    />
-                </div>
-
-                <div class="space-y-1.5 mb-1">
-                    <input
-                        type="range"
-                        id="rangeSlider"
-                        min="3000000"
-                        max="35000000"
-                        step="500000"
-                        value="10000000"
-                        oninput="handleSliderChange(this.value)"
-                        class="w-full accent-blue-600 cursor-pointer h-2 bg-slate-200 dark:bg-slate-700 rounded-lg"
-                    />
-                    <div class="flex justify-between text-xs text-slate-400 dark:text-slate-500 font-semibold px-0.5">
-                        <span>3 JT</span>
-                        <span>10 JT</span>
-                        <span>18 JT</span>
-                        <span>26 JT</span>
-                        <span>35 JT</span>
-                    </div>
-                </div>
+                <p class="text-xs text-slate-300">Simulasi khusus berdasarkan hitungan & rumus matriks Angsuran Sales.</p>
             </div>
 
-            <!-- Program / Kategori Brosur -->
-            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 transition">
-                <label class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 mb-2.5">
-                    <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 3l1.912 5.813a2 2 0 001.275 1.275L21 12l-5.813 1.912a2 2 0 00-1.275 1.275L12 21l-1.912-5.813a2 2 0 00-1.275-1.275L3 12l5.813-1.912a2 2 0 001.275-1.275L12 3z"/></svg>
-                    Program / Kategori Brosur
-                </label>
-                <div id="categoryContainer" class="grid grid-cols-2 gap-2"></div>
-            </div>
-
-            <!-- Main Highlight Card -->
-            <div class="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-2xl p-4 shadow-xl card-glow relative overflow-hidden border border-blue-500/30">
-                <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-600/20 rounded-full blur-2xl pointer-events-none"></div>
-                
-                <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs text-blue-300 font-bold uppercase tracking-wider flex items-center gap-1">
-                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-                        Rekomendasi Terpilih
-                    </span>
-                    <span id="selectedTenorBadge" class="bg-blue-500/20 text-blue-300 text-xs px-2.5 py-0.5 rounded-full border border-blue-400/30 font-bold">
-                        12 Bulan
-                    </span>
-                </div>
-
-                <div id="selectedMonthlyText" class="text-3xl font-black text-blue-400 my-1.5 tracking-tight transition-all">
-                    Rp 0 <span class="text-xs font-normal text-slate-400">/ bulan</span>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2 text-xs text-slate-300 border-t border-slate-800/80 pt-2.5 my-3">
-                    <div>
-                        <div class="text-xs text-slate-400">Pencairan Net (Bersih):</div>
-                        <div id="selectedPencairanText" class="font-bold text-white">Rp 0</div>
-                    </div>
-                    <div>
-                        <div class="text-xs text-emerald-400 font-semibold">Setara Harian (Ringan):</div>
-                        <div id="selectedDailyText" class="font-extrabold text-emerald-300">± Rp 0 / hari</div>
+            <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-teal-200 dark:border-teal-800/60 space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Pilih / Masukkan Nominal Pencairan Sales:</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">Rp</span>
+                        <input type="text" id="salesInputVal" value="10.000.000" oninput="handleSalesInputChange(this.value)" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl pl-9 pr-3 py-2.5 font-black text-slate-900 dark:text-white text-sm" />
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                    <button
-                        id="copyWhatsAppBtn"
-                        onclick="copyToWhatsApp()"
-                        class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-md cursor-pointer"
-                    >
+                <div>
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Pilih Tenor Angsuran Sales:</label>
+                    <select id="salesTenorSelect" onchange="calculateSalesCalculator()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white text-xs">
+                        <option value="12">12 Bulan</option>
+                        <option value="18">18 Bulan</option>
+                        <option value="24" selected>24 Bulan</option>
+                        <option value="30">30 Bulan</option>
+                        <option value="36">36 Bulan</option>
+                    </select>
+                </div>
+
+                <!-- Result Display Sales -->
+                <div class="bg-gradient-to-br from-slate-900 via-teal-950 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-teal-500/30 space-y-2 text-center">
+                    <span class="text-xs text-teal-300 font-extrabold uppercase tracking-wider">Hasil Angsuran Sales:</span>
+                    <div id="salesMonthlyResult" class="text-3xl font-black text-teal-400">Rp 0</div>
+                    <div id="salesDailyResult" class="text-xs text-emerald-300 font-medium">± Rp 0 / hari</div>
+
+                    <button onclick="shareSalesCalcWA()" class="w-full mt-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-md transition cursor-pointer">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                        <span id="copyBtnText">Salin WA</span>
-                    </button>
-
-                    <button
-                        onclick="openExportCardModal()"
-                        class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-95 text-slate-950 font-black py-3 rounded-xl flex items-center justify-center gap-1.5 transition text-xs shadow-md cursor-pointer"
-                    >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        <span>Card Brosur (PNG)</span>
+                        <span>Kirim Hasil Kalkulator Sales ke WA</span>
                     </button>
                 </div>
             </div>
-
-            <!-- Tenor Grid -->
-            <details id="tenorOptionsDetails" class="group rounded-2xl border border-slate-200 dark:border-slate-700/70 bg-white dark:bg-slate-900/70 overflow-hidden" open>
-                <summary class="flex min-h-[48px] list-none cursor-pointer items-center justify-between gap-3 px-3 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 select-none">
-                    <span>Pilihan Angsuran Semua Tenor <span class="text-xs font-medium text-slate-500">(8)</span></span>
-                    <svg class="h-5 w-5 shrink-0 text-violet-500 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></svg>
-                </summary>
-                <div id="tenorGridContainer" class="grid grid-cols-2 gap-2 px-2 pb-2"></div>
-            </details>
-
         </div>
 
-        <!-- Pelunasan View -->
+        <!-- Kalkulator Komparasi View (Kalkulator Kedua) -->
+        <div id="komparasiView" class="space-y-4 hidden">
+            <div class="bg-gradient-to-r from-indigo-950 via-slate-900 to-blue-950 text-white p-4 rounded-2xl border border-indigo-500/40 shadow-lg space-y-1">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-black text-sm text-indigo-300 flex items-center gap-2">
+                        <span>⚖️ Kalkulator Komparasi 2 Simulasi</span>
+                    </h3>
+                    <span class="text-xs bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 px-2 py-0.5 rounded-full font-bold">Bandingkan 2 Opsi</span>
+                </div>
+                <p class="text-xs text-slate-300">Bandingkan nominal atau tenor secara berdampingan untuk membantu nasabah memilih angsuran terbaik.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- OPSI A -->
+                <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-blue-300 dark:border-blue-800 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
+                        <span class="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider">🔵 Opsi A</span>
+                        <span id="komparasiBadgeA" class="text-xs font-bold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-md">Simulasi 1</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Nominal Pencairan A:</label>
+                            <input type="text" id="komparasiInputA" value="10.000.000" oninput="calculateKomparasi()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-black text-slate-900 dark:text-white" />
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Program A:</label>
+                            <select id="komparasiCatA" onchange="calculateKomparasi()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white">
+                                <option value="normal">NORMAL (Reguler)</option>
+                                <option value="extra">EXTRA (Diskon 3%)</option>
+                                <option value="special">SPECIAL (Super Hemat)</option>
+                                <option value="bombastis">BOMBASTIS (Promo)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Tenor A:</label>
+                            <select id="komparasiTenorA" onchange="calculateKomparasi()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white">
+                                <option value="8">8 Bulan</option>
+                                <option value="11">11 Bulan</option>
+                                <option value="12" selected>12 Bulan</option>
+                                <option value="18">18 Bulan</option>
+                                <option value="20">20 Bulan</option>
+                                <option value="24">24 Bulan</option>
+                                <option value="30">30 Bulan</option>
+                                <option value="36">36 Bulan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-950/80 text-white p-3 rounded-xl space-y-1 text-center border border-blue-500/30">
+                        <div class="text-xs text-blue-300 font-semibold">Angsuran Bulanan A:</div>
+                        <div id="komparasiRateA" class="text-xl font-black text-blue-400">Rp 0</div>
+                        <div id="komparasiDailyA" class="text-xs text-emerald-300 font-medium">± Rp 0 / hari</div>
+                    </div>
+                </div>
+
+                <!-- OPSI B -->
+                <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-emerald-300 dark:border-emerald-800 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
+                        <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">🟢 Opsi B</span>
+                        <span id="komparasiBadgeB" class="text-xs font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-md">Simulasi 2</span>
+                    </div>
+
+                    <div class="space-y-2 text-xs">
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Nominal Pencairan B:</label>
+                            <input type="text" id="komparasiInputB" value="15.000.000" oninput="calculateKomparasi()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-black text-slate-900 dark:text-white" />
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Program B:</label>
+                            <select id="komparasiCatB" onchange="calculateKomparasi()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white">
+                                <option value="normal">NORMAL (Reguler)</option>
+                                <option value="extra">EXTRA (Diskon 3%)</option>
+                                <option value="special">SPECIAL (Super Hemat)</option>
+                                <option value="bombastis">BOMBASTIS (Promo)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="font-bold text-slate-700 dark:text-slate-300 block mb-1">Tenor B:</label>
+                            <select id="komparasiTenorB" onchange="calculateKomparasi()" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2 font-bold text-slate-900 dark:text-white">
+                                <option value="8">8 Bulan</option>
+                                <option value="11">11 Bulan</option>
+                                <option value="12">12 Bulan</option>
+                                <option value="18" selected>18 Bulan</option>
+                                <option value="20">20 Bulan</option>
+                                <option value="24">24 Bulan</option>
+                                <option value="30">30 Bulan</option>
+                                <option value="36">36 Bulan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-950/80 text-white p-3 rounded-xl space-y-1 text-center border border-emerald-500/30">
+                        <div class="text-xs text-emerald-300 font-semibold">Angsuran Bulanan B:</div>
+                        <div id="komparasiRateB" class="text-xl font-black text-emerald-400">Rp 0</div>
+                        <div id="komparasiDailyB" class="text-xs text-emerald-300 font-medium">± Rp 0 / hari</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SELISIH KOMPARASI CARD -->
+            <div class="bg-slate-900 text-white p-4 rounded-2xl border border-slate-700 space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">💡 Ringkasan Perbandingan Selisih:</span>
+                </div>
+                
+                <div id="komparasiDiffBox" class="text-xs text-slate-200 space-y-1.5 font-medium">
+                    <!-- Text selisih di-generate via JS -->
+                </div>
+
+                <button onclick="shareKomparasiWA()" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    <span>Kirim Hasil Perbandingan 2 Opsi ke WA Nasabah</span>
+                </button>
+            </div>
+        </div>
+
         <div id="pelunasanView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-rose-200 dark:border-rose-800/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -575,13 +643,12 @@
             </div>
         </div>
 
-        <!-- Polling View -->
         <div id="pollingView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-sm text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-violet-600 dark:text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-                        Form Polling Pengajuan
+                        Form Polling Pengajuan WA
                     </h3>
                     <span id="pollFormHeaderBadge" class="text-xs bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-800/50">FORM PENGAJUAN M2W SRN31</span>
                 </div>
@@ -662,7 +729,6 @@
                         <textarea id="pollAlamat" rows="2" placeholder="Sesuai KTP / Domisili" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl p-2.5 font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-600 text-xs"></textarea>
                     </div>
 
-                    <!-- Geo-Tagging Feature Section -->
                     <div class="p-3 bg-violet-50/70 dark:bg-violet-950/30 rounded-xl border border-violet-200 dark:border-violet-800/60 space-y-2">
                         <div class="flex items-center justify-between">
                             <label class="font-extrabold text-violet-900 dark:text-violet-300 flex items-center gap-1.5 text-xs">
@@ -698,8 +764,7 @@
                 </div>
             </div>
         </div>
-            
-        <!-- Take Over View -->
+
         <div id="takeoverView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -760,7 +825,7 @@
                             <b id="takeoverPelunasanText" class="text-rose-400">- Rp 6.000.000</b>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Biaya Tambahan :</span>
+                            <span class="text-slate-400">Biaya Tambahan (10%) :</span>
                             <b id="takeoverFee10Text" class="text-rose-400">- Rp 600.000</b>
                         </div>
                         <div class="flex justify-between border-t border-slate-800/60 pt-1">
@@ -781,7 +846,6 @@
             </div>
         </div>
 
-        <!-- Checklist View -->
         <div id="checklistView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/60 pb-2">
@@ -872,7 +936,6 @@
             </div>
         </div>
 
-        <!-- Script View -->
         <div id="scriptView" class="space-y-4 hidden">
             <div class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
                 <button id="subScriptTabPromo" onclick="switchScriptSubTab('promo')" class="flex-1 py-2 rounded-lg bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm transition cursor-pointer">
@@ -914,7 +977,6 @@
                 </button>
             </div>
 
-            <!-- Sub View 2: Tangkis Penolakan Nasabah -->
             <div id="scriptObjectionSubView" class="space-y-3 hidden">
                 <div class="bg-amber-50 dark:bg-amber-950/40 p-3 rounded-2xl border border-amber-200 dark:border-amber-800/50 text-xs text-amber-900 dark:text-amber-200 font-medium">
                     💡 <b>Tips Sales:</b> Tekan tombol "Salin Jawaban" di bawah skenario penolakan nasabah untuk langsung dikirim via Chat WA!
@@ -939,7 +1001,7 @@ Kalau dihitung harian, ini cuma setara *± Rp 40 ribuan/hari* (setara harga 2 bu
                     </div>
                     <p class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-900 p-2.5 rounded-xl border dark:border-slate-800 font-mono leading-relaxed" id="objText2">Siap Pak/Bu, sangat setuju memang harus didiskusikan bersama pasangan. 
 
-Biar diskusinya lebih gampang, saya bantu buatkan *Kartu Rincian Simulasi Pas-nya* ya? Bebas biaya dan tanpa ikatan dulu kok, biar pasangan bisa lihat angsuran harian yang paling pas dengan budget keluarga. Boleh saya minta info nominal yang dibutuhkan?</p>
+Biar diskusinya lebih gampang, saya bantu buatkan *Kartu Rincian Simulasi Pas-nya* ya? Bebas biaya dan tanpa ikatan dulu kok, biar pasangan bisa lihat angsuran harian yang paling pas dengan budget keluarga. Bboleh saya minta info nominal yang dibutuhkan?</p>
                     <button onclick="copyObjectionText('objText2')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1 transition cursor-pointer">
                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                         <span>Salin Jawaban Ini</span>
@@ -961,7 +1023,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
         
-        <!-- Bonus View -->
         <div id="bonusView" class="space-y-4 hidden">
             <div class="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 text-white rounded-2xl p-4 shadow-lg border border-blue-500/30 space-y-3">
                 <div class="flex items-center justify-between">
@@ -1043,7 +1104,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
 
-        <!-- Tahun View -->
         <div id="tahunView" class="space-y-4 hidden">
             <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-3">
                 <div class="flex items-center justify-between">
@@ -1081,7 +1141,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
         </div>
 
-        <!-- Tabel Brosur View -->
         <div id="tabelView" class="space-y-3 hidden">
             <div class="bg-white dark:bg-slate-800/90 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm space-y-2">
                 <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block">Cari Nilai Pencairan Brosur:</label>
@@ -1119,7 +1178,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         
     </main>
 
-    <!-- Confirmation Modal Logout -->
     <div id="logoutModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white dark:bg-slate-800 rounded-3xl p-5 max-w-xs w-full shadow-2xl relative space-y-4 text-center border border-slate-200 dark:border-slate-700">
             <div class="w-12 h-12 bg-rose-500/20 text-rose-500 rounded-2xl mx-auto flex items-center justify-center font-bold text-xl">
@@ -1136,7 +1194,6 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         </div>
     </div>
 
-    <!-- Export Card Modal (Brosur Generator) -->
     <div id="exportCardModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
         <div class="bg-slate-900 rounded-3xl border border-amber-500/40 p-5 max-w-sm w-full shadow-2xl space-y-4 my-auto relative">
             <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
@@ -1715,10 +1772,19 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
 
     function switchTab(tabName) {
         state.activeTab = tabName;
-        const tabs = ['kalkulator', 'polling', 'pelunasan', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
+        const tabs = ['kalkulator', 'kalkulatorSales', 'komparasi', 'polling', 'pelunasan', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
         const viewMap = { 
-            kalkulator: 'kalkulatorView', polling: 'pollingView', pelunasan: 'pelunasanView', takeover: 'takeoverView', checklist: 'checklistView',
-            script: 'scriptView', bonus: 'bonusView', tahun: 'tahunView', tabel: 'tabelView' 
+            kalkulator: 'kalkulatorView', 
+            kalkulatorSales: 'kalkulatorSalesView', 
+            komparasi: 'komparasiView', 
+            polling: 'pollingView', 
+            pelunasan: 'pelunasanView', 
+            takeover: 'takeoverView', 
+            checklist: 'checklistView',
+            script: 'scriptView', 
+            bonus: 'bonusView', 
+            tahun: 'tahunView', 
+            tabel: 'tabelView' 
         };
 
         tabs.forEach(t => {
@@ -1730,6 +1796,8 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             }
         });
 
+        if (tabName === 'kalkulatorSales') calculateSalesCalculator();
+        if (tabName === 'komparasi') calculateKomparasi();
         if (tabName === 'pelunasan') calculatePelunasan();
         if (tabName === 'takeover') calculateTakeover();
         if (tabName === 'checklist') updateChecklistProgress();
@@ -1739,78 +1807,45 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
         if (tabName === 'tabel') renderTable();
     }
 
-    function calculatePelunasan() {
-        const angsuranRaw = parseInputNumber(document.getElementById('pelunasanAngsuran')?.value || '0');
-        const totalTenor = parseInt(document.getElementById('pelunasanTotalTenor')?.value || '24', 10);
-        let sudahMasuk = parseInt(document.getElementById('pelunasanSudahMasuk')?.value || '1', 10);
-
-        if (sudahMasuk >= totalTenor) sudahMasuk = totalTenor - 1;
-        if (sudahMasuk < 1) sudahMasuk = 1;
-
-        const diskonPct = parseFloat(document.getElementById('pelunasanDiskonPct')?.value || '0');
-        const penaltiPct = parseFloat(document.getElementById('pelunasanPenaltiPct')?.value || '0');
-        const dendaRaw = parseInputNumber(document.getElementById('pelunasanDenda')?.value || '0');
-
-        if (document.getElementById('pelunasanAngsuran')) document.getElementById('pelunasanAngsuran').value = formatNumberInput(angsuranRaw);
-        if (document.getElementById('pelunasanDenda')) document.getElementById('pelunasanDenda').value = formatNumberInput(dendaRaw);
-
-        const sisaTenor = totalTenor - sudahMasuk;
-        const normalTagihan = sisaTenor * angsuranRaw;
-        const diskonVal = Math.round(normalTagihan * (diskonPct / 100));
-        const sisaSetelahDiskon = normalTagihan - diskonVal;
-        const penaltiVal = Math.round(sisaSetelahDiskon * (penaltiPct / 100));
-
-        const grandTotalPelunasan = sisaSetelahDiskon + penaltiVal + dendaRaw;
-        const totalHemat = normalTagihan - grandTotalPelunasan;
-
-        if (document.getElementById('pelunasanSisaTenorBadge')) document.getElementById('pelunasanSisaTenorBadge').innerText = `Sisa ${sisaTenor} Bulan`;
-        if (document.getElementById('pelunasanTotalResult')) document.getElementById('pelunasanTotalResult').innerText = formatRupiah(grandTotalPelunasan);
-        if (document.getElementById('pelunasanHematText')) document.getElementById('pelunasanHematText').innerText = formatRupiah(totalHemat);
-        if (document.getElementById('pelunasanNormalTagihanText')) document.getElementById('pelunasanNormalTagihanText').innerText = formatRupiah(normalTagihan);
-        if (document.getElementById('pelunasanDiskonValText')) document.getElementById('pelunasanDiskonValText').innerText = `- ${formatRupiah(diskonVal)} (${diskonPct}%)`;
-        
-        if (document.getElementById('pelunasanPenaltiLabelText')) document.getElementById('pelunasanPenaltiLabelText').innerText = `Biaya Penalti Pelunasan (${penaltiPct}%):`;
-        if (document.getElementById('pelunasanPenaltiValText')) document.getElementById('pelunasanPenaltiValText').innerText = `+ ${formatRupiah(penaltiVal)}`;
-        
-        if (document.getElementById('pelunasanDendaValText')) document.getElementById('pelunasanDendaValText').innerText = `+ ${formatRupiah(dendaRaw)}`;
+    function handleSalesInputChange(val) {
+        const num = parseInputNumber(val);
+        const inputEl = document.getElementById('salesInputVal');
+        if (inputEl) inputEl.value = formatNumberInput(num);
+        calculateSalesCalculator();
     }
 
-    function sharePelunasanWA() {
-        const angsuranRaw = parseInputNumber(document.getElementById('pelunasanAngsuran')?.value || '0');
-        const totalTenor = parseInt(document.getElementById('pelunasanTotalTenor')?.value || '24', 10);
-        let sudahMasuk = parseInt(document.getElementById('pelunasanSudahMasuk')?.value || '1', 10);
-        const diskonPct = parseFloat(document.getElementById('pelunasanDiskonPct')?.value || '0');
-        const penaltiPct = parseFloat(document.getElementById('pelunasanPenaltiPct')?.value || '0');
-        const dendaRaw = parseInputNumber(document.getElementById('pelunasanDenda')?.value || '0');
+    function calculateSalesCalculator() {
+        const amt = parseInputNumber(document.getElementById('salesInputVal')?.value || '10000000');
+        const tenor = parseInt(document.getElementById('salesTenorSelect')?.value || '24', 10);
+        
+        // Estimasi kalkulasi Sales (Siap dihubungkan ke data Excel Sales bro)
+        const rate = calculateRate(amt, TENORS.indexOf(tenor), 'normal');
+        const daily = Math.round(rate / 30);
 
-        if (sudahMasuk >= totalTenor) sudahMasuk = totalTenor - 1;
-        if (sudahMasuk < 1) sudahMasuk = 1;
+        const monthlyResult = document.getElementById('salesMonthlyResult');
+        const dailyResult = document.getElementById('salesDailyResult');
 
-        const sisaTenor = totalTenor - sudahMasuk;
-        const normalTagihan = sisaTenor * angsuranRaw;
-        const diskonVal = Math.round(normalTagihan * (diskonPct / 100));
-        const sisaSetelahDiskon = normalTagihan - diskonVal;
-        const penaltiVal = Math.round(sisaSetelahDiskon * (penaltiPct / 100));
-        const grandTotalPelunasan = sisaSetelahDiskon + penaltiVal + dendaRaw;
-        const totalHemat = normalTagihan - grandTotalPelunasan;
+        if (monthlyResult) monthlyResult.innerText = `${formatRupiah(rate)} / bln`;
+        if (dailyResult) dailyResult.innerText = `± ${formatRupiah(daily)} / hari`;
+    }
 
-        const text = `*SIMULASI PELUNASAN DIPERCEPAT KLIKNSC*
+    function shareSalesCalcWA() {
+        const amt = parseInputNumber(document.getElementById('salesInputVal')?.value || '10000000');
+        const tenor = parseInt(document.getElementById('salesTenorSelect')?.value || '24', 10);
+        const rate = calculateRate(amt, TENORS.indexOf(tenor), 'normal');
+        const daily = Math.round(rate / 30);
+
+        const text = `*SIMULASI ANGSURAN SALES KLIKNSC (${state.salesId})*
 -----------------------------------
-📋 *Rincian Pinjaman:*
-- Angsuran Bulanan: *${formatRupiah(angsuranRaw)} / bln*
-- Tenor Total: *${totalTenor} Bulan*
-- Sudah Terbayar: *Bulan ke-${sudahMasuk}*
-- Sisa Tenor Berjalan: *${sisaTenor} Bulan lagi*
-
-📊 *Rincian Biaya Pelunasan:*
-- Total Tagihan Sisa (${sisaTenor}x): ${formatRupiah(normalTagihan)}
-- Potongan Diskon Bunga (${diskonPct}%): -${formatRupiah(diskonVal)}
-- Biaya Penalti Pelunasan (${penaltiPct}%): +${formatRupiah(penaltiVal)}
-${dendaRaw > 0 ? `- Denda Keterlambatan: +${formatRupiah(dendaRaw)}\n` : ''}-----------------------------------
-💵 *TOTAL BAYAR PELUNASAN:* *${formatRupiah(grandTotalPelunasan)}*
-🎉 *TOTAL HEMAT NASABAH:* *${formatRupiah(totalHemat)}*
+💰 *Pencairan Sales:* ${formatRupiah(amt)}
+📅 *Tenor:* ${tenor} Bulan
+📉 *Angsuran:* *${formatRupiah(rate)} / bulan*
+☕ *Setara Harian:* ± ${formatRupiah(daily)} / hari
 -----------------------------------
-_Pelunasan awal lebih hemat jutaan rupiah! Hubungi Sales KBA ${state.salesId} untuk proses resmi._`;
+✅ *Pencairan Utuh Tanpa Potongan Admin*
+✅ *BPKB Aman Resmi OJK*
+
+Hubungi Sales KlikNSC (${state.salesId}) untuk info lebih lanjut!`;
 
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
@@ -2345,7 +2380,6 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         }
     }
 
-    /* Export Brosur Card PNG Methods */
     function openExportCardModal() {
         const modal = document.getElementById('exportCardModal');
         const nameInput = document.getElementById('exportSalesName');
@@ -2486,5 +2520,3 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         updateChecklistProgress();
     };
 </script>
-</body>
-</html>
