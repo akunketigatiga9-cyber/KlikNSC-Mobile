@@ -335,6 +335,66 @@
           *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
         }
 
+
+        /* KlikNSC Dashboard V3 — visual-only layer; calculator markup and logic untouched */
+        #dashboardHome { gap:18px !important; padding-bottom:8px; }
+        .dash-topline { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:3px 3px 1px; }
+        .dash-topline h2 { color:#f3f7ff; font-size:28px !important; line-height:1.12; }
+        .dash-subtitle { color:#8fa5c2; font-size:12px; line-height:1.55; margin-top:7px; max-width:290px; }
+        .dash-brand-mark { width:46px;height:46px; flex-shrink:0; display:grid;place-items:center; border:1px solid rgba(72,147,255,.25); border-radius:16px; color:#85baff; background:linear-gradient(145deg,rgba(39,117,224,.2),rgba(9,26,48,.75)); box-shadow:inset 0 1px rgba(255,255,255,.04); }
+        .dash-brand-mark svg { width:24px;height:24px; }
+        .dash-hero-v3 { padding:24px !important; min-height:285px; isolation:isolate; background:radial-gradient(ellipse at 95% 15%,rgba(25,111,231,.22),transparent 35%),linear-gradient(132deg,#0d2747 0%,#0a1a30 58%,#081426 100%) !important; border:1px solid rgba(75,147,246,.27) !important; box-shadow:0 18px 40px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.035) !important; }
+        .dash-hero-content { z-index:2; max-width:100%; }
+        .dash-status-pill { display:inline-flex; align-items:center; gap:7px; padding:7px 10px; border-radius:999px; border:1px solid rgba(100,170,255,.18); background:rgba(4,18,35,.45); color:#a8ceff; font-size:9px; font-weight:900; letter-spacing:.11em; }
+        .dash-status-dot { width:6px;height:6px;border-radius:50%; background:#58e0bd; box-shadow:0 0 10px rgba(88,224,189,.6); }
+        .dash-hero-eyebrow { color:#77aef5 !important; font-size:9px !important; font-weight:900; letter-spacing:.2em; margin-top:20px !important; }
+        .dash-hero-v3 h3 { color:#f5f8ff; font-size:clamp(23px,5.8vw,30px) !important; line-height:1.2 !important; letter-spacing:-.045em !important; margin-top:8px !important; overflow-wrap:anywhere; }
+        .dash-hero-v3 h3 span#dashWelcomeName { color:#8cc2ff; }
+        .dash-hero-copy { color:#a6bad4 !important; font-size:12px !important; line-height:1.7 !important; max-width:350px; margin-top:10px !important; }
+        .dash-chip-row { display:flex; flex-wrap:wrap; gap:7px; margin-top:15px; }
+        .dash-chip-row > span { display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:9px;border:1px solid rgba(133,169,216,.13);background:rgba(4,17,32,.32);color:#c2d5ef;font-size:9px;font-weight:750; }
+        .dash-chip-dot { width:4px;height:4px;border-radius:50%;background:#5c9fff; }
+        .dash-hero-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:21px; }
+        .dash-primary-btn,.dash-secondary-btn { min-height:43px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;border-radius:13px;font-size:11px;font-weight:850;transition:transform .16s ease,filter .16s ease,border-color .16s ease; }
+        .dash-primary-btn { color:#fff;background:linear-gradient(135deg,#398fff,#1769df);box-shadow:0 8px 20px rgba(18,99,220,.23); }
+        .dash-primary-btn svg,.dash-secondary-btn svg { width:16px;height:16px;flex-shrink:0; }
+        .dash-secondary-btn { color:#d8e7fb;background:rgba(255,255,255,.045);border:1px solid rgba(156,190,231,.2); }
+        .dash-primary-btn:active,.dash-secondary-btn:active { transform:scale(.975); }
+        .dash-orb { position:absolute;z-index:0;border-radius:50%;pointer-events:none;filter:blur(1px); }
+        .dash-orb-one { width:220px;height:220px;right:-120px;top:-95px;background:rgba(30,116,238,.11);border:1px solid rgba(82,153,255,.1); }
+        .dash-orb-two { width:130px;height:130px;right:-70px;bottom:-70px;background:rgba(36,89,173,.1); }
+        .dash-hero-grid { position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.13;background-image:linear-gradient(rgba(113,166,235,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(113,166,235,.14) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(90deg,black,transparent 78%); }
+        .dash-hero-art { position:absolute;z-index:1;right:20px;top:70px;width:125px;height:125px;opacity:.42;pointer-events:none; }
+        .dash-art-ring { position:absolute;inset:0;border:1px solid rgba(107,174,255,.55);border-radius:35px;transform:rotate(28deg); }
+        .dash-art-ring-inner { inset:17px;border-color:rgba(107,174,255,.36);border-radius:27px;transform:rotate(58deg); }
+        .dash-art-core { position:absolute;inset:35px;display:grid;place-items:center;border-radius:23px;color:#8ec3ff;background:linear-gradient(145deg,rgba(38,121,232,.25),rgba(9,29,53,.7));border:1px solid rgba(124,185,255,.35);transform:rotate(8deg); }
+        .dash-art-core svg { width:36px;height:36px; }
+        .dash-art-spark { position:absolute;color:#b7d8ff;font-size:20px; }
+        .dash-art-spark-a { right:2px;top:0; }.dash-art-spark-b { left:1px;bottom:5px;font-size:25px; }
+        .dash-section-heading { display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:1px 3px 0; }
+        .dash-section-heading h3 { color:#edf4ff;font-size:17px;font-weight:900;letter-spacing:-.035em;margin-top:4px; }
+        .dash-section-heading .dash-kicker { font-size:9px;letter-spacing:.17em; }
+        .dash-step-count { color:#7897bf;font-size:9px;font-weight:900;letter-spacing:.12em;padding-bottom:3px; }
+        .dash-start-panel { padding:4px 15px;border:1px solid rgba(81,127,181,.2);border-radius:21px;background:linear-gradient(145deg,rgba(13,30,51,.95),rgba(8,19,34,.98));box-shadow:inset 0 1px rgba(255,255,255,.025); }
+        .dash-start-item { min-height:75px;display:flex;align-items:center;gap:12px;padding:12px 0; }
+        .dash-start-icon { width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;border-radius:14px;color:#86bbff;background:rgba(39,111,218,.16);border:1px solid rgba(72,142,244,.2); }
+        .dash-start-icon svg { width:21px;height:21px; }
+        .dash-start-icon-muted { color:#a8c6ec;background:rgba(115,146,185,.09);border-color:rgba(128,160,200,.15); }
+        .dash-start-text { min-width:0;display:flex;flex-direction:column;gap:5px;flex:1; }
+        .dash-start-text strong { color:#e8f1ff;font-size:12px;font-weight:850; }
+        .dash-start-text span { color:#8da3c0;font-size:10px;line-height:1.5; }
+        .dash-inline-action { width:31px;height:31px;flex-shrink:0;display:grid;place-items:center;border:1px solid rgba(91,147,220,.18);border-radius:11px;background:rgba(35,102,190,.12);color:#91c0ff;font-size:19px;transition:background .15s,transform .15s; }
+        .dash-inline-action:active { transform:scale(.94);background:rgba(35,102,190,.28); }
+        .dash-start-divider { height:1px;background:linear-gradient(90deg,transparent,rgba(93,130,177,.2) 10%,rgba(93,130,177,.2) 90%,transparent); }
+        .dash-footer-note { display:flex;align-items:center;gap:11px;padding:13px 14px;border:1px solid rgba(79,128,181,.13);border-radius:16px;background:rgba(9,22,39,.62); }
+        .dash-footer-shield { width:31px;height:31px;flex-shrink:0;display:grid;place-items:center;color:#6db8ff;background:rgba(37,111,218,.12);border-radius:10px; }
+        .dash-footer-shield svg { width:18px;height:18px; }
+        .dash-footer-note > span:last-child { display:flex;flex-direction:column;gap:3px; }
+        .dash-footer-note strong { color:#bcd3f2;font-size:10px;font-weight:850; }
+        .dash-footer-note small { color:#788fab;font-size:9px;line-height:1.5; }
+        @media (max-width:380px) { .dash-hero-v3 { padding:19px !important; } .dash-hero-art { right:8px;top:82px;width:90px;height:90px;opacity:.27; } .dash-chip-row { gap:5px; } .dash-chip-row > span { font-size:8px;padding:6px 7px; } .dash-primary-btn,.dash-secondary-btn { padding:0 11px;font-size:10px; } .dash-start-panel { padding-left:12px;padding-right:12px; } }
+        @media (min-width:600px) { #dashboardHome { max-width:720px;margin-left:auto;margin-right:auto;width:100%; } .dash-hero-v3 { min-height:310px; } .dash-hero-content { max-width:560px; } }
+
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
@@ -472,18 +532,62 @@
 
     <main id="appMain" class="flex-1 p-3.5 space-y-4 overflow-y-auto">
         <!-- New landing page: dashboard first. Calculator DOM and calculation logic remain intact. -->
-        <section id="dashboardHome" class="space-y-4">
-            <div class="flex items-center justify-between px-1 pt-1">
-                <div><p class="dash-kicker">WORKSPACE • KLIKNSC</p><h2 class="text-2xl font-black tracking-tight mt-1">Dashboard</h2><p class="text-xs text-slate-400 mt-1">Ringkasan aktivitas dan akses fitur kamu.</p></div>
-                <div class="w-11 h-11 rounded-2xl grid place-items-center bg-blue-500/15 border border-blue-400/25 text-blue-300"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 13h8V3H3zM13 21h8V11h-8zM13 3h8v4h-8zM3 17h8v4H3z"/></svg></div>
+        <section id="dashboardHome" class="space-y-4" aria-label="Dashboard KlikNSC">
+            <div class="dash-topline">
+                <div>
+                    <p class="dash-kicker">KLIKNSC WORKSPACE</p>
+                    <h2 class="text-2xl font-black tracking-tight mt-1">Dashboard</h2>
+                    <p class="dash-subtitle">Semua kebutuhan kerja, lebih ringkas dalam satu tempat.</p>
+                </div>
+                <div class="dash-brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10v6H4zM14 4h4.5A1.5 1.5 0 0 1 20 5.5V10h-6zM4 14h6v6H5.5A1.5 1.5 0 0 1 4 18.5zM14 14h6v4.5a1.5 1.5 0 0 1-1.5 1.5H14z"/><path d="M10 7h4M7 10v4M14 17h3" opacity=".65"/></svg>
+                </div>
             </div>
-            <div class="dash-hero rounded-3xl p-5 relative overflow-hidden">
-                <div class="absolute -right-10 -top-12 w-40 h-40 rounded-full bg-blue-500/10 blur-2xl"></div>
-                <div class="relative"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_12px_#67e8f9]"></span><span class="text-[10px] uppercase tracking-[.16em] font-extrabold text-blue-200">Siap bantu aktivitasmu</span></div>
-                <h3 class="text-xl font-black mt-3">Halo, <span id="dashWelcomeName">Partner KlikNSC</span> 👋</h3>
-                <p class="text-sm text-blue-100/75 mt-1 max-w-[260px]">Hitung simulasi, akses tools, dan pantau aktivitas dari satu tempat.</p>
-                <div class="flex flex-wrap gap-2 mt-5"><button onclick="switchTab('kalkulator')" class="rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xs px-4 py-3 shadow-lg shadow-blue-950/40">Buka Kalkulator <span class="ml-1">→</span></button><button onclick="toggleFeatureMenu()" class="rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-bold text-xs px-4 py-3">Menu Fitur</button></div></div>
+
+            <div class="dash-hero dash-hero-v3 relative overflow-hidden">
+                <div class="dash-orb dash-orb-one" aria-hidden="true"></div>
+                <div class="dash-orb dash-orb-two" aria-hidden="true"></div>
+                <div class="dash-hero-grid" aria-hidden="true"></div>
+                <div class="dash-hero-content relative">
+                    <div class="dash-status-pill"><span class="dash-status-dot"></span> WORKSPACE SIAP DIGUNAKAN</div>
+                    <p class="dash-hero-eyebrow">WELCOME TO YOUR WORKSPACE</p>
+                    <h3>Halo, <span id="dashWelcomeName">Partner KlikNSC</span> <span aria-hidden="true">👋</span></h3>
+                    <p class="dash-hero-copy">Kerja lebih praktis dengan kalkulator dan tools KlikNSC. Pilih kebutuhanmu, lalu lanjutkan langsung ke halaman fitur.</p>
+                    <div class="dash-chip-row" aria-label="Kategori workspace">
+                        <span><span class="dash-chip-dot"></span> Simulasi</span>
+                        <span><span class="dash-chip-dot"></span> Tools kerja</span>
+                        <span><span class="dash-chip-dot"></span> Target & insentif</span>
+                    </div>
+                    <div class="dash-hero-actions">
+                        <button onclick="switchTab('kalkulator')" class="dash-primary-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2m4 0h2m-8 4h2m4 0h2"/></svg> Buka Kalkulator <span aria-hidden="true">↗</span></button>
+                        <button onclick="toggleFeatureMenu()" class="dash-secondary-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg> Jelajahi Fitur</button>
+                    </div>
+                </div>
+                <div class="dash-hero-art" aria-hidden="true">
+                    <div class="dash-art-ring dash-art-ring-outer"></div><div class="dash-art-ring dash-art-ring-inner"></div>
+                    <div class="dash-art-core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14 3.5V8h4M9 12h6M9 15h6M9 18h3"/></svg></div>
+                    <span class="dash-art-spark dash-art-spark-a">✦</span><span class="dash-art-spark dash-art-spark-b">+</span>
+                </div>
             </div>
+
+            <div class="dash-section-heading">
+                <div><p class="dash-kicker">QUICK START</p><h3>Mulai dari sini</h3></div>
+                <span class="dash-step-count">2 LANGKAH</span>
+            </div>
+            <div class="dash-start-panel">
+                <div class="dash-start-item">
+                    <div class="dash-start-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2m4 0h2m-8 4h2m4 0h2"/></svg></div>
+                    <div class="dash-start-text"><strong>Butuh simulasi?</strong><span>Buka kalkulator untuk mulai menghitung.</span></div>
+                    <button onclick="switchTab('kalkulator')" class="dash-inline-action" aria-label="Buka kalkulator">→</button>
+                </div>
+                <div class="dash-start-divider"></div>
+                <div class="dash-start-item">
+                    <div class="dash-start-icon dash-start-icon-muted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg></div>
+                    <div class="dash-start-text"><strong>Cari fitur lainnya</strong><span>Semua tools tersedia lewat satu menu.</span></div>
+                    <button onclick="toggleFeatureMenu()" class="dash-inline-action" aria-label="Buka menu fitur">→</button>
+                </div>
+            </div>
+            <div class="dash-footer-note"><span class="dash-footer-shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 19 6v5c0 4.5-3 7.5-7 10-4-2.5-7-5.5-7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><strong>Ruang kerja KlikNSC</strong><small>Gunakan menu fitur untuk berpindah halaman tanpa menumpuk konten di dashboard.</small></span></div>
         </section>
 
 
