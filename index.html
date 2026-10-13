@@ -236,6 +236,8 @@
         #appHeader { background:linear-gradient(115deg,#071a32 0%,#0a2850 58%,#0c2450 100%) !important; border-bottom:1px solid rgba(63,143,255,.2) !important; box-shadow:0 8px 24px rgba(0,0,0,.12) !important; }
         #featureTabs { display:none !important; }
         #appMain { padding:18px 15px 112px !important; background:radial-gradient(ellipse at 50% -5%,rgba(37,99,235,.09),transparent 48%),#070f1e; }
+        /* Ensure only the selected feature view is visible; ID-based layout rules must not override .hidden. */
+        #appMain > .hidden { display: none !important; }
         #appMain .bg-white.dark\:bg-slate-800\/90 { background:#0c1a2d !important; border-color:#213651 !important; }
         #appMain input, #appMain select, #appMain textarea { background-color:#081426; border-color:#263c58; color:#e5efff; border-radius:13px; }
         #appMain input:focus, #appMain select:focus, #appMain textarea:focus { border-color:#398eff !important; box-shadow:0 0 0 3px rgba(37,135,255,.12) !important; }
@@ -2335,6 +2337,10 @@ function safeGetStorage(key, defaultVal = '') {
                 if (v) v.classList.add('hidden');
             }
         });
+
+        // Each selected feature occupies the app workspace by itself. Start at the top on navigation.
+        const appMain = document.getElementById('appMain');
+        if (appMain) appMain.scrollTo({ top: 0, behavior: 'auto' });
 
         const dashboardNav = document.getElementById('navDashboardBtn');
         const calcNav = document.getElementById('navCalcBtn');
