@@ -509,6 +509,63 @@ button { touch-action:manipulation; }
   *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
 }
 
+
+        /* Personal Achievement dashboard draft — data intentionally blank until Excel schema is confirmed. */
+        #dashboardHome { gap:17px !important; }
+        .pa-head { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 3px 1px; }
+        .pa-subtitle { color:#8fa8c8;font-size:12px;line-height:1.5;margin-top:5px;max-width:260px; }
+        .pa-avatar { display:grid;place-items:center;width:45px;height:45px;flex-shrink:0;border-radius:16px;color:#9ac8ff;background:linear-gradient(145deg,#123c70,#0b1d34);border:1px solid rgba(68,146,255,.35);box-shadow:0 8px 22px rgba(0,0,0,.16); }
+        .pa-avatar svg { width:24px;height:24px; }
+        .pa-welcome { position:relative;overflow:hidden;border-radius:23px;padding:17px;background:linear-gradient(135deg,#0e2e56 0%,#0a1d34 68%,#081629 100%);border:1px solid rgba(58,139,250,.32);box-shadow:0 12px 30px rgba(0,0,0,.14); }
+        .pa-welcome:after { content:"";position:absolute;right:-48px;bottom:-78px;width:190px;height:190px;border-radius:50%;border:1px solid rgba(72,151,255,.15);box-shadow:0 0 0 20px rgba(72,151,255,.025),0 0 0 42px rgba(72,151,255,.02);pointer-events:none; }
+        .pa-welcome-top { display:flex;align-items:center;gap:7px;flex-wrap:wrap;color:#a6caff;font-size:9px;letter-spacing:.12em;font-weight:900; }
+        .pa-live-dot { width:7px;height:7px;border-radius:50%;background:#38bdf8;box-shadow:0 0 10px rgba(56,189,248,.6); }
+        .pa-sync-pill { margin-left:auto;display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(112,165,228,.2);background:rgba(3,14,29,.35);border-radius:999px;padding:6px 8px;color:#a7bedc;font-size:9px;letter-spacing:0;font-weight:700; }
+        .pa-sync-pill svg { width:12px;height:12px; }
+        .pa-greeting { color:#a9c8ed;font-size:12px;margin-top:22px; }
+        .pa-welcome h3 { color:#f2f7ff;font-size:24px;font-weight:900;letter-spacing:-.04em;line-height:1.2;margin-top:3px;overflow-wrap:anywhere; }
+        .pa-welcome-copy { color:#a9bfdc;font-size:11px;line-height:1.6;max-width:330px;margin-top:8px; }
+        .pa-source-note { display:flex;align-items:center;gap:7px;color:#9ab9e0;font-size:10px;margin-top:15px;position:relative;z-index:1; }
+        .pa-source-note svg { width:15px;height:15px;color:#72b3ff; }
+        .pa-source-note strong { color:#e0edff; }
+        .pa-section-heading { display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px -7px; }
+        .pa-section-heading h3 { color:#e9f2ff;font-size:15px;font-weight:850;letter-spacing:-.025em; }
+        .pa-section-heading p { color:#829ab8;font-size:10px;margin-top:3px; }
+        .pa-tag { flex-shrink:0;border:1px solid rgba(58,139,250,.23);background:rgba(37,99,235,.12);border-radius:999px;padding:5px 8px;color:#9bc7ff;font-size:8px;letter-spacing:.1em;font-weight:900; }
+        .pa-tag-muted { color:#a6b7cd;background:rgba(255,255,255,.035);border-color:rgba(148,163,184,.13); }
+        .pa-achievement-card { border-radius:22px;padding:16px;background:linear-gradient(150deg,rgba(13,33,57,.98),rgba(7,19,34,.99));border:1px solid rgba(83,137,199,.24);box-shadow:0 10px 28px rgba(0,0,0,.12);min-width:0; }
+        .pa-primary-card { border-color:rgba(42,132,255,.38);background:radial-gradient(ellipse at 100% 0%,rgba(30,111,223,.13),transparent 48%),linear-gradient(150deg,#0c2543,#08172a); }
+        .pa-card-top { display:flex;align-items:center;justify-content:space-between;gap:8px; }
+        .pa-metric-icon { width:36px;height:36px;display:grid;place-items:center;border-radius:13px;color:#91c5ff;background:rgba(37,112,224,.16);border:1px solid rgba(59,130,246,.22); }
+        .pa-metric-icon svg { width:19px;height:19px; }
+        .pa-data-status { color:#7e9cbd;font-size:8px;font-weight:900;letter-spacing:.07em;text-align:right; }
+        .pa-amount-label { color:#9bb8da;font-size:11px;margin-top:17px; }
+        .pa-main-amount { color:#f3f7ff;font-size:25px;font-weight:900;letter-spacing:-.04em;margin-top:4px;line-height:1.2; }
+        .pa-target-row { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:17px; }
+        .pa-target-row > div { min-width:0;display:flex;flex-direction:column;gap:5px; }
+        .pa-target-row span { color:#91a9c8;font-size:10px; }
+        .pa-target-row strong { color:#e7f0ff;font-size:14px;font-weight:850;overflow-wrap:anywhere; }
+        .pa-target-row .pa-percent { text-align:right;align-items:flex-end; }
+        .pa-target-row .pa-percent strong { color:#81baff; }
+        .pa-progress-track { height:7px;background:#122e4e;border-radius:999px;overflow:hidden;margin-top:13px;box-shadow:inset 0 1px 2px rgba(0,0,0,.18); }
+        .pa-progress-track span { display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#1678f8,#62b5ff);box-shadow:0 0 12px rgba(37,135,255,.2); }
+        .pa-bottom-metrics { display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid rgba(108,148,194,.12);margin-top:15px;padding-top:13px; }
+        .pa-bottom-metrics > div { display:flex;align-items:center;gap:8px;min-width:0; }
+        .pa-mini-icon { display:grid;place-items:center;width:29px;height:29px;flex-shrink:0;border-radius:11px;color:#81bcff;background:rgba(37,112,224,.14);border:1px solid rgba(59,130,246,.18);font-size:17px;font-weight:800; }
+        .pa-bottom-metrics small { display:block;color:#839dbd;font-size:9px;line-height:1.4; }
+        .pa-bottom-metrics strong { display:block;color:#dceaff;font-size:11px;font-weight:800;margin-top:3px;overflow-wrap:anywhere; }
+        .pa-mount-heading { margin-top:1px; }
+        .pa-mount-numbers { grid-template-columns:1fr 1fr auto;gap:8px;margin-top:19px; }
+        .pa-mount-numbers strong { font-size:13px; }
+        .pa-mount-numbers .pa-percent { min-width:52px; }
+        .pa-data-info { display:flex;align-items:flex-start;gap:11px;padding:14px;border-radius:18px;background:rgba(10,27,47,.75);border:1px solid rgba(89,133,187,.19); }
+        .pa-info-icon { width:30px;height:30px;display:grid;place-items:center;flex-shrink:0;border-radius:11px;background:rgba(37,112,224,.14);color:#82bbff; }
+        .pa-info-icon svg { width:18px;height:18px; }
+        .pa-data-info strong { display:block;color:#dceaff;font-size:11px;font-weight:850; }
+        .pa-data-info p { color:#8fa8c7;font-size:10px;line-height:1.55;margin-top:4px; }
+        .dash-footer-note { margin-top:0; }
+        @media(max-width:360px) { .pa-welcome { padding:15px; }.pa-welcome h3 { font-size:21px; }.pa-achievement-card { padding:14px; }.pa-mount-numbers { grid-template-columns:1fr 1fr; }.pa-mount-numbers .pa-percent { grid-column:1/-1;align-items:flex-start;text-align:left; }.pa-target-row .pa-percent { align-items:flex-end; } }
+
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
@@ -646,43 +703,44 @@ button { touch-action:manipulation; }
 
     <main id="appMain" class="flex-1 p-3.5 space-y-4 overflow-y-auto">
         <!-- New landing page: dashboard first. Calculator DOM and calculation logic remain intact. -->
-        <section id="dashboardHome" class="space-y-4" aria-label="Dashboard KlikNSC">
-            <div class="dash-topline">
+        <section id="dashboardHome" class="space-y-4" aria-label="Dashboard Personal Achievement KlikNSC">
+            <div class="pa-head">
                 <div>
-                    <p class="dash-kicker">KLIKNSC WORKSPACE</p>
+                    <p class="dash-kicker">KLIKNSC · PERSONAL ACHIEVEMENT</p>
                     <h2 class="text-2xl font-black tracking-tight mt-1">Dashboard</h2>
-                    <p class="dash-subtitle">Semua kebutuhan kerja, lebih ringkas dalam satu tempat.</p>
+                    <p class="pa-subtitle">Pantau progres target pribadimu dalam satu tampilan.</p>
                 </div>
-                <div class="dash-brand-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10v6H4zM14 4h4.5A1.5 1.5 0 0 1 20 5.5V10h-6zM4 14h6v6H5.5A1.5 1.5 0 0 1 4 18.5zM14 14h6v4.5a1.5 1.5 0 0 1-1.5 1.5H14z"/><path d="M10 7h4M7 10v4M14 17h3" opacity=".65"/></svg>
-                </div>
+                <div class="pa-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.6-3.6 3-5.5 7-5.5s6.4 1.9 7 5.5"/></svg></div>
             </div>
 
-            <div class="dash-hero dash-hero-v3 relative overflow-hidden">
-                <div class="dash-orb dash-orb-one" aria-hidden="true"></div>
-                <div class="dash-orb dash-orb-two" aria-hidden="true"></div>
-                <div class="dash-hero-grid" aria-hidden="true"></div>
-                <div class="dash-hero-content relative">
-                    <div class="dash-status-pill"><span class="dash-status-dot"></span> WORKSPACE SIAP DIGUNAKAN</div>
-                    <p class="dash-hero-eyebrow">WELCOME TO YOUR WORKSPACE</p>
-                    <h3>Halo, <span id="dashWelcomeName">Partner KlikNSC</span> <span aria-hidden="true">👋</span></h3>
-                    <p class="dash-hero-copy">Kerja lebih praktis dengan kalkulator dan tools KlikNSC. Pilih kebutuhanmu, lalu lanjutkan langsung ke halaman fitur.</p>
-                    <div class="dash-chip-row" aria-label="Kategori workspace">
-                        <span><span class="dash-chip-dot"></span> Simulasi</span>
-                        <span><span class="dash-chip-dot"></span> Tools kerja</span>
-                        <span><span class="dash-chip-dot"></span> Target & insentif</span>
-                    </div>
-                </div>
-                <div class="dash-hero-art" aria-hidden="true">
-                    <div class="dash-art-ring dash-art-ring-outer"></div><div class="dash-art-ring dash-art-ring-inner"></div>
-                    <div class="dash-art-core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14 3.5V8h4M9 12h6M9 15h6M9 18h3"/></svg></div>
-                    <span class="dash-art-spark dash-art-spark-a">✦</span><span class="dash-art-spark dash-art-spark-b">+</span>
-                </div>
+            <div class="pa-welcome">
+                <div class="pa-welcome-top"><span class="pa-live-dot"></span><span>PERSONAL WORKSPACE</span><span class="pa-sync-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Menunggu data</span></div>
+                <p class="pa-greeting">Halo,</p>
+                <h3 id="dashWelcomeName">Partner KlikNSC</h3>
+                <p class="pa-welcome-copy">Ini ringkasan pencapaian pribadi kamu. Data akan ditampilkan setelah sumber Excel terhubung dan berhasil diproses.</p>
+                <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>Excel harian</strong></span></div>
             </div>
 
-            <div class="dash-footer-note"><span class="dash-footer-shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 19 6v5c0 4.5-3 7.5-7 10-4-2.5-7-5.5-7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><strong>Ruang kerja KlikNSC</strong><small>Gunakan menu fitur untuk berpindah halaman tanpa menumpuk konten di dashboard.</small></span></div>
+            <div class="pa-section-heading"><div><h3>Pencapaian Rupiah</h3><p>Realisasi dibandingkan target</p></div><span class="pa-tag">UTAMA</span></div>
+            <article class="pa-achievement-card pa-primary-card">
+                <div class="pa-card-top"><span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5c-.7-.7-1.7-1-3-1-1.6 0-2.7.8-2.7 2s1 1.8 2.6 2.2 2.6 1 2.6 2.3-1.2 2.2-2.9 2.2c-1.2 0-2.4-.4-3.2-1.2M12.1 5.8v12.4"/></svg></span><span class="pa-data-status">DATA BELUM TERSEDIA</span></div>
+                <div class="pa-amount-label">ACT Rupiah</div><div class="pa-main-amount">Menunggu data</div>
+                <div class="pa-target-row"><div><span>Target Rupiah</span><strong>—</strong></div><div class="pa-percent"><span>Progress</span><strong>—%</strong></div></div>
+                <div class="pa-progress-track" role="progressbar" aria-label="Progress target Rupiah" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span style="width:0%"></span></div>
+                <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong>—</strong></div></div><div><span class="pa-mini-icon">◎</span><div><small>Status data</small><strong>Belum sinkron</strong></div></div></div>
+            </article>
+
+            <div class="pa-section-heading pa-mount-heading"><div><h3>Pencapaian Mount</h3><p>Progress target unit / Mount</p></div><span class="pa-tag pa-tag-muted">RINGKASAN</span></div>
+            <article class="pa-achievement-card pa-mount-card">
+                <div class="pa-card-top"><span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h16"/><rect x="7" y="11" width="3" height="5" rx=".7"/><rect x="12" y="8" width="3" height="8" rx=".7"/><rect x="17" y="4" width="3" height="12" rx=".7"/></svg></span><span class="pa-data-status">DATA BELUM TERSEDIA</span></div>
+                <div class="pa-target-row pa-mount-numbers"><div><span>ACT Mount</span><strong>—</strong></div><div><span>Target Mount</span><strong>—</strong></div><div class="pa-percent"><span>Progress</span><strong>—%</strong></div></div>
+                <div class="pa-progress-track" role="progressbar" aria-label="Progress target Mount" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span style="width:0%"></span></div>
+                <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong>—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong>Belum tersedia</strong></div></div></div>
+            </article>
+
+            <div class="pa-data-info"><span class="pa-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg></span><div><strong>Menunggu file Excel</strong><p>Belum ada angka aktual yang ditampilkan. Setelah file Excel tersedia, struktur kolomnya akan dicocokkan sebelum data pribadi ditampilkan di sini.</p></div></div>
+            <div class="dash-footer-note"><span class="dash-footer-shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 19 6v5c0 4.5-3 7.5-7 10-4-2.5-7-5.5-7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><strong>Data pribadi, fokus ke progresmu</strong><small>Dashboard ini dirancang untuk menampilkan pencapaian Sales/KBA yang sesuai dengan identitas masing-masing.</small></span></div>
         </section>
-
 
         <!-- Kalkulator View -->
         <div id="kalkulatorView" class="space-y-4">
