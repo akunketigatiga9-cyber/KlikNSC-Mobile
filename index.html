@@ -417,7 +417,7 @@
                     <button onclick="switchTab('tabel')" class="dash-action rounded-xl p-3 text-left text-xs font-bold">Tabel brosur</button>
                 </div>
             </div>
-            <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-4"><div class="flex items-center gap-2"><span class="w-8 h-8 rounded-xl bg-slate-800 grid place-items-center text-blue-300">✦</span><div><p class="text-sm font-extrabold">Simulasi terakhir</p><p class="text-[11px] text-slate-500">Riwayat simulasi lokal di perangkat ini</p></div></div><button onclick="switchTab('kalkulator'); setTimeout(()=>{ if(typeof showDashboardHistory==='function') showDashboardHistory(); },100)" class="mt-3 w-full rounded-xl border border-slate-700 bg-slate-800/70 py-3 text-xs font-bold text-slate-200">Buka riwayat simulasi</button></div>
+            <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-4"><div class="flex items-center gap-2"><span class="w-8 h-8 rounded-xl bg-slate-800 grid place-items-center text-blue-300">✦</span><div><p class="text-sm font-extrabold">Simulasi terakhir</p><p class="text-[11px] text-slate-500">Riwayat simulasi lokal di perangkat ini</p></div></div><div id="dashHistory" class="hidden mt-3 rounded-xl border border-slate-700 bg-slate-900/80 p-3 space-y-2"></div><button onclick="showDashboardHistory()" class="mt-3 w-full rounded-xl border border-slate-700 bg-slate-800/70 py-3 text-xs font-bold text-slate-200">Buka riwayat simulasi</button></div>
         </section>
 
 
@@ -535,38 +535,7 @@
                 </summary>
                 <div id="tenorGridContainer" class="grid grid-cols-2 gap-2 px-2 pb-2"></div>
             </details>
-
-            <!-- Dashboard Ringkas: panel tambahan, terpisah dari logika kalkulator -->
-            <section id="dashboardRingkas" class="rounded-2xl border border-blue-500/25 bg-gradient-to-br from-slate-900 via-blue-950/80 to-indigo-950/90 p-4 text-white shadow-xl space-y-3">
-                <div class="flex items-center justify-between gap-3">
-                    <div class="flex items-center gap-2">
-                        <div class="rounded-xl border border-blue-400/30 bg-blue-500/15 p-2 text-blue-300"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="5" rx="1"/><rect x="13" y="10" width="8" height="11" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/></svg></div>
-                        <div><h2 class="font-black text-base">Dashboard Ringkas</h2><p class="text-[11px] text-slate-400">Ringkasan aktivitas Sales/KBA</p></div>
-                    </div>
-                    <span class="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2 py-1 text-[10px] font-bold text-emerald-300">LIVE</span>
-                </div>
-                <div class="rounded-xl border border-slate-700/80 bg-slate-900/70 p-3 space-y-2">
-                    <div class="flex items-center justify-between gap-2"><span class="text-xs font-bold text-slate-300">Progres Target Unit</span><span id="dashTargetLabel" class="text-xs font-black text-blue-300">3 / 10 unit</span></div>
-                    <div class="h-2 overflow-hidden rounded-full bg-slate-700"><div id="dashTargetBar" class="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-400" style="width:30%"></div></div>
-                    <p id="dashTargetHint" class="text-[10px] text-slate-400">Sisa 7 unit untuk mencapai target.</p>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="rounded-xl border border-slate-700/80 bg-slate-800/80 p-3"><div class="mb-1 flex items-center gap-1.5 text-[11px] text-slate-400"><span class="text-emerald-300">●</span> Simulasi Pencairan</div><div id="dashNominal" class="text-sm font-black text-white">Rp 10.000.000</div><p class="mt-1 text-[10px] text-slate-500">Nominal saat ini</p></div>
-                    <div class="rounded-xl border border-slate-700/80 bg-slate-800/80 p-3"><div class="mb-1 flex items-center gap-1.5 text-[11px] text-slate-400"><span class="text-violet-300">●</span> Angsuran Terpilih</div><div id="dashMonthly" class="text-sm font-black text-blue-300">Rp 0</div><p id="dashTenor" class="mt-1 text-[10px] text-slate-500">12 bulan</p></div>
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <button type="button" onclick="saveDashboardSimulation()" class="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-3 py-3 text-xs font-extrabold text-white shadow-md transition active:scale-95"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>Simpan Simulasi</button>
-                    <button type="button" onclick="showDashboardHistory()" class="flex items-center justify-center gap-2 rounded-xl border border-blue-400/30 bg-blue-500/15 px-3 py-3 text-xs font-extrabold text-blue-200 transition active:scale-95"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg>Riwayat</button>
-                </div>
-                <div id="dashHistory" class="hidden rounded-xl border border-slate-700 bg-slate-900/80 p-3 space-y-2"></div>
-                <div class="grid grid-cols-2 gap-2">
-                    <button type="button" onclick="switchTab('bonus')" class="rounded-xl border border-violet-400/25 bg-violet-500/10 p-3 text-left transition active:scale-95"><div class="mb-1 text-base">🎯</div><div class="text-xs font-extrabold text-violet-200">Insentif & Target</div><div class="mt-1 text-[10px] text-slate-400">Cek bonus dan target</div></button>
-                    <button type="button" onclick="switchTab('tabel')" class="rounded-xl border border-amber-400/25 bg-amber-500/10 p-3 text-left transition active:scale-95"><div class="mb-1 text-base">📋</div><div class="text-xs font-extrabold text-amber-200">Tabel Brosur</div><div class="mt-1 text-[10px] text-slate-400">Cari nominal angsuran</div></button>
-                </div>
-                <p class="text-[10px] leading-relaxed text-slate-500">Dashboard menampilkan simulasi aktif dan target unit dari tracker aplikasi. Data total pencairan bulanan tidak ditampilkan karena belum ada sumber akumulasi yang terhubung.</p>
-            </section>
-
-        </div>
+</div>
 
         <!-- Kalkulator 2: database baru, tampilan meniru Kalkulator 1 dengan tema violet -->
         <div id="kalkulator2View" class="space-y-4 hidden">
