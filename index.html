@@ -251,6 +251,15 @@
         .bottom-nav-btn.active { background:rgba(37,99,235,.18);color:#83b7ff; }
         #featureMenu { display:none; }
         #featureMenu.open { display:block; }
+        .feature-modal { display:none; position:fixed; inset:0; z-index:60; background:rgba(2,7,18,.78); backdrop-filter:blur(10px); padding:18px 14px calc(90px + env(safe-area-inset-bottom)); align-items:center; justify-content:center; }
+        .feature-modal.open { display:flex; }
+        .feature-modal-panel { width:min(100%,448px); max-height:82vh; overflow-y:auto; border:1px solid rgba(59,130,246,.35); border-radius:24px; padding:18px; background:linear-gradient(150deg,#0d1d37,#071020 80%); box-shadow:0 24px 80px rgba(0,0,0,.55); color:#eaf2ff; }
+        .feature-modal-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:16px; }
+        .feature-close { width:38px;height:38px; flex-shrink:0; border-radius:12px; border:1px solid #294365; background:#12233c; color:#b8d4ff; font-size:18px; }
+        .feature-modal-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+        .feature-modal-grid button { min-height:58px; }
+        .feature-history { margin-top:16px; padding-top:15px; border-top:1px solid #203653; }
+        body.feature-modal-open { overflow:hidden; }
         @media(min-width:1025px){ #bottomNav { position:fixed; } #appShell { max-width:448px !important; } }
 </style>
 </head>
@@ -407,17 +416,7 @@
                 <button onclick="switchTab('polling')" class="dash-stat rounded-2xl p-4 text-left"><div class="dash-icon mb-3"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/></svg></div><p class="text-sm font-extrabold">Polling Pengajuan</p><p class="text-[11px] text-slate-400 mt-1">Form dan tindak lanjut</p></button>
                 <button onclick="switchTab('bonus')" class="dash-stat rounded-2xl p-4 text-left"><div class="dash-icon mb-3"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7m0 0H7.5a2.5 2.5 0 1 1 2.5-2.5C10 6 12 7 12 7Zm0 0h4.5A2.5 2.5 0 1 0 14 4.5C14 6 12 7 12 7Z"/></svg></div><p class="text-sm font-extrabold">Insentif & Target</p><p class="text-[11px] text-slate-400 mt-1">Pantau pencapaian</p></button>
             </div>
-            <div class="rounded-2xl border border-blue-400/20 bg-blue-500/[.06] p-4"><div class="flex items-center justify-between gap-3"><div><p class="text-sm font-extrabold">Semua fitur</p><p class="text-xs text-slate-400 mt-1">Buka menu untuk tools lainnya.</p></div><button onclick="toggleFeatureMenu()" class="rounded-xl border border-blue-400/25 bg-blue-500/10 text-blue-200 text-xs font-extrabold px-3 py-2.5">Lihat menu ↗</button></div>
-                <div id="featureMenu" class="mt-3 grid grid-cols-2 gap-2">
-                    <button onclick="switchTab('pelunasan')" class="dash-action rounded-xl p-3 text-left text-xs font-bold">Pelunasan dipercepat</button>
-                    <button onclick="switchTab('takeover')" class="dash-action rounded-xl p-3 text-left text-xs font-bold">Takeover</button>
-                    <button onclick="switchTab('checklist')" class="dash-action rounded-xl p-3 text-left text-xs font-bold">Checklist berkas</button>
-                    <button onclick="switchTab('script')" class="dash-action rounded-xl p-3 text-left text-xs font-bold">Script promo</button>
-                    <button onclick="switchTab('tahun')" class="dash-action rounded-xl p-3 text-left text-xs font-bold">Cek tahun kendaraan</button>
-                    <button onclick="switchTab('tabel')" class="dash-action rounded-xl p-3 text-left text-xs font-bold">Tabel brosur</button>
-                </div>
-            </div>
-            <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-4"><div class="flex items-center gap-2"><span class="w-8 h-8 rounded-xl bg-slate-800 grid place-items-center text-blue-300">✦</span><div><p class="text-sm font-extrabold">Simulasi terakhir</p><p class="text-[11px] text-slate-500">Riwayat simulasi lokal di perangkat ini</p></div></div><div id="dashHistory" class="hidden mt-3 rounded-xl border border-slate-700 bg-slate-900/80 p-3 space-y-2"></div><button onclick="showDashboardHistory()" class="mt-3 w-full rounded-xl border border-slate-700 bg-slate-800/70 py-3 text-xs font-bold text-slate-200">Buka riwayat simulasi</button></div>
+
         </section>
 
 
@@ -3087,13 +3086,33 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         updateDashboardWelcome();
     };
 
-    function toggleFeatureMenu(){ const m=document.getElementById('featureMenu'); if(m) m.classList.toggle('open'); }
+    function toggleFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(!m)return; const open=!m.classList.contains('open'); m.classList.toggle('open',open); m.setAttribute('aria-hidden',String(!open)); document.body.classList.toggle('feature-modal-open',open); }
+    function closeFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');} document.body.classList.remove('feature-modal-open'); }
+    function openFeature(tab){ closeFeatureMenu(); switchTab(tab); }
     function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'Partner KlikNSC'; el.textContent=id; }
 </script>
+    <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
+        <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
+            <div class="feature-modal-head"><div><p class="dash-kicker">WORKSPACE • KLIKNSC</p><h2 id="featureModalTitle" class="text-xl font-black mt-1">Menu fitur</h2><p class="text-xs text-slate-400 mt-1">Pilih tools yang ingin kamu buka.</p></div><button class="feature-close" onclick="closeFeatureMenu()" aria-label="Tutup menu">✕</button></div>
+            <div class="feature-modal-grid">
+                <button onclick="openFeature('kalkulator')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Kalkulator KBA</button>
+                <button onclick="openFeature('kalkulator2')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Kalkulator SALES</button>
+                <button onclick="openFeature('polling')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Polling Pengajuan</button>
+                <button onclick="openFeature('bonus')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Insentif &amp; Target</button>
+                <button onclick="openFeature('pelunasan')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Pelunasan dipercepat</button>
+                <button onclick="openFeature('takeover')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Takeover</button>
+                <button onclick="openFeature('checklist')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Checklist berkas</button>
+                <button onclick="openFeature('script')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Script promo</button>
+                <button onclick="openFeature('tahun')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Cek tahun kendaraan</button>
+                <button onclick="openFeature('tabel')" class="dash-action rounded-xl p-3 text-left text-sm font-bold">Tabel brosur</button>
+            </div>
+            <div class="feature-history"><div class="flex items-center gap-2"><span class="w-9 h-9 rounded-xl bg-slate-800 grid place-items-center text-blue-300">✦</span><div><p class="text-sm font-extrabold">Simulasi terakhir</p><p class="text-[11px] text-slate-400">Riwayat simulasi lokal di perangkat ini</p></div></div><div id="dashHistory" class="hidden mt-3 rounded-xl border border-slate-700 bg-slate-900/80 p-3 space-y-2"></div><button onclick="showDashboardHistory()" class="mt-3 w-full rounded-xl border border-slate-700 bg-slate-800/70 py-3 text-xs font-bold text-slate-200">Buka riwayat simulasi</button></div>
+        </section>
+    </div>
     <nav id="bottomNav" aria-label="Navigasi utama">
         <button class="bottom-nav-btn active" id="navDashboardBtn" onclick="switchTab('dashboard')"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</button>
         <button class="bottom-nav-btn" id="navCalcBtn" onclick="switchTab('kalkulator')"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01"/></svg>Kalkulator</button>
-        <button class="bottom-nav-btn" id="navMenuBtn" onclick="toggleFeatureMenu(); switchTab('dashboard'); document.getElementById('featureMenu')?.scrollIntoView({behavior:'smooth',block:'center'});"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Menu fitur</button>
+        <button class="bottom-nav-btn" id="navMenuBtn" onclick="toggleFeatureMenu()"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Menu fitur</button>
     </nav>
 </body>
 </html>
