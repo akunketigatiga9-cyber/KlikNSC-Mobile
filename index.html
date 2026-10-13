@@ -282,6 +282,59 @@
         body.feature-modal-open { overflow:hidden; }
         @media(max-width:360px){ #appMain { padding-left:12px !important;padding-right:12px !important; } .dash-hero { padding:18px !important; } .dash-stat { padding:13px !important; } .feature-modal-panel { padding:15px; } .feature-modal-grid { gap:8px; } }
         @media(min-width:1025px){ #bottomNav { position:fixed; } #appShell { max-width:448px !important; } }
+
+        /* Final UI polish: consistent surfaces, typography, focus states and motion. */
+        :root { --kn-radius:20px; --kn-shadow:0 12px 28px rgba(0,0,0,.14); }
+        html { scroll-behavior:smooth; }
+        body { text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased; }
+        #appHeader { min-height:76px; }
+        #appHeader h1 { letter-spacing:-.035em; }
+        #appHeader > div { max-width:1180px; margin-inline:auto; }
+        #appMain { scrollbar-width:thin; scrollbar-color:rgba(93,137,191,.28) transparent; }
+        #appMain > section:not(.hidden), #appMain > div:not(.hidden) { animation:knViewIn .22s ease-out both; }
+        @keyframes knViewIn { from { opacity:.65; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+        #appMain .rounded-2xl.border, #appMain .rounded-3xl.border { border-color:rgba(111,157,216,.18) !important; }
+        #appMain .shadow-sm, #appMain .shadow-lg { box-shadow:0 8px 22px rgba(0,0,0,.12) !important; }
+        #appMain label { line-height:1.45; }
+        #appMain input:not([type=range]):not([type=checkbox]):not([type=radio]),
+        #appMain select, #appMain textarea { min-height:44px; padding-top:.7rem; padding-bottom:.7rem; }
+        #appMain input[type=range] { accent-color:#2587ff; }
+        #appMain button, #bottomNav button, #featureMenuModal button { -webkit-tap-highlight-color:transparent; }
+        #appMain button:focus-visible, #bottomNav button:focus-visible, #featureMenuModal button:focus-visible,
+        #appHeader button:focus-visible { outline:2px solid #60a5fa; outline-offset:3px; }
+        #appMain button { transition:background-color .16s ease,border-color .16s ease,transform .16s ease,box-shadow .16s ease; }
+        #appMain button:active { transform:scale(.985); }
+        .dash-stat { box-shadow:0 8px 24px rgba(0,0,0,.08); }
+        .dash-stat p.text-sm { line-height:1.4; }
+        .dash-hero { position:relative; isolation:isolate; }
+        .dash-hero:after { content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(120deg,rgba(255,255,255,.035),transparent 42%); z-index:-1; }
+        .feature-modal { box-sizing:border-box; }
+        .feature-modal.open .feature-modal-panel { animation:knModalIn .2s cubic-bezier(.2,.75,.25,1) both; }
+        @keyframes knModalIn { from { opacity:0; transform:translateY(10px) scale(.985); } to { opacity:1; transform:translateY(0) scale(1); } }
+        .feature-modal-grid button { min-width:0; overflow-wrap:anywhere; }
+        .feature-modal-grid button:hover { border-color:rgba(67,145,255,.48); background:linear-gradient(145deg,#132b48,#0d1e33); }
+        .feature-modal-grid button .feature-item-title { font-size:12px; }
+        .feature-history { border-color:rgba(111,157,216,.16); }
+        #bottomNav { box-sizing:border-box; }
+        #bottomNav:before { content:""; position:absolute; top:0; left:12%; right:12%; height:1px; background:linear-gradient(90deg,transparent,rgba(94,153,230,.24),transparent); }
+        .bottom-nav-btn.active { background:linear-gradient(180deg,rgba(37,135,255,.17),rgba(37,135,255,.09)); }
+        @media (min-width:449px) and (max-width:1024px) { #appShell { max-width:448px; margin-inline:auto; } }
+        @media (max-width:420px) {
+          #appHeader { padding:.75rem .8rem !important; }
+          #appHeader .gap-3 { gap:.55rem; }
+          #appHeader h1 { font-size:14px; }
+          #appHeader p { font-size:11px; }
+          #appHeader .rounded-2xl { border-radius:14px; }
+          .dash-hero { border-radius:22px !important; }
+          .dash-hero h3 { font-size:19px; }
+          .feature-modal-panel { width:100%; max-height:calc(100dvh - 28px - env(safe-area-inset-top)); padding:17px; border-radius:23px; }
+          .feature-modal-grid { gap:9px; }
+          .feature-modal-grid button { min-height:105px; padding:11px !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+        }
+
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
