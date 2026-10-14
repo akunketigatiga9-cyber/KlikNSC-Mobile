@@ -11,7 +11,12 @@
     <meta name="apple-mobile-web-app-title" content="KlikNSC Brosur">
     <meta name="theme-color" content="#0f172a">
 
+    <!-- Public Supabase settings only. Set these at deployment time; never put a service-role key in this file. -->
+    <meta name="supabase-url" content="">
+    <meta name="supabase-anon-key" content="">
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
@@ -631,6 +636,29 @@ button { touch-action:manipulation; }
                 <span>Masuk</span>
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
+        </form>
+    </div>
+</div>
+
+<!-- Shown only after Supabase confirms a password-recovery session. -->
+<div id="passwordRecoveryOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-[100] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="passwordRecoveryTitle">
+    <div class="w-full max-w-sm bg-slate-900 border border-slate-700 rounded-3xl p-6 shadow-2xl text-white space-y-5">
+        <div class="text-center space-y-2">
+            <div class="w-16 h-16 bg-emerald-600/20 border border-emerald-500/40 rounded-2xl mx-auto flex items-center justify-center text-emerald-300 text-3xl">🔐</div>
+            <h2 id="passwordRecoveryTitle" class="text-xl font-black tracking-tight">Buat Password Admin Baru</h2>
+            <p class="text-xs text-slate-400">Masukkan password baru untuk menyelesaikan pemulihan akun.</p>
+        </div>
+        <form id="passwordRecoveryForm" class="space-y-4" novalidate>
+            <div>
+                <label for="recoveryNewPassword" class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Password baru</label>
+                <input type="password" id="recoveryNewPassword" required minlength="12" autocomplete="new-password" placeholder="Minimal 12 karakter" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+            </div>
+            <div>
+                <label for="recoveryConfirmPassword" class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Konfirmasi password baru</label>
+                <input type="password" id="recoveryConfirmPassword" required minlength="12" autocomplete="new-password" placeholder="Ulangi password baru" class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 transition" />
+            </div>
+            <p id="passwordRecoveryMessage" class="hidden text-xs font-bold p-2.5 rounded-xl text-center" role="alert" aria-live="polite"></p>
+            <button id="passwordRecoverySubmit" type="submit" class="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 disabled:opacity-60 text-white font-extrabold py-3 rounded-xl text-xs tracking-wider uppercase shadow-lg shadow-emerald-600/30 transition cursor-pointer">Simpan Password Baru</button>
         </form>
     </div>
 </div>
@@ -1992,6 +2020,128 @@ function safeGetStorage(key, defaultVal = '') {
                 toast.classList.remove('opacity-100', 'translate-y-0');
                 toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
             }, 3500);
+        }
+    }
+
+    // Password recovery is deliberately isolated from the Sales/KBA backend login above.
+    // The anon key is a public browser key; never use a Supabase service-role key here.
+    let passwordRecoverySupabaseClient = null;
+
+    function setPasswordRecoveryMessage(message, type = 'error') {
+        const el = document.getElementById('passwordRecoveryMessage');
+        if (!el) return;
+        el.textContent = message;
+        el.className = `text-xs font-bold p-2.5 rounded-xl text-center ${type === 'success'
+            ? 'bg-emerald-950/60 border border-emerald-700/50 text-emerald-300'
+            : 'bg-rose-950/60 border border-rose-800/50 text-rose-300'}`;
+    }
+
+    function openPasswordRecoveryForm(message = '') {
+        const overlay = document.getElementById('passwordRecoveryOverlay');
+        if (overlay) {
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+        }
+        if (message) setPasswordRecoveryMessage(message, 'error');
+        document.getElementById('recoveryNewPassword')?.focus();
+    }
+
+    function clearRecoveryUrl() {
+        // Do not leave a recovery code or access token in browser history, address bars, or screenshots.
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('code');
+        // The fragment is where Supabase implicit-flow tokens are delivered.
+        cleanUrl.hash = '';
+        window.history.replaceState({}, document.title, `${cleanUrl.pathname}${cleanUrl.search}`);
+    }
+
+    function hasRecoveryParameters() {
+        const query = new URLSearchParams(window.location.search);
+        const hash = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+        return query.has('code') || hash.get('type') === 'recovery';
+    }
+
+    function getPasswordRecoverySupabaseClient() {
+        if (passwordRecoverySupabaseClient) return passwordRecoverySupabaseClient;
+
+        // Reuse a client/configuration if the host application already provides one.
+        const existingClient = window.KLIKNSC_SUPABASE_CLIENT || window.supabaseClient;
+        if (existingClient?.auth?.updateUser) {
+            passwordRecoverySupabaseClient = existingClient;
+            return passwordRecoverySupabaseClient;
+        }
+
+        const runtimeConfig = window.KLIKNSC_SUPABASE_CONFIG || {};
+        const url = runtimeConfig.url || document.querySelector('meta[name="supabase-url"]')?.content?.trim();
+        const anonKey = runtimeConfig.anonKey || document.querySelector('meta[name="supabase-anon-key"]')?.content?.trim();
+        if (!window.supabase?.createClient || !url || !anonKey) {
+            throw new Error('Konfigurasi Supabase belum tersedia. Isi URL project dan anon key publik saat deploy, lalu minta link reset baru.');
+        }
+
+        passwordRecoverySupabaseClient = window.supabase.createClient(url, anonKey, {
+            auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+        });
+        return passwordRecoverySupabaseClient;
+    }
+
+    async function initPasswordRecovery() {
+        const recoveryInUrl = hasRecoveryParameters();
+        if (!recoveryInUrl) return false;
+
+        let client;
+        try {
+            client = getPasswordRecoverySupabaseClient();
+            client.auth.onAuthStateChange((event, session) => {
+                if (event === 'PASSWORD_RECOVERY' && session) {
+                    clearRecoveryUrl();
+                    openPasswordRecoveryForm();
+                }
+            });
+            const query = new URLSearchParams(window.location.search);
+            if (query.has('code')) {
+                const { error } = await client.auth.exchangeCodeForSession(query.get('code'));
+                if (error) throw error;
+            }
+
+            const { data, error } = await client.auth.getSession();
+            if (error) throw error;
+            if (!data.session) throw new Error('Link pemulihan tidak valid atau sudah kedaluwarsa.');
+
+            clearRecoveryUrl();
+            openPasswordRecoveryForm();
+            return true;
+        } catch (error) {
+            console.error('Password recovery initialization failed:', error?.message || error);
+            clearRecoveryUrl();
+            openPasswordRecoveryForm(error?.message || 'Link pemulihan tidak dapat diproses. Minta link reset baru.');
+            return true;
+        }
+    }
+
+    async function submitPasswordRecovery(event) {
+        event.preventDefault();
+        const password = document.getElementById('recoveryNewPassword')?.value || '';
+        const confirmPassword = document.getElementById('recoveryConfirmPassword')?.value || '';
+        const submit = document.getElementById('passwordRecoverySubmit');
+
+        if (password.length < 12) return setPasswordRecoveryMessage('Password baru minimal 12 karakter.');
+        if (password !== confirmPassword) return setPasswordRecoveryMessage('Konfirmasi password belum sama.');
+
+        try {
+            submit.disabled = true;
+            submit.textContent = 'Menyimpan…';
+            const client = getPasswordRecoverySupabaseClient();
+            const { error } = await client.auth.updateUser({ password });
+            if (error) throw error;
+
+            document.getElementById('passwordRecoveryForm')?.reset();
+            setPasswordRecoveryMessage('Password berhasil diperbarui. Silakan masuk kembali dengan password baru.', 'success');
+            await client.auth.signOut({ scope: 'local' }).catch(() => {});
+        } catch (error) {
+            console.error('Password recovery update failed:', error?.message || error);
+            setPasswordRecoveryMessage(error?.message || 'Password gagal diperbarui. Minta link reset baru lalu coba lagi.');
+            submit.disabled = false;
+            submit.textContent = 'Simpan Password Baru';
         }
     }
 
@@ -3696,9 +3846,11 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         paRefreshDashboard();
     }
 
-    window.onload = function() {
+    window.onload = async function() {
         initTheme();
-        checkAuthStatus();
+        document.getElementById('passwordRecoveryForm')?.addEventListener('submit', submitPasswordRecovery);
+        const recoveryActive = await initPasswordRecovery();
+        if (!recoveryActive) checkAuthStatus();
         renderCategories();
         updateAllCalculations();
         renderNewCalcCategories();
