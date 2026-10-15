@@ -601,6 +601,19 @@ button { touch-action:manipulation; }
         .pa-control-foot > span { color:#70b4ff;font-weight:900; }
         .pa-control-foot p { margin:0; }
         @media(max-width:360px) { .pa-control-panel { padding:13px; } .pa-target-input-grid { gap:7px; } .pa-target-input-grid input { padding:10px 8px; } }
+
+        /* Role-based presentation: both roles land on achievement dashboard only. */
+        body.role-admin #featureTabs, body.role-sales #featureTabs,
+        body.role-admin #bottomNav, body.role-sales #bottomNav { display:none !important; }
+        body.role-admin #appShell, body.role-sales #appShell { padding-bottom:0 !important; }
+        body.role-sales #adminAchievementControls { display:none !important; }
+        body.role-admin #dashboardHome, body.role-sales #dashboardHome { display:flex !important; }
+        body.role-admin #appMain, body.role-sales #appMain { padding-bottom:24px !important; }
+        body.role-admin #featureMenuModal, body.role-sales #featureMenuModal { display:none !important; }
+        #headerSalesBadge.role-badge-admin { background:rgba(168,85,247,.16) !important;color:#d8b4fe !important;border-color:rgba(192,132,252,.35) !important; }
+        #headerSalesBadge.role-badge-sales { background:rgba(16,185,129,.14) !important;color:#6ee7b7 !important; }
+        .pa-role-notice { padding:12px 14px;border-radius:15px;border:1px solid rgba(96,165,250,.22);background:rgba(15,35,60,.75);color:#b8d5fa;font-size:11px;line-height:1.55; }
+        .pa-role-notice strong { color:#eff6ff; }
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
@@ -762,6 +775,7 @@ button { touch-action:manipulation; }
     <main id="appMain" class="flex-1 p-3.5 space-y-4 overflow-y-auto">
         <!-- New landing page: dashboard first. Calculator DOM and calculation logic remain intact. -->
         <section id="dashboardHome" class="space-y-4" aria-label="Dashboard Personal Achievement KlikNSC">
+            <div id="roleDashboardNotice" class="pa-role-notice hidden" role="status"></div>
             <div class="pa-head">
                 <div>
                     <p class="dash-kicker">KLIKNSC · PERSONAL ACHIEVEMENT</p>
@@ -779,7 +793,7 @@ button { touch-action:manipulation; }
                 <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>Excel harian</strong></span></div>
             </div>
 
-            <section class="pa-control-panel" aria-label="Impor report dan target pribadi">
+            <section id="adminAchievementControls" class="pa-control-panel" aria-label="Panel Admin: impor report dan atur target">
                 <div class="pa-control-head">
                     <div><span class="pa-control-eyebrow">DATA & TARGET</span><h3>Perbarui pencapaian</h3><p>Upload report kumulatif dari awal bulan sampai hari ini.</p></div>
                     <span class="pa-control-icon">↻</span>
@@ -2182,6 +2196,37 @@ async function submitPasswordRecovery(event) {
     // Role sesi disimpan hanya di memori halaman; status admin selalu diverifikasi backend.
     let currentAuthRole = 'sales';
 
+    function applyRoleLayout() {
+        const badge = document.getElementById('headerSalesBadge');
+        const subtitle = document.querySelector('#appHeader p');
+        const notice = document.getElementById('roleDashboardNotice');
+        document.body.classList.toggle('role-admin', currentAuthRole === 'admin');
+        document.body.classList.toggle('role-sales', currentAuthRole === 'sales' && !!state.salesId);
+        if (badge) {
+            badge.classList.remove('role-badge-admin','role-badge-sales');
+            if (currentAuthRole === 'admin') {
+                badge.textContent = 'ADMIN'; badge.classList.add('role-badge-admin');
+            } else if (state.salesId) {
+                badge.textContent = state.salesId; badge.classList.add('role-badge-sales');
+            }
+        }
+        if (subtitle) subtitle.textContent = currentAuthRole === 'admin'
+            ? 'Admin · Kelola report dan target pencapaian'
+            : 'Dashboard pencapaian pribadi Sales/KBA';
+        if (notice) {
+            if (currentAuthRole === 'admin') {
+                notice.textContent = 'MODE ADMIN — Upload report bulanan dan atur target tiap KBA dari panel DATA & TARGET di bawah. Perubahan di versi ini tersimpan di browser yang digunakan.';
+                notice.classList.remove('hidden');
+            } else if (state.salesId) {
+                notice.textContent = 'MODE SALES/KBA — Tampilan dibatasi ke dashboard pencapaian. Data pribadi hanya akan muncul jika nama KBA pada report cocok dengan ID login; data report lintas perangkat belum tersambung ke penyimpanan server.';
+                notice.classList.remove('hidden');
+            } else {
+                notice.classList.add('hidden');
+            }
+        }
+        if (typeof paRefreshDashboard === 'function') paRefreshDashboard();
+    }
+
     async function checkAuthStatus() {
         const overlay = document.getElementById('loginOverlay');
         const salesBadge = document.getElementById('headerSalesBadge');
@@ -2197,7 +2242,9 @@ async function submitPasswordRecovery(event) {
             const adminResult = await adminResponse.json().catch(() => ({}));
             if (adminResponse.ok && adminResult.ok) {
                 currentAuthRole = 'admin';
+                state.salesId = '';
                 if (overlay) overlay.classList.add('hidden');
+                applyRoleLayout();
                 if (salesBadge) salesBadge.innerText = 'ADMIN';
                 return true;
             }
@@ -2227,10 +2274,13 @@ async function submitPasswordRecovery(event) {
             }
             if (overlay) overlay.classList.add('hidden');
             if (salesBadge) salesBadge.innerText = state.salesId;
+            applyRoleLayout();
             updatePollHeaderBadge();
             return true;
         } catch (error) {
             currentAuthRole = 'sales';
+            state.salesId = '';
+            document.body.classList.remove('role-admin','role-sales');
             if (overlay) overlay.classList.remove('hidden');
             return false;
         }
@@ -2320,6 +2370,7 @@ async function submitPasswordRecovery(event) {
             if (state.activeTab === 'bonus') switchTab('kalkulator');
             currentAuthRole = 'sales';
             state.salesId = '';
+            document.body.classList.remove('role-admin','role-sales');
             await checkAuthStatus();
             showToast('Anda telah keluar dari aplikasi.', '🔒');
         } catch (error) {
@@ -2883,6 +2934,10 @@ async function submitPasswordRecovery(event) {
     }
 
     function switchTab(tabName) {
+        if ((currentAuthRole === 'admin' || (currentAuthRole === 'sales' && state.salesId)) && tabName !== 'dashboard') {
+            showToast('Workspace saat ini difokuskan ke Dashboard Pencapaian.', 'ℹ️');
+            return;
+        }
         if (tabName === 'bonus' && !bonusTabUnlocked) { bonusPinPendingTab = tabName; openBonusPinModal(); return; }
         state.activeTab = tabName;
         const tabs = ['dashboard', 'kalkulator', 'kalkulator2', 'polling', 'pelunasan', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
@@ -3744,24 +3799,30 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     }
     function paRefreshDashboard() {
         const selector = document.getElementById('paPersonSelect');
-        const names = paReport?.people || [];
+        const allNames = paReport?.people || [];
+        let names = allNames;
+        if (currentAuthRole === 'sales' && state.salesId) {
+            const normalize = value => String(value || '').trim().toLocaleLowerCase('id-ID');
+            const identityCandidates = [state.salesId, state.salesName].filter(Boolean).map(normalize);
+            names = allNames.filter(name => identityCandidates.includes(normalize(name)));
+        }
         if (selector) {
             const current = selector.value;
             selector.innerHTML = names.length
                 ? names.map(name => `<option value="${paEscape(name)}">${paEscape(name)}</option>`).join('')
-                : '<option value="">Upload report terlebih dahulu</option>';
-            selector.disabled = !names.length;
+                : `<option value="">${currentAuthRole === 'sales' ? 'Data pribadi belum terhubung' : 'Upload report terlebih dahulu'}</option>`;
+            selector.disabled = currentAuthRole !== 'admin' || !names.length;
             if (names.includes(current)) selector.value = current;
             else if (names.length) selector.value = names[0];
         }
-        const person = paGetCurrentPerson();
+        const person = names.length ? paGetCurrentPerson() : '';
         const hasData = !!(paReport && person);
         const summary = hasData ? paBuildSummary(person) : {act:0,mount:0};
         const target = hasData ? paGetTarget(person) : {rupiah:0,mount:0};
         const rp = paPercent(summary.act,target.rupiah);
         const mp = paPercent(summary.mount,target.mount);
         const put = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-        put('dashWelcomeName', person || 'Partner KlikNSC');
+        put('dashWelcomeName', person || (currentAuthRole === 'admin' ? 'Admin KlikNSC' : (state.salesId || 'Partner KlikNSC')));
         put('paActRupiah', hasData ? paFormatRupiah(summary.act) : 'Menunggu data');
         put('paTargetRupiah', target.rupiah > 0 ? paFormatRupiah(target.rupiah) : 'Belum diatur');
         put('paRupiahProgress', rp === null ? '—%' : rp + '%');
@@ -3917,7 +3978,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function toggleFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(!m)return; const open=!m.classList.contains('open'); m.classList.toggle('open',open); m.setAttribute('aria-hidden',String(!open)); document.body.classList.toggle('feature-modal-open',open); }
     function closeFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');} document.body.classList.remove('feature-modal-open'); }
     function openFeature(tab){ closeFeatureMenu(); switchTab(tab); }
-    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'Partner KlikNSC'; el.textContent=id; }
+    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || (currentAuthRole === 'admin' ? 'Admin KlikNSC' : '') || 'Partner KlikNSC'; el.textContent=id; }
 </script>
     <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
         <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
