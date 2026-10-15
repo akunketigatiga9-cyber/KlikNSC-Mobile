@@ -2118,33 +2118,67 @@ function safeGetStorage(key, defaultVal = '') {
         }
     }
 
-    async function submitPasswordRecovery(event) {
-        event.preventDefault();
-        const password = document.getElementById('recoveryNewPassword')?.value || '';
-        const confirmPassword = document.getElementById('recoveryConfirmPassword')?.value || '';
-        const submit = document.getElementById('passwordRecoverySubmit');
 
-        if (password.length < 12) return setPasswordRecoveryMessage('Password baru minimal 12 karakter.');
-        if (password !== confirmPassword) return setPasswordRecoveryMessage('Konfirmasi password belum sama.');
+async function submitPasswordRecovery(event) {
+    event.preventDefault();
 
-        try {
-            submit.disabled = true;
-            submit.textContent = 'Menyimpan…';
-            const client = getPasswordRecoverySupabaseClient();
-            const { error } = await client.auth.updateUser({ password });
-            if (error) throw error;
+    const password = document.getElementById('recoveryNewPassword')?.value || '';
+    const confirmPassword = document.getElementById('recoveryConfirmPassword')?.value || '';
+    const submit = document.getElementById('passwordRecoverySubmit');
 
-            document.getElementById('passwordRecoveryForm')?.reset();
-            setPasswordRecoveryMessage('Password berhasil diperbarui. Silakan masuk kembali dengan password baru.', 'success');
-            await client.auth.signOut({ scope: 'local' }).catch(() => {});
-        } catch (error) {
-            console.error('Password recovery update failed:', error?.message || error);
-            setPasswordRecoveryMessage(error?.message || 'Password gagal diperbarui. Minta link reset baru lalu coba lagi.');
-            submit.disabled = false;
-            submit.textContent = 'Simpan Password Baru';
-        }
+    if (password.length < 12) {
+        setPasswordRecoveryMessage('Password baru minimal 12 karakter.');
+        return;
     }
 
+    if (password !== confirmPassword) {
+        setPasswordRecoveryMessage('Konfirmasi password belum sama.');
+        return;
+    }
+
+    if (!submit || submit.disabled) return;
+
+    submit.disabled = true;
+    submit.textContent = 'MENYIMPAN...';
+
+    let timeoutId;
+
+    try {
+        const client = getPasswordRecoverySupabaseClient();
+
+        const updatePromise = client.auth.updateUser({ password });
+        const timeoutPromise = new Promise((_, reject) => {
+            timeoutId = setTimeout(
+                () => reject(new Error('Permintaan terlalu lama. Periksa koneksi, lalu minta link reset baru jika diperlukan.')),
+                20000
+            );
+        });
+
+        const { error } = await Promise.race([updatePromise, timeoutPromise]);
+
+        if (error) throw error;
+
+        document.getElementById('passwordRecoveryForm')?.reset();
+
+        setPasswordRecoveryMessage(
+            'Password berhasil diperbarui. Silakan masuk kembali dengan password baru.',
+            'success'
+        );
+
+        await client.auth.signOut({ scope: 'local' }).catch(() => {});
+    } catch (error) {
+        console.error('Password recovery update failed:', error);
+
+        setPasswordRecoveryMessage(
+            error?.message || 'Password gagal diperbarui. Periksa koneksi dan status link reset.'
+        );
+    } finally {
+        clearTimeout(timeoutId);
+        submit.disabled = false;
+        submit.textContent = 'Simpan Password Baru';
+    }
+}
+    
     async function checkAuthStatus() {
         const overlay = document.getElementById('loginOverlay');
         const salesBadge = document.getElementById('headerSalesBadge');
