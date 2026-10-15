@@ -2934,10 +2934,6 @@ async function submitPasswordRecovery(event) {
     }
 
     function switchTab(tabName) {
-        if ((currentAuthRole === 'admin' || (currentAuthRole === 'sales' && state.salesId)) && tabName !== 'dashboard') {
-            showToast('Workspace saat ini difokuskan ke Dashboard Pencapaian.', 'ℹ️');
-            return;
-        }
         if (tabName === 'bonus' && !bonusTabUnlocked) { bonusPinPendingTab = tabName; openBonusPinModal(); return; }
         state.activeTab = tabName;
         const tabs = ['dashboard', 'kalkulator', 'kalkulator2', 'polling', 'pelunasan', 'takeover', 'checklist', 'script', 'bonus', 'tahun', 'tabel'];
