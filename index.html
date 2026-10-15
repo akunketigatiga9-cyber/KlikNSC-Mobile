@@ -774,7 +774,7 @@ button { touch-action:manipulation; }
             <div class="pa-welcome">
                 <div class="pa-welcome-top"><span class="pa-live-dot"></span><span>PERSONAL WORKSPACE</span><span class="pa-sync-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Menunggu data</span></div>
                 <p class="pa-greeting">Halo,</p>
-                <h3 id="dashWelcomeName">Partner KlikNSC</h3>
+                <h3 id="dashWelcomeName">SPVKLIKM2W</h3>
                 <p class="pa-welcome-copy">Ini ringkasan pencapaian pribadi kamu. Data akan ditampilkan setelah sumber Excel terhubung dan berhasil diproses.</p>
                 <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>Excel harian</strong></span></div>
             </div>
@@ -798,7 +798,7 @@ button { touch-action:manipulation; }
                         <label>Target Rupiah
                             <input id="paTargetRupiahInput" type="number" min="0" step="100000" placeholder="Contoh: 100000000" inputmode="numeric">
                         </label>
-                        <label>Target Mount
+                        <label>Target Unit
                             <input id="paTargetMountInput" type="number" min="0" step="1" placeholder="Contoh: 20" inputmode="numeric">
                         </label>
                     </div>
@@ -816,16 +816,16 @@ button { touch-action:manipulation; }
                 <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paRupiahRemaining">—</strong></div></div><div><span class="pa-mini-icon">◎</span><div><small>Status data</small><strong id="paRupiahUpdated">Belum sinkron</strong></div></div></div>
             </article>
 
-            <div class="pa-section-heading pa-mount-heading"><div><h3>Pencapaian Mount</h3><p>Progress target unit / Mount</p></div><span class="pa-tag pa-tag-muted">RINGKASAN</span></div>
+            <div class="pa-section-heading pa-mount-heading"><div><h3>Pencapaian Unit</h3><p>Progress target unit</p></div><span class="pa-tag pa-tag-muted">RINGKASAN</span></div>
             <article class="pa-achievement-card pa-mount-card">
                 <div class="pa-card-top"><span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h16"/><rect x="7" y="11" width="3" height="5" rx=".7"/><rect x="12" y="8" width="3" height="8" rx=".7"/><rect x="17" y="4" width="3" height="12" rx=".7"/></svg></span><span id="paMountStatus" class="pa-data-status">DATA BELUM TERSEDIA</span></div>
-                <div class="pa-target-row pa-mount-numbers"><div><span>ACT Mount</span><strong id="paActMount">—</strong></div><div><span>Target Mount</span><strong id="paTargetMount">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paMountProgress">—%</strong></div></div>
-                <div class="pa-progress-track" role="progressbar" aria-label="Progress target Mount" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paMountProgressBar"><span style="width:0%"></span></div>
+                <div class="pa-target-row pa-mount-numbers"><div><span>ACT Unit</span><strong id="paActMount">—</strong></div><div><span>Target Unit</span><strong id="paTargetMount">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paMountProgress">—%</strong></div></div>
+                <div class="pa-progress-track" role="progressbar" aria-label="Progress target Unit" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paMountProgressBar"><span style="width:0%"></span></div>
                 <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paMountRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong id="paMountUpdated">Belum tersedia</strong></div></div></div>
             </article>
 
-            <div class="pa-data-info" id="paDataInfo"><span class="pa-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg></span><div><strong id="paDataInfoTitle">Menunggu file Excel</strong><p id="paDataInfoText">Belum ada angka aktual yang ditampilkan. Upload report bulanan untuk menghitung ACT Rupiah dan Mount sesuai status CLSD + ACC.</p></div></div>
-            <div class="dash-footer-note"><span class="dash-footer-shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 19 6v5c0 4.5-3 7.5-7 10-4-2.5-7-5.5-7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><strong>Data pribadi, fokus ke progresmu</strong><small>Dashboard ini dirancang untuk menampilkan pencapaian Sales/KBA yang sesuai dengan identitas masing-masing.</small></span></div>
+            
+            
         </section>
 
         <!-- Kalkulator View -->
@@ -2198,7 +2198,7 @@ async function submitPasswordRecovery(event) {
             if (adminResponse.ok && adminResult.ok) {
                 currentAuthRole = 'admin';
                 if (overlay) overlay.classList.add('hidden');
-                if (salesBadge) salesBadge.innerText = 'ADMIN';
+                if (salesBadge) salesBadge.innerText = 'OWNER';
                 return true;
             }
         } catch (error) {
@@ -3761,7 +3761,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const rp = paPercent(summary.act,target.rupiah);
         const mp = paPercent(summary.mount,target.mount);
         const put = (id,val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
-        put('dashWelcomeName', person || 'Partner KlikNSC');
+        put('dashWelcomeName', person || 'SPVKLIKM2W');
         put('paActRupiah', hasData ? paFormatRupiah(summary.act) : 'Menunggu data');
         put('paTargetRupiah', target.rupiah > 0 ? paFormatRupiah(target.rupiah) : 'Belum diatur');
         put('paRupiahProgress', rp === null ? '—%' : rp + '%');
@@ -3784,8 +3784,8 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         if (status) status.innerHTML = paReport ? '✓ Report aktif' : '↻ Menunggu data';
         put('paDataInfoTitle', hasData ? 'Data berhasil diproses' : 'Menunggu file Excel');
         put('paDataInfoText', hasData
-            ? `Periode ${paReport.month}. ACT Rupiah menjumlahkan CAIR dengan STATUS PK 1 = CLSD dan STATUS PK 2 = ACC. ACT Mount menghitung NOBUK unik yang memenuhi kedua status.`
-            : 'Upload report kumulatif bulan berjalan untuk menghitung ACT Rupiah dan Mount sesuai status CLSD + ACC.');
+            ? `Periode ${paReport.month}. ACT Rupiah menjumlahkan CAIR dengan STATUS PK 1 = CLSD dan STATUS PK 2 = ACC. ACT Unit menghitung NOBUK unik yang memenuhi kedua status.`
+            : 'Upload report kumulatif bulan berjalan untuk menghitung ACT Rupiah dan Unit sesuai status CLSD + ACC.');
         renderPaHistory(person);
     }
     function savePersonalTargets() {
@@ -3809,7 +3809,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         if (!info || !person || !paReport) return;
         const snapshots = paHistory.filter(item => item.person === person && item.month === paReport.month).slice(-7).reverse();
         if (!snapshots.length) return;
-        const trail = snapshots.map(item => `${item.date}: ${paFormatRupiah(item.act)} / ${paFormatNumber(item.mount)} Mount`).join(' · ');
+        const trail = snapshots.map(item => `${item.date}: ${paFormatRupiah(item.act)} / ${paFormatNumber(item.mount)} Unit`).join(' · ');
         info.textContent += ` Riwayat harian tersimpan: ${trail}.`;
     }
     function paRecordSnapshots() {
@@ -3917,7 +3917,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function toggleFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(!m)return; const open=!m.classList.contains('open'); m.classList.toggle('open',open); m.setAttribute('aria-hidden',String(!open)); document.body.classList.toggle('feature-modal-open',open); }
     function closeFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');} document.body.classList.remove('feature-modal-open'); }
     function openFeature(tab){ closeFeatureMenu(); switchTab(tab); }
-    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'Partner KlikNSC'; el.textContent=id; }
+    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SPVKLIKM2W'; el.textContent=id; }
 </script>
     <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
         <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
