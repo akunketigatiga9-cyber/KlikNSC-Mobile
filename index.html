@@ -776,7 +776,7 @@ button { touch-action:manipulation; }
                 <p class="pa-greeting">Halo,</p>
                 <h3 id="dashWelcomeName">SPVKLIKM2W</h3>
                 <p class="pa-welcome-copy">Ini ringkasan pencapaian pribadi kamu. Data akan ditampilkan setelah sumber Excel terhubung dan berhasil diproses.</p>
-                <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>Excel harian</strong></span></div>
+                <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>CSV harian dari server</strong></span></div>
             </div>
 
             <section class="pa-control-panel" aria-label="Impor report dan target pribadi">
@@ -784,9 +784,9 @@ button { touch-action:manipulation; }
                     <div><span class="pa-control-eyebrow">DATA & TARGET</span><h3>Perbarui pencapaian</h3><p>Upload report kumulatif dari awal bulan sampai hari ini.</p></div>
                     <span class="pa-control-icon">↻</span>
                 </div>
-                <input id="paExcelInput" type="file" accept=".xlsx,.xls,.csv" hidden>
+                <input id="paExcelInput" type="file" accept=".csv,text/csv" hidden>
                 <button type="button" id="paImportBtn" class="pa-import-btn" onclick="document.getElementById('paExcelInput').click()">
-                    <span class="pa-import-symbol">↑</span><span><strong>Upload report Excel</strong><small>Sheet DATA_INPUT · otomatis cocokkan NOBUK</small></span><span class="pa-import-chevron">›</span>
+                    <span class="pa-import-symbol">↑</span><span><strong>Upload laporan CSV</strong><small>Kolom NIP KBA, NOBUK, TANGGAL, STATUS PK 1, STATUS PK 2, CAIR</small></span><span class="pa-import-chevron">›</span>
                 </button>
                 <div id="paImportMessage" class="pa-import-message" role="status">Belum ada report yang diimpor di browser ini.</div>
                 <div class="pa-target-config">
@@ -3662,12 +3662,10 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     setupResponsiveTenorOptions();
 
 
-    // Personal Achievement: server-backed data. Supabase is accessed only by the backend.
+    // Personal Achievement: data resmi dibaca dari backend, bukan localStorage.
     const PA_API_BASE = 'https://kliknsc-mobile-backend.vercel.app/api';
-    let paMonth = new Date().toISOString().slice(0, 7);
-    let paSales = [];
-    let paCurrent = null;
-    let paLoading = false;
+    let paServerData = null;
+    let paHistory = [];
 
     function paEscape(value) {
         return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -3678,30 +3676,14 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function paFormatNumber(value) {
         return Math.round(Number(value) || 0).toLocaleString('id-ID');
     }
-    function paDateKey(value) {
-        if (value instanceof Date && !isNaN(value)) {
-            return `${value.getFullYear()}-${String(value.getMonth()+1).padStart(2,'0')}-${String(value.getDate()).padStart(2,'0')}`;
-        }
-        if (typeof value === 'number' && window.XLSX && XLSX.SSF) {
-            const d = XLSX.SSF.parse_date_code(value);
-            if (d) return `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;
-        }
-        const valueText = String(value ?? '').trim();
-        let m = valueText.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
-        if (m) return `${m[1]}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`;
-        m = valueText.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
-        if (m) return `${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;
-        return '';
-    }
     function paSetImportMessage(message, kind='') {
         const el = document.getElementById('paImportMessage');
         if (!el) return;
         el.textContent = message;
         el.className = 'pa-import-message' + (kind ? ' ' + kind : '');
     }
-    function paCurrentSale() {
-        const id = document.getElementById('paPersonSelect')?.value || '';
-        return paSales.find(sale => sale.salesId === id) || null;
+    function paGetCurrentPerson() {
+        return document.getElementById('paPersonSelect')?.value || '';
     }
     function paPercent(act, target) { return target > 0 ? Math.round((act / target) * 100) : null; }
     function paSetProgress(barId, percent) {
@@ -3712,164 +3694,143 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const fill = bar.querySelector('span');
         if (fill) fill.style.width = bounded + '%';
     }
-    function paApplyRole() {
-        const owner = currentAuthRole === 'admin';
-        const upload = document.getElementById('paExcelInput');
-        const uploadButton = document.querySelector('.pa-import-btn');
-        const selector = document.getElementById('paPersonSelect');
-        const rupiahInput = document.getElementById('paTargetRupiahInput');
-        const unitInput = document.getElementById('paTargetMountInput');
-        const saveButton = document.getElementById('paSaveTargetBtn');
-        if (upload) upload.disabled = !owner;
-        if (uploadButton) {
-            uploadButton.disabled = !owner;
-            uploadButton.style.opacity = owner ? '' : '.55';
-            uploadButton.title = owner ? 'Upload report Excel' : 'Hanya OWNER yang dapat mengimpor report';
-        }
-        if (selector) selector.disabled = !owner || paSales.length === 0;
-        if (rupiahInput) rupiahInput.readOnly = !owner;
-        if (unitInput) unitInput.readOnly = !owner;
-        if (saveButton) {
-            saveButton.disabled = !owner;
-            saveButton.style.opacity = owner ? '' : '.55';
-            saveButton.title = owner ? '' : 'Hanya OWNER yang dapat mengubah target';
-        }
-        const panel = document.querySelector('.pa-control-panel');
-        if (panel) panel.style.display = owner ? '' : 'none';
-    }
-    async function paApi(path, options = {}) {
-        const response = await fetch(`${PA_API_BASE}${path}`, {
-            credentials: 'include',
-            cache: 'no-store',
-            ...options,
-            headers: {
-                Accept: 'application/json',
-                ...(options.headers || {})
-            }
-        });
-        const result = await response.json().catch(() => ({}));
-        if (!response.ok || result.ok === false) {
-            throw new Error(result.message || `Permintaan gagal (${response.status})`);
-        }
-        return result;
-    }
-    async function loadPaAchievement() {
-        if (paLoading || !['admin', 'sales'].includes(currentAuthRole)) return;
-        paLoading = true;
-        const status = document.querySelector('.pa-sync-pill');
-        if (status) status.textContent = '↻ Memuat data';
-        try {
-            const result = await paApi(`/achievement?month=${encodeURIComponent(paMonth)}`);
-            paMonth = result.month || paMonth;
-            paSales = Array.isArray(result.sales) ? result.sales : [];
-            if (currentAuthRole === 'sales') {
-                paSales = paSales.filter(sale => sale.salesId === state.salesId);
-            }
-            const selector = document.getElementById('paPersonSelect');
-            if (selector) {
-                const old = selector.value;
-                selector.innerHTML = paSales.map(sale =>
-                    `<option value="${paEscape(sale.salesId)}">${paEscape(sale.displayName)} · ${paEscape(sale.salesId)}</option>`
-                ).join('') || '<option value="">Belum ada data SALES</option>';
-                if (paSales.some(sale => sale.salesId === old)) selector.value = old;
-                else if (currentAuthRole === 'sales' && state.salesId) selector.value = state.salesId;
-                else if (paSales.length) selector.value = paSales[0].salesId;
-            }
-            paCurrent = paCurrentSale();
-            paApplyRole();
-            paRefreshDashboard();
-            if (status) status.textContent = '✓ Tersinkron';
-            paSetImportMessage(`Data server periode ${paMonth} berhasil dimuat · ${paSales.length} profil SALES.`, 'success');
-        } catch (error) {
-            console.error('Achievement load failed:', error);
-            if (status) status.textContent = '! Gagal sinkron';
-            paSetImportMessage(error.message || 'Data pencapaian gagal dimuat dari server.', 'error');
-            const put = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
-            put('paRupiahStatus', 'GAGAL MEMUAT DATA');
-            put('paMountStatus', 'GAGAL MEMUAT DATA');
-            put('paActRupiah', 'Data belum tersedia');
-            put('paActMount', '—');
-        } finally {
-            paLoading = false;
-        }
+    function paSelectedRecord() {
+        return paServerData?.sales?.find(item => item.salesId === paGetCurrentPerson()) || null;
     }
     function paRefreshDashboard() {
         const selector = document.getElementById('paPersonSelect');
-        if (selector && currentAuthRole === 'admin') selector.disabled = paSales.length === 0;
-        const sale = paCurrentSale();
-        const hasData = !!sale;
-        const actRupiah = Number(sale?.actRupiah) || 0;
-        const actUnit = Number(sale?.actUnit) || 0;
-        const targetRupiah = Number(sale?.targetRupiah) || 0;
-        const targetUnit = Number(sale?.targetUnit) || 0;
+        const sales = Array.isArray(paServerData?.sales) ? paServerData.sales : [];
+        const isOwner = currentAuthRole === 'admin';
+        if (selector) {
+            const current = selector.value;
+            selector.innerHTML = sales.length
+                ? sales.map(item => `<option value="${paEscape(item.salesId)}">${paEscape(item.displayName)} (${paEscape(item.salesId)})</option>`).join('')
+                : '<option value="">Data SALES belum tersedia</option>';
+            selector.disabled = !isOwner || !sales.length;
+            if (isOwner && sales.some(item => item.salesId === current)) selector.value = current;
+            else if (sales.length) selector.value = isOwner ? sales[0].salesId : (state.salesId || sales[0].salesId);
+        }
+        const record = paSelectedRecord();
+        const hasData = !!record;
+        const actRupiah = Number(record?.actRupiah || 0);
+        const actUnit = Number(record?.actUnit || 0);
+        const targetRupiah = Number(record?.targetRupiah || 0);
+        const targetUnit = Number(record?.targetUnit || 0);
         const rp = paPercent(actRupiah, targetRupiah);
         const up = paPercent(actUnit, targetUnit);
-        const put = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
-        put('dashWelcomeName', sale ? sale.displayName : (currentAuthRole === 'admin' ? 'OWNER' : (state.salesId || 'SALES')));
+        const put = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+        put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (record?.displayName || state.salesName || state.salesId || 'SALES'));
         put('paActRupiah', hasData ? paFormatRupiah(actRupiah) : 'Menunggu data');
         put('paTargetRupiah', targetRupiah > 0 ? paFormatRupiah(targetRupiah) : 'Belum diatur');
         put('paRupiahProgress', rp === null ? '—%' : rp + '%');
         put('paRupiahRemaining', targetRupiah > 0 ? paFormatRupiah(Math.max(0, targetRupiah - actRupiah)) : '—');
-        put('paRupiahUpdated', hasData ? `Server · ${paMonth}` : 'Belum sinkron');
+        put('paRupiahUpdated', paServerData?.month ? `Periode ${paServerData.month}` : 'Belum sinkron');
         put('paActMount', hasData ? paFormatNumber(actUnit) : '—');
         put('paTargetMount', targetUnit > 0 ? paFormatNumber(targetUnit) : 'Belum diatur');
         put('paMountProgress', up === null ? '—%' : up + '%');
         put('paMountRemaining', targetUnit > 0 ? paFormatNumber(Math.max(0, targetUnit - actUnit)) : '—');
-        put('paMountUpdated', hasData ? `Server · ${paMonth}` : 'Belum tersedia');
-        put('paRupiahStatus', hasData ? 'DATA SERVER TERSINKRON' : 'DATA BELUM TERSEDIA');
+        put('paMountUpdated', paServerData?.month ? `Periode ${paServerData.month}` : 'Belum tersedia');
+        put('paRupiahStatus', hasData ? 'DATA TERSINKRON' : 'DATA BELUM TERSEDIA');
         put('paMountStatus', hasData ? 'CLSD 721 + ACC' : 'DATA BELUM TERSEDIA');
         paSetProgress('paRupiahProgressBar', rp || 0);
         paSetProgress('paMountProgressBar', up || 0);
+
         const targetRpInput = document.getElementById('paTargetRupiahInput');
         const targetUnitInput = document.getElementById('paTargetMountInput');
-        if (targetRpInput) targetRpInput.value = targetRupiah || '';
-        if (targetUnitInput) targetUnitInput.value = targetUnit || '';
+        if (targetRpInput && document.activeElement !== targetRpInput) targetRpInput.value = targetRupiah || '';
+        if (targetUnitInput && document.activeElement !== targetUnitInput) targetUnitInput.value = targetUnit || '';
+
         const status = document.querySelector('.pa-sync-pill');
-        if (status && !paLoading) status.textContent = hasData ? '✓ Tersinkron' : '↻ Menunggu data';
-        put('paDataInfoTitle', hasData ? 'Data berhasil diproses' : 'Menunggu data server');
-        put('paDataInfoText', hasData
-            ? `Periode ${paMonth}. ACT Rupiah menjumlahkan CAIR untuk STATUS PK 1 = CLSD 721 dan STATUS PK 2 = ACC. ACT Unit menghitung NOBUK unik yang memenuhi kedua status.`
-            : 'Data pencapaian akan tampil setelah sesi terverifikasi dan server berhasil mengirim ringkasan.');
-        paApplyRole();
+        if (status) status.textContent = paServerData ? `✓ Terhubung · ${paServerData.month}` : '↻ Menunggu data';
+        put('paDataInfoTitle', paServerData ? 'Data pencapaian dari server' : 'Menunggu koneksi data');
+        put('paDataInfoText', paServerData
+            ? `Periode ${paServerData.month}. ACT Rupiah menjumlahkan nominal cair dengan STATUS PK 1 = CLSD 721 dan STATUS PK 2 = ACC. ACT Unit menghitung NOBUK unik yang memenuhi kedua status.`
+            : 'Data belum berhasil dimuat dari server. Periksa sesi login dan koneksi backend.');
+        const uploadCard = document.querySelector('.pa-control-panel');
+        if (uploadCard) uploadCard.style.display = isOwner ? '' : 'none';
+        const targetSave = document.getElementById('paSaveTargetBtn');
+        if (targetSave) targetSave.style.display = isOwner ? '' : 'none';
+        renderPaHistory(record?.salesId || '');
+    }
+    async function paFetchDashboard() {
+        const month = new Date();
+        const monthParam = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}`;
+        try {
+            const response = await fetch(`${PA_API_BASE}/achievement?month=${monthParam}`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'Accept': 'application/json' },
+                cache: 'no-store'
+            });
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) {
+                throw new Error(result.message || `Gagal memuat data (${response.status})`);
+            }
+            paServerData = result;
+            paRefreshDashboard();
+            paSetImportMessage(`Data pencapaian periode ${result.month} berhasil dimuat dari server.`, 'success');
+            return true;
+        } catch (error) {
+            paServerData = null;
+            paRefreshDashboard();
+            paSetImportMessage(error?.message || 'Data pencapaian belum dapat dimuat.', 'error');
+            return false;
+        }
     }
     async function savePersonalTargets() {
         if (currentAuthRole !== 'admin') {
-            paSetImportMessage('Hanya OWNER yang dapat mengubah target.', 'error');
+            paSetImportMessage('Hanya OWNER yang dapat mengatur target.', 'error');
             return;
         }
-        const sale = paCurrentSale();
-        if (!sale) {
+        const salesId = paGetCurrentPerson();
+        if (!salesId) {
             paSetImportMessage('Pilih profil SALES terlebih dahulu.', 'error');
             return;
         }
-        const rupiahInput = document.getElementById('paTargetRupiahInput');
-        const unitInput = document.getElementById('paTargetMountInput');
-        const rupiah = Number(rupiahInput?.value);
-        const unit = Number(unitInput?.value);
-        if (!Number.isFinite(rupiah) || rupiah < 0 || !Number.isInteger(unit) || unit < 0) {
-            paSetImportMessage('Target Rupiah dan Unit harus angka nol atau lebih; Unit harus bilangan bulat.', 'error');
+        const targetRupiah = Number(document.getElementById('paTargetRupiahInput')?.value);
+        const targetUnit = Number(document.getElementById('paTargetMountInput')?.value);
+        if (!Number.isFinite(targetRupiah) || targetRupiah < 0 || !Number.isInteger(targetUnit) || targetUnit < 0) {
+            paSetImportMessage('Target Rupiah harus ≥ 0 dan Target Unit harus bilangan bulat ≥ 0.', 'error');
             return;
         }
-        const button = document.getElementById('paSaveTargetBtn');
-        if (button) { button.disabled = true; button.textContent = 'Menyimpan…'; }
+        const month = paServerData?.month || (() => {
+            const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        })();
         try {
-            const result = await paApi('/achievement', {
+            const response = await fetch(`${PA_API_BASE}/achievement`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    salesId: sale.salesId,
-                    targetMonth: `${paMonth}-01`,
-                    targetRupiah: rupiah,
-                    targetUnit: unit
-                })
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ salesId, targetMonth: `${month}-01`, targetRupiah, targetUnit })
             });
-            paSetImportMessage(result.message || `Target ${sale.salesId} tersimpan di server.`, 'success');
-            await loadPaAchievement();
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) throw new Error(result.message || 'Target gagal disimpan.');
+            paSetImportMessage(`Target ${salesId} untuk ${month} berhasil disimpan di server.`, 'success');
+            await paFetchDashboard();
         } catch (error) {
-            paSetImportMessage(error.message || 'Target gagal disimpan.', 'error');
-        } finally {
-            if (button) { button.disabled = currentAuthRole !== 'admin'; button.textContent = 'Simpan target profil ini'; }
+            paSetImportMessage(error?.message || 'Target gagal disimpan. Periksa migrasi tabel monthly_targets.', 'error');
         }
+    }
+    function renderPaHistory(person) {
+        // Endpoint tahap ini belum menyediakan histori harian. Jangan mengarang riwayat dari browser.
+        const info = document.getElementById('paDataInfoText');
+        if (info && !paServerData) info.textContent = 'Data belum tersedia dari server; histori tidak ditampilkan.';
+    }
+    function paDateKey(value) {
+        if (value instanceof Date && !isNaN(value)) {
+            return `${value.getFullYear()}-${String(value.getMonth()+1).padStart(2,'0')}-${String(value.getDate()).padStart(2,'0')}`;
+        }
+        if (typeof value === 'number' && window.XLSX && XLSX.SSF) {
+            const d = XLSX.SSF.parse_date_code(value);
+            if (d) return `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;
+        }
+        const s = String(value ?? '').trim();
+        let m = s.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})/);
+        if (m) return `${m[1]}-${String(m[2]).padStart(2,'0')}-${String(m[3]).padStart(2,'0')}`;
+        m = s.match(/^(\d{1,2})[-/](\d{1,2})[-/](\d{4})/);
+        if (m) return `${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;
+        return '';
     }
     function paCsvCell(value) {
         const text = String(value ?? '');
@@ -3885,23 +3846,26 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         }
         if (!window.XLSX) {
             paSetImportMessage('Library pembaca Excel belum termuat. Periksa koneksi internet lalu coba lagi.', 'error');
-            event.target.value = '';
             return;
         }
-        paSetImportMessage('Membaca Excel dan mengirim transaksi ke server…');
+        paSetImportMessage('Membaca CSV dan mengirim transaksi ke server...', '');
         try {
-            const workbook = XLSX.read(await file.arrayBuffer(), { type: 'array', cellDates: true });
-            const sheetName = workbook.SheetNames.find(name => String(name).trim().toUpperCase() === 'DATA_INPUT') || workbook.SheetNames[0];
-            const sheet = workbook.Sheets[sheetName];
-            if (!sheet) throw new Error('Sheet DATA_INPUT tidak ditemukan.');
-            const range = XLSX.utils.decode_range(sheet['!ref'] || 'A1');
+            if (!/\.csv$/i.test(file.name)) throw new Error('Gunakan file berformat .csv.');
+            const csvText = await file.text();
+            const workbook = XLSX.read(csvText, { type: 'string', raw: true, cellDates: true });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            if (!sheet) throw new Error('Isi CSV tidak dapat dibaca.');
+            const range = XLSX.utils.decode_range(sheet['!ref'] || 'A1:F1');
             const rawRows = XLSX.utils.sheet_to_json(sheet, {
                 header: 1, defval: null, raw: true,
                 range: { s: { r: 0, c: 0 }, e: { r: range.e.r, c: Math.min(range.e.c, 40) } }
             });
-            const headers = (rawRows[0] || []).map(value => String(value ?? '').replace(/^\uFEFF/, '').trim().toUpperCase());
+            const header = (rawRows[0] || []).map(v => String(v ?? '').trim().toUpperCase());
             const findCol = (...names) => {
-                for (const name of names) { const i = headers.indexOf(name); if (i >= 0) return i; }
+                for (const name of names) {
+                    const index = header.indexOf(name);
+                    if (index >= 0) return index;
+                }
                 return -1;
             };
             const col = {
@@ -3913,34 +3877,42 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 cair: findCol('CAIR')
             };
             const missing = Object.entries(col).filter(([, index]) => index < 0).map(([key]) => key);
-            if (missing.length) throw new Error('Kolom wajib tidak ditemukan: ' + missing.join(', ') + '. Gunakan report dengan kolom NIP KBA, NOBUK, TANGGAL, STATUS PK 1, STATUS PK 2, CAIR.');
-            const csvRows = [[ 'NIP KBA', 'NOBUK', 'TANGGAL', 'STATUS PK 1', 'STATUS PK 2', 'CAIR' ]];
-            let validRows = 0;
+            if (missing.length) throw new Error('Kolom wajib tidak ditemukan: ' + missing.join(', ') + '. Gunakan report asli yang memiliki kolom NIP KBA, NOBUK, TANGGAL, STATUS PK 1, STATUS PK 2, CAIR.');
+            const rows = [];
+            const seen = new Set();
             for (const row of rawRows.slice(1)) {
                 const nobuk = String(row[col.nobuk] ?? '').trim();
-                if (!nobuk || nobuk.toUpperCase() === 'NOBUK') continue;
+                if (!nobuk) continue;
                 const salesId = String(row[col.salesId] ?? '').trim().toUpperCase();
                 const date = paDateKey(row[col.date]);
-                if (!salesId) throw new Error(`NIP KBA kosong pada transaksi NOBUK ${nobuk}.`);
-                if (!date) throw new Error(`Tanggal tidak valid pada transaksi NOBUK ${nobuk}.`);
+                const amount = row[col.cair];
                 const status1 = String(row[col.status1] ?? '').trim();
                 const status2 = String(row[col.status2] ?? '').trim();
-                const cair = row[col.cair] ?? '';
-                csvRows.push([salesId, nobuk, date, status1, status2, cair].map(paCsvCell));
-                validRows++;
+                if (!salesId || !date || amount === null || amount === undefined || String(amount).trim() === '') {
+                    throw new Error(`Data NIP, tanggal, atau CAIR tidak valid untuk NOBUK ${nobuk}.`);
+                }
+                if (seen.has(nobuk)) continue;
+                seen.add(nobuk);
+                rows.push([salesId, nobuk, date, status1, status2, amount]);
             }
-            if (!validRows) throw new Error('Tidak ada baris transaksi valid pada sheet.');
-            const csv = csvRows.map(row => row.every(cell => cell.startsWith('"')) ? row.join(',') : row.map(paCsvCell).join(',')).join('\r\n');
-            const result = await paApi('/admin-report', {
+            if (!rows.length) throw new Error('Tidak ada baris transaksi valid di sheet yang dipilih.');
+            const csv = [
+                ['NIP KBA', 'NOBUK', 'TANGGAL', 'STATUS PK 1', 'STATUS PK 2', 'CAIR'].map(paCsvCell).join(','),
+                ...rows.map(row => row.map(paCsvCell).join(','))
+            ].join('\r\n');
+            const response = await fetch(`${PA_API_BASE}/admin-report`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({ csv })
             });
-            paSetImportMessage(result.message || `Import selesai: ${result.inserted || 0} baru, ${result.updated || 0} diperbarui.`, 'success');
-            await loadPaAchievement();
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) throw new Error(result.message || `Import gagal (${response.status})`);
+            paSetImportMessage(`Import server selesai: ${result.uniqueNobuk ?? rows.length} NOBUK unik · ${result.inserted ?? 0} baru · ${result.updated ?? 0} diperbarui.`, 'success');
+            await paFetchDashboard();
         } catch (error) {
             console.error('Personal Achievement import error:', error);
-            paSetImportMessage(error.message || 'Gagal mengimpor report ke server.', 'error');
+            paSetImportMessage(error?.message || 'Gagal mengirim report ke server.', 'error');
         } finally {
             event.target.value = '';
         }
@@ -3950,8 +3922,11 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         if (input) input.addEventListener('change', handlePaExcelImport);
         const select = document.getElementById('paPersonSelect');
         if (select) select.addEventListener('change', paRefreshDashboard);
-        paApplyRole();
+        const ownerOnly = currentAuthRole !== 'admin';
+        const controlPanel = document.querySelector('.pa-control-panel');
+        if (controlPanel) controlPanel.style.display = ownerOnly ? 'none' : '';
         paRefreshDashboard();
+        if (currentAuthRole === 'admin' || currentAuthRole === 'sales') paFetchDashboard();
     }
 
     window.onload = async function() {
@@ -3967,13 +3942,12 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         switchTab('dashboard');
         updateDashboardWelcome();
         initPersonalAchievement();
-        if (!recoveryActive && ['admin', 'sales'].includes(currentAuthRole)) await loadPaAchievement();
     };
 
     function toggleFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(!m)return; const open=!m.classList.contains('open'); m.classList.toggle('open',open); m.setAttribute('aria-hidden',String(!open)); document.body.classList.toggle('feature-modal-open',open); }
     function closeFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');} document.body.classList.remove('feature-modal-open'); }
     function openFeature(tab){ closeFeatureMenu(); switchTab(tab); }
-    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SPVKLIKM2W'; el.textContent=id; }
+    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; if(currentAuthRole==='admin'){el.textContent='SPVKLIKM2W';return;} const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SALES'; el.textContent=id; }
 </script>
     <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
         <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
