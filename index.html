@@ -2179,33 +2179,58 @@ async function submitPasswordRecovery(event) {
     }
 }
     
+    // Role sesi disimpan hanya di memori halaman; status admin selalu diverifikasi backend.
+    let currentAuthRole = 'sales';
+
     async function checkAuthStatus() {
         const overlay = document.getElementById('loginOverlay');
         const salesBadge = document.getElementById('headerSalesBadge');
+        const base = 'https://kliknsc-mobile-backend.vercel.app/api';
 
+        // Cek sesi Admin terpisah lebih dahulu. Tidak pernah menganggap localStorage sebagai autentikasi.
         try {
-            const response = await fetch(
-                'https://kliknsc-mobile-backend.vercel.app/api/session',
-                {
-                    method: 'GET',
-                    credentials: 'include'
-                }
-            );
-            const result = await response.json().catch(() => ({}));
+            const adminResponse = await fetch(`${base}/admin-me`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'Accept': 'application/json' }
+            });
+            const adminResult = await adminResponse.json().catch(() => ({}));
+            if (adminResponse.ok && adminResult.ok) {
+                currentAuthRole = 'admin';
+                if (overlay) overlay.classList.add('hidden');
+                if (salesBadge) salesBadge.innerText = 'ADMIN';
+                return true;
+            }
+        } catch (error) {
+            console.warn('Admin session check failed; checking Sales session.', error?.message || error);
+        }
 
+        // Sesi Sales/KBA tetap menggunakan endpoint yang sudah ada.
+        try {
+            const response = await fetch(`${base}/session`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'Accept': 'application/json' }
+            });
+            const result = await response.json().catch(() => ({}));
             if (!response.ok || !result.ok || !result.user?.salesId) {
                 throw new Error('Session tidak valid');
             }
 
+            currentAuthRole = 'sales';
             state.salesId = result.user.salesId;
             safeSetStorage('kliknsc_sales_id', state.salesId);
-            try { bonusTabUnlocked = sessionStorage.getItem(`kliknsc_bonus_unlocked_${encodeURIComponent(state.salesId)}`) === '1'; } catch (_) { bonusTabUnlocked = false; }
-
+            try {
+                bonusTabUnlocked = sessionStorage.getItem(`kliknsc_bonus_unlocked_${encodeURIComponent(state.salesId)}`) === '1';
+            } catch (_) {
+                bonusTabUnlocked = false;
+            }
             if (overlay) overlay.classList.add('hidden');
             if (salesBadge) salesBadge.innerText = state.salesId;
             updatePollHeaderBadge();
             return true;
         } catch (error) {
+            currentAuthRole = 'sales';
             if (overlay) overlay.classList.remove('hidden');
             return false;
         }
@@ -2215,72 +2240,57 @@ async function submitPasswordRecovery(event) {
         const el = document.getElementById('pollFormHeaderBadge');
         if (el) el.innerText = `FORM PENGAJUAN M2W ${state.salesId}`;
     }
-    
-async function handleLogin(event) {
-    event?.preventDefault();
 
-    const rawSalesId = (document.getElementById('loginSalesId')?.value || '').trim();
-    const salesId = rawSalesId.toLowerCase() === 'admin'
-        ? 'admin'
-        : rawSalesId.toUpperCase();
+    async function handleLogin(event) {
+        event?.preventDefault();
 
-    const pin = (document.getElementById('loginPin')?.value || '').trim();
-    const errorMessage = document.getElementById('loginErrorMsg');
+        const rawSalesId = (document.getElementById('loginSalesId')?.value || '').trim();
+        const salesId = rawSalesId.toLowerCase() === 'admin' ? 'admin' : rawSalesId.toUpperCase();
+        const pin = (document.getElementById('loginPin')?.value || '').trim();
+        const errorMessage = document.getElementById('loginErrorMsg');
+        const submit = document.querySelector('#loginForm button[type="submit"]');
 
-    if (!salesId || !pin) {
-        errorMessage?.classList.remove('hidden');
-        return;
-    }
+        if (!salesId || !pin) {
+            errorMessage?.classList.remove('hidden');
+            return;
+        }
 
-    try {
         const isAdmin = salesId === 'admin';
-
-        const response = await fetch(
-            `https://kliknsc-mobile-backend.vercel.app/api/${isAdmin ? 'admin-login' : 'login'}`,
-            {
-                method: 'POST',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(
-                    isAdmin
-                        ? { username: 'admin', pin }
-                        : { salesId, pin }
-                )
+        try {
+            if (submit) { submit.disabled = true; submit.dataset.originalText ||= submit.innerText; submit.innerText = 'Memverifikasi…'; }
+            const response = await fetch(
+                `https://kliknsc-mobile-backend.vercel.app/api/${isAdmin ? 'admin-login' : 'login'}`,
+                {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(isAdmin ? { username: 'admin', pin } : { salesId, pin })
+                }
+            );
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) {
+                errorMessage?.classList.remove('hidden');
+                showToast(result.message || 'Login gagal. Periksa ID dan password.', '⚠️');
+                return;
             }
-        );
 
-        const result = await response.json().catch(() => ({}));
-
-        if (!response.ok || !result.ok) {
+            // Verifikasi cookie sesi lewat endpoint /me yang sesuai; jangan sekadar reload.
+            const verified = await checkAuthStatus();
+            if (!verified || (isAdmin && currentAuthRole !== 'admin') || (!isAdmin && currentAuthRole !== 'sales')) {
+                errorMessage?.classList.remove('hidden');
+                showToast('Login diterima tetapi sesi belum terverifikasi. Periksa konfigurasi cookie/backend.', '⚠️');
+                return;
+            }
+            errorMessage?.classList.add('hidden');
+            showToast(isAdmin ? 'Login Admin berhasil.' : `Selamat datang kembali, KBA ${state.salesId}!`, '🔓');
+        } catch (error) {
+            console.error('Login error:', error?.message || error);
             errorMessage?.classList.remove('hidden');
-            showToast(result.message || 'Login gagal. Periksa ID dan password.', '⚠️');
-            return;
+            showToast('Backend login tidak dapat dihubungi.', '⚠️');
+        } finally {
+            if (submit) { submit.disabled = false; submit.innerText = submit.dataset.originalText || 'Masuk'; }
         }
-
-        errorMessage?.classList.add('hidden');
-
-        if (isAdmin) {
-            showToast('Login Admin berhasil.', '🔓');
-            window.location.reload();
-            return;
-        }
-
-        state.salesId = result.user?.salesId || salesId;
-        safeSetStorage('kliknsc_sales_id', state.salesId);
-
-        if (!(await checkAuthStatus())) {
-            errorMessage?.classList.remove('hidden');
-            showToast('Session belum bisa diverifikasi. Coba masuk lagi.', '⚠️');
-            return;
-        }
-
-        showToast(`Selamat datang kembali, KBA ${state.salesId}!`, '🔓');
-    } catch (error) {
-        console.error('Login error:', error);
-        errorMessage?.classList.remove('hidden');
-        showToast('Backend login tidak dapat dihubungi.', '⚠️');
     }
-}
 
     function promptLogout() {
         const modal = document.getElementById('logoutModal');
@@ -2294,34 +2304,26 @@ async function handleLogin(event) {
 
     async function executeLogout() {
         closeLogoutModal();
-
+        const endpoint = currentAuthRole === 'admin' ? 'admin-logout' : 'logout';
         try {
             const response = await fetch(
-                'https://kliknsc-mobile-backend.vercel.app/api/logout',
-                {
-                    method: 'POST',
-                    credentials: 'include'
-                }
+                `https://kliknsc-mobile-backend.vercel.app/api/${endpoint}`,
+                { method: 'POST', credentials: 'include', headers: { 'Accept': 'application/json' } }
             );
-
-            const result = await response.json();
-
-            if (!response.ok || !result.ok) {
-                throw new Error('Logout backend gagal');
-            }
+            const result = await response.json().catch(() => ({}));
+            if (!response.ok || !result.ok) throw new Error(result.message || 'Logout backend gagal');
 
             safeRemoveStorage('kliknsc_sales_id');
             bonusTabUnlocked = false;
             try { sessionStorage.removeItem(`kliknsc_bonus_unlocked_${encodeURIComponent(state.salesId)}`); } catch (_) {}
             document.getElementById('bonusPinModal')?.classList.add('hidden');
             if (state.activeTab === 'bonus') switchTab('kalkulator');
+            currentAuthRole = 'sales';
             state.salesId = '';
-
             await checkAuthStatus();
-
             showToast('Anda telah keluar dari aplikasi.', '🔒');
         } catch (error) {
-            console.error('Logout error:', error);
+            console.error('Logout error:', error?.message || error);
             showToast('Logout gagal. Coba lagi.', '⚠️');
         }
     }
