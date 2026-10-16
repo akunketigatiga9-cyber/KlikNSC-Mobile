@@ -601,6 +601,55 @@ button { touch-action:manipulation; }
         .pa-control-foot > span { color:#70b4ff;font-weight:900; }
         .pa-control-foot p { margin:0; }
         @media(max-width:360px) { .pa-control-panel { padding:13px; } .pa-target-input-grid { gap:7px; } .pa-target-input-grid input { padding:10px 8px; } }
+
+        /* OWNER dashboard redesign only. Existing Sales dashboard and feature styles remain intact. */
+        .pa-owner-dashboard { display:flex;flex-direction:column;gap:17px;color:#eaf2ff; }
+        .pa-owner-dashboard.hidden { display:none !important; }
+        .pa-owner-heading { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 3px 1px; }
+        .pa-owner-heading h2 { color:#f3f7ff;font-size:clamp(22px,5.6vw,29px);font-weight:900;letter-spacing:-.05em;line-height:1.12;margin-top:8px; }
+        .pa-owner-heading p:not(.dash-kicker) { color:#91a9c8;font-size:12px;line-height:1.55;margin-top:7px; }
+        .pa-owner-period { display:flex;align-items:center;gap:9px;flex-shrink:0;padding:10px;border:1px solid rgba(59,130,246,.24);border-radius:17px;background:linear-gradient(145deg,#0d2747,#081629); }
+        .pa-owner-period .pa-metric-icon { flex-shrink:0; }
+        .pa-owner-period small,.pa-owner-period strong { display:block; }
+        .pa-owner-period small { color:#91a9c8;font-size:9px; }
+        .pa-owner-period strong { color:#edf5ff;font-size:12px;margin-top:2px; }
+        .pa-owner-summary-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px; }
+        .pa-owner-summary { min-width:0;display:flex;align-items:center;gap:10px;padding:13px 11px;border:1px solid rgba(77,127,183,.23);border-radius:18px;background:linear-gradient(145deg,#0d2037,#081629); }
+        .pa-owner-summary-icon { display:grid;place-items:center;flex-shrink:0;width:39px;height:39px;border-radius:14px;font-size:21px;font-weight:900; }
+        .pa-owner-summary-icon.blue { color:#7fc0ff;background:rgba(37,112,224,.2);border:1px solid rgba(59,130,246,.24); }
+        .pa-owner-summary-icon.green { color:#40e5a0;background:rgba(16,185,129,.16);border:1px solid rgba(16,185,129,.24); }
+        .pa-owner-summary-icon.purple { color:#bd82ff;background:rgba(139,92,246,.18);border:1px solid rgba(139,92,246,.25); }
+        .pa-owner-summary div { min-width:0;display:flex;flex-direction:column;gap:3px; }
+        .pa-owner-summary strong { color:#f2f7ff;font-size:clamp(16px,4vw,22px);font-weight:900;letter-spacing:-.04em;overflow-wrap:anywhere;line-height:1.2; }
+        .pa-owner-summary span:not(.pa-owner-summary-icon) { color:#aac0dc;font-size:10px;line-height:1.35; }
+        .pa-owner-summary small { color:#7f9ab9;font-size:8px;line-height:1.3; }
+        .pa-owner-achievement-grid { display:grid;grid-template-columns:minmax(0,1fr);gap:12px; }
+        .pa-owner-card-title { color:#f0f6ff;font-size:13px;font-weight:900;letter-spacing:-.025em;margin-top:10px; }
+        .pa-owner-card-subtitle { color:#91a9c8;font-size:10px;line-height:1.5;margin-top:4px; }
+        .pa-owner-sales-section { margin-top:2px;padding-top:16px;border-top:1px solid rgba(111,157,216,.16); }
+        .pa-owner-sales-heading { display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px; }
+        .pa-owner-sales-heading h3 { color:#eff6ff;font-size:15px;font-weight:900;letter-spacing:-.03em; }
+        .pa-owner-sales-heading p { color:#91a9c8;font-size:10px;line-height:1.5;margin-top:4px; }
+        .pa-owner-table-wrap { width:100%;overflow-x:auto;border:1px solid rgba(77,127,183,.22);border-radius:18px;background:rgba(7,20,36,.75); }
+        .pa-owner-table { width:100%;min-width:680px;border-collapse:separate;border-spacing:0;font-size:10px; }
+        .pa-owner-table th { padding:12px 10px;text-align:left;color:#8faed2;font-weight:750;background:rgba(18,43,71,.62);white-space:nowrap; }
+        .pa-owner-table td { padding:12px 10px;color:#dceaff;border-top:1px solid rgba(87,130,181,.13);white-space:nowrap; }
+        .pa-owner-table td:first-child { white-space:normal;min-width:140px; }
+        .pa-owner-person { display:flex;align-items:center;gap:8px; }
+        .pa-owner-rank { width:26px;height:26px;display:grid;place-items:center;flex-shrink:0;border-radius:50%;background:linear-gradient(145deg,#2587ff,#1769df);color:white;font-weight:900; }
+        .pa-owner-person strong,.pa-owner-person small { display:block; }
+        .pa-owner-person strong { font-size:10px;color:#edf5ff; }
+        .pa-owner-person small { font-size:9px;color:#91a9c8;margin-top:3px; }
+        .pa-owner-progress { min-width:70px; }
+        .pa-owner-progress strong { display:block;color:#83bdff;font-size:11px;margin-bottom:5px; }
+        .pa-owner-progress-track { height:6px;width:70px;max-width:100%;border-radius:99px;background:#142f4d;overflow:hidden; }
+        .pa-owner-progress-track span { display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#1678f8,#62b5ff); }
+        .pa-owner-empty { color:#8fa8c7 !important;text-align:center;padding:22px !important; }
+        .pa-owner-controls-slot { margin-top:2px; }
+        .pa-owner-controls-slot .pa-control-panel { margin-top:0; }
+        @media(min-width:700px) { .pa-owner-summary-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }.pa-owner-achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.pa-owner-summary { padding:14px; }.pa-owner-summary strong { font-size:clamp(14px,1.5vw,22px); } }
+        @media(max-width:380px) { .pa-owner-heading { align-items:flex-start; }.pa-owner-period { padding:7px;gap:5px; }.pa-owner-period .pa-metric-icon { width:30px;height:30px; }.pa-owner-summary { padding:10px 8px;gap:7px; }.pa-owner-summary-icon { width:32px;height:32px;border-radius:11px; }.pa-owner-summary strong { font-size:15px; }.pa-owner-summary span:not(.pa-owner-summary-icon) { font-size:9px; }.pa-owner-achievement-grid .pa-achievement-card { padding:14px; } }
+
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
@@ -761,25 +810,39 @@ button { touch-action:manipulation; }
 
     <main id="appMain" class="flex-1 p-3.5 space-y-4 overflow-y-auto">
         <!-- New landing page: dashboard first. Calculator DOM and calculation logic remain intact. -->
-        <section id="dashboardHome" class="space-y-4" aria-label="Dashboard Personal Achievement KlikNSC">
-            <div class="pa-head">
-                <div>
-                    <p class="dash-kicker">KLIKNSC · PERSONAL ACHIEVEMENT</p>
-                    <h2 class="text-2xl font-black tracking-tight mt-1">Dashboard</h2>
-                    <p class="pa-subtitle">Pantau progres target pribadimu dalam satu tampilan.</p>
+        <section id="dashboardHome" class="space-y-4" aria-label="Dashboard KlikNSC">
+            <div id="paOwnerDashboard" class="pa-owner-dashboard hidden" aria-label="Rekap pencapaian OWNER">
+                <div class="pa-owner-heading">
+                    <div><p class="dash-kicker">KLIKNSC · DASHBOARD OWNER</p><h2>Rekap Pencapaian 4 Sales/KBA</h2><p>Ringkasan pencapaian seluruh Sales/KBA untuk periode yang dipilih.</p></div>
+                    <div class="pa-owner-period"><span class="pa-metric-icon">▦</span><div><small>Periode</small><strong id="paOwnerPeriod">—</strong></div></div>
                 </div>
-                <div class="pa-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.6-3.6 3-5.5 7-5.5s6.4 1.9 7 5.5"/></svg></div>
-            </div>
-
-            <div class="pa-welcome">
-                <div class="pa-welcome-top"><span class="pa-live-dot"></span><span>PERSONAL WORKSPACE</span><span class="pa-sync-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Menunggu data</span></div>
-                <p class="pa-greeting">Halo,</p>
-                <h3 id="dashWelcomeName">SPVKLIKM2W</h3>
-                <p class="pa-welcome-copy">Ini ringkasan pencapaian pribadi kamu. Data akan ditampilkan setelah sumber Excel terhubung dan berhasil diproses.</p>
-                <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>CSV harian dari server</strong></span></div>
-            </div>
-
-            <section class="pa-control-panel" aria-label="Impor report dan target pribadi">
+                <div class="pa-owner-summary-grid">
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">♟</span><div><strong id="paOwnerSalesCount">—</strong><span>Total Sales/KBA</span><small>Aktif di data server</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">▤</span><div><strong id="paOwnerTransactions">—</strong><span>Total Transaksi (NOBUK)</span><small>Jika tersedia dari server</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon green">✓</span><div><strong id="paOwnerActRupiah">Menunggu data</strong><span>Total ACT Rupiah</span><small>Gabungan 4 Sales/KBA</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon purple">▥</span><div><strong id="paOwnerActUnit">—</strong><span>Total ACT Unit</span><small>Gabungan 4 Sales/KBA</small></div></article>
+                </div>
+                <div class="pa-owner-achievement-grid">
+                    <article class="pa-achievement-card pa-primary-card">
+                        <div class="pa-card-top"><span class="pa-metric-icon">＄</span><span id="paOwnerRupiahStatus" class="pa-data-status">DATA SERVER</span></div>
+                        <h3 class="pa-owner-card-title">Pencapaian Rupiah (Total 4 Sales)</h3><p class="pa-owner-card-subtitle">Realisasi dibandingkan target seluruh Sales</p>
+                        <div class="pa-amount-label">ACT Rupiah (Total)</div><div id="paOwnerActRupiahMain" class="pa-main-amount">Menunggu data</div>
+                        <div class="pa-target-row"><div><span>Target Rupiah (Total)</span><strong id="paOwnerTargetRupiah">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paOwnerRupiahProgress">—%</strong></div></div>
+                        <div class="pa-progress-track" role="progressbar" aria-label="Progress target Rupiah gabungan" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paOwnerRupiahProgressBar"><span style="width:0%"></span></div>
+                        <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paOwnerRupiahRemaining">—</strong></div></div><div><span class="pa-mini-icon">◎</span><div><small>Status data</small><strong id="paOwnerRupiahUpdated">—</strong></div></div></div>
+                    </article>
+                    <article class="pa-achievement-card pa-mount-card">
+                        <div class="pa-card-top"><span class="pa-metric-icon">▥</span><span id="paOwnerUnitStatus" class="pa-data-status">DATA SERVER</span></div>
+                        <h3 class="pa-owner-card-title">Pencapaian Unit (Total 4 Sales)</h3><p class="pa-owner-card-subtitle">Realisasi dibandingkan target unit seluruh Sales</p>
+                        <div class="pa-target-row pa-mount-numbers"><div><span>ACT Unit (Total)</span><strong id="paOwnerActUnitMain">—</strong></div><div><span>Target Unit (Total)</span><strong id="paOwnerTargetUnit">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paOwnerUnitProgress">—%</strong></div></div>
+                        <div class="pa-progress-track" role="progressbar" aria-label="Progress target Unit gabungan" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paOwnerUnitProgressBar"><span style="width:0%"></span></div>
+                        <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paOwnerUnitRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Status data</small><strong id="paOwnerUnitUpdated">—</strong></div></div></div>
+                    </article>
+                </div>
+                <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">4 SALES/KBA</span></div>
+                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>ACT Rupiah</th><th>Target Rupiah</th><th>Progress</th><th>ACT Unit</th><th>Target Unit</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="6" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
+                </section>
+                <div class="pa-owner-controls-slot"><section class="pa-control-panel" aria-label="Impor report dan target pribadi">
                 <div class="pa-control-head">
                     <div><span class="pa-control-eyebrow">DATA & TARGET</span><h3>Perbarui pencapaian</h3><p>Upload report kumulatif dari awal bulan sampai hari ini.</p></div>
                     <span class="pa-control-icon">↻</span>
@@ -805,7 +868,26 @@ button { touch-action:manipulation; }
                     <button type="button" id="paSaveTargetBtn" class="pa-save-target-btn" onclick="savePersonalTargets()">Simpan target profil ini</button>
                 </div>
                 <div class="pa-control-foot"><span>ⓘ</span><p>Report ini dianggap berisi data kumulatif bulan berjalan. Upload terbaru menggantikan data aktif, sedangkan ringkasan harian disimpan terpisah agar transaksi tidak terakumulasi dua kali.</p></div>
-            </section>
+            </section></div>
+            </div>
+            <div id="paSalesDashboardContent">
+            <div class="pa-head">
+                <div>
+                    <p class="dash-kicker">KLIKNSC · PERSONAL ACHIEVEMENT</p>
+                    <h2 class="text-2xl font-black tracking-tight mt-1">Dashboard</h2>
+                    <p class="pa-subtitle">Pantau progres target pribadimu dalam satu tampilan.</p>
+                </div>
+                <div class="pa-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.6-3.6 3-5.5 7-5.5s6.4 1.9 7 5.5"/></svg></div>
+            </div>
+
+            <div class="pa-welcome">
+                <div class="pa-welcome-top"><span class="pa-live-dot"></span><span>PERSONAL WORKSPACE</span><span class="pa-sync-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.5-3"/></svg> Menunggu data</span></div>
+                <p class="pa-greeting">Halo,</p>
+                <h3 id="dashWelcomeName">SPVKLIKM2W</h3>
+                <p class="pa-welcome-copy">Ini ringkasan pencapaian pribadi kamu. Data akan ditampilkan setelah sumber Excel terhubung dan berhasil diproses.</p>
+                <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>CSV harian dari server</strong></span></div>
+            </div>
+
 
             <div class="pa-section-heading"><div><h3>Pencapaian Rupiah</h3><p>Realisasi dibandingkan target</p></div><span class="pa-tag">UTAMA</span></div>
             <article class="pa-achievement-card pa-primary-card">
@@ -826,6 +908,7 @@ button { touch-action:manipulation; }
 
             
             
+            </div>
         </section>
 
         <!-- Kalkulator View -->
@@ -3680,6 +3763,48 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             selector.disabled = !isOwner || !sales.length;
             if (isOwner && sales.some(item => item.salesId === current)) selector.value = current;
             else if (sales.length) selector.value = isOwner ? sales[0].salesId : (state.salesId || sales[0].salesId);
+        }
+        const ownerDashboard = document.getElementById('paOwnerDashboard');
+        const salesDashboard = document.getElementById('paSalesDashboardContent');
+        if (ownerDashboard) ownerDashboard.classList.toggle('hidden', !isOwner);
+        if (salesDashboard) salesDashboard.classList.toggle('hidden', isOwner);
+        if (isOwner) {
+            const ownerSales = sales;
+            const totalRp = ownerSales.reduce((sum, item) => sum + (Number(item.actRupiah) || 0), 0);
+            const totalUnit = ownerSales.reduce((sum, item) => sum + (Number(item.actUnit) || 0), 0);
+            const totalTargetRp = ownerSales.reduce((sum, item) => sum + (Number(item.targetRupiah) || 0), 0);
+            const totalTargetUnit = ownerSales.reduce((sum, item) => sum + (Number(item.targetUnit) || 0), 0);
+            const totalRpProgress = paPercent(totalRp, totalTargetRp);
+            const totalUnitProgress = paPercent(totalUnit, totalTargetUnit);
+            const month = paServerData?.month || '—';
+            const putOwner = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+            putOwner('paOwnerPeriod', month);
+            putOwner('paOwnerSalesCount', paFormatNumber(ownerSales.length));
+            const transactionCount = paServerData?.totalTransactions ?? paServerData?.transactionCount ?? paServerData?.totalNobuk ?? paServerData?.uniqueNobuk ?? ownerSales.reduce((sum, item) => sum + (Number(item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0), 0);
+            putOwner('paOwnerTransactions', Number(transactionCount) > 0 ? paFormatNumber(transactionCount) : '—');
+            putOwner('paOwnerActRupiah', paServerData ? paFormatRupiah(totalRp) : 'Menunggu data');
+            putOwner('paOwnerActRupiahMain', paServerData ? paFormatRupiah(totalRp) : 'Menunggu data');
+            putOwner('paOwnerActUnit', paServerData ? paFormatNumber(totalUnit) + ' Unit' : '—');
+            putOwner('paOwnerActUnitMain', paServerData ? paFormatNumber(totalUnit) + ' Unit' : '—');
+            putOwner('paOwnerTargetRupiah', totalTargetRp > 0 ? paFormatRupiah(totalTargetRp) : 'Belum diatur');
+            putOwner('paOwnerTargetUnit', totalTargetUnit > 0 ? paFormatNumber(totalTargetUnit) + ' Unit' : 'Belum diatur');
+            putOwner('paOwnerRupiahProgress', totalRpProgress === null ? '—%' : totalRpProgress + '%');
+            putOwner('paOwnerUnitProgress', totalUnitProgress === null ? '—%' : totalUnitProgress + '%');
+            putOwner('paOwnerRupiahRemaining', totalTargetRp > 0 ? paFormatRupiah(Math.max(0, totalTargetRp - totalRp)) : '—');
+            putOwner('paOwnerUnitRemaining', totalTargetUnit > 0 ? paFormatNumber(Math.max(0, totalTargetUnit - totalUnit)) + ' Unit' : '—');
+            putOwner('paOwnerRupiahUpdated', paServerData ? `Periode ${month}` : 'Belum sinkron');
+            putOwner('paOwnerUnitUpdated', paServerData ? `Periode ${month}` : 'Belum sinkron');
+            putOwner('paOwnerRupiahStatus', paServerData ? 'DATA GABUNGAN' : 'DATA BELUM TERSEDIA');
+            putOwner('paOwnerUnitStatus', paServerData ? 'DATA GABUNGAN' : 'DATA BELUM TERSEDIA');
+            paSetProgress('paOwnerRupiahProgressBar', totalRpProgress || 0);
+            paSetProgress('paOwnerUnitProgressBar', totalUnitProgress || 0);
+            const rows = document.getElementById('paOwnerSalesRows');
+            if (rows) rows.innerHTML = ownerSales.length ? [...ownerSales].sort((a,b) => (Number(b.actRupiah)||0) - (Number(a.actRupiah)||0)).map((item, index) => {
+                const rp = Number(item.actRupiah) || 0, unit = Number(item.actUnit) || 0;
+                const trp = Number(item.targetRupiah) || 0, tu = Number(item.targetUnit) || 0;
+                const percent = paPercent(rp, trp);
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(item.displayName || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td><td>${paFormatNumber(unit)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td></tr>`;
+            }).join('') : '<tr><td colspan="6" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
         }
         const record = paSelectedRecord();
         const hasData = !!record;
