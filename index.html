@@ -701,49 +701,7 @@ button { touch-action:manipulation; }
             max-width: none !important;
           }
         }
-
-        /* Responsive spacing fix for Sales/KBA achievement section headings only.
-           Prevents the heading/subtitle from touching or visually overlapping the cards. */
-        .pa-section-heading {
-            position: relative;
-            z-index: 1;
-            align-items: flex-start;
-            margin: 8px 2px 0 !important;
-            gap: 10px;
-        }
-        .pa-section-heading > div {
-            min-width: 0;
-        }
-        .pa-section-heading h3 {
-            line-height: 1.35;
-            margin: 0;
-        }
-        .pa-section-heading p {
-            line-height: 1.45;
-            margin-top: 4px !important;
-        }
-        .pa-section-heading + .pa-achievement-card {
-            margin-top: 0 !important;
-        }
-        @media (max-width: 420px) {
-            .pa-section-heading {
-                margin-top: 7px !important;
-                gap: 7px;
-            }
-            .pa-section-heading h3 {
-                font-size: 15px;
-            }
-            .pa-section-heading p {
-                font-size: 10px;
-            }
-        }
-        @media (min-width: 421px) {
-            .pa-section-heading {
-                margin-top: 10px !important;
-            }
-        }
-
-    </style>
+</style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 
@@ -4136,7 +4094,36 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function toggleFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(!m)return; const open=!m.classList.contains('open'); m.classList.toggle('open',open); m.setAttribute('aria-hidden',String(!open)); document.body.classList.toggle('feature-modal-open',open); }
     function closeFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');} document.body.classList.remove('feature-modal-open'); }
     function openFeature(tab){ closeFeatureMenu(); switchTab(tab); }
-    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; if(currentAuthRole==='admin'){el.textContent='SPVKLIKM2W';return;} const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SALES'; el.textContent=id; }
+    function updateDashboardWelcome(){
+        const el = document.getElementById('dashWelcomeName');
+        if (!el) return;
+        if (currentAuthRole === 'admin') {
+            el.textContent = 'SPVKLIKM2W';
+            return;
+        }
+
+        // Prefer the authenticated Sales/KBA display name returned by the dashboard data.
+        // Do not replace it with generic fallback text such as "Sales (P2640485)" on navigation.
+        const record = typeof paSelectedRecord === 'function' ? paSelectedRecord() : null;
+        const displayName = String(record?.displayName || '').trim();
+        if (displayName) {
+            el.textContent = displayName;
+            return;
+        }
+
+        const currentText = String(el.textContent || '').trim();
+        const salesId = String((typeof state !== 'undefined' && state.salesId) || document.getElementById('loginSalesId')?.value || '').trim();
+        const stateName = String((typeof state !== 'undefined' && state.salesName) || '').trim();
+        const isGenericFallback = value => !value || /^sales(?:\\s*\\([^)]*\\))?$/i.test(value) || (salesId && value.toUpperCase() === salesId.toUpperCase());
+        if (!isGenericFallback(currentText)) return;
+        if (!isGenericFallback(stateName)) {
+            el.textContent = stateName;
+        } else if (salesId) {
+            el.textContent = salesId;
+        } else {
+            el.textContent = 'SALES';
+        }
+    }
 </script>
     <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
         <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
