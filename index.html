@@ -653,6 +653,37 @@ button { touch-action:manipulation; }
         @container pa-owner (min-width:700px) { .pa-owner-summary-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }.pa-owner-achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.pa-owner-summary { padding:14px; }.pa-owner-summary strong { font-size:clamp(14px,1.5cqw,22px); } }
         @media(max-width:380px) { .pa-owner-heading { align-items:flex-start; }.pa-owner-period { padding:7px;gap:5px; }.pa-owner-period .pa-metric-icon { width:30px;height:30px; }.pa-owner-summary { padding:10px 8px;gap:7px; }.pa-owner-summary-icon { width:32px;height:32px;border-radius:11px; }.pa-owner-summary strong { font-size:15px; }.pa-owner-summary span:not(.pa-owner-summary-icon) { font-size:9px; }.pa-owner-achievement-grid .pa-achievement-card { padding:14px; } }
 
+
+        /* Desktop layout hotfix: the app is intentionally mobile-first, but must expand on laptop. */
+        @media (min-width: 1025px) {
+          #appShell {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) !important;
+            grid-template-rows: auto minmax(0, 1fr) !important;
+            width: 100% !important;
+            max-width: 1600px !important;
+            min-height: 100vh !important;
+            margin: 0 auto !important;
+          }
+          #appHeader { grid-column: 1 !important; grid-row: 1 !important; width: 100%; }
+          #appMain {
+            grid-column: 1 !important;
+            grid-row: 2 !important;
+            width: 100% !important;
+            min-width: 0 !important;
+            padding: 28px clamp(24px, 3vw, 52px) 120px !important;
+          }
+          #dashboardHome {
+            width: 100% !important;
+            max-width: 1320px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+          }
+          #bottomNav {
+            width: min(100%, 900px) !important;
+            max-width: 900px !important;
+          }
+        }
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
