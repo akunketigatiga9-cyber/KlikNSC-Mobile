@@ -702,40 +702,48 @@ button { touch-action:manipulation; }
           }
         }
 
+        /* Responsive spacing fix for Sales/KBA achievement section headings only.
+           Prevents the heading/subtitle from touching or visually overlapping the cards. */
+        .pa-section-heading {
+            position: relative;
+            z-index: 1;
+            align-items: flex-start;
+            margin: 8px 2px 0 !important;
+            gap: 10px;
+        }
+        .pa-section-heading > div {
+            min-width: 0;
+        }
+        .pa-section-heading h3 {
+            line-height: 1.35;
+            margin: 0;
+        }
+        .pa-section-heading p {
+            line-height: 1.45;
+            margin-top: 4px !important;
+        }
+        .pa-section-heading + .pa-achievement-card {
+            margin-top: 0 !important;
+        }
+        @media (max-width: 420px) {
+            .pa-section-heading {
+                margin-top: 7px !important;
+                gap: 7px;
+            }
+            .pa-section-heading h3 {
+                font-size: 15px;
+            }
+            .pa-section-heading p {
+                font-size: 10px;
+            }
+        }
+        @media (min-width: 421px) {
+            .pa-section-heading {
+                margin-top: 10px !important;
+            }
+        }
 
-        /* Responsive Sales/KBA achievement cards — layout only */
-        *, *::before, *::after { box-sizing: border-box; }
-        html, body { width: 100%; max-width: 100%; overflow-x: clip; }
-        #appShell { width: 100%; min-width: 0; }
-        #appMain, #paSalesDashboardContent, .pa-welcome, .pa-achievement-card,
-        .pa-section-heading, .pa-target-row, .pa-bottom-metrics { min-width: 0; max-width: 100%; }
-        #paSalesDashboardContent { width: 100%; }
-        .pa-achievement-card { width: 100%; overflow: hidden; }
-        .pa-main-amount, .pa-target-row strong, .pa-bottom-metrics strong {
-          overflow-wrap: anywhere; word-break: normal;
-        }
-        .pa-progress-track { width: 100%; max-width: 100%; }
-        .pa-target-row { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
-        .pa-bottom-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
-        #bottomNav { width: 100%; max-width: 100%; }
-        .feature-modal-panel { width: min(100%, 520px); }
-        @media (min-width: 481px) {
-          #paSalesDashboardContent { max-width: 900px; margin-inline: auto; }
-          .pa-achievement-card { padding: clamp(16px, 2.5vw, 24px); }
-          .pa-main-amount { font-size: clamp(25px, 3vw, 34px); }
-        }
-        @media (min-width: 1025px) {
-          #appShell { max-width: 1600px !important; }
-          #bottomNav { left: 50%; transform: translateX(-50%); width: min(100%, 900px); }
-        }
-        @media (max-width: 380px) {
-          .pa-achievement-card { padding: 13px; }
-          .pa-target-row { gap: 8px; }
-          .pa-bottom-metrics { gap: 8px; }
-          .pa-main-amount { font-size: clamp(22px, 7vw, 26px); }
-        }
-
-</style>
+    </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 
@@ -3901,8 +3909,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const up = paPercent(actUnit, targetUnit);
         const put = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
-        const salesDisplayName = record?.displayName || state.salesName || state.salesId || 'SALES';
-        put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (salesDisplayName === 'Mudiah Wati' ? 'Mudiyah Wati' : salesDisplayName));
+        put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (record?.displayName || state.salesName || state.salesId || 'SALES'));
         put('paActRupiah', hasData ? paFormatRupiah(actRupiah) : 'Menunggu data');
         put('paTargetRupiah', targetRupiah > 0 ? paFormatRupiah(targetRupiah) : 'Belum diatur');
         put('paRupiahProgress', rp === null ? '—%' : rp + '%');
@@ -4129,7 +4136,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function toggleFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(!m)return; const open=!m.classList.contains('open'); m.classList.toggle('open',open); m.setAttribute('aria-hidden',String(!open)); document.body.classList.toggle('feature-modal-open',open); }
     function closeFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');} document.body.classList.remove('feature-modal-open'); }
     function openFeature(tab){ closeFeatureMenu(); switchTab(tab); }
-    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; if(currentAuthRole==='admin'){el.textContent='SPVKLIKM2W';return;} const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SALES'; el.textContent=(id === 'Mudiah Wati' ? 'Mudiyah Wati' : id); }
+    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; if(currentAuthRole==='admin'){el.textContent='SPVKLIKM2W';return;} const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SALES'; el.textContent=id; }
 </script>
     <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
         <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
