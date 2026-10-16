@@ -703,68 +703,36 @@ button { touch-action:manipulation; }
         }
 
 
-        /* Responsive-only patch: keep all existing app behavior and scripts unchanged. */
-        @media (min-width: 641px) and (max-width: 1024px) {
-          body { display:block; min-height:100vh; padding:0; }
-          #appShell {
-            display:block !important;
-            width:100% !important;
-            max-width:1100px !important;
-            min-height:100vh;
-            margin:0 auto !important;
-            border-radius:0 !important;
-            box-sizing:border-box;
-          }
-          #appHeader { width:100%; box-sizing:border-box; }
-          #appMain {
-            width:100% !important;
-            max-width:none !important;
-            min-width:0 !important;
-            padding:24px clamp(18px, 3vw, 36px) 120px !important;
-            box-sizing:border-box;
-          }
-          #dashboardHome {
-            width:100% !important;
-            max-width:900px !important;
-            margin-left:auto !important;
-            margin-right:auto !important;
-          }
-          #bottomNav {
-            left:50% !important;
-            transform:translateX(-50%) !important;
-            width:min(100%, 900px) !important;
-            max-width:900px !important;
-          }
-          .feature-modal-panel { width:min(100%, 620px) !important; }
+        /* Responsive Sales/KBA achievement cards — layout only */
+        *, *::before, *::after { box-sizing: border-box; }
+        html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+        #appShell { width: 100%; min-width: 0; }
+        #appMain, #paSalesDashboardContent, .pa-welcome, .pa-achievement-card,
+        .pa-section-heading, .pa-target-row, .pa-bottom-metrics { min-width: 0; max-width: 100%; }
+        #paSalesDashboardContent { width: 100%; }
+        .pa-achievement-card { width: 100%; overflow: hidden; }
+        .pa-main-amount, .pa-target-row strong, .pa-bottom-metrics strong {
+          overflow-wrap: anywhere; word-break: normal;
         }
-
+        .pa-progress-track { width: 100%; max-width: 100%; }
+        .pa-target-row { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+        .pa-bottom-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+        #bottomNav { width: 100%; max-width: 100%; }
+        .feature-modal-panel { width: min(100%, 520px); }
+        @media (min-width: 481px) {
+          #paSalesDashboardContent { max-width: 900px; margin-inline: auto; }
+          .pa-achievement-card { padding: clamp(16px, 2.5vw, 24px); }
+          .pa-main-amount { font-size: clamp(25px, 3vw, 34px); }
+        }
         @media (min-width: 1025px) {
-          #appShell {
-            width:100% !important;
-            max-width:1600px !important;
-            margin-left:auto !important;
-            margin-right:auto !important;
-          }
-          #appMain { min-width:0 !important; }
-          #bottomNav {
-            left:50% !important;
-            transform:translateX(-50%) !important;
-            width:min(100%, 900px) !important;
-            max-width:900px !important;
-          }
-          .feature-modal-panel { width:min(100%, 620px) !important; }
+          #appShell { max-width: 1600px !important; }
+          #bottomNav { left: 50%; transform: translateX(-50%); width: min(100%, 900px); }
         }
-
-        @media (max-width: 640px) {
-          #appShell { width:100% !important; max-width:100vw !important; }
-          #appMain { min-width:0 !important; }
-          #bottomNav {
-            left:0 !important;
-            transform:none !important;
-            width:100% !important;
-            max-width:none !important;
-          }
-          .feature-modal-panel { width:100% !important; }
+        @media (max-width: 380px) {
+          .pa-achievement-card { padding: 13px; }
+          .pa-target-row { gap: 8px; }
+          .pa-bottom-metrics { gap: 8px; }
+          .pa-main-amount { font-size: clamp(22px, 7vw, 26px); }
         }
 
 </style>
@@ -3933,7 +3901,8 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const up = paPercent(actUnit, targetUnit);
         const put = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
-        put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (record?.displayName || state.salesName || state.salesId || 'SALES'));
+        const salesDisplayName = record?.displayName || state.salesName || state.salesId || 'SALES';
+        put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (salesDisplayName === 'Mudiah Wati' ? 'Mudiyah Wati' : salesDisplayName));
         put('paActRupiah', hasData ? paFormatRupiah(actRupiah) : 'Menunggu data');
         put('paTargetRupiah', targetRupiah > 0 ? paFormatRupiah(targetRupiah) : 'Belum diatur');
         put('paRupiahProgress', rp === null ? '—%' : rp + '%');
@@ -4160,7 +4129,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function toggleFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(!m)return; const open=!m.classList.contains('open'); m.classList.toggle('open',open); m.setAttribute('aria-hidden',String(!open)); document.body.classList.toggle('feature-modal-open',open); }
     function closeFeatureMenu(){ const m=document.getElementById('featureMenuModal'); if(m){m.classList.remove('open');m.setAttribute('aria-hidden','true');} document.body.classList.remove('feature-modal-open'); }
     function openFeature(tab){ closeFeatureMenu(); switchTab(tab); }
-    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; if(currentAuthRole==='admin'){el.textContent='SPVKLIKM2W';return;} const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SALES'; el.textContent=id; }
+    function updateDashboardWelcome(){ const el=document.getElementById('dashWelcomeName'); if(!el)return; if(currentAuthRole==='admin'){el.textContent='SPVKLIKM2W';return;} const id=(typeof state !== 'undefined' && (state.salesName || state.salesId)) || document.getElementById('loginSalesId')?.value || 'SALES'; el.textContent=(id === 'Mudiah Wati' ? 'Mudiyah Wati' : id); }
 </script>
     <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
         <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
