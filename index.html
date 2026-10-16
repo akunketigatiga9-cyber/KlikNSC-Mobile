@@ -2258,6 +2258,21 @@ async function submitPasswordRecovery(event) {
         const isAdmin = salesId === 'admin';
         try {
             if (submit) { submit.disabled = true; submit.dataset.originalText ||= submit.innerText; submit.innerText = 'Memverifikasi…'; }
+
+            // Bersihkan sesi role yang berlawanan sebelum login baru. Endpoint
+            // logout yang gagal tidak menghalangi percobaan login, tetapi sesi
+            // yang baru tetap wajib lolos verifikasi spesifik di bawah.
+            const base = 'https://kliknsc-mobile-backend.vercel.app/api';
+            try {
+                await fetch(`${base}/${isAdmin ? 'logout' : 'admin-logout'}`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Accept': 'application/json' }
+                });
+            } catch (cleanupError) {
+                console.warn('Opposite-role session cleanup failed.', cleanupError?.message || cleanupError);
+            }
+
             const response = await fetch(
                 `https://kliknsc-mobile-backend.vercel.app/api/${isAdmin ? 'admin-login' : 'login'}`,
                 {
@@ -2274,13 +2289,49 @@ async function submitPasswordRecovery(event) {
                 return;
             }
 
-            // Verifikasi cookie sesi lewat endpoint /me yang sesuai; jangan sekadar reload.
-            const verified = await checkAuthStatus();
-            if (!verified || (isAdmin && currentAuthRole !== 'admin') || (!isAdmin && currentAuthRole !== 'sales')) {
+            // Verifikasi role yang baru saja login secara spesifik. Jangan gunakan
+            // checkAuthStatus() di sini karena sesi role lain yang masih tersisa
+            // bisa membuat dashboard yang salah dianggap aktif.
+            const verifyEndpoint = isAdmin ? 'admin-me' : 'session';
+            const verifyResponse = await fetch(`${base}/${verifyEndpoint}`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: { 'Accept': 'application/json' }
+            });
+            const verifyResult = await verifyResponse.json().catch(() => ({}));
+            const verified = isAdmin
+                ? (verifyResponse.ok && verifyResult.ok)
+                : (verifyResponse.ok && verifyResult.ok && !!verifyResult.user?.salesId
+                    && String(verifyResult.user.salesId).toUpperCase() === salesId);
+
+            if (!verified) {
                 errorMessage?.classList.remove('hidden');
-                showToast('Login diterima tetapi sesi belum terverifikasi. Periksa konfigurasi cookie/backend.', '⚠️');
+                showToast('Login diterima tetapi sesi akun ini belum terverifikasi. Periksa konfigurasi cookie/backend.', '⚠️');
                 return;
             }
+
+            if (isAdmin) {
+                currentAuthRole = 'admin';
+                state.salesId = '';
+                safeRemoveStorage('kliknsc_sales_id');
+                const badge = document.getElementById('headerSalesBadge');
+                if (badge) badge.innerText = 'OWNER';
+            } else {
+                currentAuthRole = 'sales';
+                state.salesId = verifyResult.user.salesId;
+                safeSetStorage('kliknsc_sales_id', state.salesId);
+                try {
+                    bonusTabUnlocked = sessionStorage.getItem(`kliknsc_bonus_unlocked_${encodeURIComponent(state.salesId)}`) === '1';
+                } catch (_) {
+                    bonusTabUnlocked = false;
+                }
+                const badge = document.getElementById('headerSalesBadge');
+                if (badge) badge.innerText = state.salesId;
+                updatePollHeaderBadge();
+            }
+            document.getElementById('loginOverlay')?.classList.add('hidden');
+            updateDashboardWelcome();
+            initPersonalAchievement();
             errorMessage?.classList.add('hidden');
             showToast(isAdmin ? 'Login Admin berhasil.' : `Selamat datang kembali, KBA ${state.salesId}!`, '🔓');
         } catch (error) {
