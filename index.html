@@ -658,6 +658,265 @@ button { touch-action:manipulation; }
             max-width: none !important;
           }
         }
+
+/* ==========================================================
+   KlikNSC Responsive Polish — final CSS-only override
+   Menjaga HTML, JavaScript, autentikasi, API, dan fitur tetap utuh.
+   ========================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  min-width: 0;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-bottom: 100px;
+}
+
+body {
+  width: 100%;
+  min-width: 0;
+  margin-inline: auto;
+  overflow-wrap: anywhere;
+}
+
+#appShell,
+#appHeader,
+#appMain,
+#dashboardHome,
+#bottomNav,
+.feature-modal-panel {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+#appMain,
+#dashboardHome,
+#appHeader {
+  overflow-wrap: anywhere;
+}
+
+#appMain img,
+#dashboardHome img,
+#appMain svg,
+#dashboardHome svg {
+  max-width: 100%;
+}
+
+#appMain input,
+#appMain select,
+#appMain textarea,
+#appMain button,
+#dashboardHome input,
+#dashboardHome select,
+#dashboardHome textarea,
+#dashboardHome button {
+  max-width: 100%;
+}
+
+/* Phone: use the full viewport and keep controls clear of bottom navigation. */
+@media (max-width: 640px) {
+  html,
+  body {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #appShell {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  #appHeader {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #appMain {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 16px 14px calc(112px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #dashboardHome {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-inline: auto !important;
+  }
+
+  #appMain input,
+  #appMain select,
+  #appMain textarea,
+  #dashboardHome input,
+  #dashboardHome select,
+  #dashboardHome textarea {
+    font-size: 16px;
+  }
+
+  #bottomNav {
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .feature-modal-panel {
+    width: min(100% - 20px, 620px) !important;
+    max-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px)) !important;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .feature-modal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .pa-owner-table-wrap,
+  .table-wrap,
+  .overflow-x-auto {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    max-width: 100%;
+  }
+}
+
+/* Very small phones: reduce spacing without shrinking readable form text. */
+@media (max-width: 380px) {
+  #appMain {
+    padding-left: 11px !important;
+    padding-right: 11px !important;
+  }
+
+  #bottomNav .bottom-nav-btn {
+    min-width: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 11px;
+  }
+
+  .feature-modal-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Tablet: use the available width instead of the old 448px phone-like cap. */
+@media (min-width: 641px) and (max-width: 1024px) {
+  #appShell {
+    width: min(100%, 900px) !important;
+    max-width: 900px !important;
+    margin-inline: auto !important;
+  }
+
+  #appMain {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 24px clamp(18px, 3vw, 32px) calc(112px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #dashboardHome {
+    width: 100% !important;
+    max-width: 840px !important;
+    min-width: 0 !important;
+    margin-inline: auto !important;
+  }
+
+  #bottomNav {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(calc(100% - 32px), 720px) !important;
+    max-width: 720px !important;
+    margin-inline: auto !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  }
+
+  .feature-modal-panel {
+    width: min(calc(100% - 32px), 760px);
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+  }
+}
+
+/* Desktop and large tablets in landscape: more breathing room, same feature flow. */
+@media (min-width: 1025px) {
+  #appShell {
+    width: min(100%, 1600px) !important;
+    max-width: 1600px !important;
+    margin-inline: auto !important;
+  }
+
+  #appMain {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 28px clamp(24px, 3vw, 52px) calc(120px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  #dashboardHome {
+    width: 100% !important;
+    max-width: 1320px !important;
+    min-width: 0 !important;
+    margin-inline: auto !important;
+  }
+
+  #bottomNav {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(calc(100% - 48px), 900px) !important;
+    max-width: 900px !important;
+  }
+
+  .feature-modal-panel {
+    max-width: 900px;
+    max-height: calc(100dvh - 48px);
+    overflow-y: auto;
+  }
+}
+
+/* Landscape phones: preserve space for the content and avoid a tall menu panel. */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  #appMain {
+    padding-bottom: 96px !important;
+  }
+
+  #bottomNav {
+    min-height: 48px;
+  }
+
+  .feature-modal-panel {
+    max-height: calc(100dvh - 12px) !important;
+  }
+}
+
+/* Respect accessibility preferences and avoid forced animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
