@@ -1096,7 +1096,7 @@ body {
                     </select>
                     <div class="pa-target-input-grid">
                         <label>Target Rupiah
-                            <input id="paTargetRupiahInput" type="number" min="0" step="100000" placeholder="Contoh: 100000000" inputmode="numeric">
+                            <input id="paTargetRupiahInput" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 1.000.000.000" oninput="formatPaTargetRupiahInput(this)">
                         </label>
                         <label>Target Unit
                             <input id="paTargetMountInput" type="number" min="0" step="1" placeholder="Contoh: 20" inputmode="numeric">
@@ -1625,6 +1625,10 @@ body {
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
                         <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkBpkb" onchange="updateChecklistProgress()">
                         <span>BPKB Asli & Faktur</span>
+                    </label>
+                    <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
+                        <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkSlipGaji" onchange="updateChecklistProgress()">
+                        <span>Slip Gaji / Bukti Usaha</span>
                     </label>
                     <label class="flex items-center gap-2.5 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/80 transition border border-slate-200/60 dark:border-slate-800">
                         <input type="checkbox" class="w-4 h-4 accent-emerald-600 rounded" id="chkRumah" onchange="updateChecklistProgress()">
@@ -3194,7 +3198,7 @@ ALAMAT TINGGAL: ${alamat}`;
         window.location.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     }
     function updateChecklistProgress() {
-        const documentChecks = ['chkKtp', 'chkKk', 'chkStnk', 'chkBpkb', 'chkRumah'];
+        const documentChecks = ['chkKtp', 'chkKk', 'chkStnk', 'chkBpkb', 'chkSlipGaji', 'chkRumah'];
         const isChecked = id => Boolean(document.getElementById(id)?.checked);
         const checkedDocuments = documentChecks.filter(isChecked).length;
         const score = Math.round((checkedDocuments / documentChecks.length) * 100);
@@ -3220,6 +3224,7 @@ ALAMAT TINGGAL: ${alamat}`;
             { id: 'chkKk', label: 'Kartu Keluarga (KK)' },
             { id: 'chkStnk', label: 'STNK Asli Kendaraan' },
             { id: 'chkBpkb', label: 'BPKB Asli & Faktur' },
+            { id: 'chkSlipGaji', label: 'Slip Gaji / Bukti Usaha' },
             { id: 'chkRumah', label: 'Bukti Kepemilikan Rumah (PBB / Rek Listrik)' }
         ];
         const formatItems = items => items.map(item => {
@@ -3590,6 +3595,15 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function paEscape(value) {
         return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
     }
+    function paParseTargetRupiahInput(value) {
+        const digits = String(value ?? '').replace(/\D/g, '');
+        return digits ? Number(digits) : 0;
+    }
+    function formatPaTargetRupiahInput(input) {
+        if (!input) return;
+        const digits = String(input.value ?? '').replace(/\D/g, '');
+        input.value = digits ? Number(digits).toLocaleString('id-ID') : '';
+    }
     function paFormatRupiah(value) {
         return 'Rp ' + Math.round(Number(value) || 0).toLocaleString('id-ID');
     }
@@ -3698,7 +3712,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         paSetProgress('paMountProgressBar', up || 0);
         const targetRpInput = document.getElementById('paTargetRupiahInput');
         const targetUnitInput = document.getElementById('paTargetMountInput');
-        if (targetRpInput && document.activeElement !== targetRpInput) targetRpInput.value = targetRupiah || '';
+        if (targetRpInput && document.activeElement !== targetRpInput) targetRpInput.value = targetRupiah > 0 ? Math.round(targetRupiah).toLocaleString('id-ID') : '';
         if (targetUnitInput && document.activeElement !== targetUnitInput) targetUnitInput.value = targetUnit || '';
         const status = document.querySelector('.pa-sync-pill');
         if (status) status.textContent = paServerData ? `✓ Terhubung · ${paServerData.month}` : '↻ Menunggu data';
@@ -3747,7 +3761,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             paSetImportMessage('Pilih profil SALES terlebih dahulu.', 'error');
             return;
         }
-        const targetRupiah = Number(document.getElementById('paTargetRupiahInput')?.value);
+        const targetRupiah = paParseTargetRupiahInput(document.getElementById('paTargetRupiahInput')?.value);
         const targetUnit = Number(document.getElementById('paTargetMountInput')?.value);
         if (!Number.isFinite(targetRupiah) || targetRupiah < 0 || !Number.isInteger(targetUnit) || targetUnit < 0) {
             paSetImportMessage('Target Rupiah harus ≥ 0 dan Target Unit harus bilangan bulat ≥ 0.', 'error');
