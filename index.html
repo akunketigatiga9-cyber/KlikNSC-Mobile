@@ -1918,7 +1918,7 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                     <div class="flex items-center gap-2 text-xs font-bold tracking-[.18em] text-blue-200"><span class="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-blue-200/20 bg-slate-950/20 text-base">％</span><span>KLIKNSC • TOOLS KBA</span></div>
                     <h2 class="text-2xl sm:text-3xl font-black mt-3">LTV NSC</h2>
                     <p class="text-sm text-blue-100 mt-1 max-w-xl">Simulasi batas pembiayaan berdasarkan Harpas dan status kendaraan yang sudah diverifikasi.</p>
-                    <div class="flex flex-wrap gap-2 mt-4"><span class="rounded-full border border-blue-200/20 bg-slate-950/20 px-3 py-1 text-xs font-bold text-blue-100">Harpas terverifikasi</span><span class="rounded-full border border-blue-200/20 bg-slate-950/20 px-3 py-1 text-xs font-bold text-blue-100">Tangan 1 / 2</span></div>
+                    <div class="flex flex-wrap gap-2 mt-4"><span class="rounded-full border border-blue-200/20 bg-slate-950/20 px-3 py-1 text-xs font-bold text-blue-100">Harpas terverifikasi</span></div>
                 </div>
             </div>
 
@@ -1933,21 +1933,32 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                     <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400 mt-2">Masukkan Harpas yang sudah dikonfirmasi sesuai ketentuan yang berlaku.</p>
                 </div>
                 <div>
-                    <label for="ltvTaxPosition" class="block text-sm font-bold mb-1.5">Posisi pajak</label>
-                    <select id="ltvTaxPosition" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="0">Pajak hidup</option>
-                        <option value="1">Pajak mati 1 tahun (potongan Rp500.000)</option>
-                        <option value="2">Pajak mati 2 tahun (potongan Rp1.000.000)</option>
-                        <option value="3">Pajak mati 3 tahun (potongan Rp1.500.000)</option>
-                        <option value="4">Pajak mati 4 tahun (potongan Rp2.000.000)</option>
-                        <option value="5">Pajak mati 5 tahun (potongan Rp2.500.000)</option>
-                        <option value="6">Pajak mati 6 tahun (potongan Rp3.000.000)</option>
-                        <option value="7">Pajak mati 7 tahun (potongan Rp3.500.000)</option>
-                        <option value="8">Pajak mati 8 tahun (potongan Rp4.000.000)</option>
-                        <option value="9">Pajak mati 9 tahun (potongan Rp4.500.000)</option>
-                        <option value="10">Pajak mati 10 tahun (potongan Rp5.000.000)</option>
-                    </select>
-                    <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400 mt-2">Potongan pajak mati Rp500.000 per tahun, sebelum perhitungan batas pembiayaan.</p>
+                    <span class="block text-sm font-bold mb-2">Posisi pajak</span>
+                    <div class="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Posisi pajak">
+                        <label class="flex items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-3 text-sm cursor-pointer">
+                            <input id="ltvTaxAlive" type="radio" name="ltvTaxMode" value="alive" checked onchange="updateLtvTaxMode()" class="h-4 w-4 accent-blue-600" />
+                            <span>Pajak hidup</span>
+                        </label>
+                        <label class="flex items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-3 text-sm cursor-pointer">
+                            <input id="ltvTaxDead" type="radio" name="ltvTaxMode" value="dead" onchange="updateLtvTaxMode()" class="h-4 w-4 accent-blue-600" />
+                            <span>Pajak mati</span>
+                        </label>
+                    </div>
+                    <div id="ltvTaxYearsWrap" class="hidden mt-3">
+                        <label for="ltvTaxPosition" class="block text-sm font-bold mb-1.5">Pajak mati berapa tahun?</label>
+                        <select id="ltvTaxPosition" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="1">1 tahun</option>
+                            <option value="2">2 tahun</option>
+                            <option value="3">3 tahun</option>
+                            <option value="4">4 tahun</option>
+                            <option value="5">5 tahun</option>
+                            <option value="6">6 tahun</option>
+                            <option value="7">7 tahun</option>
+                            <option value="8">8 tahun</option>
+                            <option value="9">9 tahun</option>
+                            <option value="10">10 tahun</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <label for="ltvOwnership" class="block text-sm font-bold mb-1.5">Status kepemilikan</label>
@@ -3026,12 +3037,21 @@ async function submitPasswordRecovery(event) {
         const error = document.getElementById('ltvError');
         if (error) { error.textContent = ''; error.classList.add('hidden'); }
     }
+    function updateLtvTaxMode() {
+        const isDead = !!document.getElementById('ltvTaxDead')?.checked;
+        const yearsWrap = document.getElementById('ltvTaxYearsWrap');
+        if (yearsWrap) yearsWrap.classList.toggle('hidden', !isDead);
+        if (!isDead) {
+            const years = document.getElementById('ltvTaxPosition');
+            if (years) years.value = '1';
+        }
+    }
     function calculateLtvNsc() {
         resetLtvError();
         const ownership = String(document.getElementById('ltvOwnership')?.value || '');
         const harpasRaw = String(document.getElementById('ltvHarpas')?.value || '').replace(/\D/g, '');
         const harpas = Number(harpasRaw);
-        const taxYears = Number(document.getElementById('ltvTaxPosition')?.value || 0);
+        const taxYears = document.getElementById('ltvTaxDead')?.checked ? Number(document.getElementById('ltvTaxPosition')?.value || 1) : 0;
         const confirmed = !!document.getElementById('ltvHarpasConfirmed')?.checked;
         const taxDeduction = taxYears * 500000;
         const adjustedHarpas = harpas - taxDeduction;
@@ -4078,7 +4098,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 <button onclick="openFeature('script')" class="dash-action"><span class="feature-item-icon">☏</span><span class="feature-item-title">Script promo</span><span class="feature-item-sub">Bantuan komunikasi</span></button>
                 <button onclick="openFeature('tahun')" class="dash-action"><span class="feature-item-icon">▦</span><span class="feature-item-title">Cek tahun kendaraan</span><span class="feature-item-sub">Cek ketentuan tahun</span></button>
                 <button onclick="openFeature('tabel')" class="dash-action"><span class="feature-item-icon">▤</span><span class="feature-item-title">Tabel brosur</span><span class="feature-item-sub">Cari nominal angsuran</span></button>
-                <button onclick="openFeature('ltv')" class="dash-action"><span class="feature-item-icon">％</span><span class="feature-item-title">LTV NSC</span><span class="feature-item-sub">Harpas &amp; batas pembiayaan</span></button>
+                <button onclick="openFeature('ltv')" class="dash-action"><span class="feature-item-icon">％</span><span class="feature-item-title">CEK HARPAS</span><span class="feature-item-sub">Harpas &amp; batas pembiayaan</span></button>
                 <button id="menuLogoutBtn" onclick="closeFeatureMenu(); promptLogout();" class="dash-action" style="border-color:rgba(251,113,133,.35)!important;background:linear-gradient(145deg,rgba(75,25,42,.62),rgba(29,15,29,.96))!important"><span class="feature-item-icon" style="color:#fda4af;background:rgba(244,63,94,.14);border-color:rgba(251,113,133,.28)">↪</span><span class="feature-item-title">Keluar / Logout</span><span class="feature-item-sub">Keluar dari akun saat ini</span></button>
             </div>
         </section>
