@@ -1013,12 +1013,7 @@ body {
                     <p class="text-xs text-blue-200/90 font-medium">Kalkulator Brosur & Tools KBA</p>
                 </div>
             </div>
-            <!-- Header Actions -->
-            <div class="flex items-center gap-1.5">
-                <button id="logoutBtn" onclick="promptLogout()" title="Keluar / Logout" class="p-2.5 rounded-2xl bg-rose-500/20 hover:bg-rose-500/30 active:scale-95 transition border border-rose-400/30 text-rose-300 flex items-center justify-center cursor-pointer">
-                    <svg class="w-5 h-5 text-rose-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                </button>
-            </div>
+            <!-- Logout is available from Menu Fitur instead of the header. -->
         </div>
     </header>
     <div id="featureTabs" class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex gap-2 text-xs font-bold shadow-md sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
@@ -3712,6 +3707,10 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const digits = String(input.value ?? '').replace(/\D/g, '');
         input.value = digits ? Number(digits).toLocaleString('id-ID') : '';
     }
+    function paDisplayName(value) {
+        const name = String(value || '').trim();
+        return /^mudiah\s+wati$/i.test(name) ? 'Mudiyah Wati' : name;
+    }
     function paFormatRupiah(value) {
         return 'Rp ' + Math.round(Number(value) || 0).toLocaleString('id-ID');
     }
@@ -3746,7 +3745,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         if (selector) {
             const current = selector.value;
             selector.innerHTML = sales.length
-                ? sales.map(item => `<option value="${paEscape(item.salesId)}">${paEscape(item.displayName)} (${paEscape(item.salesId)})</option>`).join('')
+                ? sales.map(item => `<option value="${paEscape(item.salesId)}">${paEscape(paDisplayName(item.displayName))} (${paEscape(item.salesId)})</option>`).join('')
                 : '<option value="">Data SALES belum tersedia</option>';
             selector.disabled = !isOwner || !sales.length;
             if (isOwner && sales.some(item => item.salesId === current)) selector.value = current;
@@ -3791,7 +3790,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 const rp = Number(item.actRupiah) || 0, unit = Number(item.actUnit) || 0;
                 const trp = Number(item.targetRupiah) || 0, tu = Number(item.targetUnit) || 0;
                 const percent = paPercent(rp, trp);
-                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(item.displayName || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td><td>${paFormatNumber(unit)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td></tr>`;
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td><td>${paFormatNumber(unit)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td></tr>`;
             }).join('') : '<tr><td colspan="6" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
         }
         const record = paSelectedRecord();
@@ -3803,7 +3802,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const rp = paPercent(actRupiah, targetRupiah);
         const up = paPercent(actUnit, targetUnit);
         const put = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-        put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (record?.displayName || state.salesName || state.salesId || 'SALES'));
+        put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (paDisplayName(record?.displayName) || paDisplayName(state.salesName) || state.salesId || 'SALES'));
         put('paActRupiah', hasData ? paFormatRupiah(actRupiah) : 'Menunggu data');
         put('paTargetRupiah', targetRupiah > 0 ? paFormatRupiah(targetRupiah) : 'Belum diatur');
         put('paRupiahProgress', rp === null ? '—%' : rp + '%');
@@ -4035,14 +4034,14 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         // Prefer the authenticated Sales/KBA display name returned by the dashboard data.
         // Do not replace it with generic fallback text such as "Sales (P2640485)" on navigation.
         const record = typeof paSelectedRecord === 'function' ? paSelectedRecord() : null;
-        const displayName = String(record?.displayName || '').trim();
+        const displayName = paDisplayName(record?.displayName);
         if (displayName) {
             el.textContent = displayName;
             return;
         }
         const currentText = String(el.textContent || '').trim();
         const salesId = String((typeof state !== 'undefined' && state.salesId) || document.getElementById('loginSalesId')?.value || '').trim();
-        const stateName = String((typeof state !== 'undefined' && state.salesName) || '').trim();
+        const stateName = paDisplayName((typeof state !== 'undefined' && state.salesName) || '');
         const isGenericFallback = value => !value || /^sales(?:\\s*\\([^)]*\\))?$/i.test(value) || (salesId && value.toUpperCase() === salesId.toUpperCase());
         if (!isGenericFallback(currentText)) return;
         if (!isGenericFallback(stateName)) {
@@ -4069,6 +4068,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 <button onclick="openFeature('tahun')" class="dash-action"><span class="feature-item-icon">▦</span><span class="feature-item-title">Cek tahun kendaraan</span><span class="feature-item-sub">Cek ketentuan tahun</span></button>
                 <button onclick="openFeature('tabel')" class="dash-action"><span class="feature-item-icon">▤</span><span class="feature-item-title">Tabel brosur</span><span class="feature-item-sub">Cari nominal angsuran</span></button>
                 <button onclick="openFeature('ltv')" class="dash-action"><span class="feature-item-icon">％</span><span class="feature-item-title">CEK HARPAS</span><span class="feature-item-sub">Harpas &amp; batas pembiayaan</span></button>
+                <button id="menuLogoutBtn" onclick="closeFeatureMenu(); promptLogout();" class="dash-action" style="border-color:rgba(251,113,133,.35)!important;background:linear-gradient(145deg,rgba(75,25,42,.62),rgba(29,15,29,.96))!important"><span class="feature-item-icon" style="color:#fda4af;background:rgba(244,63,94,.14);border-color:rgba(251,113,133,.28)">↪</span><span class="feature-item-title">Keluar / Logout</span><span class="feature-item-sub">Keluar dari akun saat ini</span></button>
             </div>
         </section>
     </div>
