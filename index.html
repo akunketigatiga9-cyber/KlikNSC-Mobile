@@ -1928,64 +1928,29 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
             </div>
 
             <div class="rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 sm:p-5 space-y-5 shadow-sm">
-                <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-700 pb-4">
-                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-600/10 text-xl text-blue-600 dark:text-blue-400">▣</div>
-                    <div><h3 class="font-extrabold text-base">Data kendaraan</h3><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Samakan dengan informasi pada STNK.</p></div>
+                <div class="flex items-center gap-3">
+                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-600/10 text-xl text-blue-600 dark:text-blue-400">Rp</div>
+                    <div><h3 class="font-extrabold text-base">Nilai Harpas</h3><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Masukkan nilai Harpas yang sudah diverifikasi.</p></div>
                 </div>
-                <div class="space-y-4">
-                    <div class="rounded-2xl border border-blue-300/25 bg-blue-500/5 p-3.5">
-                        <div class="flex items-start gap-3">
-                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-600/10 text-lg text-blue-500">↗</div>
-                            <div class="min-w-0 flex-1">
-                                <p class="text-sm font-extrabold text-slate-800 dark:text-slate-100">Cek Harpas online di NSC</p>
-                                <p class="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">Buka simulasi resmi, pilih lokasi SRN31, masukkan kode tipe motor dan tahun kendaraan. Setelah Harpas resmi terlihat, masukkan nilainya ke kolom Harpas di bawah.</p>
-                                <a href="https://www.nusantara-sakti.co.id/k/" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-blue-500/30 bg-blue-600/10 px-3.5 py-2 text-xs font-extrabold text-blue-700 hover:bg-blue-600/15 dark:text-blue-300">Buka simulasi Harpas NSC <span aria-hidden="true">↗</span></a>
-                            </div>
-                        </div>
-                        <p class="mt-3 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">Catatan: fitur ini membuka situs NSC resmi. Harpas belum diambil otomatis karena API resmi yang diizinkan untuk integrasi belum terverifikasi.</p>
-                    </div>
-                    <div>
-                        <label for="ltvMotorType" class="block text-sm font-bold mb-1.5">Kode / tipe motor sesuai NSC atau STNK</label>
-                        <input id="ltvMotorType" type="text" autocomplete="off" placeholder="Contoh kode: F1C02N46L0 atau Honda Beat CBS" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500" oninput="updateLtvVehicleSummary()" />
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div>
-                            <label for="ltvMotorYear" class="block text-sm font-bold mb-1.5">Tahun kendaraan</label>
-                            <select id="ltvMotorYear" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500" onchange="updateLtvVehicleSummary()">
-                                <option value="">Pilih tahun</option>
-                                <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021</option><option value="2020">2020</option><option value="2019">2019</option><option value="2018">2018</option><option value="2017">2017</option><option value="2016">2016</option><option value="2015">2015</option><option value="2014">2014</option><option value="2013">2013</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="ltvOwnership" class="block text-sm font-bold mb-1.5">Status kepemilikan</label>
-                            <select id="ltvOwnership" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500" onchange="updateLtvVehicleSummary()">
-                                <option value="">Pilih setelah verifikasi</option><option value="first">Tangan pertama</option><option value="second">Tangan kedua</option>
-                            </select>
-                        </div>
-                    </div>
+                <div>
+                    <label for="ltvHarpas" class="block text-sm font-bold mb-1.5">Harpas terkonfirmasi (Rp)</label>
+                    <input id="ltvHarpas" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 12.000.000" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-base font-bold outline-none focus:ring-2 focus:ring-blue-500" oninput="formatLtvHarpas(this)" />
+                    <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400 mt-2">Masukkan Harpas yang sudah dikonfirmasi sesuai ketentuan yang berlaku.</p>
                 </div>
-                <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/70 p-3.5">
-                    <p class="text-[11px] uppercase tracking-wider font-extrabold text-slate-500 dark:text-slate-400">Ringkasan kendaraan</p>
-                    <p id="ltvVehicleSummary" class="mt-1.5 text-sm font-bold text-slate-800 dark:text-slate-100">Tipe motor, tahun, dan status akan tampil di sini.</p>
+                <div>
+                    <label for="ltvOwnership" class="block text-sm font-bold mb-1.5">Status kepemilikan</label>
+                    <select id="ltvOwnership" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Pilih status kepemilikan</option>
+                        <option value="first">Tangan pertama</option>
+                        <option value="second">Tangan kedua</option>
+                    </select>
                 </div>
-
-                <div class="border-t border-slate-200 dark:border-slate-700 pt-5 space-y-4">
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-600/10 text-xl text-blue-600 dark:text-blue-400">Rp</div>
-                        <div><h3 class="font-extrabold text-base">Nilai Harpas</h3><p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Masukkan nilai yang sudah dikonfirmasi.</p></div>
-                    </div>
-                    <div>
-                        <label for="ltvHarpas" class="block text-sm font-bold mb-1.5">Harpas terkonfirmasi (Rp)</label>
-                        <input id="ltvHarpas" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 12.000.000" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-base font-bold outline-none focus:ring-2 focus:ring-blue-500" oninput="formatLtvHarpas(this)" />
-                        <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400 mt-2">Salin Harpas dari simulasi resmi NSC untuk lokasi SRN31 dan tahun yang sama. Jangan gunakan perkiraan harga pasar sebagai Harpas resmi.</p>
-                    </div>
-                    <label class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 p-3.5 text-sm text-slate-600 dark:text-slate-300">
-                        <input id="ltvHarpasConfirmed" type="checkbox" class="mt-1 h-4 w-4 shrink-0 accent-blue-600" />
-                        <span><strong class="block text-slate-800 dark:text-slate-100">Konfirmasi verifikasi</strong><span class="block mt-0.5 text-xs leading-relaxed">Saya sudah memverifikasi Harpas dan status kepemilikan kendaraan.</span></span>
-                    </label>
-                    <button type="button" onclick="calculateLtvNsc()" class="w-full rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[.99] text-white font-extrabold py-4 shadow-lg shadow-blue-600/20 transition">Hitung batas pembiayaan <span aria-hidden="true">→</span></button>
-                    <p id="ltvError" class="hidden rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-sm font-semibold text-rose-500" role="alert"></p>
-                </div>
+                <label class="flex items-start gap-3 rounded-xl border border-slate-200 dark:border-slate-700 p-3.5 text-sm text-slate-600 dark:text-slate-300">
+                    <input id="ltvHarpasConfirmed" type="checkbox" class="mt-1 h-4 w-4 shrink-0 accent-blue-600" />
+                    <span><strong class="block text-slate-800 dark:text-slate-100">Konfirmasi verifikasi</strong><span class="block mt-0.5 text-xs leading-relaxed">Saya sudah memverifikasi nilai Harpas dan status kepemilikan kendaraan.</span></span>
+                </label>
+                <button type="button" onclick="calculateLtvNsc()" class="w-full rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[.99] text-white font-extrabold py-4 shadow-lg shadow-blue-600/20 transition">Hitung batas pembiayaan <span aria-hidden="true">→</span></button>
+                <p id="ltvError" class="hidden rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-sm font-semibold text-rose-500" role="alert"></p>
             </div>
 
             <div id="ltvResult" class="hidden overflow-hidden rounded-3xl border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950/40 shadow-sm" aria-live="polite">
@@ -3055,28 +3020,15 @@ async function submitPasswordRecovery(event) {
         const error = document.getElementById('ltvError');
         if (error) { error.textContent = ''; error.classList.add('hidden'); }
     }
-    function updateLtvVehicleSummary() {
-        const type = String(document.getElementById('ltvMotorType')?.value || '').trim();
-        const year = String(document.getElementById('ltvMotorYear')?.value || '');
-        const ownership = String(document.getElementById('ltvOwnership')?.value || '');
-        const ownershipLabel = ownership === 'first' ? 'Tangan pertama' : ownership === 'second' ? 'Tangan kedua' : '';
-        const parts = [type, year ? 'Tahun ' + year : '', ownershipLabel].filter(Boolean);
-        const summary = document.getElementById('ltvVehicleSummary');
-        if (summary) summary.textContent = parts.length ? parts.join(' • ') : 'Tipe motor, tahun, dan status akan tampil di sini.';
-    }
     function calculateLtvNsc() {
         resetLtvError();
-        const type = String(document.getElementById('ltvMotorType')?.value || '').trim();
-        const year = String(document.getElementById('ltvMotorYear')?.value || '');
         const ownership = String(document.getElementById('ltvOwnership')?.value || '');
         const harpasRaw = String(document.getElementById('ltvHarpas')?.value || '').replace(/\D/g, '');
         const harpas = Number(harpasRaw);
         const confirmed = !!document.getElementById('ltvHarpasConfirmed')?.checked;
         let message = '';
-        if (!type) message = 'Isi tipe motor sesuai STNK terlebih dahulu.';
-        else if (!year) message = 'Pilih tahun kendaraan terlebih dahulu.';
-        else if (!ownership) message = 'Pilih status tangan pertama/kedua setelah verifikasi.';
-        else if (!harpasRaw) message = 'Masukkan Harpas yang sudah dikonfirmasi.';
+        if (!harpasRaw) message = 'Masukkan Harpas yang sudah dikonfirmasi.';
+        else if (!ownership) message = 'Pilih status kepemilikan kendaraan.';
         else if (!Number.isFinite(harpas) || harpas <= 0) message = 'Nilai Harpas harus lebih besar dari Rp0.';
         else if (!confirmed) message = 'Centang konfirmasi setelah Harpas dan status kepemilikan diverifikasi.';
         if (message) {
@@ -3093,7 +3045,7 @@ async function submitPasswordRecovery(event) {
         const ownershipResult = document.getElementById('ltvResultOwnership');
         if (ownershipResult) ownershipResult.textContent = ownership === 'first' ? 'Status: Tangan pertama' : 'Status: Tangan kedua';
         document.getElementById('ltvResultLimit').textContent = formatRp(limit);
-        document.getElementById('ltvResultRule').textContent = (ownership === 'first' ? 'Tangan pertama: Harpas × 94% × 80%' : 'Tangan kedua: Harpas × 94% × 70%') + ' • ' + type + ' • Tahun ' + year;
+        document.getElementById('ltvResultRule').textContent = ownership === 'first' ? 'Tangan pertama: Harpas × 94% × 80%' : 'Tangan kedua: Harpas × 94% × 70%';
         document.getElementById('ltvResult').classList.remove('hidden');
     }
 
@@ -4116,7 +4068,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 <button onclick="openFeature('script')" class="dash-action"><span class="feature-item-icon">☏</span><span class="feature-item-title">Script promo</span><span class="feature-item-sub">Bantuan komunikasi</span></button>
                 <button onclick="openFeature('tahun')" class="dash-action"><span class="feature-item-icon">▦</span><span class="feature-item-title">Cek tahun kendaraan</span><span class="feature-item-sub">Cek ketentuan tahun</span></button>
                 <button onclick="openFeature('tabel')" class="dash-action"><span class="feature-item-icon">▤</span><span class="feature-item-title">Tabel brosur</span><span class="feature-item-sub">Cari nominal angsuran</span></button>
-                <button onclick="openFeature('ltv')" class="dash-action"><span class="feature-item-icon">％</span><span class="feature-item-title">LTV NSC</span><span class="feature-item-sub">Harpas &amp; batas pembiayaan</span></button>
+                <button onclick="openFeature('ltv')" class="dash-action"><span class="feature-item-icon">％</span><span class="feature-item-title">CEK HARPAS</span><span class="feature-item-sub">Harpas &amp; batas pembiayaan</span></button>
             </div>
         </section>
     </div>
