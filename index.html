@@ -931,7 +931,7 @@ body {
 #ltvView input:focus,#ltvView select:focus{border-color:#3b82f6!important;box-shadow:0 0 0 3px rgba(59,130,246,.15)}
 #ltvView button[onclick="calculateLtvNsc()"]{border-radius:1rem!important;background:linear-gradient(100deg,#2563eb,#3b82f6)!important;border:1px solid rgba(147,197,253,.3);padding:1rem!important;box-shadow:0 12px 28px rgba(37,99,235,.25)!important}
 #ltvView #ltvResult{border-radius:1.5rem!important;border-color:rgba(96,165,250,.45)!important;background:radial-gradient(circle at 100% 0%,rgba(59,130,246,.3),transparent 35%),linear-gradient(135deg,#07152f,#102b62)!important;color:white!important;box-shadow:0 18px 40px rgba(2,6,23,.25)}
-#ltvView #ltvResultHarpas,#ltvView #ltvResultLimit,#ltvView #ltvResultRule{color:inherit!important}
+#ltvView #ltvResultLimit{color:inherit!important}
 #ltvView #ltvResultLimit{font-size:clamp(1.8rem,7vw,2.4rem);line-height:1.15;overflow-wrap:anywhere}
 #ltvView #ltvError{padding:.8rem;border:1px solid rgba(244,63,94,.3);border-radius:.8rem;background:rgba(244,63,94,.08)}
 @media(min-width:640px){#ltvView>div:nth-child(2){padding:1.5rem!important}}
@@ -1933,6 +1933,23 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                     <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400 mt-2">Masukkan Harpas yang sudah dikonfirmasi sesuai ketentuan yang berlaku.</p>
                 </div>
                 <div>
+                    <label for="ltvTaxPosition" class="block text-sm font-bold mb-1.5">Posisi pajak</label>
+                    <select id="ltvTaxPosition" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="0">Pajak hidup</option>
+                        <option value="1">Pajak mati 1 tahun (potongan Rp500.000)</option>
+                        <option value="2">Pajak mati 2 tahun (potongan Rp1.000.000)</option>
+                        <option value="3">Pajak mati 3 tahun (potongan Rp1.500.000)</option>
+                        <option value="4">Pajak mati 4 tahun (potongan Rp2.000.000)</option>
+                        <option value="5">Pajak mati 5 tahun (potongan Rp2.500.000)</option>
+                        <option value="6">Pajak mati 6 tahun (potongan Rp3.000.000)</option>
+                        <option value="7">Pajak mati 7 tahun (potongan Rp3.500.000)</option>
+                        <option value="8">Pajak mati 8 tahun (potongan Rp4.000.000)</option>
+                        <option value="9">Pajak mati 9 tahun (potongan Rp4.500.000)</option>
+                        <option value="10">Pajak mati 10 tahun (potongan Rp5.000.000)</option>
+                    </select>
+                    <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400 mt-2">Potongan pajak mati Rp500.000 per tahun, sebelum perhitungan batas pembiayaan.</p>
+                </div>
+                <div>
                     <label for="ltvOwnership" class="block text-sm font-bold mb-1.5">Status kepemilikan</label>
                     <select id="ltvOwnership" class="w-full rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3.5 py-3.5 text-sm outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Pilih status kepemilikan</option>
@@ -1948,18 +1965,12 @@ Proses tetap bisa berjalan cair hari ini. Nanti tim kami yang bantu uruskan pemu
                 <p id="ltvError" class="hidden rounded-xl border border-rose-500/20 bg-rose-500/10 p-3 text-sm font-semibold text-rose-500" role="alert"></p>
             </div>
 
-            <div id="ltvResult" class="hidden overflow-hidden rounded-3xl border border-blue-200 dark:border-blue-900 bg-blue-50 dark:bg-blue-950/40 shadow-sm" aria-live="polite">
-                <div class="border-b border-blue-200 dark:border-blue-900 p-4 sm:p-5">
-                    <p class="text-xs font-extrabold uppercase tracking-wider text-blue-700 dark:text-blue-300">Hasil simulasi LTV NSC</p>
-                    <p id="ltvResultOwnership" class="text-sm font-bold text-slate-700 dark:text-slate-200 mt-2"></p>
-                    <p id="ltvResultRule" class="text-xs leading-relaxed text-slate-600 dark:text-slate-300 mt-1"></p>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 sm:p-5">
-                    <div class="rounded-2xl border border-blue-200/70 dark:border-blue-900 bg-white/70 dark:bg-slate-900/50 p-4"><p class="text-xs font-bold text-slate-500 dark:text-slate-400">Harpas terkonfirmasi</p><p id="ltvResultHarpas" class="text-lg font-black text-slate-900 dark:text-white mt-2"></p></div>
-                    <div class="rounded-2xl border border-blue-300 dark:border-blue-800 bg-blue-600 p-4 text-white"><p class="text-xs font-bold text-blue-100">Batas pembiayaan</p><p id="ltvResultLimit" class="text-2xl sm:text-3xl font-black mt-2 break-words"></p><p class="text-xs text-blue-100 mt-1">Hasil simulasi berdasarkan rumus di bawah.</p></div>
+            <div id="ltvResult" class="hidden overflow-hidden rounded-3xl border border-blue-300 dark:border-blue-800 bg-blue-600 text-white shadow-sm" aria-live="polite">
+                <div class="p-5 sm:p-6">
+                    <p class="text-xs font-extrabold uppercase tracking-wider text-blue-100">Batas pembiayaan</p>
+                    <p id="ltvResultLimit" class="text-3xl sm:text-4xl font-black mt-3 break-words"></p>
                 </div>
             </div>
-            <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400 px-1">Rumus simulasi: tangan pertama = Harpas × 94% × 80%; tangan kedua = Harpas × 94% × 70%. Pastikan ketentuan ini sesuai aturan resmi sebelum digunakan untuk keputusan pembiayaan.</p>
         </section>
         <!-- Footer Credit -->
         <footer class="text-center py-4 border-t border-slate-200/60 dark:border-slate-800/80 mt-6">
@@ -3020,12 +3031,16 @@ async function submitPasswordRecovery(event) {
         const ownership = String(document.getElementById('ltvOwnership')?.value || '');
         const harpasRaw = String(document.getElementById('ltvHarpas')?.value || '').replace(/\D/g, '');
         const harpas = Number(harpasRaw);
+        const taxYears = Number(document.getElementById('ltvTaxPosition')?.value || 0);
         const confirmed = !!document.getElementById('ltvHarpasConfirmed')?.checked;
+        const taxDeduction = taxYears * 500000;
+        const adjustedHarpas = harpas - taxDeduction;
         let message = '';
         if (!harpasRaw) message = 'Masukkan Harpas yang sudah dikonfirmasi.';
-        else if (!ownership) message = 'Pilih status kepemilikan kendaraan.';
         else if (!Number.isFinite(harpas) || harpas <= 0) message = 'Nilai Harpas harus lebih besar dari Rp0.';
-        else if (!confirmed) message = 'Centang konfirmasi setelah Harpas dan status kepemilikan diverifikasi.';
+        else if (adjustedHarpas <= 0) message = 'Potongan pajak mati membuat Harpas menjadi Rp0 atau kurang. Periksa kembali Harpas dan posisi pajak.';
+        else if (!ownership) message = 'Pilih status kepemilikan kendaraan.';
+        else if (!confirmed) message = 'Centang konfirmasi setelah Harpas, posisi pajak, dan status kepemilikan diverifikasi.';
         if (message) {
             const error = document.getElementById('ltvError');
             error.textContent = message;
@@ -3034,13 +3049,9 @@ async function submitPasswordRecovery(event) {
             return;
         }
         const factor = ownership === 'first' ? 0.80 : 0.70;
-        const limit = Math.floor(harpas * 0.94 * factor);
+        const limit = Math.floor(adjustedHarpas * 0.94 * factor);
         const formatRp = value => 'Rp' + Math.round(value).toLocaleString('id-ID');
-        document.getElementById('ltvResultHarpas').textContent = formatRp(harpas);
-        const ownershipResult = document.getElementById('ltvResultOwnership');
-        if (ownershipResult) ownershipResult.textContent = ownership === 'first' ? 'Status: Tangan pertama' : 'Status: Tangan kedua';
         document.getElementById('ltvResultLimit').textContent = formatRp(limit);
-        document.getElementById('ltvResultRule').textContent = ownership === 'first' ? 'Tangan pertama: Harpas × 94% × 80%' : 'Tangan kedua: Harpas × 94% × 70%';
         document.getElementById('ltvResult').classList.remove('hidden');
     }
 
@@ -4067,7 +4078,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 <button onclick="openFeature('script')" class="dash-action"><span class="feature-item-icon">☏</span><span class="feature-item-title">Script promo</span><span class="feature-item-sub">Bantuan komunikasi</span></button>
                 <button onclick="openFeature('tahun')" class="dash-action"><span class="feature-item-icon">▦</span><span class="feature-item-title">Cek tahun kendaraan</span><span class="feature-item-sub">Cek ketentuan tahun</span></button>
                 <button onclick="openFeature('tabel')" class="dash-action"><span class="feature-item-icon">▤</span><span class="feature-item-title">Tabel brosur</span><span class="feature-item-sub">Cari nominal angsuran</span></button>
-                <button onclick="openFeature('ltv')" class="dash-action"><span class="feature-item-icon">％</span><span class="feature-item-title">CEK HARPAS</span><span class="feature-item-sub">Harpas &amp; batas pembiayaan</span></button>
+                <button onclick="openFeature('ltv')" class="dash-action"><span class="feature-item-icon">％</span><span class="feature-item-title">LTV NSC</span><span class="feature-item-sub">Harpas &amp; batas pembiayaan</span></button>
                 <button id="menuLogoutBtn" onclick="closeFeatureMenu(); promptLogout();" class="dash-action" style="border-color:rgba(251,113,133,.35)!important;background:linear-gradient(145deg,rgba(75,25,42,.62),rgba(29,15,29,.96))!important"><span class="feature-item-icon" style="color:#fda4af;background:rgba(244,63,94,.14);border-color:rgba(251,113,133,.28)">↪</span><span class="feature-item-title">Keluar / Logout</span><span class="feature-item-sub">Keluar dari akun saat ini</span></button>
             </div>
         </section>
