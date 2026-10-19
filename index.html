@@ -573,6 +573,8 @@ button { touch-action:manipulation; }
         .pa-owner-period small,.pa-owner-period strong { display:block; }
         .pa-owner-period small { color:#91a9c8;font-size:9px; }
         .pa-owner-period strong { color:#edf5ff;font-size:12px;margin-top:2px; }
+        .pa-owner-period input[type="month"] { display:block;width:100%;max-width:142px;margin-top:4px;padding:6px 7px;border:1px solid rgba(95,151,220,.3);border-radius:9px;background:#081629;color:#edf5ff;font-size:11px;font-weight:800;color-scheme:dark; }
+        .pa-owner-period input[type="month"]:focus-visible { outline:2px solid #60a5fa;outline-offset:2px; }
         .pa-owner-summary-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px; }
         .pa-owner-summary { min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:15px 10px;border:1px solid rgba(77,127,183,.23);border-radius:18px;background:linear-gradient(145deg,#0d2037,#081629);text-align:center; }
         .pa-owner-summary-icon { display:grid;place-items:center;flex-shrink:0;width:39px;height:39px;border-radius:14px;font-size:21px;font-weight:900; }
@@ -1064,11 +1066,11 @@ body {
             <div id="paOwnerDashboard" class="pa-owner-dashboard hidden" aria-label="Rekap pencapaian OWNER">
                 <div class="pa-owner-heading">
                     <div><p class="dash-kicker">KLIKNSC · DASHBOARD OWNER</p><h2>Rekap Pencapaian 4 Sales/KBA</h2><p>Ringkasan pencapaian seluruh Sales/KBA untuk periode yang dipilih.</p></div>
-                    <div class="pa-owner-period"><span class="pa-metric-icon">▦</span><div><small>Periode</small><strong id="paOwnerPeriod">—</strong></div></div>
+                    <div class="pa-owner-period"><span class="pa-metric-icon">▦</span><div><small>Filter periode</small><input id="paOwnerMonthPicker" type="month" aria-label="Pilih periode dashboard Owner" title="Pilih bulan laporan" /></div></div>
                 </div>
                 <div class="pa-owner-summary-grid">
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">♟</span><div><strong id="paOwnerSalesCount">—</strong><span>Total Sales/KBA</span><small>Aktif di data server</small></div></article>
-                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">▤</span><div><strong id="paOwnerTransactions">—</strong><span>Total Transaksi (NOBUK)</span><small>Jika tersedia dari server</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">▤</span><div><strong id="paOwnerTransactions">—</strong><span>Total Transaksi (NOBUK)</span><small>Seluruh NOBUK periode terpilih</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon green">✓</span><div><strong id="paOwnerActRupiah">Menunggu data</strong><span>Total ACT Rupiah</span><small>Gabungan 4 Sales/KBA</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon purple">▥</span><div><strong id="paOwnerActUnit">—</strong><span>Total ACT Unit</span><small>Gabungan 4 Sales/KBA</small></div></article>
                 </div>
@@ -3794,12 +3796,13 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             const totalTargetUnit = ownerSales.reduce((sum, item) => sum + (Number(item.targetUnit) || 0), 0);
             const totalRpProgress = paPercent(totalRp, totalTargetRp);
             const totalUnitProgress = paPercent(totalUnit, totalTargetUnit);
-            const month = paServerData?.month || '—';
+            const month = paServerData?.month || getSelectedOwnerMonth() || '—';
+            const picker = document.getElementById('paOwnerMonthPicker');
+            if (picker && /^\d{4}-\d{2}$/.test(month) && picker.value !== month) picker.value = month;
             const putOwner = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
-            putOwner('paOwnerPeriod', month);
             putOwner('paOwnerSalesCount', paFormatNumber(ownerSales.length));
             const transactionCount = paServerData?.totalTransactions ?? paServerData?.transactionCount ?? paServerData?.totalNobuk ?? paServerData?.uniqueNobuk ?? ownerSales.reduce((sum, item) => sum + (Number(item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0), 0);
-            putOwner('paOwnerTransactions', Number(transactionCount) > 0 ? paFormatNumber(transactionCount) : '—');
+            putOwner('paOwnerTransactions', transactionCount !== null && transactionCount !== undefined && Number.isFinite(Number(transactionCount)) ? paFormatNumber(transactionCount) : '—');
             putOwner('paOwnerActRupiah', paServerData ? paFormatRupiah(totalRp) : 'Menunggu data');
             putOwner('paOwnerActRupiahMain', paServerData ? paFormatRupiah(totalRp) : 'Menunggu data');
             putOwner('paOwnerActUnit', paServerData ? paFormatNumber(totalUnit) + ' Unit' : '—');
@@ -3864,11 +3867,26 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         if (targetSave) targetSave.style.display = isOwner ? '' : 'none';
         renderPaHistory(record?.salesId || '');
     }
-    async function paFetchDashboard() {
-        const month = new Date();
-        const monthParam = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}`;
+    function getCurrentOwnerMonth() {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    }
+    function getSelectedOwnerMonth() {
+        const picker = document.getElementById('paOwnerMonthPicker');
+        return picker && /^\d{4}-\d{2}$/.test(picker.value) ? picker.value : getCurrentOwnerMonth();
+    }
+    async function paFetchDashboard(requestedMonth) {
+        const monthParam = /^\d{4}-\d{2}$/.test(String(requestedMonth || '')) ? String(requestedMonth) : getSelectedOwnerMonth();
+        const picker = document.getElementById('paOwnerMonthPicker');
+        if (picker && picker.value !== monthParam) picker.value = monthParam;
+        if (paServerData?.month && paServerData.month !== monthParam) {
+            // Avoid showing the previous month's numbers while the new period is loading.
+            paServerData = null;
+            paRefreshDashboard();
+        }
+        if (currentAuthRole === 'admin') paSetImportMessage(`Memuat data periode ${monthParam}...`, '');
         try {
-            const response = await fetch(`${PA_API_BASE}/achievement?month=${monthParam}`, {
+            const response = await fetch(`${PA_API_BASE}/achievement?month=${encodeURIComponent(monthParam)}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Accept': 'application/json' },
@@ -3878,9 +3896,10 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             if (!response.ok || !result.ok) {
                 throw new Error(result.message || `Gagal memuat data (${response.status})`);
             }
+            if (result.month !== monthParam) throw new Error(`Server mengembalikan periode ${result.month || 'tidak diketahui'}, bukan ${monthParam}.`);
             paServerData = result;
             paRefreshDashboard();
-            paSetImportMessage(`Data pencapaian periode ${result.month} berhasil dimuat dari server.`, 'success');
+            if (currentAuthRole === 'admin') paSetImportMessage(`Data pencapaian periode ${result.month} berhasil dimuat dari server.`, 'success');
             return true;
         } catch (error) {
             paServerData = null;
@@ -3905,9 +3924,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             paSetImportMessage('Target Rupiah harus ≥ 0 dan Target Unit harus bilangan bulat ≥ 0.', 'error');
             return;
         }
-        const month = paServerData?.month || (() => {
-            const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
-        })();
+        const month = getSelectedOwnerMonth();
         try {
             const response = await fetch(`${PA_API_BASE}/achievement`, {
                 method: 'POST',
@@ -4031,6 +4048,13 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function initPersonalAchievement() {
         const input = document.getElementById('paExcelInput');
         if (input) input.addEventListener('change', handlePaExcelImport);
+        const monthPicker = document.getElementById('paOwnerMonthPicker');
+        if (monthPicker) {
+            monthPicker.value = getCurrentOwnerMonth();
+            monthPicker.addEventListener('change', () => {
+                if (currentAuthRole === 'admin' && /^\d{4}-\d{2}$/.test(monthPicker.value)) paFetchDashboard(monthPicker.value);
+            });
+        }
         const select = document.getElementById('paPersonSelect');
         if (select) select.addEventListener('change', paRefreshDashboard);
         const ownerOnly = currentAuthRole !== 'admin';
