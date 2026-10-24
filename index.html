@@ -919,6 +919,21 @@ body {
   }
 }
 
+
+        .pa-owner-disclosure{border:1px solid rgba(64,143,239,.34);border-radius:16px;background:linear-gradient(145deg,rgba(14,39,67,.96),rgba(7,20,37,.98));overflow:hidden}
+        .pa-owner-disclosure-trigger{display:flex;align-items:center;gap:12px;min-height:68px;padding:14px 16px;cursor:pointer;list-style:none;color:#edf6ff}
+        .pa-owner-disclosure-trigger::-webkit-details-marker{display:none}
+        .pa-owner-disclosure-trigger::marker{content:""}
+        .pa-owner-disclosure-icon{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:12px;background:#123b70;color:#77baff;font-size:21px}
+        .pa-owner-disclosure-copy{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+        .pa-owner-disclosure-copy strong{font-size:14px;font-weight:800}
+        .pa-owner-disclosure-copy small{font-size:11px;line-height:1.45;color:#8eafd4}
+        .pa-owner-disclosure-state{flex:0 0 28px;width:28px;height:28px;display:grid;place-items:center;border:1px solid rgba(110,173,255,.35);border-radius:9px;color:#8fc5ff}
+        .pa-owner-disclosure-state::before{content:"+";font-size:20px;line-height:1}
+        .pa-owner-disclosure[open] .pa-owner-disclosure-state::before{content:"−"}
+        .pa-owner-disclosure .pa-control-panel{border:0;border-top:1px solid rgba(75,137,207,.2);border-radius:0;box-shadow:none}
+        .pa-owner-disclosure:not([open]) .pa-control-panel{display:none}
+        @media(max-width:600px){.pa-owner-disclosure-trigger{min-height:64px;padding:12px}.pa-owner-disclosure-copy strong{font-size:13px}.pa-owner-disclosure-copy small{font-size:10px}}
 </style>
 <style id="ltv-premium-fintech-style">
 /* Scoped LTV NSC visual refresh: Premium Fintech + Automotive Finance */
@@ -1098,11 +1113,18 @@ body {
                 <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">4 SALES/KBA</span></div>
                     <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="11" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
                 </section>
-                <div class="pa-owner-controls-slot"><section class="pa-control-panel" aria-label="Impor report dan target pribadi">
-                <div class="pa-control-head">
-                    <div><span class="pa-control-eyebrow">DATA & TARGET</span><h3>Perbarui pencapaian</h3><p>Upload report kumulatif dari awal bulan sampai hari ini.</p></div>
-                    <span class="pa-control-icon">↻</span>
-                </div>
+                <div class="pa-owner-controls-slot">
+                <details class="pa-owner-disclosure">
+                    <summary class="pa-owner-disclosure-trigger">
+                        <span class="pa-owner-disclosure-icon" aria-hidden="true">⚙</span>
+                        <span class="pa-owner-disclosure-copy"><strong>Perbarui pencapaian</strong><small>Upload laporan CSV atau atur target Sales/KBA</small></span>
+                        <span class="pa-owner-disclosure-state" aria-hidden="true"></span>
+                    </summary>
+                    <section class="pa-control-panel" aria-label="Impor report dan target pribadi">
+                        <div class="pa-control-head">
+                            <div><span class="pa-control-eyebrow">DATA & TARGET</span><h3>Pengaturan laporan & target</h3><p>Upload report kumulatif dari awal bulan sampai hari ini.</p></div>
+                            <span class="pa-control-icon">↻</span>
+                        </div>
                 <input id="paExcelInput" type="file" accept=".csv,text/csv" hidden>
                 <button type="button" id="paImportBtn" class="pa-import-btn" onclick="document.getElementById('paExcelInput').click()">
                     <span class="pa-import-symbol">↑</span><span><strong>Upload laporan CSV</strong><small>Kolom NIP KBA, NOBUK, TANGGAL, STATUS PK 1, STATUS PK 2, CAIR</small></span><span class="pa-import-chevron">›</span>
@@ -1124,7 +1146,9 @@ body {
                     <button type="button" id="paSaveTargetBtn" class="pa-save-target-btn" onclick="savePersonalTargets()">Simpan target profil ini</button>
                 </div>
                 <div class="pa-control-foot"><span>ⓘ</span><p>Report ini dianggap berisi data kumulatif bulan berjalan. Upload terbaru menggantikan data aktif, sedangkan ringkasan harian disimpan terpisah agar transaksi tidak terakumulasi dua kali.</p></div>
-            </section></div>
+            </section>
+                </details>
+            </div>
             </div>
             <div id="paSalesDashboardContent">
             <div class="pa-head">
