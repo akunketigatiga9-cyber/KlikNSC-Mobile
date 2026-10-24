@@ -613,7 +613,8 @@ button { touch-action:manipulation; }
            The app shell is intentionally narrow on desktop, so viewport media queries caused
            the achievement cards to squeeze into columns only a few pixels wide. */
         @container pa-owner (min-width:700px) { .pa-owner-summary-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }.pa-owner-achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.pa-owner-summary { padding:14px; }.pa-owner-summary strong { font-size:clamp(14px,1.5cqw,22px); } }
-        @media(max-width:380px) {
+        /* Keep the Owner header/filter layout consistent on mobile WebView and mobile browsers. */
+        @media(max-width:600px) {
           .pa-owner-heading { align-items:stretch;flex-direction:column;gap:12px; }
           .pa-owner-heading > div:first-child { min-width:0; }
           .pa-owner-period { box-sizing:border-box;width:100%;min-width:0;padding:9px 11px;gap:10px;flex-direction:row;justify-content:flex-start;text-align:left;border-radius:14px; }
