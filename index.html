@@ -1074,6 +1074,13 @@ body {
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon green">✓</span><div><strong id="paOwnerActRupiah">Menunggu data</strong><span>Total ACT Rupiah</span><small>Gabungan 4 Sales/KBA</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon purple">▥</span><div><strong id="paOwnerActUnit">—</strong><span>Total ACT Unit</span><small>Gabungan 4 Sales/KBA</small></div></article>
                 </div>
+                <div class="pa-owner-summary-grid pa-owner-operational-kpis" aria-label="Ringkasan operasional">
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">↻</span><div><strong id="paOwnerTotalOrder">—</strong><span>Total Order</span><small>NOBUK unik</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">…</span><div><strong id="paOwnerProses">—</strong><span>Proses</span><small>Belum cair / batal</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon purple">◷</span><div><strong id="paOwnerSiapCair">—</strong><span>Siap Cair</span><small>PK 1 status 716</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon">×</span><div><strong id="paOwnerTotalBatal">—</strong><span>Total Batal</span><small>Status BTL</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon green">%</span><div><strong id="paOwnerConversion">—%</strong><span>Conversion</span><small>ACT Unit ÷ Total Order</small></div></article>
+                </div>
                 <div class="pa-owner-achievement-grid">
                     <article class="pa-achievement-card pa-primary-card">
                         <div class="pa-card-top"><span class="pa-metric-icon">＄</span><span id="paOwnerRupiahStatus" class="pa-data-status">DATA SERVER</span></div>
@@ -1092,7 +1099,7 @@ body {
                     </article>
                 </div>
                 <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">4 SALES/KBA</span></div>
-                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>ACT Rupiah</th><th>Target Rupiah</th><th>Progress</th><th>ACT Unit</th><th>Target Unit</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="6" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
+                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="11" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
                 </section>
                 <div class="pa-owner-controls-slot"><section class="pa-control-panel" aria-label="Impor report dan target pribadi">
                 <div class="pa-control-head">
@@ -3796,6 +3803,15 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             const totalTargetUnit = ownerSales.reduce((sum, item) => sum + (Number(item.targetUnit) || 0), 0);
             const totalRpProgress = paPercent(totalRp, totalTargetRp);
             const totalUnitProgress = paPercent(totalUnit, totalTargetUnit);
+            const sumField = (field, aliases=[]) => ownerSales.reduce((sum, item) => {
+                const value = [field, ...aliases].map(key => Number(item?.[key])).find(Number.isFinite);
+                return sum + (Number.isFinite(value) ? value : 0);
+            }, 0);
+            const totalOrder = sumField('totalOrder', ['transactionCount','totalTransactions','nobukCount']);
+            const totalProses = sumField('proses');
+            const totalSiapCair = sumField('siapCair');
+            const totalBatal = sumField('totalBatal');
+            const totalConversion = totalOrder > 0 ? Math.round(totalUnit / totalOrder * 100) : 0;
             const month = paServerData?.month || getSelectedOwnerMonth() || '—';
             const picker = document.getElementById('paOwnerMonthPicker');
             if (picker && /^\d{4}-\d{2}$/.test(month) && picker.value !== month) picker.value = month;
@@ -3806,6 +3822,11 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             putOwner('paOwnerActRupiah', paServerData ? paFormatRupiah(totalRp) : 'Menunggu data');
             putOwner('paOwnerActRupiahMain', paServerData ? paFormatRupiah(totalRp) : 'Menunggu data');
             putOwner('paOwnerActUnit', paServerData ? paFormatNumber(totalUnit) + ' Unit' : '—');
+            putOwner('paOwnerTotalOrder', paServerData ? paFormatNumber(totalOrder) : '—');
+            putOwner('paOwnerProses', paServerData ? paFormatNumber(totalProses) : '—');
+            putOwner('paOwnerSiapCair', paServerData ? paFormatNumber(totalSiapCair) : '—');
+            putOwner('paOwnerTotalBatal', paServerData ? paFormatNumber(totalBatal) : '—');
+            putOwner('paOwnerConversion', paServerData ? totalConversion + '%' : '—%');
             putOwner('paOwnerActUnitMain', paServerData ? paFormatNumber(totalUnit) + ' Unit' : '—');
             putOwner('paOwnerTargetRupiah', totalTargetRp > 0 ? paFormatRupiah(totalTargetRp) : 'Belum diatur');
             putOwner('paOwnerTargetUnit', totalTargetUnit > 0 ? paFormatNumber(totalTargetUnit) + ' Unit' : 'Belum diatur');
@@ -3824,8 +3845,11 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 const rp = Number(item.actRupiah) || 0, unit = Number(item.actUnit) || 0;
                 const trp = Number(item.targetRupiah) || 0, tu = Number(item.targetUnit) || 0;
                 const percent = paPercent(rp, trp);
-                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td><td>${paFormatNumber(unit)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td></tr>`;
-            }).join('') : '<tr><td colspan="6" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
+                const order = Number(item.totalOrder ?? item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0;
+                const proses = Number(item.proses) || 0, siap = Number(item.siapCair) || 0, batal = Number(item.totalBatal) || 0;
+                const conversion = order > 0 ? Math.round(unit / order * 100) : 0;
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td><strong>${paFormatNumber(unit)}</strong></td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
+            }).join('') : '<tr><td colspan="11" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
         }
         const record = paSelectedRecord();
         const hasData = !!record;
