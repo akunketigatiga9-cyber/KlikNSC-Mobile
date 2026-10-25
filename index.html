@@ -3694,6 +3694,62 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         paRefreshDashboard();
         if (currentAuthRole === 'admin' || currentAuthRole === 'sales') paFetchDashboard();
     }
+
+    // Navigation fix: show exactly one main view at a time.
+    function switchTab(tabName) {
+        const viewByTab = {
+            dashboard: 'dashboardHome',
+            kalkulator: 'kalkulatorView',
+            polling: 'pollingView',
+            pelunasan: 'pelunasanView',
+            takeover: 'takeoverView',
+            checklist: 'checklistView',
+            script: 'scriptView',
+            bonus: 'bonusView',
+            tahun: 'tahunView',
+            tabel: 'tabelView',
+            ltv: 'ltvView'
+        };
+        const selectedId = viewByTab[tabName];
+        if (!selectedId) return;
+
+        Object.values(viewByTab).forEach(id => {
+            const view = document.getElementById(id);
+            if (!view) return;
+            const selected = id === selectedId;
+            view.classList.toggle('hidden', !selected);
+            view.setAttribute('aria-hidden', String(!selected));
+        });
+
+        const activeNavId = tabName === 'dashboard' ? 'navDashboardBtn'
+            : tabName === 'kalkulator' ? 'navCalcBtn' : null;
+        ['navDashboardBtn', 'navCalcBtn', 'navMenuBtn'].forEach(id => {
+            const button = document.getElementById(id);
+            if (!button) return;
+            button.classList.toggle('active', id === activeNavId);
+            if (id === 'navMenuBtn') button.classList.remove('active');
+        });
+
+        const tabButtonMap = {
+            kalkulator: 'tabCalcBtn', polling: 'tabPollingBtn',
+            pelunasan: 'tabPelunasanBtn', takeover: 'tabTakeoverBtn',
+            checklist: 'tabChecklistBtn', script: 'tabScriptBtn',
+            bonus: 'tabBonusBtn', tahun: 'tabYearBtn', tabel: 'tabTableBtn'
+        };
+        Object.entries(tabButtonMap).forEach(([key, id]) => {
+            const button = document.getElementById(id);
+            if (!button) return;
+            const active = key === tabName;
+            button.setAttribute('aria-current', active ? 'page' : 'false');
+            button.classList.toggle('ring-2', active);
+            button.classList.toggle('ring-blue-400', active);
+        });
+
+        if (typeof state === 'object' && state) state.activeTab = tabName;
+        const main = document.getElementById('appMain');
+        if (main) main.scrollTop = 0;
+    }
+
     window.onload = async function() {
         document.getElementById('passwordRecoveryForm')?.addEventListener('submit', submitPasswordRecovery);
         const recoveryActive = await initPasswordRecovery();
