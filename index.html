@@ -2723,13 +2723,13 @@ async function submitPasswordRecovery(event) {
         const adjustedRate = Math.round((baseRate * (1 + INSTALLMENT_INCREASE)) / 100) * 100;
 
         // KBA Kalkulator 1 SAJA:
-        // Kategori EXTRA mendapat tambahan flat Rp80.000 per angsuran bulanan
+        // Kategori EXTRA mendapat tambahan flat Rp160.000 per angsuran bulanan
         // untuk nominal Rp3.000.000 sampai Rp35.000.000 (inklusif).
         // Kalkulator 2 tetap memakai calculateNewCalcRate tanpa penyesuaian ini.
         const isKbaCalculator1Extra = categoryKey === 'extra'
             && Number(amount) >= 3000000
             && Number(amount) <= 35000000;
-        return isKbaCalculator1Extra ? adjustedRate +  : adjustedRate;
+        return isKbaCalculator1Extra ? adjustedRate + 160000 : adjustedRate;
     }
     function updateDashboardRingkas() {
         const nominalEl = document.getElementById('dashNominal');
