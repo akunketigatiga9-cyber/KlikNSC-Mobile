@@ -2584,13 +2584,17 @@ async function submitPasswordRecovery(event) {
         const adjustedRate = Math.round((baseRate * (1 + INSTALLMENT_INCREASE)) / 100) * 100;
 
         // KBA Kalkulator 1 SAJA:
-        // Kategori EXTRA: tambahan Rp180.000 total dari tarif dasar.
-        // Ini mempertahankan tambahan lama Rp80.000 lalu menaikkan Rp100.000 lagi,
-        // untuk semua tenor dan nominal Rp3.000.000 sampai Rp35.000.000 (inklusif).
-        const isKbaCalculator1Extra = categoryKey === 'extra'
-            && Number(amount) >= 3000000
+        // EXTRA: total tambahan Rp200.000 dari tarif dasar.
+        // BOMBASTIS: tambahan Rp50.000 dari tarif dasar.
+        // Keduanya berlaku untuk semua tenor dan pinjaman Rp3.000.000-Rp35.000.000 (inklusif).
+        const isEligibleKbaAmount = Number(amount) >= 3000000
             && Number(amount) <= 35000000;
-        return isKbaCalculator1Extra ? adjustedRate + 180000 : adjustedRate;
+        const isKbaCalculator1Extra = categoryKey === 'extra' && isEligibleKbaAmount;
+        const isKbaCalculator1Bombastis = categoryKey === 'bombastis' && isEligibleKbaAmount;
+
+        if (isKbaCalculator1Extra) return adjustedRate + 200000;
+        if (isKbaCalculator1Bombastis) return adjustedRate + 50000;
+        return adjustedRate;
     }
     function updateDashboardRingkas() {
         const nominalEl = document.getElementById('dashNominal');
