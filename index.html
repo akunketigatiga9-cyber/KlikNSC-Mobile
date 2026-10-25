@@ -2729,7 +2729,7 @@ async function submitPasswordRecovery(event) {
         const isKbaCalculator1Extra = categoryKey === 'extra'
             && Number(amount) >= 3000000
             && Number(amount) <= 35000000;
-        return isKbaCalculator1Extra ? adjustedRate + 80000 : adjustedRate;
+        return isKbaCalculator1Extra ? adjustedRate + 160000 : adjustedRate;
     }
     function updateDashboardRingkas() {
         const nominalEl = document.getElementById('dashNominal');
