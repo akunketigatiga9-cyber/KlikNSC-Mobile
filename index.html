@@ -613,17 +613,7 @@ button { touch-action:manipulation; }
            The app shell is intentionally narrow on desktop, so viewport media queries caused
            the achievement cards to squeeze into columns only a few pixels wide. */
         @container pa-owner (min-width:700px) { .pa-owner-summary-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }.pa-owner-achievement-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }.pa-owner-summary { padding:14px; }.pa-owner-summary strong { font-size:clamp(14px,1.5cqw,22px); } }
-        /* Keep the Owner header/filter layout consistent on mobile WebView and mobile browsers. */
-        @media(max-width:600px) {
-          .pa-owner-heading { align-items:stretch;flex-direction:column;gap:12px; }
-          .pa-owner-heading > div:first-child { min-width:0; }
-          .pa-owner-period { box-sizing:border-box;width:100%;min-width:0;padding:9px 11px;gap:10px;flex-direction:row;justify-content:flex-start;text-align:left;border-radius:14px; }
-          .pa-owner-period .pa-metric-icon { width:32px;height:32px;flex-shrink:0; }
-          .pa-owner-period > div { min-width:0;flex:1;display:flex;align-items:center;justify-content:space-between;gap:10px; }
-          .pa-owner-period small { flex-shrink:0;font-size:10px; }
-          .pa-owner-period input[type="month"] { width:auto;max-width:165px;min-width:0;flex:1;margin:0;padding:9px 8px;font-size:12px; }
-          .pa-owner-summary { padding:10px 8px;gap:7px; }.pa-owner-summary-icon { width:32px;height:32px;border-radius:11px; }.pa-owner-summary strong { font-size:15px; }.pa-owner-summary span:not(.pa-owner-summary-icon) { font-size:9px; }.pa-owner-achievement-grid .pa-achievement-card { padding:14px; }
-        }
+        @media(max-width:380px) { .pa-owner-heading { align-items:flex-start; }.pa-owner-period { min-width:94px;padding:7px;gap:5px; }.pa-owner-period .pa-metric-icon { width:30px;height:30px; }.pa-owner-summary { padding:10px 8px;gap:7px; }.pa-owner-summary-icon { width:32px;height:32px;border-radius:11px; }.pa-owner-summary strong { font-size:15px; }.pa-owner-summary span:not(.pa-owner-summary-icon) { font-size:9px; }.pa-owner-achievement-grid .pa-achievement-card { padding:14px; } }
         /* Desktop layout hotfix: the app is intentionally mobile-first, but must expand on laptop. */
         @media (min-width: 1025px) {
           #appShell {
@@ -963,6 +953,42 @@ body {
 #ltvView #ltvError{padding:.8rem;border:1px solid rgba(244,63,94,.3);border-radius:.8rem;background:rgba(244,63,94,.08)}
 @media(min-width:640px){#ltvView>div:nth-child(2){padding:1.5rem!important}}
 </style>
+
+<style id="pa-owner-executive-polish">
+/* Executive Owner polish: visual-only. No calculation, data, auth, or navigation logic changed. */
+#paOwnerDashboard{gap:clamp(14px,1.5vw,22px)}
+#paOwnerDashboard .pa-owner-heading{padding:clamp(14px,2vw,22px);border:1px solid rgba(88,145,214,.2);border-radius:22px;background:radial-gradient(ellipse at 90% 0%,rgba(37,99,235,.17),transparent 42%),linear-gradient(135deg,rgba(13,34,61,.92),rgba(6,18,34,.9));}
+#paOwnerDashboard .dash-kicker{letter-spacing:.17em;font-size:9px;font-weight:900;color:#7dbaff}
+#paOwnerDashboard .pa-owner-heading h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.045em}
+#paOwnerDashboard .pa-owner-heading p:not(.dash-kicker){max-width:54ch;font-size:12px}
+#paOwnerDashboard .pa-owner-period{border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+#paOwnerDashboard .pa-owner-summary{position:relative;align-items:flex-start;text-align:left;flex-direction:row;justify-content:flex-start;gap:12px;padding:14px 16px;border-radius:16px;background:linear-gradient(145deg,rgba(15,36,62,.98),rgba(7,20,36,.98));transition:border-color .18s ease,transform .18s ease}
+#paOwnerDashboard .pa-owner-summary:hover{border-color:rgba(96,165,250,.42);transform:translateY(-1px)}
+#paOwnerDashboard .pa-owner-summary div{align-items:flex-start;text-align:left;gap:4px}
+#paOwnerDashboard .pa-owner-summary strong{font-size:clamp(17px,2vw,23px);font-variant-numeric:tabular-nums}
+#paOwnerDashboard .pa-owner-summary span:not(.pa-owner-summary-icon){font-size:10px;font-weight:750;color:#c0d4ed}
+#paOwnerDashboard .pa-owner-summary small{font-size:9px}
+#paOwnerDashboard .pa-owner-summary-icon{width:36px;height:36px;border-radius:12px;font-size:18px}
+#paOwnerDashboard .pa-owner-operational-kpis{gap:8px}
+#paOwnerDashboard .pa-owner-operational-kpis .pa-owner-summary{padding:12px 13px}
+#paOwnerDashboard .pa-achievement-card{border-radius:20px!important;border-color:rgba(83,143,212,.27)!important;box-shadow:0 14px 36px rgba(0,0,0,.12);padding:clamp(16px,2vw,23px)!important}
+#paOwnerDashboard .pa-primary-card{background:radial-gradient(ellipse at 100% 0%,rgba(37,99,235,.16),transparent 43%),linear-gradient(145deg,#102744,#081629)!important}
+#paOwnerDashboard .pa-mount-card{background:linear-gradient(145deg,#0e2037,#081629)!important}
+#paOwnerDashboard .pa-owner-card-title{font-size:14px}
+#paOwnerDashboard .pa-main-amount{font-size:clamp(25px,3.1vw,36px);font-weight:950;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+#paOwnerDashboard .pa-progress-track{height:8px;border-radius:99px;background:#193653}
+#paOwnerDashboard .pa-progress-track span{border-radius:99px;box-shadow:0 0 12px rgba(59,157,255,.22)}
+#paOwnerDashboard .pa-owner-sales-section{padding-top:20px}
+#paOwnerDashboard .pa-owner-sales-heading h3{font-size:clamp(15px,1.5vw,18px)}
+#paOwnerDashboard .pa-owner-table-wrap{border-radius:15px;box-shadow:0 12px 28px rgba(0,0,0,.12)}
+#paOwnerDashboard .pa-owner-table th{position:sticky;top:0;z-index:1;background:#10253e}
+#paOwnerDashboard .pa-owner-table tbody tr:hover td{background:rgba(35,93,160,.1)}
+#paOwnerDashboard .pa-owner-disclosure{border-radius:16px}
+@container pa-owner (min-width:700px){#paOwnerDashboard .pa-owner-summary-grid{gap:10px}#paOwnerDashboard .pa-owner-summary{min-height:88px}#paOwnerDashboard .pa-owner-operational-kpis .pa-owner-summary{min-height:82px}#paOwnerDashboard .pa-owner-achievement-grid{gap:14px}}
+@media(max-width:540px){#paOwnerDashboard .pa-owner-heading{align-items:stretch;flex-direction:column}#paOwnerDashboard .pa-owner-period{align-items:flex-start;text-align:left;width:100%}#paOwnerDashboard .pa-owner-period input[type=month]{max-width:none}#paOwnerDashboard .pa-owner-summary{padding:12px 11px;gap:9px}#paOwnerDashboard .pa-owner-summary-icon{width:31px;height:31px;font-size:16px}#paOwnerDashboard .pa-owner-operational-kpis .pa-owner-summary{padding:10px}#paOwnerDashboard .pa-owner-sales-heading{align-items:flex-start;flex-direction:column}}
+@media(prefers-reduced-motion:reduce){#paOwnerDashboard .pa-owner-summary{transition:none}}
+</style>
+
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 <div id="loginOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
@@ -1090,7 +1116,7 @@ body {
         <section id="dashboardHome" class="space-y-4" aria-label="Dashboard KlikNSC">
             <div id="paOwnerDashboard" class="pa-owner-dashboard hidden" aria-label="Rekap pencapaian OWNER">
                 <div class="pa-owner-heading">
-                    <div><p class="dash-kicker">KLIKNSC · SPVKLIKNSC</p><h2>DENY SAPUTRA</h2><p>Akumulasi target dan pencapaian seluruh Sales/KBA untuk periode yang dipilih.</p></div>
+                    <div><p class="dash-kicker">KLIKNSC · EXECUTIVE DASHBOARD</p><h2>Executive Overview</h2><p>Akumulasi target dan pencapaian seluruh Sales/KBA untuk periode yang dipilih.</p></div>
                     <div class="pa-owner-period"><span class="pa-metric-icon">▦</span><div><small>Filter periode</small><input id="paOwnerMonthPicker" type="month" aria-label="Pilih periode dashboard Owner" title="Pilih bulan laporan" /></div></div>
                 </div>
                 <div class="pa-owner-summary-grid">
