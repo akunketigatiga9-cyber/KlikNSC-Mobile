@@ -1145,7 +1145,7 @@ body {
                     <div class="pa-trend-summary"><div><small id="paTrendCaption">AKUMULASI REALISASI</small><br><strong id="paTrendTotal">Belum tersedia</strong></div><span class="pa-tag pa-tag-muted" id="paTrendMonth">Periode —</span></div>
                     <div id="paTrendChart" class="pa-trend-chart"><div class="pa-trend-empty">Grafik menunggu sumber data harian.</div></div>
                     <div class="pa-trend-legend"><span><i></i>Realisasi kumulatif</span></div>
-                    <p id="paTrendNote" class="pa-trend-note">Histori harian hanya tersedia setelah report CSV periode ini dimuat di sesi browser, atau bila API menyediakan transaksi per tanggal. Total bulanan tidak akan direkayasa menjadi tren.</p>
+                    <p id="paTrendNote" class="pa-trend-note">Grafik memuat histori transaksi dari server untuk periode yang dipilih. Data dihitung dari transaksi yang tersimpan di Supabase.</p>
                 </section>
                 <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">RINCIAN SALES/KBA</span></div>
                     <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="11" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
@@ -3408,9 +3408,10 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     function paSelectedRecord() {
         return paServerData?.sales?.find(item => item.salesId === paGetCurrentPerson()) || null;
     }
-    // Daily trend is based on dated rows from a report imported in this browser session.
-    // Aggregate monthly endpoint totals are never reverse-engineered into fake daily values.
+    // Daily trend reads dated transaction history from the authenticated backend.
     let paTrendRows = [];
+    let paTrendLoadedMonth = '';
+    let paTrendLoadPromise = null;
     function paTrendFormat(value, metric) { return metric === 'rupiah' ? paFormatRupiah(value) : `${paFormatNumber(value)} Unit`; }
     function paRenderTrend() {
         const chart = document.getElementById('paTrendChart');
@@ -3423,52 +3424,58 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const available = paTrendRows.filter(r => r.date.startsWith(month) && (filterId === 'all' || r.salesId === filterId));
         const qualifying = available.filter(r => ['CLSD','721','720'].includes(String(r.status1).trim().toUpperCase()) && String(r.status2).trim().toUpperCase() === 'ACC');
         const daily = new Map();
-        qualifying.forEach(r => {
-            const prior = daily.get(r.date) || {unit:0,rupiah:0};
-            prior.unit += 1; prior.rupiah += Number(r.amount)||0; daily.set(r.date,prior);
-        });
+        qualifying.forEach(r => { const prior=daily.get(r.date)||{unit:0,rupiah:0}; prior.unit+=1; prior.rupiah+=Number(r.amount)||0; daily.set(r.date,prior); });
         const dayCount = Number(month.split('-')[1] ? new Date(Number(month.slice(0,4)),Number(month.slice(5,7)),0).getDate() : 0);
-        if (!dayCount || !available.length) {
-            document.getElementById('paTrendTotal').textContent = 'Belum tersedia';
-            document.getElementById('paTrendMonth').textContent = `Periode ${month}`;
-            chart.innerHTML = '<div class="pa-trend-empty">Belum ada detail transaksi bertanggal untuk periode ini di sesi browser.<br>Impor report CSV periode yang dipilih untuk membentuk tren.</div>';
-            const note = document.getElementById('paTrendNote'); if(note) note.textContent='Grafik memakai baris transaksi unik yang tersedia dari report CSV yang baru diimpor di browser ini. Data tidak disimpan permanen di browser. Refresh halaman atau ganti perangkat memerlukan impor ulang, kecuali backend kelak menyediakan endpoint histori harian.';
-            return;
+        if (!dayCount || paTrendLoadedMonth !== month) {
+            document.getElementById('paTrendTotal').textContent='Memuat histori…';
+            document.getElementById('paTrendMonth').textContent=`Periode ${month}`;
+            chart.innerHTML='<div class="pa-trend-empty">Mengambil histori transaksi dari server…</div>'; return;
         }
-        let cumulative = 0;
-        const points=[];
-        for(let day=1;day<=dayCount;day++){
-            const date=`${month}-${String(day).padStart(2,'0')}`;
-            cumulative += Number(daily.get(date)?.[metric])||0;
-            points.push({day,value:cumulative});
+        if (!available.length) {
+            document.getElementById('paTrendTotal').textContent='Belum tersedia';
+            document.getElementById('paTrendMonth').textContent=`Periode ${month}`;
+            chart.innerHTML='<div class="pa-trend-empty">Belum ada transaksi tersimpan untuk periode ini.</div>';
+            const note=document.getElementById('paTrendNote'); if(note)note.textContent='Grafik membaca transaksi tersimpan di server. Periksa periode atau pastikan upload CSV periode ini sudah berhasil.'; return;
         }
-        const total = points.at(-1)?.value||0;
+        let cumulative=0; const points=[];
+        for(let day=1;day<=dayCount;day++){const date=`${month}-${String(day).padStart(2,'0')}`;cumulative+=Number(daily.get(date)?.[metric])||0;points.push({day,value:cumulative});}
+        const total=points.at(-1)?.value||0;
         document.getElementById('paTrendTotal').textContent=paTrendFormat(total,metric);
         document.getElementById('paTrendMonth').textContent=`Periode ${month}`;
         document.getElementById('paTrendCaption').textContent=metric==='rupiah'?'ACT RUPIAH KUMULATIF':'ACT UNIT KUMULATIF';
         const w=660,h=250,left=54,right=14,top=16,bottom=32,pw=w-left-right,ph=h-top-bottom;
         const peak=Math.max(1,...points.map(p=>p.value));
         const coords=points.map(p=>({x:left+(p.day-1)/Math.max(1,dayCount-1)*pw,y:top+ph-(p.value/peak)*ph}));
-        const poly=coords.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-        const area=`${left},${top+ph} ${poly} ${left+pw},${top+ph}`;
-        const ticks=[0,.25,.5,.75,1];
-        const grid=ticks.map(t=>{const y=top+ph-t*ph;const v=peak*t;const label=metric==='rupiah'?(v>=1000000?`${(v/1000000).toLocaleString('id-ID',{maximumFractionDigits:1})} jt`:paFormatNumber(v)) : paFormatNumber(v);return `<line x1="${left}" y1="${y}" x2="${left+pw}" y2="${y}" stroke="#7896bb" stroke-opacity=".15" stroke-dasharray="3 5"/><text x="${left-8}" y="${y+3}" text-anchor="end" fill="#8fa8c7" font-size="10">${label}</text>`;}).join('');
+        const poly=coords.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '),area=`${left},${top+ph} ${poly} ${left+pw},${top+ph}`;
+        const grid=[0,.25,.5,.75,1].map(t=>{const y=top+ph-t*ph,v=peak*t,label=metric==='rupiah'?(v>=1000000?`${(v/1000000).toLocaleString('id-ID',{maximumFractionDigits:1})} jt`:paFormatNumber(v)):paFormatNumber(v);return `<line x1="${left}" y1="${y}" x2="${left+pw}" y2="${y}" stroke="#7896bb" stroke-opacity=".15" stroke-dasharray="3 5"/><text x="${left-8}" y="${y+3}" text-anchor="end" fill="#8fa8c7" font-size="10">${label}</text>`;}).join('');
         const dateTicks=[1,Math.ceil(dayCount/3),Math.ceil(dayCount*2/3),dayCount].filter((v,i,a)=>a.indexOf(v)===i);
         const xlabels=dateTicks.map(day=>`<text x="${left+(day-1)/Math.max(1,dayCount-1)*pw}" y="${h-10}" text-anchor="middle" fill="#8fa8c7" font-size="10">${day}</text>`).join('');
         chart.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Grafik tren kumulatif ${metric==='rupiah'?'rupiah':'unit'} tanggal 1 sampai ${dayCount}">${grid}<polygon points="${area}" fill="#34d399" fill-opacity=".08"/><polyline points="${poly}" fill="none" stroke="#51d6ae" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>${coords.filter((p,i)=>i===0||i===coords.length-1||i%5===0).map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#51d6ae" stroke="#071426" stroke-width="1.5"/>`).join('')}${xlabels}</svg>`;
-        const note=document.getElementById('paTrendNote');
-        if(note) note.textContent=`Dihitung dari ${available.length} NOBUK unik pada report di sesi ini; ${qualifying.length} transaksi memenuhi PK 1 CLSD/721/720 dan PK 2 ACC. ACT Rupiah menjumlahkan CAIR dan ACT Unit menghitung transaksi qualifying. Tanggal tanpa transaksi tetap menampilkan nilai kumulatif terakhir.`;
+        const note=document.getElementById('paTrendNote'); if(note)note.textContent=`Sumber: ${available.length} transaksi tersimpan untuk filter ini; ${qualifying.length} memenuhi PK1 CLSD/721/720 dan PK2 ACC. ACT Rupiah menjumlah CAIR, ACT Unit menghitung NOBUK unik. Tanggal tanpa transaksi mempertahankan akumulasi sebelumnya.`;
+    }
+    async function paLoadTrendHistory(force=false) {
+        const month=paServerData?.month||getSelectedOwnerMonth();
+        if(!force && paTrendLoadedMonth===month)return;
+        if(paTrendLoadPromise)return paTrendLoadPromise;
+        paTrendLoadPromise=(async()=>{
+            const chart=document.getElementById('paTrendChart'); if(chart)chart.innerHTML='<div class="pa-trend-empty">Mengambil histori transaksi dari server…</div>';
+            try{
+                const response=await fetch(`${PA_API_BASE}/admin-trend?month=${encodeURIComponent(month)}`,{method:'GET',credentials:'include',headers:{Accept:'application/json'},cache:'no-store'});
+                const result=await response.json().catch(()=>({}));
+                if(!response.ok||!result.ok)throw new Error(result.message||`Gagal memuat histori (${response.status})`);
+                paTrendRows=(Array.isArray(result.rows)?result.rows:[]).map(r=>({salesId:String(r.sales_id||'').trim().toUpperCase(),nobuk:String(r.nobuk||'').trim(),date:String(r.transaction_date||''),status1:String(r.status_pk1||''),status2:String(r.status_pk2||''),amount:Number(r.nominal_cair)||0}));
+                paTrendLoadedMonth=month; paRenderTrend();
+            }catch(err){paTrendLoadedMonth='';if(chart)chart.innerHTML='<div class="pa-trend-empty">Histori belum dapat dimuat. Coba refresh atau periksa sesi Owner dan endpoint.</div>';const note=document.getElementById('paTrendNote');if(note)note.textContent=err?.message||'Gagal mengambil histori.';}
+            finally{paTrendLoadPromise=null;}
+        })(); return paTrendLoadPromise;
     }
     function paInitTrendFilters() {
-        const sel=document.getElementById('paTrendSales'); if(!sel)return;
-        const previous=sel.value||'all';
-        const roster=Array.isArray(paServerData?.sales)?paServerData.sales:[];
-        const options=roster.map(s=>`<option value="${paEscape(s.salesId)}">${paEscape(paDisplayName(s.displayName)||s.salesId)} · ${paEscape(s.salesId)}</option>`).join('');
-        sel.innerHTML='<option value="all">Semua KBA · Gabungan</option>'+options;
+        const sel=document.getElementById('paTrendSales');if(!sel)return;
+        const previous=sel.value||'all',roster=Array.isArray(paServerData?.sales)?paServerData.sales:[];
+        sel.innerHTML='<option value="all">Semua KBA · Gabungan</option>'+roster.map(s=>`<option value="${paEscape(s.salesId)}">${paEscape(paDisplayName(s.displayName)||s.salesId)} · ${paEscape(s.salesId)}</option>`).join('');
         if([...sel.options].some(o=>o.value===previous))sel.value=previous;
-        sel.onchange=paRenderTrend;
-        const metric=document.getElementById('paTrendMetric'); if(metric)metric.onchange=paRenderTrend;
-        paRenderTrend();
+        sel.onchange=paRenderTrend;const metric=document.getElementById('paTrendMetric');if(metric)metric.onchange=paRenderTrend;
+        paLoadTrendHistory();
     }
     function paRefreshDashboard() {
         const selector = document.getElementById('paPersonSelect');
@@ -3653,6 +3660,8 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             if (!response.ok || !result.ok) throw new Error(result.message || 'Target gagal disimpan.');
             paSetImportMessage(`Target ${salesId} untuk ${month} berhasil disimpan di server.`, 'success');
             await paFetchDashboard();
+            paTrendLoadedMonth = '';
+            await paLoadTrendHistory(true);
         } catch (error) {
             paSetImportMessage(error?.message || 'Target gagal disimpan. Periksa migrasi tabel monthly_targets.', 'error');
         }
@@ -3741,9 +3750,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 rows.push([salesId, nobuk, date, status1, status2, amount]);
             }
             if (!rows.length) throw new Error('Tidak ada baris transaksi valid di sheet yang dipilih.');
-            // Keep the imported report in memory only for this live session's dated chart.
-            paTrendRows = rows.map(row => ({salesId:String(row[0]).trim().toUpperCase(),nobuk:String(row[1]).trim(),date:String(row[2]),status1:String(row[3]||''),status2:String(row[4]||''),amount:(typeof row[5]==='number'?row[5]:Number(String(row[5]).replace(/[^0-9,.-]/g,'').replace(/\.(?=\d{3}(?:\D|$))/g,'').replace(',','.')))||0}));
-            paInitTrendFilters();
+            // Persisted database becomes the chart source after import; session rows are not authoritative.
             const csv = [
                 ['NIP KBA', 'NOBUK', 'TANGGAL', 'STATUS PK 1', 'STATUS PK 2', 'CAIR'].map(paCsvCell).join(','),
                 ...rows.map(row => row.map(paCsvCell).join(','))
@@ -3758,6 +3765,8 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
             if (!response.ok || !result.ok) throw new Error(result.message || `Import gagal (${response.status})`);
             paSetImportMessage(`Import server selesai: ${result.uniqueNobuk ?? rows.length} NOBUK unik · ${result.inserted ?? 0} baru · ${result.updated ?? 0} diperbarui.`, 'success');
             await paFetchDashboard();
+            paTrendLoadedMonth = '';
+            await paLoadTrendHistory(true);
         } catch (error) {
             console.error('Personal Achievement import error:', error);
             paSetImportMessage(error?.message || 'Gagal mengirim report ke server.', 'error');
