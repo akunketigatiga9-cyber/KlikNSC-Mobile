@@ -3431,18 +3431,38 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     let paTrendLoadPromise = null;
     function paTrendFormat(value, metric) { return metric === 'rupiah' ? paFormatRupiah(value) : `${paFormatNumber(value)} Unit`; }
     // Update active-agent counts for each Owner Sales/KBA row from loaded monthly history.
-    function paUpdateSalesActiveAgentCounts() {
-        const month = paServerData?.month || getSelectedOwnerMonth();
-        const qualifying = paTrendRows.filter(r => r.date.startsWith(month) &&
-            ['CLSD','721','720'].includes(String(r.status1).trim().toUpperCase()) &&
-            String(r.status2).trim().toUpperCase() === 'ACC' && String(r.agent || '').trim());
-        document.querySelectorAll('[data-pa-agent-sales]').forEach(cell => {
-            const salesId = String(cell.getAttribute('data-pa-agent-sales') || '').trim().toUpperCase();
-            const names = new Set(qualifying.filter(r => r.salesId === salesId)
-                .map(r => String(r.agent || '').trim().toLocaleUpperCase('id-ID')).filter(Boolean));
-            cell.textContent = paTrendLoadedMonth === month ? paFormatNumber(names.size) : '—';
-        });
-    }
+   
+function paUpdateSalesActiveAgentCounts() {
+    const month = paServerData?.month || getSelectedOwnerMonth();
+
+    const normalize = (value) =>
+        String(value || '').trim().toUpperCase();
+
+    const qualifying = paTrendRows.filter(r =>
+        String(r.date || '').startsWith(month) &&
+        ['CLSD', '721', '720'].includes(normalize(r.status1)) &&
+        normalize(r.status2) === 'ACC' &&
+        String(r.agent || '').trim()
+    );
+
+    document.querySelectorAll('[data-pa-agent-sales]').forEach(cell => {
+        const salesId = normalize(
+            cell.getAttribute('data-pa-agent-sales')
+        );
+
+        const names = new Set(
+            qualifying
+                .filter(r => normalize(r.salesId) === salesId)
+                .map(r => normalize(r.agent))
+                .filter(Boolean)
+        );
+
+        cell.textContent =
+            paTrendLoadedMonth === month
+                ? paFormatNumber(names.size)
+                : '—';
+    });
+}
     function paRenderTrend() {
         const chart = document.getElementById('paTrendChart');
         const personSel = document.getElementById('paTrendSales');
