@@ -1165,7 +1165,7 @@ body {
                     <p id="paTrendNote" class="pa-trend-note">Grafik memuat histori transaksi dari server untuk periode yang dipilih. Data dihitung dari transaksi yang tersimpan di Supabase.</p>
                 </section>
                 <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">RINCIAN SALES/KBA</span></div>
-                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="11" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
+                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>Agen Aktif</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="12" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
                 </section>
                 <div class="pa-owner-controls-slot">
                 <details class="pa-owner-disclosure">
@@ -3430,6 +3430,19 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
     let paTrendLoadedMonth = '';
     let paTrendLoadPromise = null;
     function paTrendFormat(value, metric) { return metric === 'rupiah' ? paFormatRupiah(value) : `${paFormatNumber(value)} Unit`; }
+    // Update active-agent counts for each Owner Sales/KBA row from loaded monthly history.
+    function paUpdateSalesActiveAgentCounts() {
+        const month = paServerData?.month || getSelectedOwnerMonth();
+        const qualifying = paTrendRows.filter(r => r.date.startsWith(month) &&
+            ['CLSD','721','720'].includes(String(r.status1).trim().toUpperCase()) &&
+            String(r.status2).trim().toUpperCase() === 'ACC' && String(r.agent || '').trim());
+        document.querySelectorAll('[data-pa-agent-sales]').forEach(cell => {
+            const salesId = String(cell.getAttribute('data-pa-agent-sales') || '').trim().toUpperCase();
+            const names = new Set(qualifying.filter(r => r.salesId === salesId)
+                .map(r => String(r.agent || '').trim().toLocaleUpperCase('id-ID')).filter(Boolean));
+            cell.textContent = paTrendLoadedMonth === month ? paFormatNumber(names.size) : '—';
+        });
+    }
     function paRenderTrend() {
         const chart = document.getElementById('paTrendChart');
         const personSel = document.getElementById('paTrendSales');
@@ -3443,6 +3456,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const activeAgentNames = new Set(qualifying.map(r => String(r.agent || '').trim().toLocaleUpperCase('id-ID')).filter(Boolean));
         const activeAgentEl = document.getElementById('paOwnerActiveAgents');
         if (activeAgentEl) activeAgentEl.textContent = paFormatNumber(activeAgentNames.size);
+        paUpdateSalesActiveAgentCounts();
         const daily = new Map();
         qualifying.forEach(r => { const prior=daily.get(r.date)||{unit:0,rupiah:0}; prior.unit+=1; prior.rupiah+=Number(r.amount)||0; daily.set(r.date,prior); });
         const dayCount = Number(month.split('-')[1] ? new Date(Number(month.slice(0,4)),Number(month.slice(5,7)),0).getDate() : 0);
@@ -3567,8 +3581,8 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 const order = Number(item.totalOrder ?? item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0;
                 const proses = Number(item.proses) || 0, siap = Number(item.siapCair) || 0, batal = Number(item.totalBatal) || 0;
                 const conversion = order > 0 ? Math.round(unit / order * 100) : 0;
-                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td><strong>${paFormatNumber(unit)}</strong></td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
-            }).join('') : '<tr><td colspan="11" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td><strong>${paFormatNumber(unit)}</strong></td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
+            }).join('') : '<tr><td colspan="12" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
             paInitTrendFilters();
         }
         const record = paSelectedRecord();
