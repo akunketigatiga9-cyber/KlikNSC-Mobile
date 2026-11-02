@@ -3517,7 +3517,16 @@ function paUpdateSalesActiveAgentCounts() {
                 const response=await fetch(`${PA_API_BASE}/admin-trend?month=${encodeURIComponent(month)}`,{method:'GET',credentials:'include',headers:{Accept:'application/json'},cache:'no-store'});
                 const result=await response.json().catch(()=>({}));
                 if(!response.ok||!result.ok)throw new Error(result.message||`Gagal memuat histori (${response.status})`);
-                paTrendRows=(Array.isArray(result.rows)?result.rows:[]).map(r=>({salesId:String(r.sales_id||'').trim().toUpperCase(),nobuk:String(r.nobuk||'').trim(),agent:String(r.nama_agen||'').trim(),date:String(r.transaction_date||''),status1:String(r.status_pk1||''),status2:String(r.status_pk2||''),amount:Number(r.nominal_cair)||0}));
+               paTrendRows = (Array.isArray(result.rows) ? result.rows : []).map(r => ({
+                salesId: String(r.sales_id || '').trim().toUpperCase(),
+                nobuk: String(r.nobuk || '').trim(),
+                agent: String(r.nama_agen || '').trim(),
+                date: String(r.transaction_date || ''),
+                status1: String(r.status_pk1 || ''),
+                status2: String(r.status_pk2 || ''),
+                amount: Number(r.nominal_cair) || 0
+            }));
+
                 paTrendLoadedMonth=month; paRenderTrend();
             }catch(err){paTrendLoadedMonth='';if(chart)chart.innerHTML='<div class="pa-trend-empty">Histori belum dapat dimuat. Coba refresh atau periksa sesi Owner dan endpoint.</div>';const note=document.getElementById('paTrendNote');if(note)note.textContent=err?.message||'Gagal mengambil histori.';}
             finally{paTrendLoadPromise=null;}
