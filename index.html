@@ -3538,6 +3538,9 @@ function paUpdateSalesActiveAgentCounts() {
         sel.innerHTML='<option value="all">Semua KBA · Gabungan</option>'+roster.map(s=>`<option value="${paEscape(s.salesId)}">${paEscape(paDisplayName(s.displayName)||s.salesId)} · ${paEscape(s.salesId)}</option>`).join('');
         if([...sel.options].some(o=>o.value===previous))sel.value=previous;
         sel.onchange=paRenderTrend;const metric=document.getElementById('paTrendMetric');if(metric)metric.onchange=paRenderTrend;
+        // Table rows may be re-created after history was already loaded.
+        // Paint cached per-Sales counts immediately, then refresh when history resolves.
+        paUpdateSalesActiveAgentCounts();
         paLoadTrendHistory();
     }
     function paRefreshDashboard() {
@@ -3612,6 +3615,8 @@ function paUpdateSalesActiveAgentCounts() {
                 const conversion = order > 0 ? Math.round(unit / order * 100) : 0;
                 return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td><strong>${paFormatNumber(unit)}</strong></td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
             }).join('') : '<tr><td colspan="12" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
+            // Update the freshly rendered table; the trend cache can predate these rows.
+            paUpdateSalesActiveAgentCounts();
             paInitTrendFilters();
         }
         const record = paSelectedRecord();
