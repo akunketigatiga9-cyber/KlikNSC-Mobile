@@ -999,6 +999,53 @@ body {
 @media(max-width:380px){.pa-trend-filters{grid-template-columns:1fr}.pa-trend-card{padding:13px}}
 </style>
 
+    <!-- KLIKnSC Owner Hybrid visual polish v1: styling only; no JS/business logic changed. -->
+    <style id="kliknsc-owner-hybrid-polish">
+      #paOwnerDashboard{gap:clamp(14px,1.7vw,22px);padding-bottom:10px}
+      #paOwnerDashboard .pa-owner-heading{position:relative;isolation:isolate;overflow:hidden;align-items:center;padding:clamp(18px,2.3vw,30px);border:1px solid rgba(102,166,255,.24);border-radius:24px;background:radial-gradient(ellipse at 90% 0%,rgba(37,119,231,.2),transparent 42%),linear-gradient(125deg,#0d2747 0%,#091a30 58%,#081426 100%);box-shadow:0 14px 38px rgba(0,0,0,.16)}
+      #paOwnerDashboard .pa-owner-heading:after{content:"";position:absolute;z-index:-1;right:-54px;bottom:-104px;width:250px;height:250px;border:1px solid rgba(108,173,255,.12);border-radius:50%;box-shadow:0 0 0 24px rgba(108,173,255,.025),0 0 0 50px rgba(108,173,255,.02)}
+      #paOwnerDashboard .pa-owner-heading h2{font-size:clamp(23px,2.2vw,34px);letter-spacing:-.045em;margin-top:7px}
+      #paOwnerDashboard .pa-owner-heading p:not(.dash-kicker){max-width:520px;font-size:12px}
+      #paOwnerDashboard .pa-owner-period{min-width:138px;padding:12px 13px;border-radius:16px;background:rgba(5,18,34,.62);backdrop-filter:blur(10px)}
+      #paOwnerDashboard .pa-owner-summary-grid{gap:clamp(9px,1vw,14px)}
+      #paOwnerDashboard .pa-owner-summary{position:relative;flex-direction:row;justify-content:flex-start;align-items:center;gap:12px;padding:clamp(12px,1.3vw,18px);border-radius:17px;text-align:left;background:linear-gradient(145deg,rgba(14,35,59,.96),rgba(7,20,36,.98));box-shadow:0 7px 18px rgba(0,0,0,.10);transition:transform .18s ease,border-color .18s ease}
+      #paOwnerDashboard .pa-owner-summary:hover{transform:translateY(-2px);border-color:rgba(99,169,255,.42)}
+      #paOwnerDashboard .pa-owner-summary-icon{width:40px;height:40px;border-radius:13px;flex:0 0 40px}
+      #paOwnerDashboard .pa-owner-summary div{align-items:flex-start;gap:4px}
+      #paOwnerDashboard .pa-owner-summary strong{font-size:clamp(18px,1.75vw,25px);line-height:1.12;letter-spacing:-.035em}
+      #paOwnerDashboard .pa-owner-summary span:not(.pa-owner-summary-icon){font-size:11px;font-weight:750;color:#c5d8f0}
+      #paOwnerDashboard .pa-owner-summary small{font-size:9px}
+      #paOwnerDashboard .pa-owner-operational-kpis .pa-owner-summary{min-height:78px}
+      #paOwnerDashboard .pa-owner-achievement-grid{gap:clamp(12px,1.3vw,18px)}
+      #paOwnerDashboard .pa-achievement-card{border-radius:21px;box-shadow:0 12px 28px rgba(0,0,0,.14);padding:clamp(16px,1.7vw,23px)}
+      #paOwnerDashboard .pa-owner-card-title{font-size:15px}
+      #paOwnerDashboard .pa-owner-card-subtitle{font-size:11px;max-width:560px}
+      #paOwnerDashboard .pa-main-amount{font-size:clamp(27px,3vw,39px);letter-spacing:-.045em}
+      #paOwnerDashboard .pa-trend-card{border-radius:21px;padding:clamp(15px,1.7vw,22px);box-shadow:0 10px 26px rgba(0,0,0,.10)}
+      #paOwnerDashboard .pa-trend-head h3{font-size:17px}
+      #paOwnerDashboard .pa-trend-filters{gap:12px}
+      #paOwnerDashboard .pa-trend-filters label{font-size:10px;font-weight:800;color:#a9c5e6}
+      #paOwnerDashboard .pa-trend-filters select{min-height:42px;border-radius:12px}
+      #paOwnerDashboard .pa-owner-sales-section{padding-top:20px}
+      #paOwnerDashboard .pa-owner-sales-heading{align-items:flex-end;margin-bottom:13px}
+      #paOwnerDashboard .pa-owner-sales-heading h3{font-size:clamp(15px,1.4vw,19px)}
+      #paOwnerDashboard .pa-owner-table-wrap{border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.10);scrollbar-color:#35699f #09182a;scrollbar-width:thin}
+      #paOwnerDashboard .pa-owner-table{font-size:11px}
+      #paOwnerDashboard .pa-owner-table th{position:sticky;top:0;z-index:1;padding:13px 12px;background:#112944;color:#a8cfff;font-size:10px;letter-spacing:.01em}
+      #paOwnerDashboard .pa-owner-table td{padding:13px 12px;font-variant-numeric:tabular-nums}
+      #paOwnerDashboard .pa-owner-table tbody tr{transition:background .15s ease}
+      #paOwnerDashboard .pa-owner-table tbody tr:hover{background:rgba(41,105,177,.12)}
+      #paOwnerDashboard .pa-owner-person strong{font-size:11px}
+      #paOwnerDashboard .pa-owner-rank{width:29px;height:29px}
+      #paOwnerDashboard .pa-owner-disclosure{border-radius:19px;overflow:hidden}
+      #paOwnerDashboard .pa-owner-disclosure-trigger{padding:15px 17px}
+      #paOwnerDashboard .pa-owner-disclosure-copy strong{font-size:13px}
+      #paOwnerDashboard :is(button,input,select,summary,[tabindex]):focus-visible{outline:2px solid #78baff;outline-offset:3px}
+      @container pa-owner (min-width:760px){#paOwnerDashboard .pa-owner-achievement-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#paOwnerDashboard .pa-owner-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#paOwnerDashboard .pa-owner-operational-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+      @media(max-width:560px){#paOwnerDashboard{gap:12px}#paOwnerDashboard .pa-owner-heading{align-items:stretch;flex-direction:column;gap:14px;padding:17px;border-radius:19px}#paOwnerDashboard .pa-owner-heading h2{font-size:25px}#paOwnerDashboard .pa-owner-period{flex-direction:row;justify-content:space-between;min-width:0;width:100%;padding:10px 12px;text-align:left}#paOwnerDashboard .pa-owner-period>div{display:flex;align-items:center;gap:9px}#paOwnerDashboard .pa-owner-period input[type="month"]{width:145px;margin:0}#paOwnerDashboard .pa-owner-summary{gap:9px;padding:12px 10px;border-radius:15px}#paOwnerDashboard .pa-owner-summary-icon{width:34px;height:34px;flex-basis:34px;border-radius:11px}#paOwnerDashboard .pa-owner-summary strong{font-size:clamp(17px,5vw,22px)}#paOwnerDashboard .pa-owner-summary span:not(.pa-owner-summary-icon){font-size:10px}#paOwnerDashboard .pa-owner-summary small{font-size:8px}#paOwnerDashboard .pa-owner-achievement-grid{grid-template-columns:minmax(0,1fr)}#paOwnerDashboard .pa-owner-sales-heading{align-items:flex-start;flex-direction:column}#paOwnerDashboard .pa-owner-sales-heading .pa-tag{align-self:flex-start}#paOwnerDashboard .pa-owner-table{min-width:790px}#paOwnerDashboard .pa-owner-table th,#paOwnerDashboard .pa-owner-table td{padding:11px 10px}#paOwnerDashboard .pa-trend-card{padding:14px;border-radius:18px}#paOwnerDashboard .pa-trend-filters{grid-template-columns:minmax(0,1fr)}#paOwnerDashboard .pa-trend-summary{gap:8px}#paOwnerDashboard .pa-main-amount{font-size:29px}}
+      @media(prefers-reduced-motion:reduce){#paOwnerDashboard *{transition:none!important;scroll-behavior:auto!important}}
+    </style>
+
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 <div id="loginOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
@@ -1165,7 +1212,7 @@ body {
                     <p id="paTrendNote" class="pa-trend-note">Grafik memuat histori transaksi dari server untuk periode yang dipilih. Data dihitung dari transaksi yang tersimpan di Supabase.</p>
                 </section>
                 <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">RINCIAN SALES/KBA</span></div>
-                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>Target Unit</th><th>Target Rupiah</th><th>ACT Unit</th><th>ACT Rupiah</th><th>Agen Aktif</th><th>Conversion</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="12" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
+                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>Agen Aktif</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="12" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
                 </section>
                 <div class="pa-owner-controls-slot">
                 <details class="pa-owner-disclosure">
@@ -3610,7 +3657,7 @@ function paUpdateSalesActiveAgentCounts() {
                 const order = Number(item.totalOrder ?? item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0;
                 const proses = Number(item.proses) || 0, siap = Number(item.siapCair) || 0, batal = Number(item.totalBatal) || 0;
                 const conversion = order > 0 ? Math.round(unit / order * 100) : 0;
-                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><strong>${paFormatNumber(unit)}</strong></td><td><strong>${paFormatRupiah(rp)}</strong></td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td>${conversion}%</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td><strong>${paFormatNumber(unit)}</strong></td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
             }).join('') : '<tr><td colspan="12" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
             paInitTrendFilters();
         }
@@ -4026,7 +4073,7 @@ function paUpdateSalesActiveAgentCounts() {
 </script>
     <div id="featureMenuModal" class="feature-modal" aria-hidden="true" onclick="if(event.target===this) closeFeatureMenu()">
         <section class="feature-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featureModalTitle">
-            <div class="feature-modal-head"><div><p class="dash-kicker">WORKSPACE • KLIKNSC</p><h2 id="featureModalTitle" class="text-xl font-black mt-1">Menu</h2><p class="text-xs text-slate-400 mt-1">Pilih tools yang ingin kamu buka.</p></div><button class="feature-close" onclick="closeFeatureMenu()" aria-label="Tutup menu">✕</button></div>
+            <div class="feature-modal-head"><div><p class="dash-kicker">WORKSPACE • KLIKNSC</p><h2 id="featureModalTitle" class="text-xl font-black mt-1">Menu fitur</h2><p class="text-xs text-slate-400 mt-1">Pilih tools yang ingin kamu buka.</p></div><button class="feature-close" onclick="closeFeatureMenu()" aria-label="Tutup menu">✕</button></div>
             <div class="feature-modal-grid">
                 <button onclick="openFeature('kalkulator')" class="dash-action"><span class="feature-item-icon">▣</span><span class="feature-item-title">Kalkulator KBA</span><span class="feature-item-sub">Simulasi angsuran</span></button>
                 <button onclick="openFeature('polling')" class="dash-action"><span class="feature-item-icon">➤</span><span class="feature-item-title">Polling Pengajuan</span><span class="feature-item-sub">Form &amp; tindak lanjut</span></button>
