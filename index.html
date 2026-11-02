@@ -1112,7 +1112,7 @@ body {
                 <div class="pa-owner-summary-grid">
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">♟</span><div><strong id="paOwnerSalesCount">—</strong><span>Total Sales/KBA</span><small>Aktif di data server</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">▤</span><div><strong id="paOwnerTransactions">—</strong><span>Total Transaksi (NOBUK)</span><small>Seluruh NOBUK periode terpilih</small></div></article>
-                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon green">♟</span><div><strong id="paOwnerActiveAgents">—</strong><span>Agen Aktif</span><small id="paOwnerActiveAgentsNote">Menunggu histori server</small></div></article>
+                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><strong id="paOwnerActiveAgents">—</strong><span>Agen Aktif</span><small>Agen unik · PK1 CLSD/721/720 & PK2 ACC</small></div></article>
                 </div>
                 <div class="pa-owner-summary-grid pa-owner-operational-kpis" aria-label="Ringkasan operasional">
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">…</span><div><strong id="paOwnerProses">—</strong><span>Proses</span><small>Belum cair / batal</small></div></article>
@@ -3422,32 +3422,15 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
         const month = paServerData?.month || getSelectedOwnerMonth();
         const filterId = personSel.value || 'all';
         const metric = metricSel.value || 'rupiah';
-        // Agen aktif: distinct nama agen memenuhi status, mengikuti bulan dan filter KBA.
-        const agentEligible = paTrendRows.filter(r =>
-            r.date.startsWith(month) &&
-            (filterId === 'all' || r.salesId === filterId) &&
-            ['CLSD','721','720'].includes(String(r.status1).trim().toUpperCase()) &&
-            String(r.status2).trim().toUpperCase() === 'ACC' &&
-            r.namaAgen.trim() !== ''
-        );
-        const activeAgentSet = new Set(agentEligible.map(r =>
-            r.namaAgen.replace(/\s+/g, ' ').trim().toUpperCase()
-        ));
-        const activeAgentsEl = document.getElementById('paOwnerActiveAgents');
-        const activeAgentsNoteEl = document.getElementById('paOwnerActiveAgentsNote');
-        if (activeAgentsEl) activeAgentsEl.textContent = paFormatNumber(activeAgentSet.size);
-        if (activeAgentsNoteEl) activeAgentsNoteEl.textContent =
-            `${filterId === 'all' ? 'Agen unik gabungan' : 'Agen unik KBA'} · ${month}`;
         const available = paTrendRows.filter(r => r.date.startsWith(month) && (filterId === 'all' || r.salesId === filterId));
         const qualifying = available.filter(r => ['CLSD','721','720'].includes(String(r.status1).trim().toUpperCase()) && String(r.status2).trim().toUpperCase() === 'ACC');
+        const activeAgentNames = new Set(qualifying.map(r => String(r.agent || '').trim().toLocaleUpperCase('id-ID')).filter(Boolean));
+        const activeAgentEl = document.getElementById('paOwnerActiveAgents');
+        if (activeAgentEl) activeAgentEl.textContent = paFormatNumber(activeAgentNames.size);
         const daily = new Map();
         qualifying.forEach(r => { const prior=daily.get(r.date)||{unit:0,rupiah:0}; prior.unit+=1; prior.rupiah+=Number(r.amount)||0; daily.set(r.date,prior); });
         const dayCount = Number(month.split('-')[1] ? new Date(Number(month.slice(0,4)),Number(month.slice(5,7)),0).getDate() : 0);
         if (!dayCount || paTrendLoadedMonth !== month) {
-            const activeAgentsEl = document.getElementById('paOwnerActiveAgents');
-            const activeAgentsNoteEl = document.getElementById('paOwnerActiveAgentsNote');
-            if (activeAgentsEl) activeAgentsEl.textContent = '—';
-            if (activeAgentsNoteEl) activeAgentsNoteEl.textContent = 'Memuat histori server…';
             document.getElementById('paTrendTotal').textContent='Memuat histori…';
             document.getElementById('paTrendMonth').textContent=`Periode ${month}`;
             chart.innerHTML='<div class="pa-trend-empty">Mengambil histori transaksi dari server…</div>'; return;
@@ -3484,7 +3467,7 @@ Info & Pengajuan Cepat Chat WA Sales KlikNSC!`;
                 const response=await fetch(`${PA_API_BASE}/admin-trend?month=${encodeURIComponent(month)}`,{method:'GET',credentials:'include',headers:{Accept:'application/json'},cache:'no-store'});
                 const result=await response.json().catch(()=>({}));
                 if(!response.ok||!result.ok)throw new Error(result.message||`Gagal memuat histori (${response.status})`);
-                paTrendRows=(Array.isArray(result.rows)?result.rows:[]).map(r=>({salesId:String(r.sales_id||'').trim().toUpperCase(),nobuk:String(r.nobuk||'').trim(),date:String(r.transaction_date||''),status1:String(r.status_pk1||''),status2:String(r.status_pk2||''),amount:Number(r.nominal_cair)||0,namaAgen:String(r.nama_agen||'').replace(/\s+/g,' ').trim()}));
+                paTrendRows=(Array.isArray(result.rows)?result.rows:[]).map(r=>({salesId:String(r.sales_id||'').trim().toUpperCase(),nobuk:String(r.nobuk||'').trim(),agent:String(r.nama_agen||'').trim(),date:String(r.transaction_date||''),status1:String(r.status_pk1||''),status2:String(r.status_pk2||''),amount:Number(r.nominal_cair)||0}));
                 paTrendLoadedMonth=month; paRenderTrend();
             }catch(err){paTrendLoadedMonth='';if(chart)chart.innerHTML='<div class="pa-trend-empty">Histori belum dapat dimuat. Coba refresh atau periksa sesi Owner dan endpoint.</div>';const note=document.getElementById('paTrendNote');if(note)note.textContent=err?.message||'Gagal mengambil histori.';}
             finally{paTrendLoadPromise=null;}
