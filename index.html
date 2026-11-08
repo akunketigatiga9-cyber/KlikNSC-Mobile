@@ -491,13 +491,8 @@ button { touch-action:manipulation; }
         .pa-tag-muted { color:#a6b7cd;background:rgba(255,255,255,.035);border-color:rgba(148,163,184,.13); }
         .pa-achievement-card { border-radius:22px;padding:16px;background:linear-gradient(150deg,rgba(13,33,57,.98),rgba(7,19,34,.99));border:1px solid rgba(83,137,199,.24);box-shadow:0 10px 28px rgba(0,0,0,.12);min-width:0; }
         .pa-primary-card { border-color:rgba(42,132,255,.38);background:radial-gradient(ellipse at 100% 0%,rgba(30,111,223,.13),transparent 48%),linear-gradient(150deg,#0c2543,#08172a); }
-        .pa-card-top { display:flex;align-items:center;justify-content:flex-start;gap:8px; }
-        .pa-card-heading { display:flex;align-items:center;gap:11px;min-width:0; }
-        .pa-card-heading-copy { min-width:0; }
-        .pa-card-heading-copy h3 { color:#e9f2ff;font-size:15px;font-weight:850;letter-spacing:-.025em;line-height:1.25;overflow-wrap:anywhere; }
-        .pa-card-heading-copy p { color:#829ab8;font-size:10px;margin-top:3px;line-height:1.4;overflow-wrap:anywhere; }
-        @media(max-width:360px) { .pa-card-heading-copy h3 { font-size:14px; }.pa-card-heading { gap:9px; } }
-        .pa-metric-icon { width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:13px;color:#91c5ff;background:rgba(37,112,224,.16);border:1px solid rgba(59,130,246,.22); }
+        .pa-card-top { display:flex;align-items:center;justify-content:space-between;gap:8px; }
+        .pa-metric-icon { width:36px;height:36px;display:grid;place-items:center;border-radius:13px;color:#91c5ff;background:rgba(37,112,224,.16);border:1px solid rgba(59,130,246,.22); }
         .pa-metric-icon svg { width:19px;height:19px; }
         .pa-data-status { color:#7e9cbd;font-size:8px;font-weight:900;letter-spacing:.07em;text-align:right; }
         .pa-amount-label { color:#9bb8da;font-size:11px;margin-top:17px; }
@@ -1052,18 +1047,6 @@ body {
       @media(prefers-reduced-motion:reduce){#paOwnerDashboard *{transition:none!important;scroll-behavior:auto!important}}
     </style>
 
-
-<style id="pa-sales-card-spacing-fix">
-  /* Ruang antarbagian dashboard Sales/KBA */
-  #paSalesDashboardContent > .pa-welcome { margin-bottom: 16px !important; }
-  #paSalesDashboardContent > .pa-achievement-card { margin-top: 14px !important; }
-  #paSalesDashboardContent > .pa-achievement-card + .pa-achievement-card { margin-top: 16px !important; }
-  @media (max-width: 480px) {
-    #paSalesDashboardContent > .pa-welcome { margin-bottom: 15px !important; }
-    #paSalesDashboardContent > .pa-achievement-card { margin-top: 14px !important; }
-    #paSalesDashboardContent > .pa-achievement-card + .pa-achievement-card { margin-top: 15px !important; }
-  }
-</style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 <div id="loginOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
@@ -1141,7 +1124,21 @@ body {
                     <p class="text-xs text-blue-200/90 font-medium">Kalkulator Brosur & Tools KBA</p>
                 </div>
             </div>
-            <!-- Logout is available from Menu Fitur instead of the header. -->
+            <button
+                id="appRefreshBtn"
+                type="button"
+                onclick="window.location.reload()"
+                aria-label="Refresh halaman dashboard"
+                title="Refresh halaman"
+                class="ml-2 inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-xl border border-blue-400/30 bg-blue-500/15 px-3 py-2 text-xs font-extrabold text-blue-100 shadow-sm transition hover:bg-blue-500/25 active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+            >
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20 7v5h-5" />
+                    <path d="M4 17v-5h5" />
+                    <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12M4 12l2.8 5a7 7 0 0 0 11.6-2" />
+                </svg>
+                <span class="hidden sm:inline">Refresh</span>
+            </button>
         </div>
     </header>
     <div id="featureTabs" class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-3 py-2.5 flex gap-2 text-xs font-bold shadow-md sticky top-[68px] z-30 overflow-x-auto no-scrollbar">
@@ -1230,7 +1227,7 @@ body {
                     <p id="paTrendNote" class="pa-trend-note">Grafik memuat histori transaksi dari server untuk periode yang dipilih. Data dihitung dari transaksi yang tersimpan di Supabase.</p>
                 </section>
                 <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">RINCIAN SALES/KBA</span></div>
-                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses Survey</th><th>Siap Cair</th><th>Batal</th><th>Target Unit</th><th>ACT Unit</th><th>Target Agen Aktif</th><th>ACT Agen Aktif</th><th>Target Rupiah</th><th>ACT Rupiah</th><th>Conversion</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="13" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
+                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>Agen Aktif</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="12" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
                 </section>
                 <div class="pa-owner-controls-slot">
                 <details class="pa-owner-disclosure">
@@ -1261,9 +1258,6 @@ body {
                         <label>Target Unit
                             <input id="paTargetMountInput" type="number" min="0" step="1" placeholder="Contoh: 20" inputmode="numeric">
                         </label>
-                        <label>Target Agen Aktif
-                            <input id="paTargetAgenAktifInput" type="number" min="0" step="1" placeholder="Contoh: 10" inputmode="numeric">
-                        </label>
                     </div>
                     <button type="button" id="paSaveTargetBtn" class="pa-save-target-btn" onclick="savePersonalTargets()">Simpan target profil ini</button>
                 </div>
@@ -1288,42 +1282,20 @@ body {
                 <p class="pa-welcome-copy">Ini ringkasan pencapaian pribadi kamu. Data akan ditampilkan setelah sumber Excel terhubung dan berhasil diproses.</p>
                 <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>CSV harian dari server</strong></span></div>
             </div>
+            <div class="pa-section-heading"><div><h3>Pencapaian Rupiah</h3><p>Realisasi dibandingkan target</p></div><span class="pa-tag">UTAMA</span></div>
             <article class="pa-achievement-card pa-primary-card">
-                <div class="pa-card-top">
-                    <div class="pa-card-heading">
-                        <span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5c-.7-.7-1.7-1-3-1-1.6 0-2.7.8-2.7 2s1 1.8 2.6 2.2 2.6 1 2.6 2.3-1.2 2.2-2.9 2.2c-1.2 0-2.4-.4-3.2-1.2M12.1 5.8v12.4"/></svg></span>
-                        <div class="pa-card-heading-copy"><h3>Pencapaian Rupiah</h3><p>Realisasi dibandingkan target</p></div>
-                    </div>
-                    <span id="paRupiahStatus" class="pa-data-status" hidden>DATA BELUM TERSEDIA</span>
-                </div>
+                <div class="pa-card-top"><span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5c-.7-.7-1.7-1-3-1-1.6 0-2.7.8-2.7 2s1 1.8 2.6 2.2 2.6 1 2.6 2.3-1.2 2.2-2.9 2.2c-1.2 0-2.4-.4-3.2-1.2M12.1 5.8v12.4"/></svg></span><span id="paRupiahStatus" class="pa-data-status">DATA BELUM TERSEDIA</span></div>
                 <div class="pa-amount-label">ACT Rupiah</div><div id="paActRupiah" class="pa-main-amount">Menunggu data</div>
                 <div class="pa-target-row"><div><span>Target Rupiah</span><strong id="paTargetRupiah">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paRupiahProgress">—%</strong></div></div>
                 <div class="pa-progress-track" role="progressbar" aria-label="Progress target Rupiah" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paRupiahProgressBar"><span style="width:0%"></span></div>
                 <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paRupiahRemaining">—</strong></div></div><div><span class="pa-mini-icon">◎</span><div><small>Status data</small><strong id="paRupiahUpdated">Belum sinkron</strong></div></div></div>
             </article>
+            <div class="pa-section-heading pa-mount-heading"><div><h3>Pencapaian Unit</h3><p>Progress target unit</p></div><span class="pa-tag pa-tag-muted">RINGKASAN</span></div>
             <article class="pa-achievement-card pa-mount-card">
-                <div class="pa-card-top">
-                    <div class="pa-card-heading">
-                        <span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h16"/><rect x="7" y="11" width="3" height="5" rx=".7"/><rect x="12" y="8" width="3" height="8" rx=".7"/><rect x="17" y="4" width="3" height="12" rx=".7"/></svg></span>
-                        <div class="pa-card-heading-copy"><h3>Pencapaian Unit</h3><p>Progress target unit</p></div>
-                    </div>
-                    <span id="paMountStatus" class="pa-data-status" hidden>DATA BELUM TERSEDIA</span>
-                </div>
+                <div class="pa-card-top"><span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5m0 14h16"/><rect x="7" y="11" width="3" height="5" rx=".7"/><rect x="12" y="8" width="3" height="8" rx=".7"/><rect x="17" y="4" width="3" height="12" rx=".7"/></svg></span><span id="paMountStatus" class="pa-data-status">DATA BELUM TERSEDIA</span></div>
                 <div class="pa-target-row pa-mount-numbers"><div><span>ACT Unit</span><strong id="paActMount">—</strong></div><div><span>Target Unit</span><strong id="paTargetMount">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paMountProgress">—%</strong></div></div>
                 <div class="pa-progress-track" role="progressbar" aria-label="Progress target Unit" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paMountProgressBar"><span style="width:0%"></span></div>
                 <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paMountRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong id="paMountUpdated">Belum tersedia</strong></div></div></div>
-            </article>
-            <article class="pa-achievement-card pa-mount-card pa-agent-card">
-                <div class="pa-card-top">
-                    <div class="pa-card-heading">
-                        <span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.3 2.6-5 6.5-5s6 1.7 6.5 5M16 5.2a3.5 3.5 0 0 1 0 6.7M17 15c2.6.5 4 2.1 4.5 5"/></svg></span>
-                        <div class="pa-card-heading-copy"><h3>Pencapaian Agen Aktif</h3><p>Realisasi agen unik dibandingkan target bulanan</p></div>
-                    </div>
-                    <span id="paAgentStatus" class="pa-data-status" hidden>DATA BELUM TERSEDIA</span>
-                </div>
-                <div class="pa-target-row pa-mount-numbers"><div><span>ACT Agen Aktif</span><strong id="paActAgenAktif">—</strong></div><div><span>Target Agen Aktif</span><strong id="paTargetAgenAktif">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paAgenAktifProgress">—%</strong></div></div>
-                <div class="pa-progress-track" role="progressbar" aria-label="Progress target Agen Aktif" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paAgenAktifProgressBar"><span style="width:0%"></span></div>
-                <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paAgenAktifRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong id="paAgenAktifUpdated">Belum tersedia</strong></div></div></div>
             </article>
             </div>
         </section>
@@ -3653,7 +3625,6 @@ function paUpdateSalesActiveAgentCounts() {
             const totalUnit = ownerSales.reduce((sum, item) => sum + (Number(item.actUnit) || 0), 0);
             const totalTargetRp = ownerSales.reduce((sum, item) => sum + (Number(item.targetRupiah) || 0), 0);
             const totalTargetUnit = ownerSales.reduce((sum, item) => sum + (Number(item.targetUnit) || 0), 0);
-            const totalTargetAgenAktif = ownerSales.reduce((sum, item) => sum + (Number(item.targetAgenAktif) || 0), 0);
             const totalRpProgress = paPercent(totalRp, totalTargetRp);
             const totalUnitProgress = paPercent(totalUnit, totalTargetUnit);
             const sumField = (field, aliases=[]) => ownerSales.reduce((sum, item) => {
@@ -3697,13 +3668,12 @@ function paUpdateSalesActiveAgentCounts() {
             if (rows) rows.innerHTML = ownerSales.length ? [...ownerSales].sort((a,b) => (Number(b.actRupiah)||0) - (Number(a.actRupiah)||0)).map((item, index) => {
                 const rp = Number(item.actRupiah) || 0, unit = Number(item.actUnit) || 0;
                 const trp = Number(item.targetRupiah) || 0, tu = Number(item.targetUnit) || 0;
-                const targetAgents = Number(item.targetAgenAktif) || 0;
                 const percent = paPercent(rp, trp);
                 const order = Number(item.totalOrder ?? item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0;
                 const proses = Number(item.proses) || 0, siap = Number(item.siapCair) || 0, batal = Number(item.totalBatal) || 0;
                 const conversion = order > 0 ? Math.round(unit / order * 100) : 0;
-                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td><strong>${paFormatNumber(unit)}</strong></td><td>${targetAgents > 0 ? paFormatNumber(targetAgents) : '—'}</td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
-            }).join('') : '<tr><td colspan="13" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td><strong>${paFormatNumber(unit)}</strong></td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
+            }).join('') : '<tr><td colspan="12" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
             paInitTrendFilters();
         }
         const record = paSelectedRecord();
@@ -3712,11 +3682,8 @@ function paUpdateSalesActiveAgentCounts() {
         const actUnit = Number(record?.actUnit || 0);
         const targetRupiah = Number(record?.targetRupiah || 0);
         const targetUnit = Number(record?.targetUnit || 0);
-        const actAgenAktif = Number(record?.actAgenAktif || 0);
-        const targetAgenAktif = Number(record?.targetAgenAktif || 0);
         const rp = paPercent(actRupiah, targetRupiah);
         const up = paPercent(actUnit, targetUnit);
-        const ap = paPercent(actAgenAktif, targetAgenAktif);
         const put = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
         put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (paDisplayName(record?.displayName) || paDisplayName(state.salesName) || state.salesId || 'SALES'));
         put('paActRupiah', hasData ? paFormatRupiah(actRupiah) : 'Menunggu data');
@@ -3729,23 +3696,14 @@ function paUpdateSalesActiveAgentCounts() {
         put('paMountProgress', up === null ? '—%' : up + '%');
         put('paMountRemaining', targetUnit > 0 ? paFormatNumber(Math.max(0, targetUnit - actUnit)) : '—');
         put('paMountUpdated', paServerData?.month ? `Periode ${paServerData.month}` : 'Belum tersedia');
-        put('paActAgenAktif', hasData ? paFormatNumber(actAgenAktif) : '—');
-        put('paTargetAgenAktif', targetAgenAktif > 0 ? paFormatNumber(targetAgenAktif) : 'Belum diatur');
-        put('paAgenAktifProgress', ap === null ? '—%' : ap + '%');
-        put('paAgenAktifRemaining', targetAgenAktif > 0 ? paFormatNumber(Math.max(0, targetAgenAktif - actAgenAktif)) : '—');
-        put('paAgenAktifUpdated', paServerData?.month ? `Periode ${paServerData.month}` : 'Belum tersedia');
         put('paRupiahStatus', hasData ? 'DATA TERSINKRON' : 'DATA BELUM TERSEDIA');
         put('paMountStatus', hasData ? 'CLSD 721 + ACC' : 'DATA BELUM TERSEDIA');
-        put('paAgentStatus', hasData ? 'AGEN UNIK · CLSD/721/720 + ACC' : 'DATA BELUM TERSEDIA');
         paSetProgress('paRupiahProgressBar', rp || 0);
         paSetProgress('paMountProgressBar', up || 0);
-        paSetProgress('paAgenAktifProgressBar', ap || 0);
         const targetRpInput = document.getElementById('paTargetRupiahInput');
         const targetUnitInput = document.getElementById('paTargetMountInput');
-        const targetAgentInput = document.getElementById('paTargetAgenAktifInput');
         if (targetRpInput && document.activeElement !== targetRpInput) targetRpInput.value = targetRupiah > 0 ? Math.round(targetRupiah).toLocaleString('id-ID') : '';
         if (targetUnitInput && document.activeElement !== targetUnitInput) targetUnitInput.value = targetUnit || '';
-        if (targetAgentInput && document.activeElement !== targetAgentInput) targetAgentInput.value = targetAgenAktif || '';
         const status = document.querySelector('.pa-sync-pill');
         if (status) status.textContent = paServerData ? `✓ Terhubung · ${paServerData.month}` : '↻ Menunggu data';
         put('paDataInfoTitle', paServerData ? 'Data pencapaian dari server' : 'Menunggu koneksi data');
@@ -3811,9 +3769,8 @@ function paUpdateSalesActiveAgentCounts() {
         }
         const targetRupiah = paParseTargetRupiahInput(document.getElementById('paTargetRupiahInput')?.value);
         const targetUnit = Number(document.getElementById('paTargetMountInput')?.value);
-        const targetAgenAktif = Number(document.getElementById('paTargetAgenAktifInput')?.value);
-        if (!Number.isFinite(targetRupiah) || targetRupiah < 0 || !Number.isInteger(targetUnit) || targetUnit < 0 || !Number.isInteger(targetAgenAktif) || targetAgenAktif < 0) {
-            paSetImportMessage('Target Rupiah harus ≥ 0, Target Unit dan Target Agen Aktif harus bilangan bulat ≥ 0.', 'error');
+        if (!Number.isFinite(targetRupiah) || targetRupiah < 0 || !Number.isInteger(targetUnit) || targetUnit < 0) {
+            paSetImportMessage('Target Rupiah harus ≥ 0 dan Target Unit harus bilangan bulat ≥ 0.', 'error');
             return;
         }
         const month = getSelectedOwnerMonth();
@@ -3822,7 +3779,7 @@ function paUpdateSalesActiveAgentCounts() {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({ salesId, targetMonth: `${month}-01`, targetRupiah, targetUnit, targetAgenAktif })
+                body: JSON.stringify({ salesId, targetMonth: `${month}-01`, targetRupiah, targetUnit })
             });
             const result = await response.json().catch(() => ({}));
             if (!response.ok || !result.ok) throw new Error(result.message || 'Target gagal disimpan.');
