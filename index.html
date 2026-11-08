@@ -952,6 +952,34 @@ body {
           .pa-mount-numbers span,.pa-target-row span{font-size:10px;line-height:1.35}
           .pa-mount-numbers strong,.pa-target-row strong{font-size:13px;line-height:1.35;overflow-wrap:anywhere}
         }
+
+/* Sales/KBA insights: daily trend + transaction status */
+#paSalesDashboardContent .pa-insight-section{display:grid;gap:14px;margin-top:16px;min-width:0}
+#paSalesDashboardContent .pa-insight-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:2px 2px 0}
+#paSalesDashboardContent .pa-insight-kicker{margin:0 0 5px;color:#75b8ff;font-size:9px;font-weight:900;letter-spacing:.16em}
+#paSalesDashboardContent .pa-insight-heading h3{margin:0;color:#f1f6ff;font-size:18px;font-weight:900;letter-spacing:-.025em}
+#paSalesDashboardContent .pa-insight-heading p{margin:4px 0 0;color:#8da5c1;font-size:11px;line-height:1.45}
+#paSalesDashboardContent .pa-insight-card{min-width:0;overflow:hidden;border:1px solid rgba(104,158,220,.2);border-radius:18px;padding:15px;background:linear-gradient(145deg,rgba(13,31,55,.98),rgba(8,20,38,.98));box-shadow:0 12px 28px rgba(0,0,0,.13)}
+#paSalesDashboardContent .pa-insight-card-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#paSalesDashboardContent .pa-insight-card-heading>div{display:flex;align-items:center;gap:10px;min-width:0}
+#paSalesDashboardContent .pa-insight-icon{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:11px;background:rgba(59,130,246,.15);color:#8fc5ff;font-size:19px;font-weight:900}
+#paSalesDashboardContent .pa-insight-card h4{margin:0;color:#eef6ff;font-size:13px;font-weight:850}
+#paSalesDashboardContent .pa-insight-card-heading p{margin:3px 0 0;color:#8da5c1;font-size:10px;line-height:1.4}
+#paSalesDashboardContent .pa-insight-period{color:#8da5c1;font-size:9px;font-weight:800;white-space:nowrap}
+#paSalesDashboardContent .pa-daily-chart{height:176px;margin-top:12px;min-width:0}
+#paSalesDashboardContent .pa-daily-chart svg{display:block;width:100%;height:100%;overflow:visible}
+#paSalesDashboardContent .pa-insight-empty{display:grid;place-items:center;height:100%;min-height:110px;border:1px dashed rgba(125,164,207,.2);border-radius:12px;color:#8299b4;font-size:11px;text-align:center;padding:12px}
+#paSalesDashboardContent .pa-chart-legend{display:flex;gap:18px;justify-content:center;margin-top:8px;color:#9bb0c9;font-size:10px}
+#paSalesDashboardContent .pa-chart-legend span{display:flex;align-items:center;gap:6px}
+#paSalesDashboardContent .pa-chart-legend i{display:inline-block;width:8px;height:8px;border-radius:50%}
+#paSalesDashboardContent .pa-legend-rp{background:#60a5fa}#paSalesDashboardContent .pa-legend-unit{background:#34d399}
+#paSalesDashboardContent .pa-status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+#paSalesDashboardContent .pa-status-item{display:flex;flex-direction:column;gap:6px;min-width:0;padding:12px;border:1px solid rgba(125,164,207,.15);border-radius:13px;background:rgba(8,19,35,.62)}
+#paSalesDashboardContent .pa-status-item span{color:#b8c9dc;font-size:10px;font-weight:750;line-height:1.3}
+#paSalesDashboardContent .pa-status-item strong{color:#f5f9ff;font-size:24px;font-weight:900;line-height:1.1}
+#paSalesDashboardContent .pa-status-item small{color:#7189a5;font-size:8px;line-height:1.35}
+#paSalesDashboardContent .pa-status-process{border-top:2px solid #60a5fa}#paSalesDashboardContent .pa-status-ready{border-top:2px solid #34d399}#paSalesDashboardContent .pa-status-cancel{border-top:2px solid #fb7185}
+@media(max-width:540px){#paSalesDashboardContent .pa-insight-section{gap:12px;margin-top:14px}#paSalesDashboardContent .pa-insight-card{padding:13px;border-radius:16px}#paSalesDashboardContent .pa-status-grid{gap:7px}#paSalesDashboardContent .pa-status-item{padding:10px 8px}#paSalesDashboardContent .pa-status-item strong{font-size:21px}#paSalesDashboardContent .pa-status-item span{font-size:9px}#paSalesDashboardContent .pa-status-item small{font-size:7px}#paSalesDashboardContent .pa-daily-chart{height:158px}}
 </style>
 <style id="ltv-premium-fintech-style">
 /* Scoped LTV NSC visual refresh: Premium Fintech + Automotive Finance */
@@ -1336,6 +1364,22 @@ body {
                 <div class="pa-progress-track" role="progressbar" aria-label="Progress target Agen Aktif" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paAgenAktifProgressBar"><span style="width:0%"></span></div>
                 <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paAgenAktifRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong id="paAgenAktifUpdated">Belum tersedia</strong></div></div></div>
             </article>
+            <section class="pa-insight-section" id="paSalesInsights" aria-label="Analisis pencapaian pribadi">
+                <div class="pa-insight-heading"><div><p class="pa-insight-kicker">ANALISIS PERFORMA</p><h3>Perkembangan Pencapaian</h3><p>Pergerakan ACT harian dan posisi transaksi bulan ini.</p></div><span class="pa-tag pa-tag-muted">BULANAN</span></div>
+                <article class="pa-insight-card pa-daily-card">
+                    <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">↗</span><div><h4>Tren Pencapaian Harian</h4><p>ACT Rupiah dan ACT Unit per tanggal transaksi</p></div></div><span id="paDailyTrendPeriod" class="pa-insight-period">Menunggu data</span></div>
+                    <div id="paDailyTrendChart" class="pa-daily-chart" role="img" aria-label="Grafik tren pencapaian harian"><div class="pa-insight-empty">Grafik akan tampil setelah data tersedia.</div></div>
+                    <div class="pa-chart-legend"><span><i class="pa-legend-rp"></i> ACT Rupiah</span><span><i class="pa-legend-unit"></i> ACT Unit</span></div>
+                </article>
+                <article class="pa-insight-card pa-status-card">
+                    <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">▤</span><div><h4>Ringkasan Status Transaksi</h4><p>Jumlah NOBUK unik berdasarkan status PK1</p></div></div></div>
+                    <div class="pa-status-grid">
+                        <div class="pa-status-item pa-status-process"><span>Proses Survey</span><strong id="paStatusProses">—</strong><small>PK1: 630 · 631 · 712 · 713 · 714</small></div>
+                        <div class="pa-status-item pa-status-ready"><span>Siap Cair</span><strong id="paStatusSiapCair">—</strong><small>PK1: 716</small></div>
+                        <div class="pa-status-item pa-status-cancel"><span>Batal</span><strong id="paStatusBatal">—</strong><small>PK1: BTL</small></div>
+                    </div>
+                </article>
+            </section>
             </div>
         </section>
         <!-- Kalkulator View -->
@@ -3641,6 +3685,40 @@ function paUpdateSalesActiveAgentCounts() {
         sel.onchange=paRenderTrend;const metric=document.getElementById('paTrendMetric');if(metric)metric.onchange=paRenderTrend;
         paLoadTrendHistory();
     }
+    function paRenderSalesInsights(record) {
+        const isSales = currentAuthRole !== 'admin';
+        const section = document.getElementById('paSalesInsights');
+        if (section) section.style.display = isSales ? '' : 'none';
+        if (!isSales) return;
+        const salesId = record?.salesId || state.salesId || '';
+        const daily = (Array.isArray(paServerData?.dailyTrend) ? paServerData.dailyTrend : [])
+            .filter(item => String(item.salesId) === String(salesId))
+            .sort((a, b) => String(a.date).localeCompare(String(b.date)));
+        const period = document.getElementById('paDailyTrendPeriod');
+        if (period) period.textContent = paServerData?.month || 'Menunggu data';
+        const chart = document.getElementById('paDailyTrendChart');
+        if (chart) {
+            if (!daily.length) {
+                chart.innerHTML = '<div class="pa-insight-empty">Belum ada transaksi ACT pada periode ini.</div>';
+            } else {
+                const W=640,H=176,L=48,R=12,T=12,B=27, iw=W-L-R, ih=H-T-B;
+                const maxRp=Math.max(1,...daily.map(x=>Number(x.actRupiah)||0));
+                const maxUnit=Math.max(1,...daily.map(x=>Number(x.actUnit)||0));
+                const px=i=>L+(daily.length===1?iw/2:(i/(daily.length-1))*iw);
+                const py=(v,max)=>T+ih-(Math.max(0,Number(v)||0)/max)*ih;
+                const rpPts=daily.map((x,i)=>`${px(i).toFixed(1)},${py(x.actRupiah,maxRp).toFixed(1)}`).join(' ');
+                const unitPts=daily.map((x,i)=>`${px(i).toFixed(1)},${py(x.actUnit,maxUnit).toFixed(1)}`).join(' ');
+                const labels=daily.map((x,i)=> i===0 || i===daily.length-1 || (daily.length>8 && i%Math.ceil(daily.length/5)===0) ? `<text x="${px(i)}" y="${H-7}" text-anchor="middle" fill="#8299b4" font-size="10">${String(x.date).slice(8,10)}</text>` : '').join('');
+                const grid=[0,.5,1].map(v=>`<line x1="${L}" y1="${T+ih*v}" x2="${W-R}" y2="${T+ih*v}" stroke="rgba(143,170,201,.15)" stroke-dasharray="3 5"/>`).join('');
+                chart.innerHTML=`<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${grid}<polyline points="${rpPts}" fill="none" stroke="#60a5fa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><polyline points="${unitPts}" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 4"/>${daily.map((x,i)=>`<circle cx="${px(i)}" cy="${py(x.actRupiah,maxRp)}" r="3" fill="#60a5fa"/>`).join('')}${labels}<text x="2" y="13" fill="#8299b4" font-size="9">Rp</text><text x="${W-12}" y="13" text-anchor="end" fill="#8299b4" font-size="9">Unit</text></svg>`;
+            }
+        }
+        const putInsight=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=paServerData&&record?paFormatNumber(Number(value)||0):'—';};
+        putInsight('paStatusProses',record?.proses);
+        putInsight('paStatusSiapCair',record?.siapCair);
+        putInsight('paStatusBatal',record?.totalBatal);
+    }
+
     function paRefreshDashboard() {
         const selector = document.getElementById('paPersonSelect');
         const sales = Array.isArray(paServerData?.sales) ? paServerData.sales : [];
@@ -3767,6 +3845,7 @@ function paUpdateSalesActiveAgentCounts() {
         if (uploadCard) uploadCard.style.display = isOwner ? '' : 'none';
         const targetSave = document.getElementById('paSaveTargetBtn');
         if (targetSave) targetSave.style.display = isOwner ? '' : 'none';
+        paRenderSalesInsights(record);
         renderPaHistory(record?.salesId || '');
     }
     function getCurrentOwnerMonth() {
