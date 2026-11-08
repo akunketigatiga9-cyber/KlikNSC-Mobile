@@ -3618,7 +3618,7 @@ function paUpdateSalesActiveAgentCounts() {
         const filterId = personSel.value || 'all';
         const metric = metricSel.value || 'rupiah';
         const available = paTrendRows.filter(r => r.date.startsWith(month) && (filterId === 'all' || r.salesId === filterId));
-        const qualifying = available.filter(r => ['CLSD','721','720'].includes(String(r.status1).trim().toUpperCase()) && String(r.status2).trim().toUpperCase() === 'ACC');
+        const qualifying = available.filter(r => ['CLSD','721','720','CLSD 721','CLSD 720'].includes(String(r.status1).trim().toUpperCase()) && String(r.status2).trim().toUpperCase() === 'ACC');
         const activeAgentNames = new Set(qualifying.map(r => String(r.agent || '').trim().toLocaleUpperCase('id-ID')).filter(Boolean));
         const activeAgentEl = document.getElementById('paOwnerActiveAgents');
         if (activeAgentEl) activeAgentEl.textContent = paFormatNumber(activeAgentNames.size);
@@ -3792,7 +3792,7 @@ function paUpdateSalesActiveAgentCounts() {
                 const order = Number(item.totalOrder ?? item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0;
                 const proses = Number(item.proses) || 0, siap = Number(item.siapCair) || 0, batal = Number(item.totalBatal) || 0;
                 const conversion = order > 0 ? Math.round(unit / order * 100) : 0;
-                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td><strong>${paFormatNumber(unit)}</strong></td><td>${targetAgents > 0 ? paFormatNumber(targetAgents) : '—'}</td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td><strong>${paFormatNumber(unit)}</strong></td><td>${targetAgents > 0 ? paFormatNumber(targetAgents) : '—'}</td><td data-pa-agent-sales="${paEscape(item.salesId || '')}"><strong>${paFormatNumber(Number(item.actAgenAktif) || 0)}</strong></td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
             }).join('') : '<tr><td colspan="13" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
             paInitTrendFilters();
         }
