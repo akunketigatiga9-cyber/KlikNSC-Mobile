@@ -1213,7 +1213,7 @@ body {
                     <p id="paTrendNote" class="pa-trend-note">Grafik memuat histori transaksi dari server untuk periode yang dipilih. Data dihitung dari transaksi yang tersimpan di Supabase.</p>
                 </section>
                 <section class="pa-owner-sales-section"><div class="pa-owner-sales-heading"><div><h3>♟　Rincian Pencapaian per Sales/KBA</h3><p>Detail pencapaian masing-masing Sales untuk periode yang dipilih.</p></div><span class="pa-tag">RINCIAN SALES/KBA</span></div>
-                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses</th><th>Siap Cair</th><th>Total Batal</th><th>ACT Unit</th><th>Agen Aktif</th><th>ACT Rupiah</th><th>Conversion</th><th>Target Unit</th><th>Target Rupiah</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="12" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
+                    <div class="pa-owner-table-wrap"><table class="pa-owner-table"><thead><tr><th>Sales / KBA</th><th>Total Order</th><th>Proses Survey</th><th>Siap Cair</th><th>Batal</th><th>Target Unit</th><th>ACT Unit</th><th>Target Agen Aktif</th><th>ACT Agen Aktif</th><th>Target Rupiah</th><th>ACT Rupiah</th><th>Conversion</th><th>Progress</th></tr></thead><tbody id="paOwnerSalesRows"><tr><td colspan="13" class="pa-owner-empty">Memuat data server…</td></tr></tbody></table></div>
                 </section>
                 <div class="pa-owner-controls-slot">
                 <details class="pa-owner-disclosure">
@@ -1243,6 +1243,9 @@ body {
                         </label>
                         <label>Target Unit
                             <input id="paTargetMountInput" type="number" min="0" step="1" placeholder="Contoh: 20" inputmode="numeric">
+                        </label>
+                        <label>Target Agen Aktif
+                            <input id="paTargetAgenAktifInput" type="number" min="0" step="1" placeholder="Contoh: 10" inputmode="numeric">
                         </label>
                     </div>
                     <button type="button" id="paSaveTargetBtn" class="pa-save-target-btn" onclick="savePersonalTargets()">Simpan target profil ini</button>
@@ -3611,6 +3614,7 @@ function paUpdateSalesActiveAgentCounts() {
             const totalUnit = ownerSales.reduce((sum, item) => sum + (Number(item.actUnit) || 0), 0);
             const totalTargetRp = ownerSales.reduce((sum, item) => sum + (Number(item.targetRupiah) || 0), 0);
             const totalTargetUnit = ownerSales.reduce((sum, item) => sum + (Number(item.targetUnit) || 0), 0);
+            const totalTargetAgenAktif = ownerSales.reduce((sum, item) => sum + (Number(item.targetAgenAktif) || 0), 0);
             const totalRpProgress = paPercent(totalRp, totalTargetRp);
             const totalUnitProgress = paPercent(totalUnit, totalTargetUnit);
             const sumField = (field, aliases=[]) => ownerSales.reduce((sum, item) => {
@@ -3654,12 +3658,13 @@ function paUpdateSalesActiveAgentCounts() {
             if (rows) rows.innerHTML = ownerSales.length ? [...ownerSales].sort((a,b) => (Number(b.actRupiah)||0) - (Number(a.actRupiah)||0)).map((item, index) => {
                 const rp = Number(item.actRupiah) || 0, unit = Number(item.actUnit) || 0;
                 const trp = Number(item.targetRupiah) || 0, tu = Number(item.targetUnit) || 0;
+                const targetAgents = Number(item.targetAgenAktif) || 0;
                 const percent = paPercent(rp, trp);
                 const order = Number(item.totalOrder ?? item.transactionCount ?? item.totalTransactions ?? item.nobukCount) || 0;
                 const proses = Number(item.proses) || 0, siap = Number(item.siapCair) || 0, batal = Number(item.totalBatal) || 0;
                 const conversion = order > 0 ? Math.round(unit / order * 100) : 0;
-                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td><strong>${paFormatNumber(unit)}</strong></td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
-            }).join('') : '<tr><td colspan="12" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
+                return `<tr><td><div class="pa-owner-person"><span class="pa-owner-rank">${index + 1}</span><div><strong>${paEscape(paDisplayName(item.displayName) || item.salesId || 'Sales')}</strong><small>${paEscape(item.salesId || '')}</small></div></div></td><td>${paFormatNumber(order)}</td><td>${paFormatNumber(proses)}</td><td>${paFormatNumber(siap)}</td><td>${paFormatNumber(batal)}</td><td>${tu > 0 ? paFormatNumber(tu) : '—'}</td><td><strong>${paFormatNumber(unit)}</strong></td><td>${targetAgents > 0 ? paFormatNumber(targetAgents) : '—'}</td><td data-pa-agent-sales="${paEscape(item.salesId || '')}">—</td><td>${trp > 0 ? paFormatRupiah(trp) : '—'}</td><td><strong>${paFormatRupiah(rp)}</strong></td><td>${conversion}%</td><td><div class="pa-owner-progress"><strong>${percent === null ? '—%' : percent + '%'}</strong><div class="pa-owner-progress-track"><span style="width:${Math.max(0,Math.min(100,percent||0))}%"></span></div></div></td></tr>`;
+            }).join('') : '<tr><td colspan="13" class="pa-owner-empty">Data Sales belum tersedia dari server.</td></tr>';
             paInitTrendFilters();
         }
         const record = paSelectedRecord();
@@ -3688,8 +3693,11 @@ function paUpdateSalesActiveAgentCounts() {
         paSetProgress('paMountProgressBar', up || 0);
         const targetRpInput = document.getElementById('paTargetRupiahInput');
         const targetUnitInput = document.getElementById('paTargetMountInput');
+        const targetAgentInput = document.getElementById('paTargetAgenAktifInput');
+        const targetAgenAktif = Number(record?.targetAgenAktif || 0);
         if (targetRpInput && document.activeElement !== targetRpInput) targetRpInput.value = targetRupiah > 0 ? Math.round(targetRupiah).toLocaleString('id-ID') : '';
         if (targetUnitInput && document.activeElement !== targetUnitInput) targetUnitInput.value = targetUnit || '';
+        if (targetAgentInput && document.activeElement !== targetAgentInput) targetAgentInput.value = targetAgenAktif || '';
         const status = document.querySelector('.pa-sync-pill');
         if (status) status.textContent = paServerData ? `✓ Terhubung · ${paServerData.month}` : '↻ Menunggu data';
         put('paDataInfoTitle', paServerData ? 'Data pencapaian dari server' : 'Menunggu koneksi data');
@@ -3755,8 +3763,9 @@ function paUpdateSalesActiveAgentCounts() {
         }
         const targetRupiah = paParseTargetRupiahInput(document.getElementById('paTargetRupiahInput')?.value);
         const targetUnit = Number(document.getElementById('paTargetMountInput')?.value);
-        if (!Number.isFinite(targetRupiah) || targetRupiah < 0 || !Number.isInteger(targetUnit) || targetUnit < 0) {
-            paSetImportMessage('Target Rupiah harus ≥ 0 dan Target Unit harus bilangan bulat ≥ 0.', 'error');
+        const targetAgenAktif = Number(document.getElementById('paTargetAgenAktifInput')?.value);
+        if (!Number.isFinite(targetRupiah) || targetRupiah < 0 || !Number.isInteger(targetUnit) || targetUnit < 0 || !Number.isInteger(targetAgenAktif) || targetAgenAktif < 0) {
+            paSetImportMessage('Target Rupiah harus ≥ 0, Target Unit dan Target Agen Aktif harus bilangan bulat ≥ 0.', 'error');
             return;
         }
         const month = getSelectedOwnerMonth();
@@ -3765,7 +3774,7 @@ function paUpdateSalesActiveAgentCounts() {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify({ salesId, targetMonth: `${month}-01`, targetRupiah, targetUnit })
+                body: JSON.stringify({ salesId, targetMonth: `${month}-01`, targetRupiah, targetUnit, targetAgenAktif })
             });
             const result = await response.json().catch(() => ({}));
             if (!response.ok || !result.ok) throw new Error(result.message || 'Target gagal disimpan.');
