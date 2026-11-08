@@ -1342,6 +1342,22 @@ body {
                 <p class="pa-welcome-copy">Ini ringkasan pencapaian pribadi kamu. Data akan ditampilkan setelah sumber Excel terhubung dan berhasil diproses.</p>
                 <div class="pa-source-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>Sumber data: <strong>CSV harian dari server</strong></span></div>
             </div>
+            <section class="pa-insight-section" id="paSalesInsights" aria-label="Analisis pencapaian pribadi">
+                <div class="pa-insight-heading"><div><p class="pa-insight-kicker">ANALISIS PERFORMA</p><h3>Perkembangan Pencapaian</h3><p>Pergerakan ACT harian dan posisi transaksi bulan ini.</p></div><span class="pa-tag pa-tag-muted">BULANAN</span></div>
+                <article class="pa-insight-card pa-daily-card">
+                    <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">↗</span><div><h4>Tren Pencapaian Harian</h4><p>ACT Rupiah dan ACT Unit per tanggal transaksi</p></div></div><span id="paDailyTrendPeriod" class="pa-insight-period">Menunggu data</span></div>
+                    <div id="paDailyTrendChart" class="pa-daily-chart" role="img" aria-label="Grafik tren pencapaian harian"><div class="pa-insight-empty">Grafik akan tampil setelah data tersedia.</div></div>
+                    <div class="pa-chart-legend"><span><i class="pa-legend-rp"></i> ACT Rupiah</span><span><i class="pa-legend-unit"></i> ACT Unit</span></div>
+                </article>
+                <article class="pa-insight-card pa-status-card">
+                    <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">▤</span><div><h4>Ringkasan Status Transaksi</h4><p>Jumlah NOBUK unik berdasarkan status PK1</p></div></div></div>
+                    <div class="pa-status-grid">
+                        <div class="pa-status-item pa-status-process"><span>Proses Survey</span><strong id="paStatusProses">—</strong><small>PK1: 630 · 631 · 712 · 713 · 714</small></div>
+                        <div class="pa-status-item pa-status-ready"><span>Siap Cair</span><strong id="paStatusSiapCair">—</strong><small>PK1: 716</small></div>
+                        <div class="pa-status-item pa-status-cancel"><span>Batal</span><strong id="paStatusBatal">—</strong><small>PK1: BTL</small></div>
+                    </div>
+                </article>
+            </section>
             <article class="pa-achievement-card pa-primary-card">
                 <div class="pa-card-heading"><div><h3>Pencapaian Rupiah</h3><p>Realisasi dibandingkan target</p></div><span class="pa-tag">UTAMA</span></div>
                 <div class="pa-card-top"><span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5c-.7-.7-1.7-1-3-1-1.6 0-2.7.8-2.7 2s1 1.8 2.6 2.2 2.6 1 2.6 2.3-1.2 2.2-2.9 2.2c-1.2 0-2.4-.4-3.2-1.2M12.1 5.8v12.4"/></svg></span><span id="paRupiahStatus" class="pa-data-status">DATA BELUM TERSEDIA</span></div>
@@ -1364,22 +1380,7 @@ body {
                 <div class="pa-progress-track" role="progressbar" aria-label="Progress target Agen Aktif" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paAgenAktifProgressBar"><span style="width:0%"></span></div>
                 <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paAgenAktifRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong id="paAgenAktifUpdated">Belum tersedia</strong></div></div></div>
             </article>
-            <section class="pa-insight-section" id="paSalesInsights" aria-label="Analisis pencapaian pribadi">
-                <div class="pa-insight-heading"><div><p class="pa-insight-kicker">ANALISIS PERFORMA</p><h3>Perkembangan Pencapaian</h3><p>Pergerakan ACT harian dan posisi transaksi bulan ini.</p></div><span class="pa-tag pa-tag-muted">BULANAN</span></div>
-                <article class="pa-insight-card pa-daily-card">
-                    <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">↗</span><div><h4>Tren Pencapaian Harian</h4><p>ACT Rupiah dan ACT Unit per tanggal transaksi</p></div></div><span id="paDailyTrendPeriod" class="pa-insight-period">Menunggu data</span></div>
-                    <div id="paDailyTrendChart" class="pa-daily-chart" role="img" aria-label="Grafik tren pencapaian harian"><div class="pa-insight-empty">Grafik akan tampil setelah data tersedia.</div></div>
-                    <div class="pa-chart-legend"><span><i class="pa-legend-rp"></i> ACT Rupiah</span><span><i class="pa-legend-unit"></i> ACT Unit</span></div>
-                </article>
-                <article class="pa-insight-card pa-status-card">
-                    <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">▤</span><div><h4>Ringkasan Status Transaksi</h4><p>Jumlah NOBUK unik berdasarkan status PK1</p></div></div></div>
-                    <div class="pa-status-grid">
-                        <div class="pa-status-item pa-status-process"><span>Proses Survey</span><strong id="paStatusProses">—</strong><small>PK1: 630 · 631 · 712 · 713 · 714</small></div>
-                        <div class="pa-status-item pa-status-ready"><span>Siap Cair</span><strong id="paStatusSiapCair">—</strong><small>PK1: 716</small></div>
-                        <div class="pa-status-item pa-status-cancel"><span>Batal</span><strong id="paStatusBatal">—</strong><small>PK1: BTL</small></div>
-                    </div>
-                </article>
-            </section>
+
             </div>
         </section>
         <!-- Kalkulator View -->
