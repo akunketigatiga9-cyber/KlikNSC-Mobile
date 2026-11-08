@@ -1286,6 +1286,13 @@ body {
                 <div class="pa-progress-track" role="progressbar" aria-label="Progress target Unit" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paMountProgressBar"><span style="width:0%"></span></div>
                 <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paMountRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong id="paMountUpdated">Belum tersedia</strong></div></div></div>
             </article>
+            <div class="pa-section-heading pa-agent-heading"><div><h3>Pencapaian Agen Aktif</h3><p>Realisasi agen unik dibandingkan target bulanan</p></div><span class="pa-tag pa-tag-muted">RINGKASAN</span></div>
+            <article class="pa-achievement-card pa-mount-card pa-agent-card">
+                <div class="pa-card-top"><span class="pa-metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.3 2.6-5 6.5-5s6 1.7 6.5 5M16 5.2a3.5 3.5 0 0 1 0 6.7M17 15c2.6.5 4 2.1 4.5 5"/></svg></span><span id="paAgentStatus" class="pa-data-status">DATA BELUM TERSEDIA</span></div>
+                <div class="pa-target-row pa-mount-numbers"><div><span>ACT Agen Aktif</span><strong id="paActAgenAktif">—</strong></div><div><span>Target Agen Aktif</span><strong id="paTargetAgenAktif">—</strong></div><div class="pa-percent"><span>Progress</span><strong id="paAgenAktifProgress">—%</strong></div></div>
+                <div class="pa-progress-track" role="progressbar" aria-label="Progress target Agen Aktif" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="paAgenAktifProgressBar"><span style="width:0%"></span></div>
+                <div class="pa-bottom-metrics"><div><span class="pa-mini-icon">↗</span><div><small>Sisa target</small><strong id="paAgenAktifRemaining">—</strong></div></div><div><span class="pa-mini-icon">◷</span><div><small>Pembaruan terakhir</small><strong id="paAgenAktifUpdated">Belum tersedia</strong></div></div></div>
+            </article>
             </div>
         </section>
         <!-- Kalkulator View -->
@@ -3673,8 +3680,11 @@ function paUpdateSalesActiveAgentCounts() {
         const actUnit = Number(record?.actUnit || 0);
         const targetRupiah = Number(record?.targetRupiah || 0);
         const targetUnit = Number(record?.targetUnit || 0);
+        const actAgenAktif = Number(record?.actAgenAktif || 0);
+        const targetAgenAktif = Number(record?.targetAgenAktif || 0);
         const rp = paPercent(actRupiah, targetRupiah);
         const up = paPercent(actUnit, targetUnit);
+        const ap = paPercent(actAgenAktif, targetAgenAktif);
         const put = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
         put('dashWelcomeName', isOwner ? 'SPVKLIKM2W' : (paDisplayName(record?.displayName) || paDisplayName(state.salesName) || state.salesId || 'SALES'));
         put('paActRupiah', hasData ? paFormatRupiah(actRupiah) : 'Menunggu data');
@@ -3687,14 +3697,20 @@ function paUpdateSalesActiveAgentCounts() {
         put('paMountProgress', up === null ? '—%' : up + '%');
         put('paMountRemaining', targetUnit > 0 ? paFormatNumber(Math.max(0, targetUnit - actUnit)) : '—');
         put('paMountUpdated', paServerData?.month ? `Periode ${paServerData.month}` : 'Belum tersedia');
+        put('paActAgenAktif', hasData ? paFormatNumber(actAgenAktif) : '—');
+        put('paTargetAgenAktif', targetAgenAktif > 0 ? paFormatNumber(targetAgenAktif) : 'Belum diatur');
+        put('paAgenAktifProgress', ap === null ? '—%' : ap + '%');
+        put('paAgenAktifRemaining', targetAgenAktif > 0 ? paFormatNumber(Math.max(0, targetAgenAktif - actAgenAktif)) : '—');
+        put('paAgenAktifUpdated', paServerData?.month ? `Periode ${paServerData.month}` : 'Belum tersedia');
         put('paRupiahStatus', hasData ? 'DATA TERSINKRON' : 'DATA BELUM TERSEDIA');
         put('paMountStatus', hasData ? 'CLSD 721 + ACC' : 'DATA BELUM TERSEDIA');
+        put('paAgentStatus', hasData ? 'AGEN UNIK · CLSD/721/720 + ACC' : 'DATA BELUM TERSEDIA');
         paSetProgress('paRupiahProgressBar', rp || 0);
         paSetProgress('paMountProgressBar', up || 0);
+        paSetProgress('paAgenAktifProgressBar', ap || 0);
         const targetRpInput = document.getElementById('paTargetRupiahInput');
         const targetUnitInput = document.getElementById('paTargetMountInput');
         const targetAgentInput = document.getElementById('paTargetAgenAktifInput');
-        const targetAgenAktif = Number(record?.targetAgenAktif || 0);
         if (targetRpInput && document.activeElement !== targetRpInput) targetRpInput.value = targetRupiah > 0 ? Math.round(targetRupiah).toLocaleString('id-ID') : '';
         if (targetUnitInput && document.activeElement !== targetUnitInput) targetUnitInput.value = targetUnit || '';
         if (targetAgentInput && document.activeElement !== targetAgentInput) targetAgentInput.value = targetAgenAktif || '';
