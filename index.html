@@ -1078,6 +1078,18 @@ body {
       @media(prefers-reduced-motion:reduce){#paOwnerDashboard *{transition:none!important;scroll-behavior:auto!important}}
     </style>
 
+
+<style id="kliknsc-sales-dashboard-card-spacing-fix">
+/* Beri jarak antar kartu pencapaian di dashboard Sales/KBA, tanpa mengubah dashboard Owner. */
+#paSalesDashboardContent > .pa-achievement-card {
+  margin-top: 16px !important;
+}
+@media (max-width: 560px) {
+  #paSalesDashboardContent > .pa-achievement-card {
+    margin-top: 14px !important;
+  }
+}
+</style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 <div id="loginOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
