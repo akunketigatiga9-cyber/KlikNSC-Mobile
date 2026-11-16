@@ -1117,6 +1117,28 @@ body {
     margin-top: 14px !important;
   }
 }
+
+
+        /* Owner transaction drill-down */
+        .pa-owner-clickable { cursor:pointer;position:relative;transition:transform .16s ease,border-color .16s ease,background .16s ease; }
+        .pa-owner-clickable:hover,.pa-owner-clickable:focus-visible { border-color:rgba(72,151,255,.58)!important;background:linear-gradient(145deg,rgba(18,48,79,.98),rgba(8,22,39,.99));outline:none; }
+        .pa-owner-clickable:active { transform:scale(.985); }
+        .pa-owner-detail-panel { padding:16px;border:1px solid rgba(72,145,230,.28);border-radius:22px;background:linear-gradient(150deg,#0c2038,#071426);box-shadow:0 16px 36px rgba(0,0,0,.2);min-width:0; }
+        .pa-owner-detail-panel[hidden] { display:none!important; }
+        .pa-owner-detail-head { display:flex;justify-content:space-between;align-items:flex-start;gap:12px; }
+        .pa-owner-detail-head h3 { color:#f0f6ff;font-size:18px;font-weight:900;letter-spacing:-.03em;margin-top:6px; }
+        .pa-owner-detail-head p { color:#8fa8c8;font-size:10px;margin-top:4px; }
+        .pa-owner-detail-close { width:36px;height:36px;flex-shrink:0;border:1px solid rgba(129,169,218,.22);border-radius:12px;background:rgba(255,255,255,.05);color:#dceaff;font-size:23px;line-height:1; }
+        .pa-owner-detail-tools { display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 11px; }
+        .pa-owner-detail-tools input { width:min(100%,360px);min-width:0;padding:10px 12px;border:1px solid rgba(101,145,192,.25);border-radius:12px;background:#081629;color:#e8f2ff;font-size:12px; }
+        .pa-owner-detail-tools span { color:#8fa8c7;font-size:10px;white-space:nowrap; }
+        .pa-owner-detail-table-wrap { overflow:auto;max-width:100%;border:1px solid rgba(111,157,216,.14);border-radius:13px; }
+        .pa-owner-detail-table { width:100%;min-width:850px;border-collapse:collapse;text-align:left; }
+        .pa-owner-detail-table th { padding:11px 10px;background:#102642;color:#a9c9ef;font-size:9px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap; }
+        .pa-owner-detail-table td { padding:11px 10px;border-top:1px solid rgba(111,157,216,.12);color:#dce9fa;font-size:10px;white-space:nowrap; }
+        .pa-owner-detail-table tbody tr:hover { background:rgba(45,111,190,.08); }
+        .pa-owner-detail-empty { padding:22px!important;text-align:center;color:#8fa8c7!important;white-space:normal!important; }
+        @media(max-width:480px){.pa-owner-detail-panel{padding:13px;border-radius:18px}.pa-owner-detail-tools{align-items:stretch;flex-direction:column}.pa-owner-detail-tools input{width:100%}.pa-owner-detail-tools span{align-self:flex-end}}
 </style>
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
@@ -1250,11 +1272,27 @@ body {
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><strong id="paOwnerActiveAgents">—</strong><span>Agen Aktif</span></div></article>
                 </div>
                 <div class="pa-owner-summary-grid pa-owner-operational-kpis" aria-label="Ringkasan operasional">
-                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">…</span><div><strong id="paOwnerProses">—</strong><span>Proses</span><small>Belum cair / batal</small></div></article>
-                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon purple">◷</span><div><strong id="paOwnerSiapCair">—</strong><span>Siap Cair</span><small>PK 1 status 716</small></div></article>
-                    <article class="pa-owner-summary"><span class="pa-owner-summary-icon">×</span><div><strong id="paOwnerTotalBatal">—</strong><span>Total Batal</span><small>Status BTL</small></div></article>
+                    <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="proses" aria-label="Lihat detail transaksi Proses"><span class="pa-owner-summary-icon blue">…</span><div><strong id="paOwnerProses">—</strong><span>Proses</span><small>Lihat detail transaksi ↗</small></div></article>
+                    <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="siapcair" aria-label="Lihat detail transaksi Siap Cair"><span class="pa-owner-summary-icon purple">◷</span><div><strong id="paOwnerSiapCair">—</strong><span>Siap Cair</span><small>Lihat detail transaksi ↗</small></div></article>
+                    <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="batal" aria-label="Lihat detail transaksi Batal"><span class="pa-owner-summary-icon">×</span><div><strong id="paOwnerTotalBatal">—</strong><span>Total Batal</span><small>Lihat detail transaksi ↗</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon green">%</span><div><strong id="paOwnerConversion">—%</strong><span>Conversion</span><small>ACT Unit ÷ Total Order</small></div></article>
                 </div>
+                <section id="paOwnerDetailPanel" class="pa-owner-detail-panel" hidden aria-label="Detail transaksi">
+                    <div class="pa-owner-detail-head">
+                        <div><span class="dash-kicker">TRANSACTION DETAIL</span><h3 id="paOwnerDetailTitle">Detail Transaksi</h3><p id="paOwnerDetailMeta">Periode —</p></div>
+                        <button type="button" id="paOwnerDetailClose" class="pa-owner-detail-close" aria-label="Tutup detail">×</button>
+                    </div>
+                    <div class="pa-owner-detail-tools">
+                        <input id="paOwnerDetailSearch" type="search" placeholder="Cari NOBUK atau nama konsumen…" autocomplete="off" aria-label="Cari NOBUK atau nama konsumen">
+                        <span id="paOwnerDetailCount">0 transaksi</span>
+                    </div>
+                    <div class="pa-owner-detail-table-wrap">
+                        <table class="pa-owner-detail-table">
+                            <thead><tr><th>NOBUK</th><th>Nama Konsumen</th><th>Nama Agen</th><th>Nominal Cair</th><th>Tanggal</th><th>Status PK 1</th><th>Status PK 2</th></tr></thead>
+                            <tbody id="paOwnerDetailRows"><tr><td colspan="7">Pilih salah satu kartu status.</td></tr></tbody>
+                        </table>
+                    </div>
+                </section>
                 <div class="pa-owner-achievement-grid">
                     <article class="pa-achievement-card pa-primary-card">
                         <div class="pa-card-top"><span class="pa-metric-icon">＄</span><span id="paOwnerRupiahStatus" class="pa-data-status">DATA SERVER</span></div>
@@ -1300,7 +1338,7 @@ body {
                         </div>
                 <input id="paExcelInput" type="file" accept=".csv,text/csv" hidden>
                 <button type="button" id="paImportBtn" class="pa-import-btn" onclick="document.getElementById('paExcelInput').click()">
-                    <span class="pa-import-symbol">↑</span><span><strong>Upload laporan CSV</strong><small>Kolom NIP KBA, NOBUK, TANGGAL, STATUS PK 1, STATUS PK 2, CAIR, NAMA AGEN</small></span><span class="pa-import-chevron">›</span>
+                    <span class="pa-import-symbol">↑</span><span><strong>Upload laporan CSV</strong><small>Kolom NIP KBA, NOBUK, TANGGAL, STATUS PK 1, STATUS PK 2, CAIR, NAMA AGEN, NAMA KONS</small></span><span class="pa-import-chevron">›</span>
                 </button>
                 <div id="paImportMessage" class="pa-import-message" role="status">Belum ada report yang diimpor di browser ini.</div>
                 <div class="pa-target-config">
@@ -3653,6 +3691,71 @@ function paUpdateSalesActiveAgentCounts() {
         chart.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Grafik tren kumulatif ${metric==='rupiah'?'rupiah':'unit'} tanggal 1 sampai ${dayCount}">${grid}<polygon points="${area}" fill="#34d399" fill-opacity=".08"/><polyline points="${poly}" fill="none" stroke="#51d6ae" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>${coords.filter((p,i)=>i===0||i===coords.length-1||i%5===0).map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="#51d6ae" stroke="#071426" stroke-width="1.5"/>`).join('')}${xlabels}</svg>`;
         const note=document.getElementById('paTrendNote'); if(note)note.textContent=`Sumber: ${available.length} transaksi tersimpan untuk filter ini; ${qualifying.length} memenuhi PK1 CLSD/721/720 dan PK2 ACC. ACT Rupiah menjumlah CAIR, ACT Unit menghitung NOBUK unik. Tanggal tanpa transaksi mempertahankan akumulasi sebelumnya.`;
     }
+    let paOwnerDetailCategory = '';
+    function paOwnerStatusCategory(row) {
+        const p1 = String(row.status1 || '').trim().toUpperCase();
+        const p2 = String(row.status2 || '').trim().toUpperCase();
+        // ACT/ACC transactions are counted as completed, not in these three queues.
+        if (['CLSD','721','720','CLSD 721','CLSD 720'].includes(p1) && p2 === 'ACC') return '';
+        if (p1 === '716') return 'siapcair';
+        if (p1 === 'BTL') return 'batal';
+        if (['630','631','712','713','714'].includes(p1)) return 'proses';
+        return '';
+    }
+    function paOwnerDetailRows() {
+        const seen = new Set();
+        return paTrendRows.filter(row => {
+            const key = String(row.nobuk || '').trim();
+            if (!key || seen.has(key) || paOwnerStatusCategory(row) !== paOwnerDetailCategory) return false;
+            seen.add(key);
+            return true;
+        });
+    }
+    function paRenderOwnerDetail() {
+        const panel = document.getElementById('paOwnerDetailPanel');
+        const body = document.getElementById('paOwnerDetailRows');
+        const search = document.getElementById('paOwnerDetailSearch');
+        const count = document.getElementById('paOwnerDetailCount');
+        if (!panel || !body || !search || !count || panel.hidden) return;
+        const q = search.value.trim().toLocaleLowerCase('id-ID');
+        const all = paOwnerDetailRows();
+        const rows = all.filter(r => [r.nobuk,r.consumer,r.agent,r.status1,r.status2].some(v => String(v || '').toLocaleLowerCase('id-ID').includes(q)));
+        count.textContent = `${paFormatNumber(rows.length)} dari ${paFormatNumber(all.length)} transaksi`;
+        if (!rows.length) {
+            body.innerHTML = `<tr><td colspan="7" class="pa-owner-detail-empty">${all.length ? 'Tidak ada transaksi yang cocok dengan pencarian.' : 'Belum ada transaksi pada kategori ini untuk periode terpilih.'}</td></tr>`;
+            return;
+        }
+        body.innerHTML = rows.map(r => `<tr>
+            <td><strong>${paEscape(r.nobuk || '—')}</strong></td>
+            <td>${paEscape(r.consumer || 'Belum tersedia')}</td>
+            <td>${paEscape(r.agent || '—')}</td>
+            <td>${paFormatRupiah(Number(r.amount) || 0)}</td>
+            <td>${paEscape(r.date || '—')}</td>
+            <td>${paEscape(r.status1 || '—')}</td>
+            <td>${paEscape(r.status2 || '—')}</td>
+        </tr>`).join('');
+    }
+    function paOpenOwnerDetail(category) {
+        if (!['proses','siapcair','batal'].includes(category)) return;
+        const panel = document.getElementById('paOwnerDetailPanel');
+        const title = document.getElementById('paOwnerDetailTitle');
+        const meta = document.getElementById('paOwnerDetailMeta');
+        const search = document.getElementById('paOwnerDetailSearch');
+        if (!panel || !title || !meta || !search) return;
+        paOwnerDetailCategory = category;
+        title.textContent = category === 'proses' ? 'Detail Proses Survey' : category === 'siapcair' ? 'Detail Siap Cair' : 'Detail Transaksi Batal';
+        meta.textContent = `Periode ${paServerData?.month || getSelectedOwnerMonth()} · Data transaksi dari server`;
+        search.value = '';
+        panel.hidden = false;
+        paRenderOwnerDetail();
+        panel.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    function paCloseOwnerDetail() {
+        const panel = document.getElementById('paOwnerDetailPanel');
+        if (panel) panel.hidden = true;
+        paOwnerDetailCategory = '';
+    }
+
     async function paLoadTrendHistory(force=false) {
         const month=paServerData?.month||getSelectedOwnerMonth();
         if(!force && paTrendLoadedMonth===month)return;
@@ -3667,6 +3770,7 @@ function paUpdateSalesActiveAgentCounts() {
                 salesId: String(r.sales_id || '').trim().toUpperCase(),
                 nobuk: String(r.nobuk || '').trim(),
                 agent: String(r.nama_agen || '').trim(),
+                consumer: String(r.nama_konsumen || '').trim(),
                 date: String(r.transaction_date || ''),
                 status1: String(r.status_pk1 || ''),
                 status2: String(r.status_pk2 || ''),
@@ -3674,6 +3778,11 @@ function paUpdateSalesActiveAgentCounts() {
             }));
 
                 paTrendLoadedMonth=month; paRenderTrend();
+                if (!document.getElementById('paOwnerDetailPanel')?.hidden) {
+                    const meta=document.getElementById('paOwnerDetailMeta');
+                    if(meta)meta.textContent=`Periode ${month} · Data transaksi dari server`;
+                    paRenderOwnerDetail();
+                }
             }catch(err){paTrendLoadedMonth='';if(chart)chart.innerHTML='<div class="pa-trend-empty">Histori belum dapat dimuat. Coba refresh atau periksa sesi Owner dan endpoint.</div>';const note=document.getElementById('paTrendNote');if(note)note.textContent=err?.message||'Gagal mengambil histori.';}
             finally{paTrendLoadPromise=null;}
         })(); return paTrendLoadPromise;
@@ -4015,7 +4124,8 @@ function paUpdateSalesActiveAgentCounts() {
                 status1: findCol('STATUS PK 1'),
                 status2: findCol('STATUS PK 2'),
                 cair: findCol('CAIR'),
-                namaAgen: findCol('NAMA AGEN')
+                namaAgen: findCol('NAMA AGEN'),
+                namaKons: findCol('NAMA KONS', 'NAMA KONSUMEN')
             };
 
             const missing = Object.entries(col)
@@ -4044,6 +4154,7 @@ function paUpdateSalesActiveAgentCounts() {
                 const namaAgen = String(row[col.namaAgen] ?? '')
                     .replace(/\s+/g, ' ')
                     .trim();
+                const namaKonsumen = col.namaKons >= 0 ? String(row[col.namaKons] ?? '').replace(/\s+/g, ' ').trim() : '';
 
                 if (!salesId || !date || amount === null || amount === undefined || String(amount).trim() === '') {
                     throw new Error(`Data NIP, tanggal, atau CAIR tidak valid untuk NOBUK ${nobuk}.`);
@@ -4058,7 +4169,7 @@ function paUpdateSalesActiveAgentCounts() {
                 seen.add(nobuk);
 
                 // namaAgen wajib diteruskan ke backend.
-                rows.push([salesId, nobuk, date, status1, status2, amount, namaAgen]);
+                rows.push([salesId, nobuk, date, status1, status2, amount, namaAgen, namaKonsumen]);
             }
 
             if (!rows.length) {
@@ -4067,7 +4178,7 @@ function paUpdateSalesActiveAgentCounts() {
 
             // Database tetap menjadi sumber data dashboard setelah import.
             const csv = [
-                ['NIP KBA', 'NOBUK', 'TANGGAL', 'STATUS PK 1', 'STATUS PK 2', 'CAIR', 'NAMA AGEN']
+                ['NIP KBA', 'NOBUK', 'TANGGAL', 'STATUS PK 1', 'STATUS PK 2', 'CAIR', 'NAMA AGEN', 'NAMA KONS']
                     .map(paCsvCell).join(','),
                 ...rows.map(row => row.map(paCsvCell).join(','))
             ].join('\r\n');
@@ -4115,6 +4226,16 @@ function paUpdateSalesActiveAgentCounts() {
         }
         const select = document.getElementById('paPersonSelect');
         if (select) select.addEventListener('change', paRefreshDashboard);
+        document.querySelectorAll('[data-pa-detail]').forEach(card => {
+            card.addEventListener('click', () => paOpenOwnerDetail(card.dataset.paDetail));
+            card.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); paOpenOwnerDetail(card.dataset.paDetail); }
+            });
+        });
+        const detailSearch = document.getElementById('paOwnerDetailSearch');
+        if (detailSearch) detailSearch.addEventListener('input', paRenderOwnerDetail);
+        const detailClose = document.getElementById('paOwnerDetailClose');
+        if (detailClose) detailClose.addEventListener('click', paCloseOwnerDetail);
         const ownerOnly = currentAuthRole !== 'admin';
         const controlPanel = document.querySelector('.pa-control-panel');
         if (controlPanel) controlPanel.style.display = ownerOnly ? 'none' : '';
