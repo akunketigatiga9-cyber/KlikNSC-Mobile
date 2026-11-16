@@ -1100,7 +1100,7 @@ body {
       #paOwnerDashboard .pa-owner-disclosure-trigger{padding:15px 17px}
       #paOwnerDashboard .pa-owner-disclosure-copy strong{font-size:13px}
       #paOwnerDashboard :is(button,input,select,summary,[tabindex]):focus-visible{outline:2px solid #78baff;outline-offset:3px}
-      @container pa-owner (min-width:760px){#paOwnerDashboard .pa-owner-achievement-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#paOwnerDashboard .pa-owner-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#paOwnerDashboard .pa-owner-operational-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+      @container pa-owner (min-width:760px){#paOwnerDashboard .pa-owner-achievement-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#paOwnerDashboard .pa-owner-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#paOwnerDashboard .pa-owner-operational-kpis{grid-template-columns:repeat(5,minmax(0,1fr))}}
       @media(max-width:560px){#paOwnerDashboard{gap:12px}#paOwnerDashboard .pa-owner-heading{align-items:center;flex-direction:row;gap:8px;padding:14px 12px;border-radius:19px}#paOwnerDashboard .pa-owner-heading>div:first-child{flex:1 1 auto;min-width:0}#paOwnerDashboard .pa-owner-heading h2{font-size:clamp(17px,5vw,24px);overflow-wrap:anywhere}#paOwnerDashboard .pa-owner-period{align-items:stretch;justify-content:center;flex:0 0 142px;width:142px;min-width:0;padding:8px;border-radius:12px;gap:4px;text-align:left}#paOwnerDashboard .pa-owner-period .pa-metric-icon{display:none}#paOwnerDashboard .pa-owner-period>div{display:block;width:100%;min-width:0}#paOwnerDashboard .pa-owner-period small{display:block;font-size:9px;margin-bottom:4px}#paOwnerDashboard .pa-owner-period input[type="month"]{display:block;width:100%;min-width:0;max-width:100%;margin:0;padding:8px 5px;font-size:11px}#paOwnerDashboard .pa-owner-summary{gap:9px;padding:12px 10px;border-radius:15px}#paOwnerDashboard .pa-owner-summary-icon{width:34px;height:34px;flex-basis:34px;border-radius:11px}#paOwnerDashboard .pa-owner-summary strong{font-size:clamp(17px,5vw,22px)}#paOwnerDashboard .pa-owner-summary span:not(.pa-owner-summary-icon){font-size:10px}#paOwnerDashboard .pa-owner-summary small{font-size:8px}#paOwnerDashboard .pa-owner-achievement-grid{grid-template-columns:minmax(0,1fr)}#paOwnerDashboard .pa-owner-sales-heading{align-items:flex-start;flex-direction:column}#paOwnerDashboard .pa-owner-sales-heading .pa-tag{align-self:flex-start}#paOwnerDashboard .pa-owner-table{min-width:790px}#paOwnerDashboard .pa-owner-table th,#paOwnerDashboard .pa-owner-table td{padding:11px 10px}#paOwnerDashboard .pa-trend-card{padding:14px;border-radius:18px}#paOwnerDashboard .pa-trend-filters{grid-template-columns:minmax(0,1fr)}#paOwnerDashboard .pa-trend-summary{gap:8px}#paOwnerDashboard .pa-main-amount{font-size:29px}}
       @media(max-width:360px){#paOwnerDashboard .pa-owner-heading{gap:6px;padding:12px 10px}#paOwnerDashboard .pa-owner-period{flex-basis:126px;width:126px;padding:7px}#paOwnerDashboard .pa-owner-heading h2{font-size:17px}}
       @media(prefers-reduced-motion:reduce){#paOwnerDashboard *{transition:none!important;scroll-behavior:auto!important}}
@@ -1275,6 +1275,7 @@ body {
                     <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="proses" aria-label="Lihat detail transaksi Proses"><span class="pa-owner-summary-icon blue">…</span><div><strong id="paOwnerProses">—</strong><span>Proses</span><small>Lihat detail transaksi ↗</small></div></article>
                     <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="siapcair" aria-label="Lihat detail transaksi Siap Cair"><span class="pa-owner-summary-icon purple">◷</span><div><strong id="paOwnerSiapCair">—</strong><span>Siap Cair</span><small>Lihat detail transaksi ↗</small></div></article>
                     <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="batal" aria-label="Lihat detail transaksi Batal"><span class="pa-owner-summary-icon">×</span><div><strong id="paOwnerTotalBatal">—</strong><span>Total Batal</span><small>Lihat detail transaksi ↗</small></div></article>
+                    <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="actunit" aria-label="Lihat detail Total Jual Unit"><span class="pa-owner-summary-icon green">✓</span><div><strong id="paOwnerTotalJualUnit">—</strong><span>Total Jual Unit</span><small>Lihat nama konsumen yang sudah cair ↗</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon green">%</span><div><strong id="paOwnerConversion">—%</strong><span>Conversion</span><small>ACT Unit ÷ Total Order</small></div></article>
                 </div>
                 <section id="paOwnerDetailPanel" class="pa-owner-detail-panel" hidden aria-label="Detail transaksi">
@@ -3696,7 +3697,7 @@ function paUpdateSalesActiveAgentCounts() {
         const p1 = String(row.status1 || '').trim().toUpperCase();
         const p2 = String(row.status2 || '').trim().toUpperCase();
         // ACT/ACC transactions are counted as completed, not in these three queues.
-        if (['CLSD','721','720','CLSD 721','CLSD 720'].includes(p1) && p2 === 'ACC') return '';
+        if (['CLSD','721','720','CLSD 721','CLSD 720'].includes(p1) && p2 === 'ACC') return 'actunit';
         if (p1 === '716') return 'siapcair';
         if (p1 === 'BTL') return 'batal';
         if (['630','631','712','713','714'].includes(p1)) return 'proses';
@@ -3736,14 +3737,14 @@ function paUpdateSalesActiveAgentCounts() {
         </tr>`).join('');
     }
     function paOpenOwnerDetail(category) {
-        if (!['proses','siapcair','batal'].includes(category)) return;
+        if (!['proses','siapcair','batal','actunit'].includes(category)) return;
         const panel = document.getElementById('paOwnerDetailPanel');
         const title = document.getElementById('paOwnerDetailTitle');
         const meta = document.getElementById('paOwnerDetailMeta');
         const search = document.getElementById('paOwnerDetailSearch');
         if (!panel || !title || !meta || !search) return;
         paOwnerDetailCategory = category;
-        title.textContent = category === 'proses' ? 'Detail Proses Survey' : category === 'siapcair' ? 'Detail Siap Cair' : 'Detail Transaksi Batal';
+        title.textContent = category === 'proses' ? 'Detail Proses Survey' : category === 'siapcair' ? 'Detail Siap Cair' : category === 'batal' ? 'Detail Transaksi Batal' : 'Detail Total Jual Unit';
         meta.textContent = `Periode ${paServerData?.month || getSelectedOwnerMonth()} · Data transaksi dari server`;
         search.value = '';
         panel.hidden = false;
@@ -3878,6 +3879,7 @@ function paUpdateSalesActiveAgentCounts() {
             putOwner('paOwnerProses', paServerData ? paFormatNumber(totalProses) : '—');
             putOwner('paOwnerSiapCair', paServerData ? paFormatNumber(totalSiapCair) : '—');
             putOwner('paOwnerTotalBatal', paServerData ? paFormatNumber(totalBatal) : '—');
+            putOwner('paOwnerTotalJualUnit', paServerData ? paFormatNumber(totalUnit) : '—');
             putOwner('paOwnerConversion', paServerData ? totalConversion + '%' : '—%');
             putOwner('paOwnerActUnitMain', paServerData ? paFormatNumber(totalUnit) + ' Unit' : '—');
             putOwner('paOwnerTargetRupiah', totalTargetRp > 0 ? paFormatRupiah(totalTargetRp) : 'Belum diatur');
