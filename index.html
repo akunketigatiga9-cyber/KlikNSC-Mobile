@@ -978,7 +978,15 @@ body {
 #paSalesDashboardContent .pa-daily-chart{height:176px;margin-top:12px;min-width:0}
 #paSalesDashboardContent .pa-daily-chart svg{display:block;width:100%;height:100%;overflow:visible}
 #paSalesDashboardContent .pa-insight-empty{display:grid;place-items:center;height:100%;min-height:110px;border:1px dashed rgba(125,164,207,.2);border-radius:12px;color:#8299b4;font-size:11px;text-align:center;padding:12px}
-#paSalesDashboardContent .pa-chart-legend{display:flex;gap:18px;justify-content:center;margin-top:8px;color:#9bb0c9;font-size:10px}
+#paSalesDashboardContent 
+.pa-sales-monthly-compare{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}
+.pa-sales-monthly-card,.pa-sales-monthly-delta{min-width:0;padding:11px 12px;border:1px solid rgba(93,143,198,.2);border-radius:12px;background:rgba(8,24,43,.72);display:flex;flex-direction:column;gap:5px}
+.pa-sales-monthly-card small,.pa-sales-monthly-delta small{color:#8fa8c7;font-size:9px}
+.pa-sales-monthly-card strong,.pa-sales-monthly-delta strong{color:#eff6ff;font-size:clamp(13px,2vw,17px);font-weight:900;overflow-wrap:anywhere}
+.pa-sales-monthly-card span,.pa-sales-monthly-delta span{color:#829bb9;font-size:9px}
+.pa-sales-monthly-delta strong.positive{color:#34d399}.pa-sales-monthly-delta strong.negative{color:#fbbf24}
+@media(max-width:560px){.pa-sales-monthly-compare{grid-template-columns:repeat(2,minmax(0,1fr))}.pa-sales-monthly-delta{grid-column:1/-1}}
+.pa-chart-legend{display:flex;gap:18px;justify-content:center;margin-top:8px;color:#9bb0c9;font-size:10px}
 #paSalesDashboardContent .pa-chart-legend span{display:flex;align-items:center;gap:6px}
 #paSalesDashboardContent .pa-chart-legend i{display:inline-block;width:8px;height:8px;border-radius:50%}
 #paSalesDashboardContent .pa-legend-rp{background:#60a5fa}#paSalesDashboardContent .pa-legend-unit{background:#34d399}
@@ -1494,6 +1502,11 @@ body {
                     <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">↗</span><div><h4>Tren Pencapaian Harian</h4><p>ACT Rupiah dan ACT Unit per tanggal transaksi</p></div></div><span id="paDailyTrendPeriod" class="pa-insight-period">Menunggu data</span></div>
                     <div id="paDailyTrendChart" class="pa-daily-chart" role="img" aria-label="Grafik tren pencapaian harian"><div class="pa-insight-empty">Grafik akan tampil setelah data tersedia.</div></div>
                     <div class="pa-chart-legend"><span><i class="pa-legend-rp"></i> ACT Rupiah</span><span><i class="pa-legend-unit"></i> ACT Unit</span></div>
+                    <div class="pa-sales-monthly-compare" aria-label="Perbandingan pencapaian bulanan">
+                        <div class="pa-sales-monthly-card"><small>Closing bulan lalu</small><strong id="paSalesPreviousMonthAmount">Memuat…</strong><span id="paSalesPreviousMonthLabel">Periode —</span></div>
+                        <div class="pa-sales-monthly-card"><small>Pencapaian bulan ini</small><strong id="paSalesCurrentMonthAmount">Memuat…</strong><span id="paSalesCurrentMonthLabel">Periode —</span></div>
+                        <div class="pa-sales-monthly-delta"><small>Selisih terhadap closing lalu</small><strong id="paSalesMonthlyDelta">—</strong><span id="paSalesMonthlyDeltaPercent">Menunggu data pembanding</span></div>
+                    </div>
                 </article>
                 <article class="pa-insight-card pa-status-card">
                     <div class="pa-insight-card-heading"><div><span class="pa-insight-icon">▤</span><div><h4>Ringkasan Status Transaksi</h4><p>Jumlah NOBUK unik berdasarkan status PK1</p></div></div></div>
@@ -4042,6 +4055,10 @@ function paUpdateSalesActiveAgentCounts() {
                     paTrendPreviousError=previousResult.reason?.message||'Data pembanding gagal dimuat';
                 }
                 paRenderTrend();
+                if (currentAuthRole !== 'admin') {
+                    const salesRecord = (Array.isArray(paServerData?.sales) ? paServerData.sales : []).find(item => String(item.salesId) === String(state?.salesId));
+                    paRenderSalesInsights(salesRecord || {salesId: state?.salesId});
+                }
                 if (!document.getElementById('paOwnerDetailPanel')?.hidden) {
                     const meta=document.getElementById('paOwnerDetailMeta');
                     if(meta)meta.textContent=`Periode ${month} · Data transaksi dari server`;
@@ -4084,7 +4101,46 @@ function paUpdateSalesActiveAgentCounts() {
             .filter(item => String(item.salesId) === String(salesId))
             .sort((a, b) => String(a.date).localeCompare(String(b.date)));
         const period = document.getElementById('paDailyTrendPeriod');
-        if (period) period.textContent = paServerData?.month || 'Menunggu data';
+        const currentMonth = paServerData?.month || getSelectedOwnerMonth();
+        const previousMonth = paPreviousMonth(currentMonth);
+        if (period) period.textContent = currentMonth || 'Menunggu data';
+
+        const monthlyRows = (rows, month) => {
+            const seen = new Set();
+            return (Array.isArray(rows) ? rows : []).filter(row => {
+                const nobuk = String(row.nobuk || '').trim();
+                if (!nobuk || seen.has(nobuk)) return false;
+                if (String(row.salesId || '').trim().toUpperCase() !== String(salesId).trim().toUpperCase()) return false;
+                if (!String(row.date || '').startsWith(month)) return false;
+                if (!paTrendIsAct(row)) return false;
+                seen.add(nobuk);
+                return true;
+            });
+        };
+        const currentActRows = monthlyRows(paTrendRows, currentMonth);
+        const previousActRows = monthlyRows(paTrendPreviousRows, previousMonth);
+        const currentAmount = currentActRows.reduce((sum, row) => sum + (Number(row.amount) || 0), 0);
+        const previousAmount = previousActRows.reduce((sum, row) => sum + (Number(row.amount) || 0), 0);
+        const previousReady = paTrendPreviousLoadedMonth === previousMonth;
+        const setText = (id, value) => { const el=document.getElementById(id); if(el) el.textContent=value; };
+        setText('paSalesCurrentMonthAmount', paTrendLoadedMonth === currentMonth ? paFormatRupiah(currentAmount) : 'Memuat…');
+        setText('paSalesPreviousMonthAmount', previousReady ? paFormatRupiah(previousAmount) : 'Belum tersedia');
+        setText('paSalesCurrentMonthLabel', `Periode ${currentMonth}`);
+        setText('paSalesPreviousMonthLabel', `Closing ${previousMonth}`);
+        if (previousReady && paTrendLoadedMonth === currentMonth) {
+            const delta = currentAmount - previousAmount;
+            const pct = previousAmount > 0 ? (delta / previousAmount) * 100 : null;
+            const deltaEl = document.getElementById('paSalesMonthlyDelta');
+            if (deltaEl) {
+                deltaEl.textContent = `${delta >= 0 ? '+' : '−'}${paFormatRupiah(Math.abs(delta))}`;
+                deltaEl.classList.toggle('positive', delta >= 0);
+                deltaEl.classList.toggle('negative', delta < 0);
+            }
+            setText('paSalesMonthlyDeltaPercent', pct === null ? 'Belum ada closing bulan lalu sebagai pembanding' : `${delta >= 0 ? '+' : '−'}${Math.abs(pct).toFixed(1).replace('.', ',')}% dibanding closing lalu`);
+        } else {
+            setText('paSalesMonthlyDelta', '—');
+            setText('paSalesMonthlyDeltaPercent', 'Menunggu data pembanding');
+        }
         const chart = document.getElementById('paDailyTrendChart');
         if (chart) {
             if (!daily.length) {
