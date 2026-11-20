@@ -1172,6 +1172,8 @@ body {
 </style>
 
 <style id="kliknsc-mobile-owner-gap-fix">
+.pa-owner-conversion-mobile { display:none !important; }
+
 /* Mobile Owner dashboard: remove excess vertical whitespace while keeping desktop unchanged. */
 @media (max-width: 560px) {
   #appMain {
@@ -1203,9 +1205,9 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 7px !important;
   }
-  #paOwnerDashboard .pa-owner-operational-kpis > .pa-owner-summary:last-child {
-    grid-column: 1 / -1;
-  }
+  #paOwnerDashboard .pa-owner-conversion-mobile { display:flex !important; }
+  #paOwnerDashboard .pa-owner-operational-kpis > .pa-owner-summary:last-child { display:none !important; }
+  #paOwnerDashboard .pa-owner-operational-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   #paOwnerDashboard .pa-owner-achievement-grid {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
@@ -1366,6 +1368,7 @@ body {
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">♟</span><div><strong id="paOwnerSalesCount">—</strong><span>Total Sales/KBA</span><small>Aktif di data server</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon blue">▤</span><div><strong id="paOwnerTransactions">—</strong><span>Total Transaksi (NOBUK)</span><small>Seluruh NOBUK periode terpilih</small></div></article>
                     <article class="pa-owner-summary"><span class="pa-owner-summary-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><strong id="paOwnerActiveAgents">—</strong><span>Agen Aktif</span></div></article>
+                    <article class="pa-owner-summary pa-owner-conversion-mobile"><span class="pa-owner-summary-icon green">%</span><div><strong id="paOwnerConversionMobile">—%</strong><span>Conversion</span><small>ACT Unit ÷ Total Order</small></div></article>
                 </div>
                 <div class="pa-owner-summary-grid pa-owner-operational-kpis" aria-label="Ringkasan operasional">
                     <article class="pa-owner-summary pa-owner-clickable" role="button" tabindex="0" data-pa-detail="proses" aria-label="Lihat detail transaksi Proses"><span class="pa-owner-summary-icon blue">…</span><div><strong id="paOwnerProses">—</strong><span>Proses</span><small>Lihat detail transaksi ↗</small></div></article>
@@ -4070,6 +4073,7 @@ function paUpdateSalesActiveAgentCounts() {
             putOwner('paOwnerTotalBatal', paServerData ? paFormatNumber(totalBatal) : '—');
             putOwner('paOwnerTotalJualUnit', paServerData ? paFormatNumber(totalUnit) : '—');
             putOwner('paOwnerConversion', paServerData ? totalConversion + '%' : '—%');
+            putOwner('paOwnerConversionMobile', paServerData ? totalConversion + '%' : '—%');
             putOwner('paOwnerActUnitMain', paServerData ? paFormatNumber(totalUnit) + ' Unit' : '—');
             putOwner('paOwnerTargetRupiah', totalTargetRp > 0 ? paFormatRupiah(totalTargetRp) : 'Belum diatur');
             putOwner('paOwnerTargetUnit', totalTargetUnit > 0 ? paFormatNumber(totalTargetUnit) + ' Unit' : 'Belum diatur');
