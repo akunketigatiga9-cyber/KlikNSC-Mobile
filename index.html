@@ -1170,6 +1170,72 @@ body {
         .pa-owner-detail-empty { padding:22px!important;text-align:center;color:#8fa8c7!important;white-space:normal!important; }
         @media(max-width:480px){.pa-owner-detail-panel{padding:13px;border-radius:18px}.pa-owner-detail-tools{align-items:stretch;flex-direction:column}.pa-owner-detail-tools input{width:100%}.pa-owner-detail-tools span{align-self:flex-end}}
 </style>
+
+<style id="kliknsc-mobile-owner-gap-fix">
+/* Mobile Owner dashboard: remove excess vertical whitespace while keeping desktop unchanged. */
+@media (max-width: 560px) {
+  #appMain {
+    padding: 10px 10px calc(94px + env(safe-area-inset-bottom)) !important;
+  }
+  #dashboardHome {
+    gap: 10px !important;
+    padding-top: 0 !important;
+    padding-bottom: 4px !important;
+  }
+  #paOwnerDashboard {
+    gap: 10px !important;
+    padding-bottom: 4px !important;
+  }
+  #paOwnerDashboard .pa-owner-heading {
+    margin: 0 !important;
+  }
+  #paOwnerDashboard .pa-owner-summary-grid {
+    margin: 0 !important;
+    gap: 7px !important;
+    align-content: start;
+  }
+  #paOwnerDashboard .pa-owner-summary {
+    min-height: 0 !important;
+    padding: 10px 9px !important;
+    gap: 8px !important;
+  }
+  #paOwnerDashboard .pa-owner-operational-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+  }
+  #paOwnerDashboard .pa-owner-operational-kpis > .pa-owner-summary:last-child {
+    grid-column: 1 / -1;
+  }
+  #paOwnerDashboard .pa-owner-achievement-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 9px !important;
+    margin: 0 !important;
+    align-content: start;
+  }
+  #paOwnerDashboard .pa-achievement-card {
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 13px !important;
+  }
+  #paOwnerDashboard .pa-owner-detail-panel[hidden] {
+    display: none !important;
+  }
+  #paOwnerDashboard .pa-owner-sales-section,
+  #paOwnerDashboard .pa-trend-card,
+  #paOwnerDashboard .pa-owner-controls-slot {
+    margin-top: 0 !important;
+  }
+}
+@media (max-width: 380px) {
+  #appMain { padding-left: 8px !important; padding-right: 8px !important; }
+  #paOwnerDashboard { gap: 9px !important; }
+  #paOwnerDashboard .pa-owner-summary-grid,
+  #paOwnerDashboard .pa-owner-operational-kpis { gap: 6px !important; }
+  #paOwnerDashboard .pa-owner-achievement-grid { gap: 8px !important; }
+}
+</style>
+
 </head>
 <body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex justify-center items-start min-h-screen">
 <div id="loginOverlay" class="fixed inset-0 bg-slate-950/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
